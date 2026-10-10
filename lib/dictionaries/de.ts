@@ -13,6 +13,7 @@ export type Dictionary = {
     description: string;
     primaryCta: string;
     secondaryCta: string;
+    imageAlt: string;
     note: string;
   };
   footer: {
@@ -36,7 +37,8 @@ export const de: Dictionary = {
     title: "Coffee with character.",
     description: "Guter Kaffee, schöne Morgen und ein Ort, an dem man gern ein wenig länger bleibt.",
     primaryCta: "Tisch reservieren",
-    secondaryCta: "Menü entdecken",
+    secondaryCta: "Entdecken",
+    imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
     note: "Unsere Geschichte beginnt hier.",
   },
   footer: {
