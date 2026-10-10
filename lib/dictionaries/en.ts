@@ -55,6 +55,13 @@ export const en: Dictionary = {
       { quote: "Development placeholder 03 — genuine review to come.", name: "Name to come", rating: "Rating to come" },
     ],
   },
+  reservation: {
+    eyebrow: "Reservations",
+    heading: "Your table awaits.",
+    description: "Make time for a good moment in the old town.",
+    cta: "Book a Table",
+    imageAlt: "Warm, light-filled interior of Altstadtliebe",
+  },
   footer: {
     claim: "Made with time.",
     imprint: "Imprint",

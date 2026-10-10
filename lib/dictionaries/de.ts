@@ -44,6 +44,13 @@ export type Dictionary = {
     progressLabel: string;
     items: [{ quote: string; name: string; rating: string }, { quote: string; name: string; rating: string }, { quote: string; name: string; rating: string }];
   };
+  reservation: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    cta: string;
+    imageAlt: string;
+  };
   footer: {
     claim: string;
     imprint: string;
@@ -105,6 +112,13 @@ export const de: Dictionary = {
       { quote: "Entwicklungsplatzhalter 02 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
       { quote: "Entwicklungsplatzhalter 03 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
     ],
+  },
+  reservation: {
+    eyebrow: "Reservierung",
+    heading: "Dein Platz wartet.",
+    description: "Nimm dir Zeit für einen guten Moment in der Altstadt.",
+    cta: "Tisch reservieren",
+    imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
   },
   footer: {
     claim: "Mit Zeit gemacht.",
