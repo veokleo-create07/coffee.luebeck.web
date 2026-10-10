@@ -18,6 +18,12 @@ export const en: Dictionary = {
     imageAlt: "Warm, light-filled interior of Altstadtliebe",
     note: "Our story begins here.",
   },
+  story: {
+    eyebrow: "A place to linger",
+    heading: "A little Altstadtliebe.",
+    description: "A place for good coffee, leisurely breakfasts, and moments you’ll want to make last.",
+    imageAlt: "Sunlit Altstadtliebe interior with café tables and flowers",
+  },
   footer: {
     claim: "Made with time.",
     imprint: "Imprint",

@@ -16,6 +16,12 @@ export type Dictionary = {
     imageAlt: string;
     note: string;
   };
+  story: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    imageAlt: string;
+  };
   footer: {
     claim: string;
     imprint: string;
@@ -40,6 +46,12 @@ export const de: Dictionary = {
     secondaryCta: "Entdecken",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
     note: "Unsere Geschichte beginnt hier.",
+  },
+  story: {
+    eyebrow: "Ein Ort zum Bleiben",
+    heading: "Ein bisschen Altstadtliebe.",
+    description: "Ein Ort für guten Kaffee, ausgedehnte Frühstücke und Momente, die man gern verlängert.",
+    imageAlt: "Sonniger Innenraum von Altstadtliebe mit Café-Tischen und Blumen",
   },
   footer: {
     claim: "Mit Zeit gemacht.",
