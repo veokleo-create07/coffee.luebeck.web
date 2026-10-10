@@ -50,6 +50,43 @@ export type Dictionary = {
     description: string;
     cta: string;
     imageAlt: string;
+    booking: {
+      title: string;
+      intro: string;
+      stepLabels: [string, string, string];
+      dateLabel: string;
+      guestsLabel: string;
+      guestsSuffix: string;
+      timeLabel: string;
+      mockAvailability: string;
+      noTimes: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      requests: string;
+      optional: string;
+      privacy: string;
+      privacyText: string;
+      requiredError: string;
+      emailError: string;
+      dateError: string;
+      timeError: string;
+      back: string;
+      continue: string;
+      review: string;
+      edit: string;
+      confirm: string;
+      demoNotice: string;
+      confirmationTitle: string;
+      confirmationBody: string;
+      startOver: string;
+      summaryDate: string;
+      summaryTime: string;
+      summaryGuests: string;
+      summaryDetails: string;
+      dateFormatLocale: string;
+    };
   };
   location: {
     eyebrow: string;
@@ -148,6 +185,43 @@ export const de: Dictionary = {
     description: "Nimm dir Zeit für einen guten Moment in der Altstadt.",
     cta: "Tisch reservieren",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
+    booking: {
+      title: "Tisch reservieren",
+      intro: "Wähle deinen Besuch — ganz in Ruhe.",
+      stepLabels: ["Besuch wählen", "Deine Daten", "Prüfen & bestätigen"],
+      dateLabel: "Datum",
+      guestsLabel: "Gäste",
+      guestsSuffix: "Gäste",
+      timeLabel: "Uhrzeit",
+      mockAvailability: "Demo-Verfügbarkeit — noch nicht mit einem Buchungssystem verbunden.",
+      noTimes: "Für dieses Datum sind keine Demo-Zeiten hinterlegt.",
+      firstName: "Vorname",
+      lastName: "Nachname",
+      email: "E-Mail-Adresse",
+      phone: "Telefon",
+      requests: "Besondere Wünsche",
+      optional: "optional",
+      privacy: "Datenschutz",
+      privacyText: "Ich stimme der Verarbeitung meiner Angaben zur Bearbeitung dieser Demo-Anfrage zu.",
+      requiredError: "Bitte fülle dieses Feld aus.",
+      emailError: "Bitte gib eine gültige E-Mail-Adresse ein.",
+      dateError: "Bitte wähle ein gültiges Datum.",
+      timeError: "Bitte wähle eine Uhrzeit.",
+      back: "Zurück",
+      continue: "Weiter",
+      review: "Auswahl prüfen",
+      edit: "Bearbeiten",
+      confirm: "Reservierung bestätigen",
+      demoNotice: "Demo-Flow — es wird keine echte Reservierung übermittelt.",
+      confirmationTitle: "Danke für deine Anfrage.",
+      confirmationBody: "Dies ist eine Demo-Bestätigung. Deine Angaben wurden nicht übermittelt und es wurde keine Reservierung angelegt.",
+      startOver: "Neue Demo-Anfrage",
+      summaryDate: "Datum",
+      summaryTime: "Uhrzeit",
+      summaryGuests: "Gäste",
+      summaryDetails: "Deine Daten",
+      dateFormatLocale: "de-DE",
+    },
   },
   location: {
     eyebrow: "Besuch uns",

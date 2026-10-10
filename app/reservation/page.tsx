@@ -1,6 +1,6 @@
-import { UtilityPage } from "@/components/utility-page";
+import { ReservationPage } from "@/components/reservation-page";
 import { getDictionary } from "@/lib/i18n";
 
-export default function ReservationPage() {
-  return <UtilityPage locale="de" dictionary={getDictionary("de")} title="Tisch reservieren" body="Weitere Informationen zu Reservierungen folgen in Kürze." />;
+export default function GermanReservationPage() {
+  return <ReservationPage locale="de" dictionary={getDictionary("de")} />;
 }
