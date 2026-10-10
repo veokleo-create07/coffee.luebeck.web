@@ -31,6 +31,18 @@ export const en: Dictionary = {
     cta: "Explore the menu",
     imageAlt: "Altstadtliebe café atmosphere with set tables and coffee bar",
   },
+  gallery: {
+    eyebrow: "A closer look",
+    heading: "Moments worth keeping.",
+    description: "Light, warmth, and the small details that turn a visit into a memory.",
+    link: "Explore More",
+    imageAlts: [
+      "Light-filled Altstadtliebe interior",
+      "Coffee bar and warm details inside the café",
+      "Set tables and flowers in the café interior",
+      "Café atmosphere looking through the room",
+    ],
+  },
   footer: {
     claim: "Made with time.",
     imprint: "Imprint",

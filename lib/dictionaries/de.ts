@@ -29,6 +29,13 @@ export type Dictionary = {
     cta: string;
     imageAlt: string;
   };
+  gallery: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    link: string;
+    imageAlts: [string, string, string, string];
+  };
   footer: {
     claim: string;
     imprint: string;
@@ -66,6 +73,18 @@ export const de: Dictionary = {
     description: "Guter Kaffee, leckeres Frühstück und Zeit zum Genießen.",
     cta: "Speisekarte entdecken",
     imageAlt: "Café-Atmosphäre von Altstadtliebe mit gedeckten Tischen und Kaffeebar",
+  },
+  gallery: {
+    eyebrow: "Einblicke",
+    heading: "Momente, die bleiben.",
+    description: "Licht, Wärme und die kleinen Details, die aus einem Besuch eine Erinnerung machen.",
+    link: "Mehr entdecken",
+    imageAlts: [
+      "Lichtdurchfluteter Innenraum von Altstadtliebe",
+      "Kaffeebar und warme Details im Café",
+      "Gedeckte Tische und Blumen im Innenraum",
+      "Café-Atmosphäre mit Blick durch den Raum",
+    ],
   },
   footer: {
     claim: "Mit Zeit gemacht.",
