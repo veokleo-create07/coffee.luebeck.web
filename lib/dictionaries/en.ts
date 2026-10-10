@@ -24,6 +24,13 @@ export const en: Dictionary = {
     description: "A place for good coffee, leisurely breakfasts, and moments you’ll want to make last.",
     imageAlt: "Sunlit Altstadtliebe interior with café tables and flowers",
   },
+  showcase: {
+    eyebrow: "Coffee & breakfast",
+    heading: "For the little moments that matter.",
+    description: "Good coffee, delicious breakfast, and time to enjoy.",
+    cta: "Explore the menu",
+    imageAlt: "Altstadtliebe café atmosphere with set tables and coffee bar",
+  },
   footer: {
     claim: "Made with time.",
     imprint: "Imprint",

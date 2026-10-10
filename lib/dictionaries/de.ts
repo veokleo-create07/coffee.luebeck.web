@@ -22,6 +22,13 @@ export type Dictionary = {
     description: string;
     imageAlt: string;
   };
+  showcase: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    cta: string;
+    imageAlt: string;
+  };
   footer: {
     claim: string;
     imprint: string;
@@ -52,6 +59,13 @@ export const de: Dictionary = {
     heading: "Ein bisschen Altstadtliebe.",
     description: "Ein Ort für guten Kaffee, ausgedehnte Frühstücke und Momente, die man gern verlängert.",
     imageAlt: "Sonniger Innenraum von Altstadtliebe mit Café-Tischen und Blumen",
+  },
+  showcase: {
+    eyebrow: "Kaffee & Frühstück",
+    heading: "Für die kleinen großen Momente.",
+    description: "Guter Kaffee, leckeres Frühstück und Zeit zum Genießen.",
+    cta: "Speisekarte entdecken",
+    imageAlt: "Café-Atmosphäre von Altstadtliebe mit gedeckten Tischen und Kaffeebar",
   },
   footer: {
     claim: "Mit Zeit gemacht.",
