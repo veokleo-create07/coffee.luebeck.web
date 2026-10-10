@@ -71,6 +71,19 @@ export type Dictionary = {
     claim: string;
     imprint: string;
     privacy: string;
+    cookies: string;
+    navHome: string;
+    navMenu: string;
+    navGallery: string;
+    navReservations: string;
+    navContact: string;
+    contactLabel: string;
+    hoursLabel: string;
+    instagramLabel: string;
+    instagramHref: string;
+    languageLabel: string;
+    wordmark: string;
+    copyright: string;
   };
 };
 
@@ -156,5 +169,18 @@ export const de: Dictionary = {
     claim: "Mit Zeit gemacht.",
     imprint: "Impressum",
     privacy: "Datenschutz",
+    cookies: "Cookie-Einstellungen",
+    navHome: "Start",
+    navMenu: "Menü",
+    navGallery: "Galerie",
+    navReservations: "Reservierungen",
+    navContact: "Kontakt",
+    contactLabel: "Kontakt",
+    hoursLabel: "Öffnungszeiten",
+    instagramLabel: "Instagram — Link folgt",
+    instagramHref: "#instagram",
+    languageLabel: "English",
+    wordmark: "ALTSTADTLIEBE",
+    copyright: "© Altstadtliebe",
   },
 };

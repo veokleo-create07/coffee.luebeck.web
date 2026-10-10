@@ -72,6 +72,10 @@ a {
   letter-spacing: var(--tracking-editorial);
 }
 
+.footer-wordmark-letter {
+  padding-bottom: 1.5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
