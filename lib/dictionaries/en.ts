@@ -14,7 +14,7 @@ export const en: Dictionary = {
     title: "Coffee with character.",
     description: "Good coffee, beautiful mornings, and a place to stay a little longer.",
     primaryCta: "Book a Table",
-    secondaryCta: "Get Inspired",
+    secondaryCta: "Discover",
     imageAlt: "Warm, light-filled interior of Altstadtliebe",
     note: "Our story begins here.",
   },

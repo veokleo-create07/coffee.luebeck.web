@@ -36,7 +36,7 @@ export const de: Dictionary = {
   home: {
     title: "Coffee with character.",
     description: "Guter Kaffee, schöne Morgen und ein Ort, an dem man gern ein wenig länger bleibt.",
-    primaryCta: "Tisch reservieren",
+    primaryCta: "Reservieren",
     secondaryCta: "Entdecken",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
     note: "Unsere Geschichte beginnt hier.",
