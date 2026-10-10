@@ -9,10 +9,10 @@ export type Dictionary = {
     switchTo: string;
   };
   home: {
-    eyebrow: string;
     title: string;
-    intro: string;
-    cta: string;
+    description: string;
+    primaryCta: string;
+    secondaryCta: string;
     note: string;
   };
   footer: {
@@ -33,10 +33,10 @@ export const de: Dictionary = {
     switchTo: "English",
   },
   home: {
-    eyebrow: "Altstadtliebe · Lübeck",
-    title: "Kaffee mit\nCharakter.",
-    intro: "Ein ruhiger Ort für guten Kaffee, klare Gedanken und die kleinen Pausen, die bleiben.",
-    cta: "Mehr entdecken",
+    title: "Coffee with character.",
+    description: "Guter Kaffee, schöne Morgen und ein Ort, an dem man gern ein wenig länger bleibt.",
+    primaryCta: "Tisch reservieren",
+    secondaryCta: "Menü entdecken",
     note: "Unsere Geschichte beginnt hier.",
   },
   footer: {

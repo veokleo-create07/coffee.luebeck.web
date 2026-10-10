@@ -11,10 +11,10 @@ export const en: Dictionary = {
     switchTo: "Deutsch",
   },
   home: {
-    eyebrow: "Altstadtliebe · Lübeck",
-    title: "Coffee with\ncharacter.",
-    intro: "A considered place for good coffee, clear thoughts, and the small pauses worth keeping.",
-    cta: "Discover more",
+    title: "Coffee with character.",
+    description: "Good coffee, beautiful mornings, and a place to stay a little longer.",
+    primaryCta: "Book a Table",
+    secondaryCta: "Explore the Menu",
     note: "Our story begins here.",
   },
   footer: {
