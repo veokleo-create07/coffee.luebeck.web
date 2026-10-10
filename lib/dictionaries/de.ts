@@ -51,6 +51,22 @@ export type Dictionary = {
     cta: string;
     imageAlt: string;
   };
+  location: {
+    eyebrow: string;
+    heading: string;
+    description: string;
+    addressLabel: string;
+    addressLines: [string, string];
+    hoursLabel: string;
+    hours: [string, string, string];
+    contactLabel: string;
+    phoneLabel: string;
+    phoneHref: string;
+    directions: string;
+    directionsHref: string;
+    directionsNote: string;
+    imageAlt: string;
+  };
   footer: {
     claim: string;
     imprint: string;
@@ -119,6 +135,22 @@ export const de: Dictionary = {
     description: "Nimm dir Zeit für einen guten Moment in der Altstadt.",
     cta: "Tisch reservieren",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
+  },
+  location: {
+    eyebrow: "Besuch uns",
+    heading: "Hier findest du uns.",
+    description: "Komm vorbei, bleib ein wenig und lass dir Zeit für deinen Moment.",
+    addressLabel: "Adresse",
+    addressLines: ["Straße & Hausnummer folgen", "Lübeck"],
+    hoursLabel: "Öffnungszeiten",
+    hours: ["Mo–Fr — Zeiten folgen", "Sa — Zeiten folgen", "So — Zeiten folgen"],
+    contactLabel: "Kontakt",
+    phoneLabel: "Telefon — Platzhalter",
+    phoneHref: "tel:+490000000000",
+    directions: "Route planen",
+    directionsHref: "https://www.google.com/maps/search/?api=1&query=Altstadtliebe%20L%C3%BCbeck",
+    directionsNote: "Adresse folgt — Route wird nach Eintrag aktualisiert.",
+    imageAlt: "Warmer Innenraum von Altstadtliebe mit Café-Tischen und Kaffeebar",
   },
   footer: {
     claim: "Mit Zeit gemacht.",
