@@ -43,6 +43,18 @@ export const en: Dictionary = {
       "Café atmosphere looking through the room",
     ],
   },
+  reviews: {
+    eyebrow: "Kind Words.",
+    placeholderNotice: "Development placeholder — genuine reviews will be added later.",
+    previous: "Previous review",
+    next: "Next review",
+    progressLabel: "Review {current} of {total}",
+    items: [
+      { quote: "Development placeholder 01 — genuine review to come.", name: "Name to come", rating: "Rating to come" },
+      { quote: "Development placeholder 02 — genuine review to come.", name: "Name to come", rating: "Rating to come" },
+      { quote: "Development placeholder 03 — genuine review to come.", name: "Name to come", rating: "Rating to come" },
+    ],
+  },
   footer: {
     claim: "Made with time.",
     imprint: "Imprint",

@@ -36,6 +36,14 @@ export type Dictionary = {
     link: string;
     imageAlts: [string, string, string, string];
   };
+  reviews: {
+    eyebrow: string;
+    placeholderNotice: string;
+    previous: string;
+    next: string;
+    progressLabel: string;
+    items: [{ quote: string; name: string; rating: string }, { quote: string; name: string; rating: string }, { quote: string; name: string; rating: string }];
+  };
   footer: {
     claim: string;
     imprint: string;
@@ -84,6 +92,18 @@ export const de: Dictionary = {
       "Kaffeebar und warme Details im Café",
       "Gedeckte Tische und Blumen im Innenraum",
       "Café-Atmosphäre mit Blick durch den Raum",
+    ],
+  },
+  reviews: {
+    eyebrow: "Liebe Worte.",
+    placeholderNotice: "Entwicklungsplatzhalter — echte Bewertungen folgen.",
+    previous: "Vorherige Bewertung",
+    next: "Nächste Bewertung",
+    progressLabel: "Bewertung {current} von {total}",
+    items: [
+      { quote: "Entwicklungsplatzhalter 01 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
+      { quote: "Entwicklungsplatzhalter 02 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
+      { quote: "Entwicklungsplatzhalter 03 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
     ],
   },
   footer: {
