@@ -10,10 +10,10 @@ import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
-type Details = { fullName: string; email: string; requests: string; privacy: boolean };
+type Details = { fullName: string; email: string; requests: string };
 type FormState = { date: string; guests: number; time: string; details: Details };
 
-const initialDetails: Details = { fullName: "", email: "", requests: "", privacy: false };
+const initialDetails: Details = { fullName: "", email: "", requests: "" };
 
 function dateInputValue(date: Date) {
   const year = date.getFullYear();
@@ -58,11 +58,10 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
   function validateDetails() {
     const nextErrors: Record<string, string> = {};
-    const { fullName, email, privacy } = form.details;
+    const { fullName, email } = form.details;
     if (!fullName.trim()) nextErrors.fullName = copy.requiredError;
     if (!email.trim()) nextErrors.email = copy.requiredError;
     else if (!/^\S+@\S+\.\S+$/.test(email)) nextErrors.email = copy.emailError;
-    if (!privacy) nextErrors.privacy = copy.requiredError;
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   }
@@ -83,10 +82,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     setErrors({});
   }
 
-  const formattedDate = form.date
-    ? new Intl.DateTimeFormat(copy.dateFormatLocale, { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date(`${form.date}T12:00:00`))
-    : "—";
-  const inputClass = "mt-2 min-h-12 w-full min-w-0 rounded-none border-0 border-b border-espresso/25 bg-transparent px-0 py-3 text-base text-espresso outline-none transition-colors placeholder:text-espresso-soft/55 focus:border-espresso";
+  const inputClass = "mt-2 min-h-11 w-full min-w-0 rounded-none border-0 border-b border-espresso/25 bg-transparent px-0 py-2.5 text-base text-espresso outline-none transition-colors placeholder:text-espresso-soft/55 focus:border-espresso";
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
   const buttonClass = "inline-flex min-h-12 items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory transition-[transform,background-color] duration-300 hover:-translate-y-0.5 hover:bg-espresso-soft active:translate-y-0";
 
@@ -106,7 +102,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           <section className="min-w-0">
             <header className="grid grid-cols-[minmax(0,1fr)_6.5rem] items-start gap-5 sm:grid-cols-[minmax(0,1fr)_8rem] lg:block">
               <div>
-                <p className="eyebrow mb-4">{dictionary.reservation.eyebrow}</p>
                 <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.5rem,6vw,4.8rem)] font-semibold leading-[0.9] text-espresso">{copy.title}</h1>
               </div>
               <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
@@ -124,7 +119,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 <button type="button" onClick={resetBooking} className={`${buttonClass} mt-7`}>{copy.startOver}</button>
               </section>
             ) : (
-              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-10 border-y border-espresso/20 py-8 md:mt-12 md:py-10">
+              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-6 border-y border-espresso/20 py-6 md:mt-8 md:py-8">
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
@@ -161,7 +156,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 ) : (
                   <section aria-labelledby="contact-details-title">
                     <h2 id="contact-details-title" className="sr-only">{copy.stepLabels[1]}</h2>
-                    <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
+                    <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
                       <div className="sm:col-span-2">
                         <label htmlFor="full-name" className="text-sm font-medium text-espresso">{copy.fullName}</label>
                         <input id="full-name" value={form.details.fullName} onChange={(event) => updateDetails("fullName", event.target.value)} className={inputClass} autoComplete="name" aria-invalid={Boolean(errors.fullName)} aria-describedby={errors.fullName ? "full-name-error" : undefined} />
@@ -173,29 +168,11 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         {errors.email && <p id="email-error" className={errorClass} role="alert">{errors.email}</p>}
                       </div>
                     </div>
-                    <div className="mt-5">
+                    <div className="mt-4">
                       <label htmlFor="requests" className="text-sm font-medium text-espresso">{copy.requests} <span className="text-xs text-espresso-soft/60">({copy.optional})</span></label>
                       <textarea id="requests" rows={2} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
                     </div>
-                    <label className="mt-6 flex min-h-11 items-start gap-3 text-sm leading-[1.4] text-espresso-soft">
-                      <input type="checkbox" checked={form.details.privacy} onChange={(event) => updateDetails("privacy", event.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-espresso" aria-invalid={Boolean(errors.privacy)} />
-                      <span>{copy.privacyText}<span className="sr-only"> {copy.privacy}</span></span>
-                    </label>
-                    {errors.privacy && <p className={errorClass} role="alert">{errors.privacy}</p>}
-
-                    <div className="mt-8 border-y border-espresso/15 py-5">
-                      <div className="flex items-center justify-between gap-4">
-                        <p className="eyebrow">{copy.review}</p>
-                        <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="text-xs uppercase tracking-[0.1em] text-espresso-soft underline decoration-brass underline-offset-4 transition-colors hover:text-espresso">{copy.edit}</button>
-                      </div>
-                      <dl className="mt-4 grid grid-cols-3 gap-3 text-sm text-espresso">
-                        <div><dt className="text-xs text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1 leading-[1.25]">{formattedDate}</dd></div>
-                        <div><dt className="text-xs text-espresso-soft">{copy.summaryTime}</dt><dd className="mt-1">{form.time}</dd></div>
-                        <div><dt className="text-xs text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1">{form.guests} {copy.guestsSuffix}</dd></div>
-                      </dl>
-                    </div>
-
-                    <div className="mt-8 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="inline-flex min-h-12 items-center justify-center gap-2 text-sm font-medium text-espresso-soft transition-colors hover:text-espresso"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
                       <button type="submit" className={`${buttonClass} w-full sm:w-auto`}><span>{copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                     </div>
