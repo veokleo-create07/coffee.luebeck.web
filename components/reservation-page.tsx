@@ -112,8 +112,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
               <div>
                 <p className="eyebrow mb-4">{dictionary.reservation.eyebrow}</p>
                 <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.5rem,6vw,4.8rem)] font-semibold leading-[0.9] text-espresso">{copy.title}</h1>
-                <p className="mt-4 max-w-sm text-base leading-[1.4] text-espresso-soft md:text-lg">{copy.intro}</p>
-                <p className="mt-3 max-w-sm text-[0.68rem] uppercase tracking-[0.1em] text-olive-deep">{copy.demoNotice}</p>
               </div>
               <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
                 <Image src="/altstadtliebe-interior.png" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
@@ -131,11 +129,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
               </section>
             ) : (
               <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-10 border-y border-espresso/20 py-8 md:mt-12 md:py-10">
-                <div className="mb-8 flex items-center justify-between border-b border-espresso/15 pb-4">
-                  <p className="eyebrow text-olive-deep">{step === 1 ? copy.stepLabels[0] : copy.stepLabels[1]}</p>
-                  <span className="text-xs tabular-nums text-espresso-soft/65">0{step} / 02</span>
-                </div>
-
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
@@ -159,7 +152,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     <div className="mt-9">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
                         <label className="text-sm font-medium text-espresso">{copy.timeLabel}</label>
-                        <span className="text-[0.68rem] uppercase tracking-[0.08em] text-olive-deep">{copy.mockAvailability}</span>
                       </div>
                       <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4">
                         {availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`min-h-12 rounded-full border px-2 text-sm transition-[background-color,border-color,color,transform] duration-200 active:scale-[0.98] ${form.time === time ? "border-espresso bg-espresso text-ivory" : "border-espresso/25 text-espresso hover:border-espresso hover:bg-espresso/5"}`} aria-pressed={form.time === time}>{time}</button>)}
