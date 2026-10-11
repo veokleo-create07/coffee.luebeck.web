@@ -10,10 +10,10 @@ import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
-type Details = { firstName: string; lastName: string; email: string; phone: string; requests: string; privacy: boolean };
+type Details = { fullName: string; email: string; requests: string; privacy: boolean };
 type FormState = { date: string; guests: number; time: string; details: Details };
 
-const initialDetails: Details = { firstName: "", lastName: "", email: "", phone: "", requests: "", privacy: false };
+const initialDetails: Details = { fullName: "", email: "", requests: "", privacy: false };
 
 function dateInputValue(date: Date) {
   const year = date.getFullYear();
@@ -24,11 +24,8 @@ function dateInputValue(date: Date) {
 
 function mockTimes(date: string) {
   if (!date) return [];
-  const day = new Date(`${date}T12:00:00`).getDay();
-  const weekdayTimes = ["09:00", "10:30", "12:00", "13:30", "15:00", "17:30", "19:00"];
-  const saturdayTimes = ["09:30", "11:00", "12:30", "14:00", "16:00", "18:00"];
-  const sundayTimes = ["10:00", "11:30", "13:00", "14:30"];
-  return day === 6 ? saturdayTimes : day === 0 ? sundayTimes : weekdayTimes;
+  const reservationTimes = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"];
+  return reservationTimes;
 }
 
 export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
@@ -61,9 +58,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
   function validateDetails() {
     const nextErrors: Record<string, string> = {};
-    const { firstName, lastName, email, privacy } = form.details;
-    if (!firstName.trim()) nextErrors.firstName = copy.requiredError;
-    if (!lastName.trim()) nextErrors.lastName = copy.requiredError;
+    const { fullName, email, privacy } = form.details;
+    if (!fullName.trim()) nextErrors.fullName = copy.requiredError;
     if (!email.trim()) nextErrors.email = copy.requiredError;
     else if (!/^\S+@\S+\.\S+$/.test(email)) nextErrors.email = copy.emailError;
     if (!privacy) nextErrors.privacy = copy.requiredError;
@@ -166,24 +162,15 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                   <section aria-labelledby="contact-details-title">
                     <h2 id="contact-details-title" className="sr-only">{copy.stepLabels[1]}</h2>
                     <div className="grid gap-x-6 gap-y-5 sm:grid-cols-2">
-                      <div>
-                        <label htmlFor="first-name" className="text-sm font-medium text-espresso">{copy.firstName}</label>
-                        <input id="first-name" value={form.details.firstName} onChange={(event) => updateDetails("firstName", event.target.value)} className={inputClass} autoComplete="given-name" aria-invalid={Boolean(errors.firstName)} aria-describedby={errors.firstName ? "first-name-error" : undefined} />
-                        {errors.firstName && <p id="first-name-error" className={errorClass} role="alert">{errors.firstName}</p>}
-                      </div>
-                      <div>
-                        <label htmlFor="last-name" className="text-sm font-medium text-espresso">{copy.lastName}</label>
-                        <input id="last-name" value={form.details.lastName} onChange={(event) => updateDetails("lastName", event.target.value)} className={inputClass} autoComplete="family-name" aria-invalid={Boolean(errors.lastName)} aria-describedby={errors.lastName ? "last-name-error" : undefined} />
-                        {errors.lastName && <p id="last-name-error" className={errorClass} role="alert">{errors.lastName}</p>}
+                      <div className="sm:col-span-2">
+                        <label htmlFor="full-name" className="text-sm font-medium text-espresso">{copy.fullName}</label>
+                        <input id="full-name" value={form.details.fullName} onChange={(event) => updateDetails("fullName", event.target.value)} className={inputClass} autoComplete="name" aria-invalid={Boolean(errors.fullName)} aria-describedby={errors.fullName ? "full-name-error" : undefined} />
+                        {errors.fullName && <p id="full-name-error" className={errorClass} role="alert">{errors.fullName}</p>}
                       </div>
                       <div>
                         <label htmlFor="email" className="text-sm font-medium text-espresso">{copy.email}</label>
                         <input id="email" type="email" value={form.details.email} onChange={(event) => updateDetails("email", event.target.value)} className={inputClass} autoComplete="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} />
                         {errors.email && <p id="email-error" className={errorClass} role="alert">{errors.email}</p>}
-                      </div>
-                      <div>
-                        <label htmlFor="phone" className="text-sm font-medium text-espresso">{copy.phone} <span className="text-xs text-espresso-soft/60">({copy.optional})</span></label>
-                        <input id="phone" type="tel" value={form.details.phone} onChange={(event) => updateDetails("phone", event.target.value)} className={inputClass} autoComplete="tel" />
                       </div>
                     </div>
                     <div className="mt-5">

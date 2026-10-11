@@ -60,6 +60,7 @@ export type Dictionary = {
       timeLabel: string;
       mockAvailability: string;
       noTimes: string;
+      fullName: string;
       firstName: string;
       lastName: string;
       email: string;
@@ -195,6 +196,7 @@ export const de: Dictionary = {
       timeLabel: "Uhrzeit",
       mockAvailability: "Demo-Verfügbarkeit — noch nicht mit einem Buchungssystem verbunden.",
       noTimes: "Für dieses Datum sind keine Demo-Zeiten hinterlegt.",
+      fullName: "Vollständiger Name",
       firstName: "Vorname",
       lastName: "Nachname",
       email: "E-Mail-Adresse",

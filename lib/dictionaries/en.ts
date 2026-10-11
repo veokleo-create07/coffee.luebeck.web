@@ -71,6 +71,7 @@ export const en: Dictionary = {
       timeLabel: "Time",
       mockAvailability: "Demo availability — not connected to a booking system yet.",
       noTimes: "No demo times are listed for this date.",
+      fullName: "Full name",
       firstName: "First name",
       lastName: "Last name",
       email: "Email address",
