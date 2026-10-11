@@ -84,7 +84,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
   const inputClass = "mt-2 min-h-11 w-full min-w-0 rounded-none border-0 border-b border-espresso/25 bg-transparent px-0 py-2.5 text-base text-espresso outline-none transition-colors placeholder:text-espresso-soft/55 focus:border-espresso";
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
-  const buttonClass = "inline-flex min-h-12 items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory transition-[transform,background-color] duration-300 hover:-translate-y-0.5 hover:bg-espresso-soft active:translate-y-0";
+  const buttonClass = "site-button site-button-primary";
 
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
@@ -145,7 +145,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         <label className="text-sm font-medium text-espresso">{copy.timeLabel}</label>
                       </div>
                       <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4">
-                        {availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`min-h-12 rounded-full border px-2 text-sm transition-[background-color,border-color,color,transform] duration-200 active:scale-[0.98] ${form.time === time ? "border-espresso bg-espresso text-ivory" : "border-espresso/25 text-espresso hover:border-espresso hover:bg-espresso/5"}`} aria-pressed={form.time === time}>{time}</button>)}
+                        {availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-12 w-full border px-2 text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/25 hover:border-espresso"}`} aria-pressed={form.time === time}>{time}</button>)}
                       </div>
                       {availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
@@ -173,7 +173,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       <textarea id="requests" rows={2} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
                     </div>
                     <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="inline-flex min-h-12 items-center justify-center gap-2 text-sm font-medium text-espresso-soft transition-colors hover:text-espresso"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
+                      <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="site-button site-button-secondary gap-2"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
                       <button type="submit" className={`${buttonClass} w-full sm:w-auto`}><span>{copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                     </div>
                   </section>
