@@ -62,7 +62,7 @@ export const en: Dictionary = {
     cta: "Book a Table",
     imageAlt: "Warm, light-filled interior of Altstadtliebe",
     booking: {
-      title: "Reserve a table",
+      title: "Reserve Your Table",
       intro: "Choose your visit — take your time.",
       stepLabels: ["Choose your visit", "Your details", "Review & confirm"],
       dateLabel: "Date",

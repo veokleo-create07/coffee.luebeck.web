@@ -186,7 +186,7 @@ export const de: Dictionary = {
     cta: "Tisch reservieren",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
     booking: {
-      title: "Tisch reservieren",
+      title: "Deinen Tisch reservieren",
       intro: "Wähle deinen Besuch — ganz in Ruhe.",
       stepLabels: ["Besuch wählen", "Deine Daten", "Prüfen & bestätigen"],
       dateLabel: "Datum",
