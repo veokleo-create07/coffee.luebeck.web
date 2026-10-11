@@ -135,8 +135,8 @@ export const de: Dictionary = {
     switchTo: "English",
   },
   home: {
-    title: "Coffee with character.",
-    description: "Guter Kaffee, schöne Morgen und ein Ort, an dem man gern ein wenig länger bleibt.",
+    title: "Bleib noch ein bisschen.",
+    description: "Guter Kaffee, leckeres Frühstück und Momente, für die man gerne länger bleibt.",
     primaryCta: "Reservieren",
     secondaryCta: "Entdecken",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
