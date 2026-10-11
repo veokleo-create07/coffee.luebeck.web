@@ -76,6 +76,17 @@ a {
   padding-bottom: 1.5rem;
 }
 
+.hero-cta {
+  flex: 0 1 auto;
+  min-width: 9.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-cta {
+    min-width: 12.5rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
