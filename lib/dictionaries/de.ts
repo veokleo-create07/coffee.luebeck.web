@@ -41,6 +41,7 @@ export type Dictionary = {
   reviews: {
     eyebrow: string;
     placeholderNotice: string;
+    googleLink: string;
     previous: string;
     next: string;
     progressLabel: string;
@@ -175,6 +176,7 @@ export const de: Dictionary = {
   reviews: {
     eyebrow: "Liebe Worte.",
     placeholderNotice: "Entwicklungsplatzhalter — echte Bewertungen folgen.",
+    googleLink: "Alle Bewertungen auf Google ansehen ↗",
     previous: "Vorherige Bewertung",
     next: "Nächste Bewertung",
     progressLabel: "Bewertung {current} von {total}",

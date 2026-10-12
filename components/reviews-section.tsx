@@ -2,49 +2,50 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Star } from "lucide-react";
+import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
+import type { Locale } from "@/lib/i18n";
+import { localReviews } from "@/lib/reviews";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type ReviewsSectionProps = { dictionary: Dictionary };
+type ReviewsSectionProps = { locale: Locale; dictionary: Dictionary };
 
-export function ReviewsSection({ dictionary }: ReviewsSectionProps) {
+function ReviewCard({ quote, name, rating, mobile = false }: { quote: string; name: string; rating: string; mobile?: boolean }) {
+  return <article className={`review-card flex min-h-[12.5rem] flex-col justify-between rounded-[1.25rem] border border-espresso/12 bg-ivory/65 p-5 md:p-6 ${mobile ? "" : ""}`}><div><div className="flex items-center gap-1 text-brass" aria-label={`5 stars — ${rating}`}><Star size={14} strokeWidth={0} fill="currentColor" aria-hidden="true" /><Star size={14} strokeWidth={0} fill="currentColor" aria-hidden="true" /><Star size={14} strokeWidth={0} fill="currentColor" aria-hidden="true" /><Star size={14} strokeWidth={0} fill="currentColor" aria-hidden="true" /><Star size={14} strokeWidth={0} fill="currentColor" aria-hidden="true" /></div><p className="mt-5 text-[1.15rem] leading-[1.18] text-espresso">“{quote}”</p></div><div className="mt-7 flex items-end justify-between gap-3 border-t border-espresso/12 pt-4"><div><p className="text-sm font-medium text-espresso">{name}</p><p className="mt-1 text-[0.65rem] uppercase tracking-[0.12em] text-espresso-soft">{rating}</p></div><span className="text-[0.65rem] uppercase tracking-[0.14em] text-olive-deep">Google</span></div></article>;
+}
+
+export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
-  const reviews = dictionary.reviews.items;
+  const reviews = localReviews[locale];
   const activeReview = reviews[active];
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-
     const context = gsap.context(() => {
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const reveal = section.querySelectorAll<HTMLElement>("[data-review-reveal]");
-      if (reducedMotion) {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         gsap.set(reveal, { autoAlpha: 1, clearProps: "transform" });
         return;
       }
-
-      gsap.fromTo(reveal, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.65, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: section, start: "top 82%", once: true } });
+      gsap.fromTo(reveal, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: section, start: "top 84%", once: true } });
     }, section);
-
     return () => context.revert();
   }, []);
 
   useLayoutEffect(() => {
-    const section = sectionRef.current;
-    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const quote = section.querySelector<HTMLElement>("[data-active-review]");
-    if (!quote) return;
-    gsap.fromTo(quote, { autoAlpha: 0, x: 14 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "power2.out" });
+    const activeCard = sectionRef.current?.querySelector<HTMLElement>("[data-active-review]");
+    if (!activeCard || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    gsap.fromTo(activeCard, { autoAlpha: 0, x: 12 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "power2.out" });
   }, [active]);
 
   function moveReview(step: number) {
     setActive((current) => (current + step + reviews.length) % reviews.length);
   }
 
-  return <section ref={sectionRef} id="reviews" className="overflow-hidden bg-[#E9E0D2] px-[var(--page-gutter)] py-20 md:py-24" aria-labelledby="reviews-title"><div className="mx-auto max-w-7xl"><div className="flex items-end justify-between gap-8"><div><p data-review-reveal className="eyebrow mb-4 text-olive-deep">{dictionary.reviews.eyebrow}</p><h2 id="reviews-title" data-review-reveal className="editorial-heading text-[clamp(2.8rem,5vw,5.5rem)] font-medium leading-[0.88] text-espresso">{dictionary.reviews.eyebrow}</h2></div><p data-review-reveal className="hidden max-w-xs text-right text-xs uppercase leading-[1.45] tracking-[0.12em] text-espresso-soft/75 md:block">{dictionary.reviews.placeholderNotice}</p></div><div className="mt-12 hidden grid-cols-3 divide-x divide-espresso/15 border-y border-espresso/15 md:grid">{reviews.map((review, index) => <article key={`${review.name}-${index}`} data-review-reveal className="px-7 py-8 first:pl-0 last:pr-0"><p className="text-2xl leading-[1.08] text-espresso">“{review.quote}”</p><div className="mt-7 flex items-end justify-between gap-4 border-t border-espresso/15 pt-4"><div><p className="text-sm font-medium text-espresso">{review.name}</p><p className="mt-1 text-[0.68rem] uppercase tracking-[0.12em] text-espresso-soft">{review.rating}</p></div><span className="text-[0.68rem] uppercase tracking-[0.12em] text-olive-deep">Google</span></div></article>)}</div><div className="mt-10 md:hidden"><article data-active-review aria-live="polite" className="border-y border-espresso/15 py-8"><p className="text-[clamp(1.8rem,8vw,2.7rem)] leading-[1.08] text-espresso">“{activeReview.quote}”</p><div className="mt-7 flex items-end justify-between gap-4 border-t border-espresso/15 pt-4"><div><p className="text-sm font-medium text-espresso">{activeReview.name}</p><p className="mt-1 text-[0.68rem] uppercase tracking-[0.12em] text-espresso-soft">{activeReview.rating}</p></div><span className="text-[0.68rem] uppercase tracking-[0.12em] text-olive-deep">Google</span></div></article><div className="mt-5 flex items-center justify-between"><span className="text-xs font-medium tabular-nums text-espresso-soft" aria-label={dictionary.reviews.progressLabel.replace("{current}", String(active + 1)).replace("{total}", String(reviews.length))}>{String(active + 1).padStart(2, "0")} / {String(reviews.length).padStart(2, "0")}</span><div className="flex gap-2"><button type="button" onClick={() => moveReview(-1)} className="site-button site-button-secondary h-11 w-11 min-h-11 !rounded-full !p-0" aria-label={dictionary.reviews.previous}><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" /></button><button type="button" onClick={() => moveReview(1)} className="site-button site-button-secondary h-11 w-11 min-h-11 !rounded-full !p-0" aria-label={dictionary.reviews.next}><ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" /></button></div></div></div></div></section>;
+  return <section ref={sectionRef} id="reviews" className="overflow-hidden bg-[#E9E0D2] px-[var(--page-gutter)] py-16 md:py-20" aria-labelledby="reviews-title"><div className="mx-auto max-w-7xl"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p data-review-reveal className="eyebrow mb-3 text-olive-deep">{dictionary.reviews.eyebrow}</p><h2 id="reviews-title" data-review-reveal className="editorial-heading text-[clamp(2.7rem,5vw,4.8rem)] font-medium leading-[0.88] text-espresso">{dictionary.reviews.eyebrow}</h2></div><p data-review-reveal className="max-w-sm text-xs uppercase leading-[1.45] tracking-[0.11em] text-espresso-soft/75 sm:text-right">{dictionary.reviews.placeholderNotice}</p></div><div className="mt-9 hidden grid-cols-3 gap-4 md:grid">{reviews.map((review, index) => <div key={`${review.name}-${index}`} data-review-reveal><ReviewCard {...review} /></div>)}</div><div className="mt-8 md:hidden"><div data-active-review aria-live="polite"><ReviewCard {...activeReview} mobile /></div><div className="mt-4 flex items-center justify-between"><span className="text-xs font-medium tabular-nums text-espresso-soft" aria-label={dictionary.reviews.progressLabel.replace("{current}", String(active + 1)).replace("{total}", String(reviews.length))}>{String(active + 1).padStart(2, "0")} / {String(reviews.length).padStart(2, "0")}</span><div className="flex gap-2"><button type="button" onClick={() => moveReview(-1)} className="site-button site-button-secondary h-10 w-10 min-h-10 !rounded-full !p-0" aria-label={dictionary.reviews.previous}><ArrowLeft size={15} strokeWidth={1.5} aria-hidden="true" /></button><button type="button" onClick={() => moveReview(1)} className="site-button site-button-secondary h-10 w-10 min-h-10 !rounded-full !p-0" aria-label={dictionary.reviews.next}><ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></button></div></div></div><Link data-review-reveal href={dictionary.location.directionsHref} target="_blank" rel="noreferrer" className="group mt-8 inline-flex items-center text-xs font-medium text-espresso transition-colors hover:text-olive-deep"><span className="border-b border-brass/70 pb-1">{dictionary.reviews.googleLink}</span></Link></div></section>;
 }

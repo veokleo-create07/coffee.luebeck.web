@@ -48,6 +48,7 @@ export const en: Dictionary = {
   reviews: {
     eyebrow: "Kind Words.",
     placeholderNotice: "Development placeholder — genuine reviews will be added later.",
+    googleLink: "See all reviews on Google ↗",
     previous: "Previous review",
     next: "Next review",
     progressLabel: "Review {current} of {total}",
