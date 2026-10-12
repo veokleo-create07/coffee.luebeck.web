@@ -6,6 +6,8 @@ export const en: Dictionary = {
     story: "Our story",
     visit: "Visit",
     menu: "Menu",
+    reviews: "Reviews",
+    reservation: "Reserve",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     switchTo: "Deutsch",
@@ -26,7 +28,7 @@ export const en: Dictionary = {
   },
   showcase: {
     eyebrow: "Coffee & breakfast",
-    heading: "For the little moments that matter.",
+    heading: "Coffee & breakfast.",
     description: "Good coffee, delicious breakfast, and time to enjoy.",
     cta: "Explore the menu",
     imageAlt: "Altstadtliebe café atmosphere with set tables and coffee bar",

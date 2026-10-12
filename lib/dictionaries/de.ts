@@ -4,6 +4,8 @@ export type Dictionary = {
     story: string;
     visit: string;
     menu: string;
+    reviews: string;
+    reservation: string;
     openMenu: string;
     closeMenu: string;
     switchTo: string;
@@ -131,6 +133,8 @@ export const de: Dictionary = {
     story: "Über uns",
     visit: "Besuch",
     menu: "Menü",
+    reviews: "Worte",
+    reservation: "Reservieren",
     openMenu: "Menü öffnen",
     closeMenu: "Menü schließen",
     switchTo: "English",
@@ -151,7 +155,7 @@ export const de: Dictionary = {
   },
   showcase: {
     eyebrow: "Kaffee & Frühstück",
-    heading: "Für die kleinen großen Momente.",
+    heading: "Kaffee & Frühstück.",
     description: "Guter Kaffee, leckeres Frühstück und Zeit zum Genießen.",
     cta: "Speisekarte entdecken",
     imageAlt: "Café-Atmosphäre von Altstadtliebe mit gedeckten Tischen und Kaffeebar",
