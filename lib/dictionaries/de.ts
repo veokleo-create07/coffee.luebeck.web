@@ -175,7 +175,7 @@ export const de: Dictionary = {
   },
   reviews: {
     eyebrow: "Liebe Worte.",
-    placeholderNotice: "Entwicklungsplatzhalter — echte Bewertungen folgen.",
+    placeholderNotice: "Originale Auszüge — Freigabe zur Veröffentlichung ausstehend.",
     googleLink: "Alle Bewertungen auf Google ansehen ↗",
     previous: "Vorherige Bewertung",
     next: "Nächste Bewertung",

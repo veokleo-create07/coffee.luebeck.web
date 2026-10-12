@@ -1,20 +1,20 @@
 export type LocalReview = {
   quote: string;
   name: string;
-  rating: string;
-  isPlaceholder: true;
+  rating: number | null;
+  approvalStatus: string;
 };
 
-// Replace these approval-safe placeholders with authentic, approved Google reviews.
+// Keep excerpts unchanged until republishing permission is confirmed.
 export const localReviews: Record<"de" | "en", [LocalReview, LocalReview, LocalReview]> = {
   de: [
-    { quote: "Authentische Kundenstimme folgt nach Freigabe.", name: "Name folgt", rating: "Bewertung folgt", isPlaceholder: true },
-    { quote: "Authentische Kundenstimme folgt nach Freigabe.", name: "Name folgt", rating: "Bewertung folgt", isPlaceholder: true },
-    { quote: "Authentische Kundenstimme folgt nach Freigabe.", name: "Name folgt", rating: "Bewertung folgt", isPlaceholder: true },
+    { quote: "Ein wunderschönes Café mitten in der Altstadt von Lübeck.", name: "Dein Yoga", rating: null, approvalStatus: "Freigabe ausstehend" },
+    { quote: "The best strawberry matcha I’ve ever had", name: "lunar", rating: null, approvalStatus: "Freigabe ausstehend" },
+    { quote: "Leckeres Essen und schönes Ambiente mitten in der Stadt.", name: "Florian Bayram", rating: null, approvalStatus: "Freigabe ausstehend" },
   ],
   en: [
-    { quote: "Authentic customer comment pending approval.", name: "Name to come", rating: "Rating to come", isPlaceholder: true },
-    { quote: "Authentic customer comment pending approval.", name: "Name to come", rating: "Rating to come", isPlaceholder: true },
-    { quote: "Authentic customer comment pending approval.", name: "Name to come", rating: "Rating to come", isPlaceholder: true },
+    { quote: "Ein wunderschönes Café mitten in der Altstadt von Lübeck.", name: "Dein Yoga", rating: null, approvalStatus: "Pending approval" },
+    { quote: "The best strawberry matcha I’ve ever had", name: "lunar", rating: null, approvalStatus: "Pending approval" },
+    { quote: "Leckeres Essen und schönes Ambiente mitten in der Stadt.", name: "Florian Bayram", rating: null, approvalStatus: "Pending approval" },
   ],
 };
