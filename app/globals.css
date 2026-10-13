@@ -76,6 +76,21 @@ a {
   padding-bottom: 1.5rem;
 }
 
+.site-footer-transition {
+  position: relative;
+}
+
+.site-footer-transition::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4.5rem;
+  background: linear-gradient(to bottom, var(--color-ivory) 0%, rgb(245 240 232 / 78%) 26%, rgb(44 33 28 / 0%) 100%);
+  content: "";
+  pointer-events: none;
+}
+
 @keyframes reservation-fade {
   from {
     opacity: 0;
