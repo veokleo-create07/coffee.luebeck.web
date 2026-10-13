@@ -60,6 +60,8 @@ export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
     const context = gsap.context(() => {
       const images = imageRefs.current.filter(Boolean) as HTMLElement[];
       const copies = copyRefs.current.filter(Boolean) as HTMLElement[];
+      gsap.set(images, { autoAlpha: 0, xPercent: 0, scale: 1 });
+      gsap.set(copies, { autoAlpha: 0, x: 0 });
       const applyProgress = (progress: number) => {
         const position = progress * (publishedReviews.length - 1);
         const next = Math.round(position);
