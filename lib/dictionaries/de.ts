@@ -99,7 +99,7 @@ export type Dictionary = {
     addressLabel: string;
     addressLines: [string, string];
     hoursLabel: string;
-    hours: [string, string, string];
+    hours: string[];
     contactLabel: string;
     phoneLabel: string;
     phoneHref: string;
@@ -236,15 +236,15 @@ export const de: Dictionary = {
     heading: "Hier findest du uns.",
     description: "Komm vorbei, bleib ein wenig und lass dir Zeit für deinen Moment.",
     addressLabel: "Adresse",
-    addressLines: ["Straße & Hausnummer folgen", "Lübeck"],
+    addressLines: ["Mühlenstraße 51", "23552 Lübeck, Deutschland"],
     hoursLabel: "Öffnungszeiten",
-    hours: ["Mo–Fr — Zeiten folgen", "Sa — Zeiten folgen", "So — Zeiten folgen"],
+    hours: ["Öffnungszeiten werden bestätigt."],
     contactLabel: "Kontakt",
-    phoneLabel: "Telefon — Platzhalter",
-    phoneHref: "tel:+490000000000",
+    phoneLabel: "+49 451 61917800",
+    phoneHref: "tel:+4945161917800",
     directions: "Route planen",
-    directionsHref: "https://www.google.com/maps/search/?api=1&query=Altstadtliebe%20L%C3%BCbeck",
-    directionsNote: "Adresse folgt — Route wird nach Eintrag aktualisiert.",
+    directionsHref: "https://www.google.com/maps/search/?api=1&query=M%C3%BChlenstra%C3%9Fe%2051%2C%2023552%20L%C3%BCbeck%2C%20Germany",
+    directionsNote: "Mühlenstraße 51, 23552 Lübeck, Deutschland",
     imageAlt: "Warmer Innenraum von Altstadtliebe mit Café-Tischen und Kaffeebar",
   },
   footer: {
@@ -259,8 +259,8 @@ export const de: Dictionary = {
     navContact: "Kontakt",
     contactLabel: "Kontakt",
     hoursLabel: "Öffnungszeiten",
-    instagramLabel: "Instagram — Link folgt",
-    instagramHref: "#instagram",
+    instagramLabel: "Instagram",
+    instagramHref: "https://www.instagram.com/altstadtliebe.luebeck/",
     languageLabel: "English",
     wordmark: "ALTSTADTLIEBE",
     copyright: "© Altstadtliebe",
