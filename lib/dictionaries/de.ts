@@ -40,6 +40,8 @@ export type Dictionary = {
   };
   reviews: {
     eyebrow: string;
+    heading: string;
+    emptyNotice: string;
     placeholderNotice: string;
     googleLink: string;
     previous: string;
@@ -175,6 +177,8 @@ export const de: Dictionary = {
   },
   reviews: {
     eyebrow: "Liebe Worte.",
+    heading: "Worte, die bleiben.",
+    emptyNotice: "Unsere Google Bewertungen werden hier bald zu sehen sein.",
     placeholderNotice: "Originale Auszüge — Freigabe zur Veröffentlichung ausstehend.",
     googleLink: "Alle Bewertungen auf Google ansehen ↗",
     previous: "Vorherige Bewertung",

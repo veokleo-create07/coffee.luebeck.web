@@ -47,6 +47,8 @@ export const en: Dictionary = {
   },
   reviews: {
     eyebrow: "Kind Words.",
+    heading: "Words that stay.",
+    emptyNotice: "Our Google reviews will appear here soon.",
     placeholderNotice: "Original excerpts — publication approval pending.",
     googleLink: "See all reviews on Google ↗",
     previous: "Previous review",
