@@ -2,7 +2,8 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowLeft, ArrowRight, Star } from "lucide-react";
+import { ArrowUpRight, Star } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
@@ -13,14 +14,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 type ReviewsSectionProps = { locale: Locale; dictionary: Dictionary };
 
-function ReviewCard({ quote, name, rating, approvalStatus }: { quote: string; name: string; rating: number | null; approvalStatus: string }) {
-  return <article className="review-card flex min-h-[12.5rem] flex-col justify-between rounded-[1.25rem] border border-espresso/12 bg-ivory/65 p-5 md:p-6"><div>{rating ? <div className="flex items-center gap-1 text-brass" aria-label={`${rating} stars`}>
-    {Array.from({ length: rating }, (_, index) => <Star key={index} size={14} strokeWidth={0} fill="currentColor" aria-hidden="true" />)}
-  </div> : <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-brass">{approvalStatus}</p>}<p className="mt-5 text-[1.15rem] leading-[1.18] text-espresso">“{quote}”</p></div><div className="mt-7 flex items-end justify-between gap-3 border-t border-espresso/12 pt-4"><div><p className="text-sm font-medium text-espresso">{name}</p><p className="mt-1 text-[0.65rem] uppercase tracking-[0.12em] text-espresso-soft">{rating ? `${rating}/5` : approvalStatus}</p></div><span className="text-[0.65rem] uppercase tracking-[0.14em] text-olive-deep">Google</span></div></article>;
-}
+const reviewImages = ["/menu-matcha.png", "/menu-coffee.png", "/menu-breakfast.png"];
 
 export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const activeRef = useRef(0);
   const [active, setActive] = useState(0);
   const reviews = localReviews[locale];
   const activeReview = reviews[active];
@@ -28,26 +26,78 @@ export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+
     const context = gsap.context(() => {
-      const reveal = section.querySelectorAll<HTMLElement>("[data-review-reveal]");
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        gsap.set(reveal, { autoAlpha: 1, clearProps: "transform" });
-        return;
-      }
-      gsap.fromTo(reveal, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: section, start: "top 84%", once: true } });
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      const scrollTrigger = ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: "bottom bottom",
+        onUpdate: (self) => {
+          const next = Math.min(reviews.length - 1, Math.floor(self.progress * reviews.length));
+          if (next === activeRef.current) return;
+          activeRef.current = next;
+          setActive(next);
+        },
+      });
+
+      return () => scrollTrigger.kill();
     }, section);
+
     return () => context.revert();
-  }, []);
+  }, [reviews.length]);
 
   useLayoutEffect(() => {
-    const activeCard = sectionRef.current?.querySelector<HTMLElement>("[data-active-review]");
-    if (!activeCard || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    gsap.fromTo(activeCard, { autoAlpha: 0, x: 12 }, { autoAlpha: 1, x: 0, duration: 0.35, ease: "power2.out" });
+    const image = sectionRef.current?.querySelector<HTMLElement>("[data-active-review-image]");
+    const copy = sectionRef.current?.querySelector<HTMLElement>("[data-active-review-copy]");
+    if (!image || !copy || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    gsap.fromTo(image, { autoAlpha: 0, x: -18 }, { autoAlpha: 1, x: 0, duration: 0.55, ease: "power2.out" });
+    gsap.fromTo(copy, { autoAlpha: 0, x: 18 }, { autoAlpha: 1, x: 0, duration: 0.55, delay: 0.04, ease: "power2.out" });
   }, [active]);
 
-  function moveReview(step: number) {
-    setActive((current) => (current + step + reviews.length) % reviews.length);
-  }
+  return (
+    <section ref={sectionRef} id="reviews" className="relative min-h-[210vh] overflow-hidden bg-ivory px-[var(--page-gutter)]" aria-labelledby="reviews-title">
+      <div className="sticky top-0 flex min-h-screen items-center py-20 md:py-24">
+        <div className="mx-auto grid w-full max-w-7xl items-center gap-10 md:grid-cols-[minmax(0,1.05fr)_minmax(20rem,0.95fr)] md:gap-20">
+          <figure data-active-review-image className="relative aspect-[0.92/1] overflow-hidden rounded-tl-[3rem] rounded-br-[1.5rem] bg-espresso-soft md:aspect-[0.94/1] md:rounded-tl-[5rem] md:rounded-br-[2rem]">
+            <Image src={reviewImages[active]} alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" priority={active === 0} />
+            <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
+          </figure>
 
-  return <section ref={sectionRef} id="reviews" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-16 md:py-20" aria-labelledby="reviews-title"><div className="mx-auto max-w-7xl"><div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p data-review-reveal className="eyebrow mb-3 text-olive-deep">{dictionary.reviews.eyebrow}</p><h2 id="reviews-title" data-review-reveal className="editorial-heading text-[clamp(2.7rem,5vw,4.8rem)] font-medium leading-[0.88] text-espresso">{dictionary.reviews.eyebrow}</h2></div><p data-review-reveal className="max-w-sm text-xs uppercase leading-[1.45] tracking-[0.11em] text-espresso-soft/75 sm:text-right">{dictionary.reviews.placeholderNotice}</p></div><div className="mt-9 hidden grid-cols-3 gap-4 md:grid">{reviews.map((review, index) => <div key={`${review.name}-${index}`} data-review-reveal><ReviewCard {...review} /></div>)}</div><div className="mt-8 md:hidden"><div data-active-review aria-live="polite"><ReviewCard {...activeReview} /></div><div className="mt-4 flex items-center justify-between"><span className="text-xs font-medium tabular-nums text-espresso-soft" aria-label={dictionary.reviews.progressLabel.replace("{current}", String(active + 1)).replace("{total}", String(reviews.length))}>{String(active + 1).padStart(2, "0")} / {String(reviews.length).padStart(2, "0")}</span><div className="flex gap-2"><button type="button" onClick={() => moveReview(-1)} className="site-button site-button-secondary h-10 w-10 min-h-10 !rounded-full !p-0" aria-label={dictionary.reviews.previous}><ArrowLeft size={15} strokeWidth={1.5} aria-hidden="true" /></button><button type="button" onClick={() => moveReview(1)} className="site-button site-button-secondary h-10 w-10 min-h-10 !rounded-full !p-0" aria-label={dictionary.reviews.next}><ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></button></div></div></div><Link data-review-reveal href={dictionary.location.directionsHref} target="_blank" rel="noreferrer" className="group mt-8 inline-flex items-center text-xs font-medium text-espresso transition-colors hover:text-olive-deep"><span className="border-b border-brass/70 pb-1">{dictionary.reviews.googleLink}</span></Link></div></section>;
+          <div data-active-review-copy className="max-w-xl">
+            <div className="flex items-center justify-between gap-4">
+              <p className="eyebrow text-olive-deep">{dictionary.reviews.eyebrow}</p>
+              <span className="text-xs font-medium tabular-nums tracking-[0.12em] text-espresso-soft" aria-label={dictionary.reviews.progressLabel.replace("{current}", String(active + 1)).replace("{total}", String(reviews.length))}>{String(active + 1).padStart(2, "0")} / {String(reviews.length).padStart(2, "0")}</span>
+            </div>
+            <h2 id="reviews-title" className="sr-only">{dictionary.reviews.eyebrow}</h2>
+
+            <div className="mt-10 md:mt-14">
+              {activeReview.rating ? (
+                <div className="flex items-center gap-1 text-brass" aria-label={`${activeReview.rating} stars`}>
+                  {Array.from({ length: activeReview.rating }, (_, index) => <Star key={index} size={15} strokeWidth={0} fill="currentColor" aria-hidden="true" />)}
+                </div>
+              ) : (
+                <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-brass">{activeReview.approvalStatus}</p>
+              )}
+              <blockquote className="mt-6 max-w-[12ch] text-[clamp(2.7rem,5.5vw,5.8rem)] font-medium leading-[0.9] tracking-[-0.055em] text-espresso">“{activeReview.quote}”</blockquote>
+              <div className="mt-10 flex items-center gap-4 text-sm text-espresso-soft md:mt-14">
+                <span className="font-medium text-espresso">{activeReview.name}</span>
+                <span className="h-px w-8 bg-brass/60" aria-hidden="true" />
+                <span className="text-xs uppercase tracking-[0.14em]">Google</span>
+              </div>
+              <p className="mt-2 text-[0.65rem] uppercase tracking-[0.12em] text-espresso-soft/70">{activeReview.approvalStatus}</p>
+            </div>
+
+            <Link href={dictionary.location.directionsHref} target="_blank" rel="noreferrer" className="group mt-10 inline-flex items-center gap-2 text-xs font-medium text-espresso transition-colors hover:text-olive-deep md:mt-14">
+              <span className="border-b border-brass/70 pb-1">{dictionary.reviews.googleLink}</span>
+              <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
