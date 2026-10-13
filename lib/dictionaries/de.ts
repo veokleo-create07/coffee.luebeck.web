@@ -181,9 +181,9 @@ export const de: Dictionary = {
     next: "Nächste Bewertung",
     progressLabel: "Bewertung {current} von {total}",
     items: [
-      { quote: "Entwicklungsplatzhalter 01 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
-      { quote: "Entwicklungsplatzhalter 02 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
-      { quote: "Entwicklungsplatzhalter 03 — echte Bewertung folgt.", name: "Name folgt", rating: "Bewertung folgt" },
+      { quote: "Ein wunderschönes Café mitten in der Altstadt von Lübeck.", name: "Dein Yoga", rating: "Freigabe ausstehend" },
+      { quote: "The best strawberry matcha I’ve ever had", name: "lunar", rating: "Freigabe ausstehend" },
+      { quote: "Leckeres Essen und schönes Ambiente mitten in der Stadt.", name: "Florian Bayram", rating: "Freigabe ausstehend" },
     ],
   },
   reservation: {

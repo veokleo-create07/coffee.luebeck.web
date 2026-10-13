@@ -53,9 +53,9 @@ export const en: Dictionary = {
     next: "Next review",
     progressLabel: "Review {current} of {total}",
     items: [
-      { quote: "Development placeholder 01 — genuine review to come.", name: "Name to come", rating: "Rating to come" },
-      { quote: "Development placeholder 02 — genuine review to come.", name: "Name to come", rating: "Rating to come" },
-      { quote: "Development placeholder 03 — genuine review to come.", name: "Name to come", rating: "Rating to come" },
+      { quote: "A beautiful café right in the heart of Lübeck’s Old Town.", name: "Dein Yoga", rating: "Pending approval" },
+      { quote: "The best strawberry matcha I’ve ever had", name: "lunar", rating: "Pending approval" },
+      { quote: "Delicious food and a lovely atmosphere right in the city center.", name: "Florian Bayram", rating: "Pending approval" },
     ],
   },
   reservation: {
