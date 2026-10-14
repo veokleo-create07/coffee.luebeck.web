@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 type ReviewsSectionProps = { locale: Locale; dictionary: Dictionary };
 
-function ReviewQuote({ review, dictionary }: { review: LocalReview; dictionary: Dictionary }) {
+function ReviewQuote({ review }: { review: LocalReview }) {
   const words = review.quote.split(" ");
 
   return <article className="absolute inset-0 flex flex-col justify-center" aria-live="polite">
@@ -26,10 +26,9 @@ function ReviewQuote({ review, dictionary }: { review: LocalReview; dictionary: 
       <span className="h-px w-8 bg-brass/70" aria-hidden="true" />
       <span>Google</span>
     </div>
-    <blockquote className="mt-7 max-w-5xl text-[clamp(2.7rem,7vw,7.5rem)] font-medium leading-[0.9] tracking-[-0.065em] text-espresso md:mt-10">
+    <blockquote className="mt-6 max-w-4xl text-[clamp(2rem,4.4vw,4.75rem)] font-medium leading-[0.94] tracking-[-0.055em] text-espresso md:mt-8">
       “{words.map((word, index) => <span key={`${word}-${index}`} className="review-word inline-block">{word}{index < words.length - 1 ? "\u00a0" : ""}</span>)}”
     </blockquote>
-    <p className="mt-8 text-sm text-espresso-soft md:mt-10">{dictionary.reviews.eyebrow} · Google</p>
   </article>;
 }
 
@@ -92,15 +91,11 @@ export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
 
   if (!reviews.length) return null;
 
-  return <section ref={sectionRef} id="reviews" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-24 md:py-40" aria-labelledby="reviews-title">
+  return <section ref={sectionRef} id="reviews" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 md:py-32" aria-labelledby="reviews-title">
     <div className="mx-auto max-w-7xl">
-      <div data-review-reveal className="flex items-center justify-between border-b border-espresso/15 pb-5">
-        <p className="eyebrow text-olive-deep">{dictionary.reviews.eyebrow}</p>
-        <span className="text-xs font-medium tabular-nums tracking-[0.16em] text-espresso-soft" aria-label={dictionary.reviews.progressLabel.replace("{current}", String(active + 1)).replace("{total}", String(reviews.length))}>{String(active + 1).padStart(2, "0")} / {String(reviews.length).padStart(2, "0")}</span>
-      </div>
       <h2 id="reviews-title" className="sr-only">{dictionary.reviews.heading}</h2>
-      <div className="relative min-h-[27rem] md:min-h-[34rem]" data-review-reveal>
-        {reviews.map((review, index) => <div key={`${review.name}-${index}`} ref={(element) => { quoteRefs.current[index] = element; }} data-review-index={index} aria-hidden={index !== active}><ReviewQuote review={review} dictionary={dictionary} /></div>)}
+      <div className="relative min-h-[20rem] md:min-h-[25rem]" data-review-reveal>
+        {reviews.map((review, index) => <div key={`${review.name}-${index}`} ref={(element) => { quoteRefs.current[index] = element; }} data-review-index={index} aria-hidden={index !== active}><ReviewQuote review={review} /></div>)}
       </div>
       <div data-review-reveal className="flex flex-col gap-7 border-t border-espresso/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
         <Link href={dictionary.location.directionsHref} target="_blank" rel="noreferrer" className="group inline-flex w-fit items-center gap-2 text-sm font-medium text-espresso transition-colors hover:text-olive-deep"><span className="border-b border-brass/70 pb-1">{dictionary.reviews.googleLink.replace(" ↗", "")}</span><ArrowUpRight size={15} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>
