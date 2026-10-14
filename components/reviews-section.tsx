@@ -13,6 +13,7 @@ import { localReviews } from "@/lib/reviews";
 gsap.registerPlugin(ScrollTrigger);
 
 type ReviewsSectionProps = { locale: Locale; dictionary: Dictionary };
+const googleReviewsHref = "https://maps.app.goo.gl/12eVKxTnwfxyiZub6";
 
 function ReviewQuote({ review }: { review: LocalReview }) {
   const words = review.quote.split(" ");
@@ -98,7 +99,7 @@ export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
         {reviews.map((review, index) => <div key={`${review.name}-${index}`} ref={(element) => { quoteRefs.current[index] = element; }} data-review-index={index} aria-hidden={index !== active}><ReviewQuote review={review} /></div>)}
       </div>
       <div data-review-reveal className="flex flex-wrap items-center justify-between gap-6 pt-2">
-        <Link href={dictionary.location.directionsHref} target="_blank" rel="noreferrer" aria-label={dictionary.reviews.googleLink} className="site-button site-button-primary group h-12 min-h-12 gap-3 !rounded-full px-5 text-sm"><span>{locale === "de" ? "Alle Bewertungen ansehen" : "See all reviews on"}</span><span className="font-bold leading-none text-[1.05rem] text-[#4285f4]" aria-hidden="true">G</span><ArrowUpRight size={15} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>
+        <Link href={googleReviewsHref} target="_blank" rel="noreferrer" aria-label={dictionary.reviews.googleLink} className="site-button site-button-primary group h-12 min-h-12 gap-3 !rounded-full px-5 text-sm"><span>{locale === "de" ? "Alle Bewertungen ansehen" : "See all reviews on"}</span><span className="font-bold leading-none text-[1.05rem] text-[#4285f4]" aria-hidden="true">G</span><ArrowUpRight size={15} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>
         <div className="flex items-center gap-3" aria-label={dictionary.reviews.progressLabel.replace("{current}", String(active + 1)).replace("{total}", String(reviews.length))}>
           <button type="button" onClick={() => moveReview(-1)} className="site-button site-button-secondary h-11 w-11 min-h-11 !rounded-full !p-0" aria-label={dictionary.reviews.previous}><ArrowLeft size={15} strokeWidth={1.5} aria-hidden="true" /></button>
           <button type="button" onClick={() => moveReview(1)} className="site-button site-button-primary h-11 w-11 min-h-11 !rounded-full !p-0" aria-label={dictionary.reviews.next}><ArrowRight size={15} strokeWidth={1.5} aria-hidden="true" /></button>
