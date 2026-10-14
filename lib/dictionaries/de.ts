@@ -122,9 +122,13 @@ export type Dictionary = {
     navContact: string;
     contactLabel: string;
     hoursLabel: string;
+    brandTagline: string;
+    contactActionsLabel: string;
+    callLabel: string;
     instagramLabel: string;
     instagramHref: string;
-    languageLabel: string;
+    tiktokLabel: string;
+    tiktokHref: string;
     wordmark: string;
     copyright: string;
   };
@@ -263,9 +267,13 @@ export const de: Dictionary = {
     navContact: "Kontakt",
     contactLabel: "Kontakt",
     hoursLabel: "Öffnungszeiten",
+    brandTagline: "breakfast & lunch",
+    contactActionsLabel: "Kontaktmöglichkeiten",
+    callLabel: "Altstadtliebe anrufen",
     instagramLabel: "Instagram",
     instagramHref: "https://www.instagram.com/altstadtliebe.luebeck/",
-    languageLabel: "English",
+    tiktokLabel: "TikTok",
+    tiktokHref: "https://www.tiktok.com/@altstadtliebe.luebeck",
     wordmark: "ALTSTADTLIEBE",
     copyright: "© Altstadtliebe",
   },
