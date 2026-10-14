@@ -18,13 +18,13 @@ function ReviewQuote({ review }: { review: LocalReview }) {
   const words = review.quote.split(" ");
 
   return <article className="absolute inset-0 flex flex-col justify-center" aria-live="polite">
-    <div className="flex items-center gap-3 text-xs uppercase tracking-[0.16em] text-espresso-soft">
+    <div className="flex items-center gap-2.5 text-sm tracking-normal text-espresso-soft">
       {review.rating ? <span className="flex items-center gap-1 text-brass" aria-label={`${review.rating} stars`}>
         {Array.from({ length: review.rating }, (_, index) => <Star key={index} size={13} strokeWidth={0} fill="currentColor" aria-hidden="true" />)}
       </span> : null}
-      <span>{review.name}</span>
-      <span className="h-px w-8 bg-brass/70" aria-hidden="true" />
-      <span>Google</span>
+      <span className="font-medium text-espresso">{review.name}</span>
+      <span className="h-1 w-1 rounded-full bg-brass" aria-hidden="true" />
+      <span className="text-espresso-soft">Google</span>
     </div>
     <blockquote className="mt-6 max-w-4xl text-[clamp(2rem,4.4vw,4.75rem)] font-medium leading-[0.94] tracking-[-0.055em] text-espresso md:mt-8">
       “{words.map((word, index) => <span key={`${word}-${index}`} className="review-word inline-block">{word}{index < words.length - 1 ? "\u00a0" : ""}</span>)}”
