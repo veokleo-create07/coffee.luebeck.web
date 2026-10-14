@@ -72,7 +72,6 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <p data-menu-reveal className="eyebrow mb-5 text-olive-deep">{dictionary.showcase.eyebrow}</p>
             <h2 id="showcase-title" data-menu-reveal className="editorial-heading max-w-[11ch] text-balance text-[clamp(3.2rem,7vw,7rem)] font-medium leading-[0.86] text-espresso">{dictionary.showcase.heading}</h2>
           </div>
           <div className="max-w-sm md:mb-1">
