@@ -50,7 +50,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
     return () => context.revert();
   }, []);
 
-  return <footer ref={footerRef} className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] py-20 text-ivory md:py-28" aria-label="Footer">
+  return <footer ref={footerRef} className="site-footer-transition footer-reveal overflow-hidden rounded-t-[2rem] bg-espresso px-[var(--page-gutter)] py-20 text-ivory md:rounded-t-[3rem] md:py-28" aria-label="Footer">
     <div className="mx-auto max-w-7xl">
       <div className="grid gap-14 md:grid-cols-[1fr_1.25fr_0.9fr] md:gap-20">
         <div id="footer-contact" data-footer-reveal className="flex flex-col">
