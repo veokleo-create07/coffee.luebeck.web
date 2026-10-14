@@ -246,7 +246,7 @@ export const de: Dictionary = {
     addressLabel: "Adresse",
     addressLines: ["Mühlenstraße 51", "23552 Lübeck, Deutschland"],
     hoursLabel: "Öffnungszeiten",
-    hours: ["Montag · geschlossen", "Dienstag · 09:00–18:00", "Mittwoch · 09:00–18:00", "Donnerstag · 09:00–18:00", "Freitag · 09:00–18:00", "Samstag · 09:00–18:00", "Sonntag · 09:00–18:00"],
+    hours: ["Montag · geschlossen", "Dienstag–Sonntag · 09:00–18:00"],
     contactLabel: "Kontakt",
     phoneLabel: "+49 451 61917800",
     phoneHref: "tel:+4945161917800",
