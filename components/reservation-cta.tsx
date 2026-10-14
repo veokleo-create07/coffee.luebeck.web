@@ -2,7 +2,6 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
@@ -27,53 +26,24 @@ export function ReservationCta({ locale, dictionary }: ReservationCtaProps) {
       const words = section.querySelectorAll<HTMLElement>(".reservation-word");
       const copy = section.querySelectorAll<HTMLElement>("[data-reservation-reveal]");
       const image = section.querySelector<HTMLElement>(".reservation-image");
-      const mask = section.querySelector<HTMLElement>(".reservation-image-mask");
-      const transition = section.querySelector<HTMLElement>(".reservation-transition");
 
       if (reducedMotion) {
         gsap.set([...words, ...copy], { autoAlpha: 1, clearProps: "transform" });
         if (image) gsap.set(image, { clearProps: "transform" });
-        if (mask) gsap.set(mask, { autoAlpha: 0, clearProps: "clipPath" });
-        if (transition) gsap.set(transition, { height: "3rem" });
         return;
       }
 
-      const reveal = { trigger: section, start: "top 76%", once: true };
-      gsap.fromTo(words, { autoAlpha: 0, yPercent: 110 }, { autoAlpha: 1, yPercent: 0, duration: 1, stagger: 0.08, ease: "power4.out", scrollTrigger: reveal });
-      gsap.fromTo(copy, { autoAlpha: 0, y: 28 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.12, delay: 0.25, ease: "power3.out", scrollTrigger: reveal });
-
-      if (mask) {
-        gsap.fromTo(mask, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.25, delay: 0.15, ease: "power4.inOut", scrollTrigger: reveal });
-      }
+      const reveal = { trigger: section, start: "top 78%", once: true };
+      gsap.fromTo(words, { autoAlpha: 0, yPercent: 105 }, { autoAlpha: 1, yPercent: 0, duration: 0.9, stagger: 0.065, ease: "power4.out", scrollTrigger: reveal });
+      gsap.fromTo(copy, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.75, stagger: 0.1, delay: 0.22, ease: "power3.out", scrollTrigger: reveal });
 
       if (image) {
-        gsap.fromTo(image, { yPercent: 7, scale: 1.1 }, { yPercent: -7, scale: 1.02, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 1.2 } });
-      }
-
-      if (transition) {
-        gsap.to(transition, { height: 0, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "top 72%", scrub: 0.8 } });
+        gsap.fromTo(image, { yPercent: 7, scale: 1.08 }, { yPercent: -7, scale: 1.02, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 1.2 } });
       }
     }, section);
 
     return () => context.revert();
   }, []);
 
-  return <section ref={sectionRef} className="relative isolate overflow-hidden bg-espresso px-[var(--page-gutter)] py-24 text-ivory md:py-36" aria-labelledby="reservation-title">
-    <div className="reservation-transition absolute -top-px left-[-5%] z-20 h-16 w-[110%] rounded-[0_0_50%_50%] bg-ivory" aria-hidden="true" />
-    <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-ivory/30" aria-hidden="true" />
-    <div className="relative z-10 mx-auto grid max-w-7xl gap-9 md:grid-cols-[minmax(15rem,0.72fr)_minmax(0,1.28fr)] md:items-center md:gap-0">
-      <div className="relative z-20 md:row-span-2 md:pb-20">
-        <p data-reservation-reveal className="eyebrow mb-7 text-brass">{dictionary.reservation.eyebrow}</p>
-        <h2 id="reservation-title" className="editorial-heading max-w-[8ch] overflow-hidden text-[clamp(4rem,12vw,10rem)] font-medium leading-[0.8] tracking-[-0.06em] text-ivory md:max-w-[7ch] md:text-[clamp(5rem,9vw,9.5rem)]">{headingWords.map((word, index) => <span key={`${word}-${index}`} className="reservation-word mr-[0.14em] inline-block">{word}</span>)}</h2>
-      </div>
-      <figure className="relative order-first h-[20rem] overflow-hidden rounded-[0.5rem_4rem_0.5rem_4rem] bg-espresso/80 md:order-none md:-ml-16 md:h-[39rem] md:rounded-[1rem_8rem_1rem_5rem]">
-        <div className="reservation-image absolute -inset-y-[9%] inset-x-0"><Image src="/menu-breakfast.png" alt={dictionary.reservation.imageAlt} fill sizes="(max-width: 767px) calc(100vw - 2 * var(--page-gutter)), 72vw" className="object-cover object-center" /></div>
-        <div className="reservation-image-mask absolute inset-0 z-10 bg-espresso" aria-hidden="true" />
-      </figure>
-      <div className="relative z-20 md:-ml-20 md:mt-[-5rem] md:max-w-sm">
-        <p data-reservation-reveal className="max-w-xs text-lg leading-[1.35] text-ivory/72 md:text-xl">{dictionary.reservation.description}</p>
-        <Link data-reservation-reveal href={reservationHref} className="site-button site-button-primary group mt-8 gap-3 !bg-ivory !text-espresso md:mt-10"><span>{dictionary.reservation.cta}</span><ArrowUpRight size={17} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></Link>
-      </div>
-    </div>
-  </section>;
+  return <section ref={sectionRef} className="relative isolate overflow-hidden bg-ivory px-[var(--page-gutter)] py-24 text-espresso md:py-36" aria-labelledby="reservation-title"><div className="absolute inset-y-0 right-0 hidden w-[48%] overflow-hidden md:block" aria-hidden="true"><div className="reservation-image absolute -inset-y-[8%] inset-x-0"><Image src="/altstadtliebe-interior.png" alt="" fill sizes="48vw" className="object-cover object-[66%_center] opacity-25 mix-blend-multiply" /></div><div className="absolute inset-0 bg-ivory/35" /></div><div className="relative mx-auto max-w-7xl"><div className="max-w-3xl md:min-h-[35rem] md:flex md:flex-col md:justify-center"><p data-reservation-reveal className="eyebrow mb-8 text-olive-deep">{dictionary.reservation.eyebrow}</p><h2 id="reservation-title" className="editorial-heading max-w-[10ch] overflow-hidden text-[clamp(3.8rem,9vw,8.75rem)] font-medium leading-[0.83] text-espresso">{headingWords.map((word, index) => <span key={`${word}-${index}`} className="reservation-word mr-[0.18em] inline-block">{word}</span>)}</h2><p data-reservation-reveal className="mt-10 max-w-sm text-lg leading-[1.35] text-espresso-soft md:mt-12 md:text-xl">{dictionary.reservation.description}</p><Link data-reservation-reveal href={reservationHref} className="site-button site-button-primary group mt-9 self-start md:mt-11"><span>{dictionary.reservation.cta}</span><span aria-hidden="true" className="ml-3 text-base transition-transform duration-300 group-hover:translate-x-1">↗</span></Link></div><div className="relative mt-14 h-[17rem] overflow-hidden rounded-tl-[4rem] rounded-br-[1.5rem] md:hidden"><div className="reservation-image absolute -inset-y-[8%] inset-x-0"><Image src="/altstadtliebe-interior.png" alt={dictionary.reservation.imageAlt} fill sizes="calc(100vw - 2 * var(--page-gutter))" className="object-cover object-[62%_center]" /></div><div className="absolute inset-0 bg-espresso/20" /></div></div></section>;
 }
