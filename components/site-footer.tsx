@@ -3,7 +3,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Instagram, Music2, Phone } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
@@ -33,10 +32,8 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
 
     const context = gsap.context(() => {
       const content = footer.querySelectorAll<HTMLElement>("[data-footer-reveal]");
-      const image = footer.querySelector<HTMLElement>(".footer-image");
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         gsap.set(content, { autoAlpha: 1, clearProps: "transform" });
-        if (image) gsap.set(image, { clearProps: "transform" });
         return;
       }
 
@@ -48,18 +45,13 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         ease: "power3.out",
         scrollTrigger: { trigger: footer, start: "top 88%", once: true },
       });
-      if (image) {
-        gsap.fromTo(image, { scale: 1.08, yPercent: -3 }, { scale: 1, yPercent: 0, ease: "none", scrollTrigger: { trigger: footer, start: "top bottom", end: "top 40%", scrub: true } });
-      }
     }, footer);
 
     return () => context.revert();
   }, []);
 
-  return <footer ref={footerRef} className="site-footer-transition footer-reveal isolate overflow-hidden rounded-t-[2rem] bg-espresso px-[var(--page-gutter)] py-20 text-ivory md:rounded-t-[3rem] md:py-28" aria-label="Footer">
-    <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true"><Image src="/altstadtliebe-interior.png" alt="" fill sizes="100vw" className="footer-image object-cover object-[62%_center] opacity-45" /><div className="absolute inset-0 bg-espresso/80" /></div>
-    <div className="relative z-10 mx-auto max-w-7xl">
-      <p data-footer-reveal className="mb-12 text-[0.72rem] font-medium uppercase tracking-[0.28em] text-ivory/80 md:mb-16">ALTSTADTLIEBE <span className="text-brass" aria-hidden="true">♥</span></p>
+  return <footer ref={footerRef} className="site-footer-transition footer-reveal overflow-hidden rounded-t-[2rem] bg-espresso px-[var(--page-gutter)] py-20 text-ivory md:rounded-t-[3rem] md:py-28" aria-label="Footer">
+    <div className="mx-auto max-w-7xl">
       <div className="grid gap-14 md:grid-cols-[1fr_1.25fr_0.9fr] md:gap-20">
         <div id="footer-contact" data-footer-reveal className="flex flex-col">
           <p className="eyebrow mb-5 text-brass">{dictionary.footer.contactLabel}</p>
