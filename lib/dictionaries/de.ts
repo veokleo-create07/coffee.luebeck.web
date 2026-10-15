@@ -127,6 +127,7 @@ export type Dictionary = {
     callLabel: string;
     instagramLabel: string;
     instagramHref: string;
+    languageLabel: string;
     tiktokLabel: string;
     tiktokHref: string;
     wordmark: string;
@@ -272,6 +273,7 @@ export const de: Dictionary = {
     callLabel: "Altstadtliebe anrufen",
     instagramLabel: "Instagram",
     instagramHref: "https://www.instagram.com/altstadtliebe.luebeck/",
+    languageLabel: "English",
     tiktokLabel: "TikTok",
     tiktokHref: "https://www.tiktok.com/@altstadtliebe.luebeck",
     wordmark: "ALTSTADTLIEBE",

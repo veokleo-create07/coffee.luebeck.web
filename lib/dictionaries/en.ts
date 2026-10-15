@@ -138,6 +138,7 @@ export const en: Dictionary = {
     callLabel: "Call Altstadtliebe",
     instagramLabel: "Instagram",
     instagramHref: "https://www.instagram.com/altstadtliebe.luebeck/",
+    languageLabel: "Deutsch",
     tiktokLabel: "TikTok",
     tiktokHref: "https://www.tiktok.com/@altstadtliebe.luebeck",
     wordmark: "ALTSTADTLIEBE",

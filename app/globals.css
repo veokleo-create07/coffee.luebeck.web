@@ -80,12 +80,15 @@ a {
   position: relative;
 }
 
-.footer-reveal {
-  --footer-reveal-overlap: clamp(7rem, 24vh, 15rem);
-  z-index: 0;
-  margin-top: calc(var(--footer-reveal-overlap) * -1);
-  padding-top: calc(5rem + var(--footer-reveal-overlap));
-  box-shadow: 0 -18px 42px -34px rgb(44 33 28 / 72%);
+.site-footer-transition::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4.5rem;
+  background: linear-gradient(to bottom, var(--color-ivory) 0%, rgb(245 240 232 / 78%) 26%, rgb(44 33 28 / 0%) 100%);
+  content: "";
+  pointer-events: none;
 }
 
 @keyframes reservation-fade {
@@ -168,12 +171,6 @@ a {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .footer-reveal {
-    margin-top: 0;
-    padding-top: 5rem;
-    box-shadow: none;
   }
 
   *,
