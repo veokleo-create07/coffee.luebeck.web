@@ -65,6 +65,13 @@ export type Dictionary = {
       timeLabel: string;
       mockAvailability: string;
       noTimes: string;
+      closedDayError: string;
+      dateRangeError: string;
+      moreThanSix: string;
+      moreThanSixMessage: string;
+      callCafe: string;
+      durationNotice: string;
+      durationLabel: string;
       fullName: string;
       firstName: string;
       lastName: string;
@@ -90,6 +97,7 @@ export type Dictionary = {
       summaryDate: string;
       summaryTime: string;
       summaryGuests: string;
+      summaryDuration: string;
       summaryDetails: string;
       dateFormatLocale: string;
     };
@@ -211,6 +219,13 @@ export const de: Dictionary = {
       timeLabel: "Uhrzeit",
       mockAvailability: "Demo-Verfügbarkeit — noch nicht mit einem Buchungssystem verbunden.",
       noTimes: "Für dieses Datum sind keine Demo-Zeiten hinterlegt.",
+      closedDayError: "Montags ist das Café geschlossen.",
+      dateRangeError: "Bitte wähle ein Datum innerhalb der nächsten sechs Monate.",
+      moreThanSix: "Mehr als 6 Personen?",
+      moreThanSixMessage: "Für größere Gruppen ruf uns bitte direkt an.",
+      callCafe: "Café anrufen",
+      durationNotice: "Dein Tisch ist für 1 Stunde und 30 Minuten reserviert.",
+      durationLabel: "Dauer",
       fullName: "Vollständiger Name",
       firstName: "Vorname",
       lastName: "Nachname",
@@ -236,6 +251,7 @@ export const de: Dictionary = {
       summaryDate: "Datum",
       summaryTime: "Uhrzeit",
       summaryGuests: "Gäste",
+      summaryDuration: "Dauer",
       summaryDetails: "Deine Daten",
       dateFormatLocale: "de-DE",
     },
