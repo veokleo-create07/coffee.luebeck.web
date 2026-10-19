@@ -57,13 +57,11 @@ export type Dictionary = {
     imageAlt: string;
     booking: {
       title: string;
-      intro: string;
-      stepLabels: [string, string, string];
+      stepLabels: [string, string];
       dateLabel: string;
       guestsLabel: string;
       guestsSuffix: string;
       timeLabel: string;
-      mockAvailability: string;
       noTimes: string;
       closedDayError: string;
       dateRangeError: string;
@@ -71,26 +69,16 @@ export type Dictionary = {
       moreThanSixMessage: string;
       callCafe: string;
       durationNotice: string;
-      durationLabel: string;
       fullName: string;
-      firstName: string;
-      lastName: string;
       email: string;
-      phone: string;
       requests: string;
       optional: string;
-      privacy: string;
-      privacyText: string;
       requiredError: string;
       emailError: string;
-      dateError: string;
       timeError: string;
       back: string;
       continue: string;
-      review: string;
-      edit: string;
       confirm: string;
-      demoNotice: string;
       confirmationTitle: string;
       confirmationBody: string;
       startOver: string;
@@ -98,7 +86,6 @@ export type Dictionary = {
       summaryTime: string;
       summaryGuests: string;
       summaryDuration: string;
-      summaryDetails: string;
       dateFormatLocale: string;
     };
   };
@@ -211,13 +198,11 @@ export const de: Dictionary = {
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
     booking: {
       title: "Deinen Tisch reservieren",
-      intro: "Wähle deinen Besuch — ganz in Ruhe.",
-      stepLabels: ["Besuch wählen", "Deine Daten", "Prüfen & bestätigen"],
+      stepLabels: ["Besuch wählen", "Deine Daten"],
       dateLabel: "Datum",
       guestsLabel: "Gäste",
       guestsSuffix: "Gäste",
       timeLabel: "Uhrzeit",
-      mockAvailability: "Demo-Verfügbarkeit — noch nicht mit einem Buchungssystem verbunden.",
       noTimes: "Für dieses Datum sind keine Demo-Zeiten hinterlegt.",
       closedDayError: "Montags ist das Café geschlossen.",
       dateRangeError: "Bitte wähle ein Datum innerhalb der nächsten sechs Monate.",
@@ -225,26 +210,16 @@ export const de: Dictionary = {
       moreThanSixMessage: "Für größere Gruppen ruf uns bitte direkt an.",
       callCafe: "Café anrufen",
       durationNotice: "Dein Tisch ist für 1 Stunde und 30 Minuten reserviert.",
-      durationLabel: "Dauer",
       fullName: "Vollständiger Name",
-      firstName: "Vorname",
-      lastName: "Nachname",
       email: "E-Mail-Adresse",
-      phone: "Telefon",
       requests: "Besondere Wünsche",
       optional: "optional",
-      privacy: "Datenschutz",
-      privacyText: "Ich stimme der Verarbeitung meiner Angaben zur Bearbeitung dieser Demo-Anfrage zu.",
       requiredError: "Bitte fülle dieses Feld aus.",
       emailError: "Bitte gib eine gültige E-Mail-Adresse ein.",
-      dateError: "Bitte wähle ein gültiges Datum.",
       timeError: "Bitte wähle eine Uhrzeit.",
       back: "Zurück",
       continue: "Weiter",
-      review: "Auswahl prüfen",
-      edit: "Bearbeiten",
       confirm: "Reservierung bestätigen",
-      demoNotice: "Demo-Flow — es wird keine echte Reservierung übermittelt.",
       confirmationTitle: "Danke für deine Anfrage.",
       confirmationBody: "Dies ist eine Demo-Bestätigung. Deine Angaben wurden nicht übermittelt und es wurde keine Reservierung angelegt.",
       startOver: "Neue Demo-Anfrage",
@@ -252,7 +227,6 @@ export const de: Dictionary = {
       summaryTime: "Uhrzeit",
       summaryGuests: "Gäste",
       summaryDuration: "Dauer",
-      summaryDetails: "Deine Daten",
       dateFormatLocale: "de-DE",
     },
   },

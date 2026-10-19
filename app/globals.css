@@ -72,10 +72,6 @@ a {
   letter-spacing: var(--tracking-editorial);
 }
 
-.footer-wordmark-letter {
-  padding-bottom: 1.5rem;
-}
-
 .site-footer-transition {
   position: relative;
 }
