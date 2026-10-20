@@ -63,6 +63,11 @@ a {
   white-space: nowrap;
 }
 
+.site-header[data-menu-open="true"] .site-logo,
+.site-header[data-menu-open="true"] .nav-language-toggle {
+  filter: brightness(0) invert(1);
+}
+
 @media (max-width: 420px) {
   .nav-language-toggle {
     font-size: 0.62rem;
