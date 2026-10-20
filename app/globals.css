@@ -59,6 +59,17 @@ a {
   padding-inline: var(--page-gutter);
 }
 
+.nav-language-toggle {
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .nav-language-toggle {
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+  }
+}
+
 .eyebrow {
   color: var(--color-olive-deep);
   font-size: 0.72rem;
