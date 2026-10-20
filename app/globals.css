@@ -144,6 +144,22 @@ a {
   transform: translateY(-0.125rem);
 }
 
+.hero-button.site-button-primary {
+  box-shadow: 0 18px 24px -16px rgb(44 33 28 / 58%), inset 0 2px 2px rgb(255 255 255 / 14%);
+}
+
+.hero-button.site-button-primary:hover {
+  box-shadow: 0 21px 27px -16px rgb(44 33 28 / 62%), inset 0 2px 2px rgb(255 255 255 / 16%);
+}
+
+.hero-button.site-button-secondary {
+  box-shadow: 0 15px 22px -17px rgb(44 33 28 / 30%), inset 0 2px 2px rgb(255 255 255 / 90%);
+}
+
+.hero-button.site-button-secondary:hover {
+  box-shadow: 0 18px 25px -17px rgb(44 33 28 / 34%), inset 0 2px 2px rgb(255 255 255 / 94%);
+}
+
 .site-button:active {
   transform: translateY(0) scale(0.98);
 }
