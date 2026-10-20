@@ -9,5 +9,5 @@ export function LanguageSwitcher({ locale, label }: LanguageSwitcherProps) {
   const currentLabel = locale === "de" ? "De" : "En";
   const nextLabel = nextLocale === "de" ? "De" : "En";
 
-  return <div className="nav-language-toggle" aria-label={label} role="group"><span className="language-option language-option-active" aria-current="page">{currentLabel}</span><Link href={href} hrefLang={nextLocale} className="language-option language-option-link" aria-label={`${label} — ${nextLabel}`} onClick={() => window.localStorage.setItem("altstadtliebe-locale", nextLocale)}>{nextLabel}</Link></div>;
+  return <div className="nav-language-toggle" aria-label={label} role="group"><span className="language-option language-option-active" aria-current="page">{currentLabel}</span><span className="language-separator" aria-hidden="true">/</span><Link href={href} hrefLang={nextLocale} className="language-option language-option-link" aria-label={`${label} — ${nextLabel}`} onClick={() => window.localStorage.setItem("altstadtliebe-locale", nextLocale)}>{nextLabel}</Link></div>;
 }

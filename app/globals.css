@@ -82,6 +82,11 @@ a {
   font-weight: 700;
 }
 
+.language-separator {
+  color: rgb(44 33 28 / 38%);
+  font-size: 0.72rem;
+}
+
 .language-option-link {
   color: var(--color-espresso-soft);
   transition: color 300ms ease, opacity 300ms ease;
@@ -105,6 +110,10 @@ a {
 
 .site-header[data-menu-open="true"] .language-option-link {
   color: rgb(245 240 232 / 58%);
+}
+
+.site-header[data-menu-open="true"] .language-separator {
+  color: rgb(245 240 232 / 38%);
 }
 
 .site-header[data-menu-open="true"] .language-option-link:hover {
