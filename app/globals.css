@@ -142,7 +142,7 @@ a {
 
 .hero-editorial-inner {
   display: grid;
-  min-height: min(46rem, calc(100svh - 2rem));
+  min-height: min(42rem, calc(100svh - 1rem));
   align-items: center;
   gap: clamp(2rem, 5vw, 6rem);
   grid-template-columns: minmax(0, 0.95fr) minmax(22rem, 0.9fr);
@@ -155,8 +155,8 @@ a {
 }
 
 .hero-editorial-title {
-  max-width: 9ch;
-  font-size: clamp(4.8rem, 8.5vw, 9.2rem);
+  max-width: 11ch;
+  font-size: clamp(4.2rem, 7.4vw, 8.4rem);
   font-weight: 400;
   line-height: 0.84;
   letter-spacing: -0.06em;
@@ -192,63 +192,26 @@ a {
 
 .hero-editorial-visual {
   position: relative;
-  min-height: clamp(30rem, 43vw, 39rem);
+  min-height: clamp(29rem, 44vw, 40rem);
 }
 
-.hero-matcha-composition {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: inherit;
-  isolation: isolate;
-}
-
-.hero-matcha-layer {
+.hero-cafe-photo {
   position: absolute;
+  top: -8%;
+  right: -10%;
+  bottom: -8%;
+  left: -8%;
   overflow: hidden;
   background: #c7b59c;
-  box-shadow: 0 1.5rem 3.5rem -2.5rem rgb(44 33 28 / 75%);
-  will-change: transform, opacity;
-}
-
-.hero-matcha-pour {
-  top: 1%;
-  right: 3%;
-  z-index: 2;
-  width: 68%;
-  height: 54%;
-  clip-path: polygon(14% 0, 100% 7%, 91% 75%, 67% 97%, 21% 84%, 0 31%);
-  transform: rotate(2deg);
-}
-
-.hero-matcha-glass {
-  bottom: 1%;
-  left: 3%;
-  z-index: 1;
-  width: 77%;
-  height: 57%;
-  clip-path: polygon(8% 8%, 78% 0, 100% 22%, 91% 89%, 57% 100%, 4% 87%, 0 31%);
-  transform: rotate(-2deg);
-}
-
-.hero-matcha-stream {
-  position: absolute;
-  top: 42%;
-  right: 30%;
-  z-index: 3;
-  width: 0.22rem;
-  height: 32%;
-  border-radius: 999px;
-  background: #5d6a3d;
-  box-shadow: 0 0 0.5rem rgb(93 106 61 / 30%);
-  transform-origin: top center;
+  box-shadow: 0 2rem 4rem -2.6rem rgb(44 33 28 / 70%);
+  clip-path: polygon(21% 0, 100% 0, 100% 100%, 9% 100%, 16% 83%, 25% 71%, 25% 55%, 16% 43%, 7% 32%);
   will-change: transform, opacity;
 }
 
 .hero-microcopy {
   position: absolute;
-  right: -1rem;
   bottom: 12%;
+  left: -2rem;
   z-index: 4;
   max-width: 8rem;
   white-space: pre-line;
@@ -280,8 +243,8 @@ a {
   }
 
   .hero-editorial-title {
-    max-width: 8.5ch;
-    font-size: clamp(4rem, 16vw, 5.7rem);
+    max-width: 10.5ch;
+    font-size: clamp(3.5rem, 14.5vw, 5.2rem);
   }
 
   .hero-editorial-actions {
@@ -297,32 +260,22 @@ a {
   }
 
   .hero-editorial-visual {
-    min-height: 28rem;
+    min-height: 26rem;
     margin-top: 0.25rem;
   }
 
-  .hero-matcha-pour {
+  .hero-cafe-photo {
     top: 0;
-    right: 0;
-    width: 76%;
-    height: 53%;
-  }
-
-  .hero-matcha-glass {
-    bottom: 0;
-    left: 0;
-    width: 83%;
-    height: 57%;
-  }
-
-  .hero-matcha-stream {
-    right: 26%;
-    height: 31%;
+    right: -17%;
+    bottom: -3%;
+    left: -17%;
+    clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%, 8% 79%, 19% 68%, 21% 53%, 12% 40%, 0 29%);
   }
 
   .hero-microcopy {
     right: 0;
-    bottom: 8%;
+    left: auto;
+    bottom: 4%;
     font-size: 0.68rem;
   }
 }
