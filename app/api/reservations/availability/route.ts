@@ -14,6 +14,14 @@ export async function GET(request: Request) {
     return NextResponse.json(await getAvailability(date, guests), { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("Availability lookup failed", error);
-    return NextResponse.json({ error: "Availability lookup failed." }, { status: 500 });
+    const message = error instanceof Error ? error.message : "";
+    const code = /Missing SUPABASE/.test(message)
+      ? "missing_server_credentials"
+      : /permission denied/i.test(message)
+        ? "permission_denied"
+        : /does not exist|relation/i.test(message)
+          ? "missing_database_table"
+          : "supabase_read_failed";
+    return NextResponse.json({ error: "Availability lookup failed.", code }, { status: 500 });
   }
 }
