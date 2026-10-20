@@ -16,7 +16,7 @@ export const en: Dictionary = {
     title: "Stay a little longer.",
     description: "Good coffee, delicious breakfasts, and moments worth staying for.",
     primaryCta: "Book a Table",
-    secondaryCta: "Discover",
+    secondaryCta: "See us on Instagram",
     imageAlt: "Warm, light-filled interior of Altstadtliebe",
     note: "Our story begins here.",
   },

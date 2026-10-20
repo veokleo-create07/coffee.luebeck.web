@@ -149,7 +149,7 @@ export const de: Dictionary = {
     title: "Bleib noch ein bisschen.",
     description: "Guter Kaffee, leckeres Frühstück und Momente, für die man gerne länger bleibt.",
     primaryCta: "Reservieren",
-    secondaryCta: "Entdecken",
+    secondaryCta: "Instagram entdecken",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
     note: "Unsere Geschichte beginnt hier.",
   },
