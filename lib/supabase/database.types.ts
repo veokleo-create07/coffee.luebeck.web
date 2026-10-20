@@ -3,26 +3,6 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
-      cafe_tables: {
-        Row: {
-          id: string;
-          table_identifier: string;
-          seating_capacity: number;
-          is_active: boolean;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          table_identifier: string;
-          seating_capacity: number;
-          is_active?: boolean;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: Partial<Database["public"]["Tables"]["cafe_tables"]["Insert"]>;
-        Relationships: [];
-      };
       reservations: {
         Row: {
           id: string;
@@ -55,12 +35,6 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["reservations"]["Insert"]>;
         Relationships: [];
       };
-      reservation_table_assignments: {
-        Row: { id: string; reservation_id: string; cafe_table_id: string; created_at: string };
-        Insert: { id?: string; reservation_id: string; cafe_table_id: string; created_at?: string };
-        Update: Partial<Database["public"]["Tables"]["reservation_table_assignments"]["Insert"]>;
-        Relationships: [];
-      };
       opening_hours: {
         Row: { id: string; weekday: number; is_closed: boolean; opens_at: string | null; closes_at: string | null; created_at: string; updated_at: string };
         Insert: { id?: string; weekday: number; is_closed?: boolean; opens_at?: string | null; closes_at?: string | null; created_at?: string; updated_at?: string };
@@ -81,7 +55,24 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      create_reservation_atomic: {
+        Args: {
+          p_customer_name: string;
+          p_customer_email: string;
+          p_guest_count: number;
+          p_starts_at: string;
+          p_special_requests: string | null;
+          p_language: "de" | "en";
+        };
+        Returns: Array<{
+          reservation_reference: string;
+          starts_at: string;
+          ends_at: string;
+          guest_count: number;
+        }>;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

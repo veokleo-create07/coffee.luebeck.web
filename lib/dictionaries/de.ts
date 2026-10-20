@@ -63,6 +63,8 @@ export type Dictionary = {
       guestsSuffix: string;
       timeLabel: string;
       noTimes: string;
+      availabilityError: string;
+      loadingAvailability: string;
       closedDayError: string;
       dateRangeError: string;
       moreThanSix: string;
@@ -81,6 +83,7 @@ export type Dictionary = {
       confirm: string;
       confirmationTitle: string;
       confirmationBody: string;
+      confirmationReference: string;
       startOver: string;
       summaryDate: string;
       summaryTime: string;
@@ -204,6 +207,8 @@ export const de: Dictionary = {
       guestsSuffix: "Gäste",
       timeLabel: "Uhrzeit",
       noTimes: "Für dieses Datum sind keine Demo-Zeiten hinterlegt.",
+      availabilityError: "Die Verfügbarkeit konnte gerade nicht geladen werden. Bitte versuche es erneut.",
+      loadingAvailability: "Verfügbarkeit wird geladen …",
       closedDayError: "Montags ist das Café geschlossen.",
       dateRangeError: "Bitte wähle ein Datum innerhalb der nächsten sechs Monate.",
       moreThanSix: "Mehr als 6 Personen?",
@@ -221,8 +226,9 @@ export const de: Dictionary = {
       continue: "Weiter",
       confirm: "Reservierung bestätigen",
       confirmationTitle: "Danke für deine Anfrage.",
-      confirmationBody: "Dies ist eine Demo-Bestätigung. Deine Angaben wurden nicht übermittelt und es wurde keine Reservierung angelegt.",
-      startOver: "Neue Demo-Anfrage",
+      confirmationBody: "Deine Reservierung wurde erfolgreich gespeichert.",
+      confirmationReference: "Reservierungsnummer",
+      startOver: "Neue Reservierung",
       summaryDate: "Datum",
       summaryTime: "Uhrzeit",
       summaryGuests: "Gäste",

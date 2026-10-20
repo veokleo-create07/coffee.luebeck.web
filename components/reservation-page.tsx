@@ -13,6 +13,7 @@ type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
 type Details = { fullName: string; email: string; requests: string };
 type FormState = { date: string; guests: number; time: string; details: Details };
+type AvailabilityResponse = { date: string; times: string[]; durationMinutes: number; available: boolean; reason?: "closed" | "outside_window" };
 
 const initialDetails: Details = { fullName: "", email: "", requests: "" };
 
@@ -36,27 +37,6 @@ function weekday(date: string) {
   return new Date(Date.UTC(year, month - 1, day)).getUTCDay();
 }
 
-function mockTimes(date: string) {
-  if (!date || weekday(date) === BOOKING_CONFIG.closedWeekday) return [];
-  const start = 9 * 60;
-  const end = 17 * 60;
-  return Array.from({ length: (end - start) / BOOKING_CONFIG.intervalMinutes + 1 }, (_, index) => {
-    const minutes = start + index * BOOKING_CONFIG.intervalMinutes;
-    return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
-  });
-}
-
-function berlinTimeInMinutes() {
-  const parts = new Intl.DateTimeFormat("en-GB", { timeZone: BOOKING_CONFIG.timeZone, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date());
-  return Number(parts.find((part) => part.type === "hour")?.value ?? 0) * 60 + Number(parts.find((part) => part.type === "minute")?.value ?? 0);
-}
-
-function isPastTime(date: string, time: string, today: string) {
-  if (date !== today) return false;
-  const [hour, minute] = time.split(":").map(Number);
-  return hour * 60 + minute <= berlinTimeInMinutes();
-}
-
 function displayDate(date: string, locale: string) {
   const [year, month, day] = date.split("-").map(Number);
   return new Intl.DateTimeFormat(locale, { dateStyle: "long", timeZone: "Europe/Berlin" }).format(new Date(Date.UTC(year, month - 1, day, 12)));
@@ -66,12 +46,17 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const copy = dictionary.reservation.booking;
   const [step, setStep] = useState<Step>(1);
   const [confirmed, setConfirmed] = useState(false);
+  const [reservationReference, setReservationReference] = useState("");
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
   const [showLargePartyInfo, setShowLargePartyInfo] = useState(false);
   const [form, setForm] = useState<FormState>({ date: "", guests: 2, time: "", details: initialDetails });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const availableTimes = useMemo(() => mockTimes(form.date), [form.date]);
+  const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const availableTimes = useMemo(() => availability?.times ?? [], [availability]);
 
   useEffect(() => {
     const today = dateInputValue(new Date());
@@ -79,6 +64,23 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     setMaxDate(addMonths(today, BOOKING_CONFIG.maxMonthsAhead));
     setForm((current) => ({ ...current, date: current.date || today }));
   }, []);
+
+  useEffect(() => {
+    if (!form.date || !minDate) return;
+    let active = true;
+    setAvailabilityLoading(true);
+    setAvailabilityError(false);
+    fetch(`/api/reservations/availability?date=${encodeURIComponent(form.date)}&guests=${form.guests}`, { cache: "no-store" })
+      .then(async (response) => {
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error ?? "availability");
+        return payload as AvailabilityResponse;
+      })
+      .then((payload) => { if (active) setAvailability(payload); })
+      .catch(() => { if (active) { setAvailability(null); setAvailabilityError(true); } })
+      .finally(() => { if (active) setAvailabilityLoading(false); });
+    return () => { active = false; };
+  }, [form.date, form.guests, minDate]);
 
   function updateDetails(field: keyof Details, value: string) {
     setForm((current) => ({ ...current, details: { ...current.details, [field]: value } }));
@@ -89,7 +91,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     const nextErrors: Record<string, string> = {};
     if (!form.date || (minDate && form.date < minDate) || (maxDate && form.date > maxDate)) nextErrors.date = copy.dateRangeError;
     else if (weekday(form.date) === BOOKING_CONFIG.closedWeekday) nextErrors.date = copy.closedDayError;
-    if (!form.time || !availableTimes.includes(form.time) || isPastTime(form.date, form.time, minDate)) nextErrors.time = copy.timeError;
+    if (!form.time || !availableTimes.includes(form.time)) nextErrors.time = copy.timeError;
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   }
@@ -104,21 +106,52 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     return Object.keys(nextErrors).length === 0;
   }
 
-  function submitStep(event: FormEvent<HTMLFormElement>) {
+  async function submitStep(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (step === 1 && validateVisit()) {
       setErrors({});
       setStep(2);
     }
-    if (step === 2 && validateDetails()) setConfirmed(true);
+    if (step === 2 && validateDetails()) {
+      setSubmitting(true);
+      setErrors({});
+      try {
+        const response = await fetch("/api/reservations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            customerName: form.details.fullName,
+            customerEmail: form.details.email,
+            guestCount: form.guests,
+            date: form.date,
+            time: form.time,
+            specialRequests: form.details.requests,
+            language: locale,
+          }),
+        });
+        const payload = await response.json();
+        if (!response.ok) {
+          setErrors({ submit: copy.availabilityError });
+          return;
+        }
+        setReservationReference(payload.reservationReference);
+        setConfirmed(true);
+      } catch {
+        setErrors({ submit: copy.availabilityError });
+      } finally {
+        setSubmitting(false);
+      }
+    }
   }
 
   function resetBooking() {
     setConfirmed(false);
+    setReservationReference("");
     setStep(1);
     setForm({ date: minDate, guests: 2, time: "", details: { ...initialDetails } });
     setShowLargePartyInfo(false);
     setErrors({});
+    setAvailability(null);
   }
 
   const inputClass = "mt-2 min-h-11 w-full min-w-0 rounded-none border-0 border-b border-espresso/25 bg-transparent px-0 py-2.5 text-base text-espresso outline-none transition-colors placeholder:text-espresso-soft/55 focus:border-espresso";
@@ -155,6 +188,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 </div>
                 <p className="mt-6 text-2xl leading-[1.15] text-espresso md:text-3xl">{copy.confirmationTitle}</p>
                 <p className="mx-auto mt-4 max-w-lg text-sm leading-[1.5] text-espresso-soft">{copy.confirmationBody}</p>
+                <p className="mt-5 text-sm text-espresso"><span className="text-espresso-soft">{copy.confirmationReference}: </span><strong>{reservationReference}</strong></p>
                 <button type="button" onClick={resetBooking} className={`${buttonClass} mt-7`}>{copy.startOver}</button>
               </section>
             ) : (
@@ -165,13 +199,13 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     <div className="grid grid-cols-2 gap-4 sm:gap-8">
                       <div className="min-w-0">
                         <label htmlFor="visit-date" className="text-sm font-medium text-espresso">{copy.dateLabel}</label>
-                        <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className={inputClass} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+                        <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className={inputClass} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
                       <div className="min-w-0">
                         <label htmlFor="guest-count" className="text-sm font-medium text-espresso">{copy.guestsLabel}</label>
                         <div className="relative">
-                          <select id="guest-count" value={form.guests} onChange={(event) => setForm((current) => ({ ...current, guests: Number(event.target.value) }))} className={`${inputClass} appearance-none pr-6`} aria-label={copy.guestsLabel}>
+                          <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className={`${inputClass} appearance-none pr-6`} aria-label={copy.guestsLabel}>
                             {Array.from({ length: BOOKING_CONFIG.maxGuests }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1} {copy.guestsSuffix}</option>)}
                           </select>
                           <ChevronDown size={16} strokeWidth={1.5} className="pointer-events-none absolute bottom-4 right-0 text-espresso-soft" aria-hidden="true" />
@@ -187,15 +221,17 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
                         <label className="text-sm font-medium text-espresso">{copy.timeLabel}</label>
                       </div>
-                      <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4">
-                        {availableTimes.map((time) => { const disabled = isPastTime(form.date, time, minDate); return <button key={time} type="button" disabled={disabled} onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-12 w-full border px-2 text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/25 hover:border-espresso"} disabled:cursor-not-allowed disabled:opacity-35`} aria-pressed={form.time === time}>{time}</button>; })}
+                      <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4" aria-busy={availabilityLoading}>
+                        {availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-12 w-full border px-2 text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/25 hover:border-espresso"}`} aria-pressed={form.time === time}>{time}</button>)}
                       </div>
-                      {availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
+                      {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
+                      {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
+                      {!availabilityLoading && !availabilityError && availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
                       {availableTimes.length > 0 && <div className="mt-4 flex items-start gap-2 text-xs leading-5 text-espresso-soft"><Clock3 size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-olive" aria-hidden="true" /><span>{copy.durationNotice}</span></div>}
                     </div>
 
-                    <button type="submit" className={`${buttonClass} mt-9 w-full sm:w-auto sm:min-w-44`}><span>{copy.continue}</span><ArrowRight size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
+                    <button type="submit" disabled={availabilityLoading || !availability?.available} className={`${buttonClass} mt-9 w-full sm:w-auto sm:min-w-44 disabled:cursor-not-allowed disabled:opacity-45`}><span>{copy.continue}</span><ArrowRight size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
@@ -222,9 +258,10 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       <label htmlFor="requests" className="text-sm font-medium text-espresso">{copy.requests} <span className="text-xs text-espresso-soft/60">({copy.optional})</span></label>
                       <textarea id="requests" rows={2} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
                     </div>
+                    {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
                     <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="site-button site-button-secondary gap-2"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
-                      <button type="submit" className={`${buttonClass} w-full sm:w-auto`}><span>{copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
+                      <button type="submit" disabled={submitting} className={`${buttonClass} w-full sm:w-auto disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                     </div>
                   </section>
                 )}

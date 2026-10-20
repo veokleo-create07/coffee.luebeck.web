@@ -31,7 +31,7 @@ This repository contains the reservation database foundation only. The existing 
 
 ## Schema and security
 
-The migration creates the reservation tables, opening-hours tables, and centralized booking settings. It seeds only the verified weekly hours and booking rules; it deliberately creates no physical café tables and no fictional reservations.
+The migration creates the reservation, opening-hours, and centralized booking-settings tables. It seeds only the verified weekly hours and booking rules; it does not create physical table-management data or fictional reservations.
 
 Row Level Security is enabled on every table, and direct `anon` and `authenticated` table privileges are revoked. The server utility uses only `SUPABASE_SERVICE_ROLE_KEY`, which bypasses RLS and must remain on the server. No API route or booking submission is connected yet.
 

@@ -13,15 +13,6 @@ begin
 end;
 $$;
 
-create table if not exists public.cafe_tables (
-  id uuid primary key default gen_random_uuid(),
-  table_identifier text not null unique,
-  seating_capacity integer not null check (seating_capacity > 0),
-  is_active boolean not null default true,
-  created_at timestamptz not null default timezone('utc', now()),
-  updated_at timestamptz not null default timezone('utc', now())
-);
-
 create table if not exists public.reservations (
   id uuid primary key default gen_random_uuid(),
   reservation_reference text not null unique default ('ALT-' || upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 10))),
@@ -36,14 +27,6 @@ create table if not exists public.reservations (
   created_at timestamptz not null default timezone('utc', now()),
   updated_at timestamptz not null default timezone('utc', now()),
   check (ends_at > starts_at)
-);
-
-create table if not exists public.reservation_table_assignments (
-  id uuid primary key default gen_random_uuid(),
-  reservation_id uuid not null references public.reservations(id) on delete cascade,
-  cafe_table_id uuid not null references public.cafe_tables(id) on delete restrict,
-  created_at timestamptz not null default timezone('utc', now()),
-  unique (reservation_id, cafe_table_id)
 );
 
 create table if not exists public.opening_hours (
@@ -87,12 +70,8 @@ create table if not exists public.booking_settings (
 create index if not exists reservations_starts_at_idx on public.reservations (starts_at);
 create index if not exists reservations_status_starts_at_idx on public.reservations (status, starts_at);
 create index if not exists reservations_customer_email_idx on public.reservations (lower(customer_email));
-create index if not exists reservation_table_assignments_reservation_id_idx on public.reservation_table_assignments (reservation_id);
-create index if not exists reservation_table_assignments_cafe_table_id_idx on public.reservation_table_assignments (cafe_table_id);
 create index if not exists opening_exceptions_date_idx on public.opening_exceptions (exception_date);
 
-drop trigger if exists set_cafe_tables_updated_at on public.cafe_tables;
-create trigger set_cafe_tables_updated_at before update on public.cafe_tables for each row execute function public.set_updated_at();
 drop trigger if exists set_reservations_updated_at on public.reservations;
 create trigger set_reservations_updated_at before update on public.reservations for each row execute function public.set_updated_at();
 drop trigger if exists set_opening_hours_updated_at on public.opening_hours;
@@ -135,16 +114,12 @@ $$;
 drop trigger if exists validate_reservation_guest_count on public.reservations;
 create trigger validate_reservation_guest_count before insert or update of guest_count on public.reservations for each row execute function public.validate_reservation_guest_count();
 
-alter table public.cafe_tables enable row level security;
 alter table public.reservations enable row level security;
-alter table public.reservation_table_assignments enable row level security;
 alter table public.opening_hours enable row level security;
 alter table public.opening_exceptions enable row level security;
 alter table public.booking_settings enable row level security;
 
-revoke all on table public.cafe_tables from anon, authenticated;
 revoke all on table public.reservations from anon, authenticated;
-revoke all on table public.reservation_table_assignments from anon, authenticated;
 revoke all on table public.opening_hours from anon, authenticated;
 revoke all on table public.opening_exceptions from anon, authenticated;
 revoke all on table public.booking_settings from anon, authenticated;
