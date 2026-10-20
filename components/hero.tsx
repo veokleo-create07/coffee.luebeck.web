@@ -23,7 +23,9 @@ export function Hero({ locale, dictionary }: HeroProps) {
     if (!root) return;
 
     const context = gsap.context(() => {
-      const animatedElements = root.querySelectorAll<HTMLElement>(".hero-word, .hero-cta");
+      const animatedElements = root.querySelectorAll<HTMLElement>(
+        ".hero-word, .hero-cta, .hero-matcha-layer, .hero-matcha-stream, .hero-microcopy",
+      );
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (prefersReducedMotion) {
@@ -31,16 +33,21 @@ export function Hero({ locale, dictionary }: HeroProps) {
         return;
       }
 
-      gsap.timeline({ defaults: { ease: "power3.out" } })
+      gsap
+        .timeline({ defaults: { ease: "power3.out" } })
         .fromTo(".hero-word", { opacity: 0, yPercent: 110 }, { opacity: 1, yPercent: 0, duration: 0.8, stagger: 0.09 })
-        .fromTo(".hero-cta", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.1, onComplete: () => gsap.set(".hero-cta", { clearProps: "opacity,visibility" }) }, "-=0.28");
+        .fromTo(".hero-matcha-pour", { autoAlpha: 0, y: 26, x: 24, rotate: 4, scale: 0.96 }, { autoAlpha: 1, y: 0, x: 0, rotate: 0, scale: 1, duration: 0.8 }, "-=0.38")
+        .fromTo(".hero-matcha-glass", { autoAlpha: 0, y: 34, x: -18, rotate: -3, scale: 0.94 }, { autoAlpha: 1, y: 0, x: 0, rotate: 0, scale: 1, duration: 0.8 }, "-=0.58")
+        .fromTo(".hero-matcha-stream", { autoAlpha: 0, scaleY: 0, transformOrigin: "top center" }, { autoAlpha: 1, scaleY: 1, duration: 0.55 }, "-=0.5")
+        .fromTo(".hero-microcopy", { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.45 }, "-=0.3")
+        .fromTo(".hero-cta", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.1, onComplete: () => gsap.set(".hero-cta", { clearProps: "opacity,visibility" }) }, "-=0.2");
 
-      gsap.to(".hero-photo", {
-        yPercent: -8,
+      gsap.to(".hero-matcha-composition", {
+        yPercent: -4,
         ease: "none",
         scrollTrigger: {
-          trigger: ".hero-photo-frame",
-          start: "top bottom",
+          trigger: ".hero-editorial",
+          start: "top top",
           end: "bottom top",
           scrub: 1,
         },
@@ -50,5 +57,44 @@ export function Hero({ locale, dictionary }: HeroProps) {
     return () => context.revert();
   }, []);
 
-  return <section className="page-gutter pt-8 pb-0 text-center md:pt-8" aria-labelledby="hero-title"><div ref={rootRef} className="flex w-full flex-col items-center"><h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] text-balance text-[clamp(3.6rem,13vw,6rem)] font-normal leading-[0.88] tracking-[-0.045em] text-espresso md:text-[clamp(5rem,13.5vw,12rem)]">{words.map((word, index) => <span key={`${word}-${index}`} className="hero-word inline-block">{word}{index < words.length - 1 ? " " : ""}</span>)}</h1><div className="mx-auto mt-6 flex w-full max-w-[48rem] flex-row items-center justify-center gap-[10px] md:mt-7 md:gap-5"><Link href={reservationHref} className="site-button site-button-primary hero-button hero-cta min-w-0 flex-1 whitespace-nowrap px-3 text-[0.78rem] tracking-[-0.01em] md:px-6 md:text-sm">{dictionary.home.primaryCta}</Link><a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-w-0 flex-none items-center justify-center gap-2 whitespace-nowrap px-3 text-[0.78rem] tracking-[-0.01em] md:px-5 md:text-sm"><Instagram size={15} strokeWidth={1.8} aria-hidden="true" />{dictionary.home.secondaryCta}</a></div><div className="hero-photo-frame relative -left-1 mx-auto mt-12 aspect-[0.9/1] w-full overflow-hidden rounded-2xl bg-espresso/10 shadow-[0_20px_45px_-30px_rgba(44,33,28,0.62)] md:left-0 md:mt-10 md:aspect-[1.15/1] md:w-[76%] md:max-w-[58rem] md:rounded-[1.5rem]"><div className="hero-photo absolute -inset-y-[8%] inset-x-0"><Image src="/altstadtliebe-interior.png" alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-[58%_center] md:object-center" /></div><div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" /></div></div></section>;
+  return (
+    <section className="hero-editorial page-gutter" aria-labelledby="hero-title">
+      <div ref={rootRef} className="hero-editorial-inner">
+        <div className="hero-editorial-copy">
+          <h1 id="hero-title" className="editorial-heading hero-editorial-title text-balance text-espresso">
+            {words.map((word, index) => (
+              <span key={`${word}-${index}`} className="hero-word">
+                {word}
+                {index < words.length - 1 ? " " : ""}
+              </span>
+            ))}
+          </h1>
+
+          <div className="hero-editorial-actions">
+            <Link href={reservationHref} className="site-button site-button-primary hero-button hero-cta">
+              {dictionary.home.primaryCta}
+              <span className="hero-button-arrow" aria-hidden="true">↗</span>
+            </Link>
+            <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta">
+              <Instagram size={15} strokeWidth={1.8} aria-hidden="true" />
+              {locale === "de" ? "Einblicke" : "Insights"}
+            </a>
+          </div>
+        </div>
+
+        <div className="hero-editorial-visual">
+          <div className="hero-matcha-composition" aria-label={locale === "de" ? "Matcha-Moment im Café" : "A matcha moment at the café"}>
+            <div className="hero-matcha-layer hero-matcha-pour">
+              <Image src="/menu-matcha.png" alt="" fill sizes="(max-width: 767px) 78vw, 38vw" className="object-cover object-[72%_16%]" priority />
+            </div>
+            <span className="hero-matcha-stream" aria-hidden="true" />
+            <div className="hero-matcha-layer hero-matcha-glass">
+              <Image src="/menu-matcha.png" alt={dictionary.home.imageAlt} fill sizes="(max-width: 767px) 82vw, 42vw" className="object-cover object-[43%_82%]" />
+            </div>
+            <p className="hero-microcopy">{locale === "de" ? "Guter Matcha.\nGutes Frühstück.\nGute Zeit." : "Good matcha.\nGood breakfast.\nGood time."}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
