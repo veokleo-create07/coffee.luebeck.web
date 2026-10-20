@@ -40,16 +40,6 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
         return;
       }
 
-      const hero = document.querySelector<HTMLElement>(".hero-transition-hero");
-      if (hero) {
-        gsap.to(hero, {
-          scale: 0.975,
-          transformOrigin: "center top",
-          ease: "none",
-          scrollTrigger: { trigger: section, start: "top bottom", end: "top top", scrub: 1 },
-        });
-      }
-
       const trigger = { trigger: section, start: "top 78%", end: "bottom 18%", scrub: 1.1 };
 
       gsap.fromTo(
@@ -78,7 +68,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   }, []);
 
   return (
-    <section ref={sectionRef} id="menu-preview" className="hero-transition-next overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-28" aria-labelledby="showcase-title">
+    <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-28" aria-labelledby="showcase-title">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
