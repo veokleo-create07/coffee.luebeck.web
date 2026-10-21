@@ -1,10 +1,9 @@
 "use client";
 
 import gsap from "gsap";
-import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
 
@@ -14,10 +13,10 @@ const menuImages = ["/menu-matcha.png", "/menu-breakfast.png", "/menu-coffee.png
 
 export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  const experienceRefs = useRef<Array<HTMLElement | null>>([]);
-  const [active, setActive] = useState(0);
   const menuHref = locale === "de" ? "/menu" : "/en/menu";
   const experiences = dictionary.showcase.experiences;
+  const cards = [experiences[1], experiences[0], experiences[2]];
+  const imageIndexes = [1, 0, 2];
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -28,7 +27,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
 
     const context = gsap.context(() => {
       const reveal = section.querySelectorAll<HTMLElement>("[data-menu-reveal]");
-      const panels = section.querySelectorAll<HTMLElement>("[data-menu-panel]");
+      const panels = section.querySelectorAll<HTMLElement>("[data-menu-card]");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (reducedMotion) {
@@ -65,50 +64,23 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    const panels = experienceRefs.current.filter(Boolean) as HTMLElement[];
-    if (!panels.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const desktop = window.matchMedia("(min-width: 768px)").matches;
-    if (desktop) {
-      panels.forEach((panel, index) => gsap.to(panel, { flexGrow: index === active ? 1.6 : 0.8, duration: 0.7, ease: "power3.out", overwrite: true }));
-    } else {
-      panels.forEach((panel, index) => gsap.to(panel, { scale: index === active ? 1 : 0.965, duration: 0.45, ease: "power3.out", overwrite: true }));
-    }
-  }, [active]);
-
   return (
     <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-24" aria-labelledby="showcase-title">
       <div className="mx-auto max-w-7xl">
-        <div className="mx-auto max-w-2xl text-center">
-          <p data-menu-reveal className="eyebrow mb-4">{dictionary.showcase.eyebrow}</p>
-          <h2 id="showcase-title" data-menu-reveal className="editorial-heading text-balance text-[clamp(2.5rem,5vw,4.8rem)] font-medium leading-[0.9] tracking-[-0.045em] text-espresso">{dictionary.showcase.heading}</h2>
-          <p data-menu-reveal className="mx-auto mt-5 max-w-md text-sm leading-[1.45] text-espresso-soft md:text-base">{dictionary.showcase.description}</p>
-        </div>
+        <h2 id="showcase-title" data-menu-reveal className="editorial-heading mx-auto max-w-[13ch] text-center text-balance text-[clamp(2.8rem,5.5vw,5.8rem)] font-medium leading-[0.88] tracking-[-0.055em] text-espresso">{dictionary.showcase.heading}</h2>
 
-        <div className="menu-experience-track mt-10 grid grid-cols-3 items-start gap-2 md:mt-14 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
-          {experiences.map((experience, index) => (
+        <div className="menu-experience-track mt-12 grid gap-5 md:mt-16 md:grid-cols-3 md:gap-6" role="list" aria-label={dictionary.showcase.heading}>
+          {cards.map((experience, index) => (
             <article
               key={experience.title}
-              ref={(element) => { experienceRefs.current[index] = element; }}
-              data-menu-panel
+              data-menu-card
               role="listitem"
-              className={`menu-experience-panel group relative flex min-w-0 flex-col ${index === 0 ? "order-2" : index === 1 ? "order-1" : "order-3"}`}
+              className={`menu-experience-card group relative aspect-[3/4] overflow-hidden rounded-[1.5rem] bg-espresso/10 shadow-[0_18px_35px_-28px_rgb(44_33_28_/_70%)] transition-transform duration-500 hover:-translate-y-1 md:rounded-[1.8rem] ${index === 1 ? "md:mt-8" : ""}`}
             >
-              <button type="button" onClick={() => setActive(index)} className={`menu-experience-image relative block h-[14rem] w-full overflow-hidden rounded-[1rem] text-left transition-shadow duration-500 md:h-[27rem] md:rounded-[1.6rem] ${index === 0 ? "md:-translate-y-3" : ""} ${active === index ? "shadow-[0_18px_38px_-24px_rgb(44_33_28_/_65%)]" : "shadow-[0_12px_30px_-26px_rgb(44_33_28_/_45%)]"}`} aria-pressed={active === index} aria-label={`${experience.title}: ${experience.description}`}>
-                <Image src={menuImages[index]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 78vw, 42vw" className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
-                <span className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/10 to-transparent" aria-hidden="true" />
-                <span className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 text-ivory md:inset-x-6 md:bottom-6">
-                  <span className="max-w-[10ch] text-balance text-[clamp(0.9rem,2.2vw,2.25rem)] font-normal leading-[0.95] tracking-[-0.045em]">{experience.title}</span>
-                  <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border border-ivory/50 transition-colors duration-300 md:h-10 md:w-10 ${active === index ? "bg-ivory text-espresso" : "bg-espresso/15 text-ivory"}`} aria-hidden="true"><ArrowUpRight size={14} strokeWidth={1.5} /></span>
-                </span>
-              </button>
-              <div className={`menu-experience-detail overflow-hidden transition-[max-height,opacity,margin] duration-500 ease-out ${active === index ? "mt-4 max-h-40 opacity-100 md:mt-5" : "max-h-0 opacity-0 md:mt-0"}`}>
-                <p className="max-w-[20rem] text-sm leading-[1.4] text-espresso-soft md:text-base">{experience.description}</p>
-                <Link href={menuHref} className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-espresso transition-colors hover:text-olive-deep">
-                  {dictionary.showcase.cta}<ArrowUpRight size={15} strokeWidth={1.5} aria-hidden="true" />
-                </Link>
-              </div>
+              <Link href={menuHref} className="absolute inset-0" aria-label={experience.title}>
+                <Image src={menuImages[imageIndexes[index]]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 100vw, 33vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
+                <span className="absolute inset-x-4 bottom-4 rounded-full bg-ivory/95 px-5 py-3 text-center text-sm font-medium text-espresso shadow-[0_10px_24px_-18px_rgb(44_33_28_/_65%)] backdrop-blur-sm md:inset-x-5 md:bottom-5 md:px-6 md:py-3.5 md:text-base">{experience.title}</span>
+              </Link>
             </article>
           ))}
         </div>
