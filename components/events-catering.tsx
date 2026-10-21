@@ -47,7 +47,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
         <div className="mt-12 grid grid-cols-2 gap-3 md:mt-24 md:gap-7">
           <article data-event-reveal>
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[1rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[2rem]">
-              <Image src="/altstadtliebe-interior.png" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+              <Image src="/events-private.png" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
             <div className="mt-3 max-w-md md:mt-5">
               <h3 className="text-[clamp(0.9rem,3.8vw,1.55rem)] font-medium tracking-[-0.025em]">{copy.privateTitle}</h3>
@@ -57,7 +57,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
 
           <article data-event-reveal>
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[1rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[2rem]">
-              <Image src="/menu-breakfast.jpeg" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+              <Image src="/events-catering.png" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
             <div className="mt-3 max-w-md md:mt-5">
               <h3 className="text-[clamp(0.9rem,3.8vw,1.55rem)] font-medium tracking-[-0.025em]">{copy.cateringTitle}</h3>

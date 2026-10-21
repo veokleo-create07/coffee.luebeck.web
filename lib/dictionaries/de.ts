@@ -223,8 +223,8 @@ export const de: Dictionary = {
     featureHeading: "Ganz nach deinen Wünschen.",
     featureDescription: "Du planst eine Firmenfeier, einen Geburtstag oder ein besonderes Event? Erzähl uns von deinen Ideen und gemeinsam finden wir das passende Angebot.",
     featureCta: "Anfrage senden ↗",
-    privateImageAlt: "Liebevoll gedeckter Tisch im warmen Café von Altstadtliebe",
-    cateringImageAlt: "Frühstück, Matcha und Kaffee auf einem gedeckten Tisch",
+    privateImageAlt: "Elegante Matcha-Bar mit Blick auf den Lübecker Hafen",
+    cateringImageAlt: "Altstadtliebe Café mit Kuchenvitrine, Kaffee und Matcha",
     featureImageAlt: "Kaffee und Altstadtliebe Becher in warmer Atmosphäre",
   },
   reservation: {

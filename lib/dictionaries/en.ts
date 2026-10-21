@@ -75,8 +75,8 @@ export const en: Dictionary = {
     featureHeading: "Made for your occasion.",
     featureDescription: "Planning a company celebration, birthday, or special event? Tell us your ideas and together we’ll find the right offering.",
     featureCta: "Send an enquiry ↗",
-    privateImageAlt: "Thoughtfully set table in the warm Altstadtliebe café",
-    cateringImageAlt: "Breakfast, matcha, and coffee on a set table",
+    privateImageAlt: "Elegant matcha bar overlooking Lübeck harbour",
+    cateringImageAlt: "Altstadtliebe café with pastry display, coffee, and matcha",
     featureImageAlt: "Coffee and Altstadtliebe cups in a warm café atmosphere",
   },
   reservation: {
