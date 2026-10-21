@@ -69,17 +69,17 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
       <div className="mx-auto max-w-7xl">
         <h2 id="showcase-title" data-menu-reveal className="editorial-heading mx-auto max-w-[13ch] text-center text-balance text-[clamp(2.8rem,5.5vw,5.8rem)] font-medium leading-[0.88] tracking-[-0.055em] text-espresso">{dictionary.showcase.heading}</h2>
 
-        <div className="menu-experience-track mt-12 grid gap-5 md:mt-16 md:grid-cols-3 md:gap-6" role="list" aria-label={dictionary.showcase.heading}>
+        <div className="menu-experience-track mt-12 grid grid-cols-3 gap-2 md:mt-16 md:gap-6" role="list" aria-label={dictionary.showcase.heading}>
           {cards.map((experience, index) => (
             <article
               key={experience.title}
               data-menu-card
               role="listitem"
-              className={`menu-experience-card group relative aspect-[3/4] overflow-hidden rounded-[1.5rem] bg-espresso/10 shadow-[0_18px_35px_-28px_rgb(44_33_28_/_70%)] transition-transform duration-500 hover:-translate-y-1 md:rounded-[1.8rem] ${index === 1 ? "md:mt-8" : ""}`}
+              className={`menu-experience-card group relative aspect-[3/4] overflow-hidden rounded-[0.9rem] bg-espresso/10 shadow-[0_18px_35px_-28px_rgb(44_33_28_/_70%)] transition-transform duration-500 hover:-translate-y-1 md:rounded-[1.8rem] ${index === 1 ? "md:mt-8" : ""}`}
             >
               <Link href={menuHref} className="absolute inset-0" aria-label={experience.title}>
                 <Image src={menuImages[imageIndexes[index]]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 100vw, 33vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
-                <span className="absolute inset-x-4 bottom-4 rounded-full bg-ivory/95 px-5 py-3 text-center text-sm font-medium text-espresso shadow-[0_10px_24px_-18px_rgb(44_33_28_/_65%)] backdrop-blur-sm md:inset-x-5 md:bottom-5 md:px-6 md:py-3.5 md:text-base">{experience.title}</span>
+                <span className="absolute inset-x-1.5 bottom-1.5 rounded-full bg-ivory/95 px-1 py-2 text-center text-[0.68rem] font-medium leading-none text-espresso shadow-[0_10px_24px_-18px_rgb(44_33_28_/_65%)] backdrop-blur-sm md:inset-x-5 md:bottom-5 md:px-6 md:py-3.5 md:text-base">{experience.title}</span>
               </Link>
             </article>
           ))}
