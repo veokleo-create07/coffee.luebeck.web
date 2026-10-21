@@ -50,7 +50,16 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
           },
         },
       );
-      ScrollTrigger.refresh();
+      const refresh = () => ScrollTrigger.refresh();
+      const refreshFrame = window.requestAnimationFrame(refresh);
+      window.addEventListener("load", refresh, { once: true });
+
+      context.add(() => {
+        window.cancelAnimationFrame(refreshFrame);
+        window.removeEventListener("load", refresh);
+      });
+
+      refresh();
     }, root);
 
     return () => context.revert();
