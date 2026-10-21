@@ -225,7 +225,7 @@ export const de: Dictionary = {
     featureCta: "Anfrage senden ↗",
     privateImageAlt: "Elegante Matcha-Bar mit Blick auf den Lübecker Hafen",
     cateringImageAlt: "Altstadtliebe Café mit Kuchenvitrine, Kaffee und Matcha",
-    featureImageAlt: "Kaffee und Altstadtliebe Becher in warmer Atmosphäre",
+    featureImageAlt: "Zwei Matcha-Getränke von Altstadtliebe zum Mitnehmen",
   },
   reservation: {
     eyebrow: "Reservierung",

@@ -73,7 +73,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
             <a href={dictionary.location.phoneHref} data-event-reveal className="site-button site-button-primary mt-3 min-h-11 self-start rounded-full px-3 text-[0.68rem] shadow-[0_14px_22px_-16px_rgb(44_33_28_/_72%)] hover:shadow-[0_17px_25px_-16px_rgb(44_33_28_/_76%)] md:mt-6 md:min-h-[3.25rem] md:px-5 md:text-sm">{copy.featureCta}</a>
           </div>
           <div data-event-image className="order-1 group relative min-h-[13rem] overflow-hidden rounded-[0.9rem] md:order-1 md:min-h-[22rem] md:rounded-[1.25rem]">
-            <Image src="/menu-coffee.jpeg" alt={copy.featureImageAlt} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+            <Image src="/events-feature.jpeg" alt={copy.featureImageAlt} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
           </div>
         </div>
       </div>

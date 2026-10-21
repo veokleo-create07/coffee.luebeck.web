@@ -77,7 +77,7 @@ export const en: Dictionary = {
     featureCta: "Send an enquiry ↗",
     privateImageAlt: "Elegant matcha bar overlooking Lübeck harbour",
     cateringImageAlt: "Altstadtliebe café with pastry display, coffee, and matcha",
-    featureImageAlt: "Coffee and Altstadtliebe cups in a warm café atmosphere",
+    featureImageAlt: "Two Altstadtliebe matcha drinks ready to take away",
   },
   reservation: {
     eyebrow: "Reservations",
