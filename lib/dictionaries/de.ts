@@ -50,6 +50,20 @@ export type Dictionary = {
     progressLabel: string;
     items: [{ quote: string; name: string; rating: string }, { quote: string; name: string; rating: string }, { quote: string; name: string; rating: string }];
   };
+  events: {
+    heading: string;
+    subtitle: string;
+    privateTitle: string;
+    privateDescription: string;
+    cateringTitle: string;
+    cateringDescription: string;
+    featureHeading: string;
+    featureDescription: string;
+    featureCta: string;
+    privateImageAlt: string;
+    cateringImageAlt: string;
+    featureImageAlt: string;
+  };
   reservation: {
     eyebrow: string;
     heading: string;
@@ -198,6 +212,20 @@ export const de: Dictionary = {
       { quote: "The best strawberry matcha I’ve ever had", name: "lunar", rating: "Freigabe ausstehend" },
       { quote: "Leckeres Essen und schönes Ambiente mitten in der Stadt.", name: "Florian Bayram", rating: "Freigabe ausstehend" },
     ],
+  },
+  events: {
+    heading: "Mehr als nur ein Café.",
+    subtitle: "Besondere Anlässe verdienen besondere Momente. Ob Geburtstag, Firmenfeier oder ein anderer Anlass – wir machen ihn mit ein bisschen Altstadtliebe noch schöner.",
+    privateTitle: "Private Feiern",
+    privateDescription: "Ob Geburtstag, Hochzeit oder ein besonderer Anlass – wir helfen dir, deine schönsten Momente noch ein bisschen besonderer zu machen.",
+    cateringTitle: "Catering mit Liebe",
+    cateringDescription: "Von köstlichen Frühstückslieblingen bis zu Kaffee und Matcha – wir stellen ein individuelles Catering ganz nach deinen Wünschen zusammen.",
+    featureHeading: "Ganz nach deinen Wünschen.",
+    featureDescription: "Du planst eine Firmenfeier, einen Geburtstag oder ein besonderes Event? Erzähl uns von deinen Ideen und gemeinsam finden wir das passende Angebot.",
+    featureCta: "Anfrage senden ↗",
+    privateImageAlt: "Liebevoll gedeckter Tisch im warmen Café von Altstadtliebe",
+    cateringImageAlt: "Frühstück, Matcha und Kaffee auf einem gedeckten Tisch",
+    featureImageAlt: "Kaffee und Altstadtliebe Becher in warmer Atmosphäre",
   },
   reservation: {
     eyebrow: "Reservierung",
