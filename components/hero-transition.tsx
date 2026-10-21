@@ -19,6 +19,9 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
     const root = rootRef.current;
     if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    let refreshFrame = 0;
+    const refresh = () => ScrollTrigger.refresh();
+
     const context = gsap.context(() => {
       const heroLayer = root.querySelector<HTMLElement>(".hero-transition-hero");
       const incomingLayer = root.querySelector<HTMLElement>(".hero-transition-incoming");
@@ -50,19 +53,16 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
           },
         },
       );
-      const refresh = () => ScrollTrigger.refresh();
-      const refreshFrame = window.requestAnimationFrame(refresh);
+      refreshFrame = window.requestAnimationFrame(refresh);
       window.addEventListener("load", refresh, { once: true });
-
-      context.add(() => {
-        window.cancelAnimationFrame(refreshFrame);
-        window.removeEventListener("load", refresh);
-      });
-
       refresh();
     }, root);
 
-    return () => context.revert();
+    return () => {
+      window.cancelAnimationFrame(refreshFrame);
+      window.removeEventListener("load", refresh);
+      context.revert();
+    };
   }, []);
 
   return (
