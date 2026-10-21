@@ -44,35 +44,35 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
           <p data-event-reveal className="mx-auto mt-7 max-w-2xl text-base leading-[1.5] text-espresso-soft md:mt-9 md:text-lg">{copy.subtitle}</p>
         </div>
 
-        <div className="mt-16 grid gap-10 md:mt-24 md:grid-cols-2 md:gap-7">
+        <div className="mt-12 grid grid-cols-2 gap-3 md:mt-24 md:gap-7">
           <article data-event-reveal>
-            <div data-event-image className="group relative aspect-[1.08/1] overflow-hidden rounded-[1.4rem] bg-espresso/10 md:rounded-[2rem]">
+            <div data-event-image className="group relative aspect-square overflow-hidden rounded-[1rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[2rem]">
               <Image src="/altstadtliebe-interior.png" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
-            <div className="mt-5 max-w-md">
-              <h3 className="text-[1.35rem] font-medium tracking-[-0.025em] md:text-[1.55rem]">{copy.privateTitle}</h3>
-              <p className="mt-2.5 text-sm leading-[1.5] text-espresso-soft md:text-base">{copy.privateDescription}</p>
+            <div className="mt-3 max-w-md md:mt-5">
+              <h3 className="text-[clamp(0.9rem,3.8vw,1.55rem)] font-medium tracking-[-0.025em]">{copy.privateTitle}</h3>
+              <p className="mt-1.5 text-[clamp(0.68rem,2.5vw,1rem)] leading-[1.35] text-espresso-soft md:mt-2.5 md:text-base md:leading-[1.5]">{copy.privateDescription}</p>
             </div>
           </article>
 
           <article data-event-reveal>
-            <div data-event-image className="group relative aspect-[1.08/1] overflow-hidden rounded-[1.4rem] bg-espresso/10 md:rounded-[2rem]">
+            <div data-event-image className="group relative aspect-square overflow-hidden rounded-[1rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[2rem]">
               <Image src="/menu-breakfast.jpeg" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
-            <div className="mt-5 max-w-md">
-              <h3 className="text-[1.35rem] font-medium tracking-[-0.025em] md:text-[1.55rem]">{copy.cateringTitle}</h3>
-              <p className="mt-2.5 text-sm leading-[1.5] text-espresso-soft md:text-base">{copy.cateringDescription}</p>
+            <div className="mt-3 max-w-md md:mt-5">
+              <h3 className="text-[clamp(0.9rem,3.8vw,1.55rem)] font-medium tracking-[-0.025em]">{copy.cateringTitle}</h3>
+              <p className="mt-1.5 text-[clamp(0.68rem,2.5vw,1rem)] leading-[1.35] text-espresso-soft md:mt-2.5 md:text-base md:leading-[1.5]">{copy.cateringDescription}</p>
             </div>
           </article>
         </div>
 
-        <div className="mx-auto mt-20 grid max-w-[950px] overflow-hidden rounded-[1.5rem] bg-[#e9e1d5] md:mt-28 md:grid-cols-[42%_58%] md:rounded-[2rem]">
-          <div data-event-reveal className="order-2 flex flex-col justify-center p-7 md:order-2 md:p-10 lg:p-12">
-            <h3 className="editorial-heading max-w-[10ch] text-[clamp(2.25rem,4vw,2.75rem)] font-medium leading-[0.92] tracking-[-0.05em]">{copy.featureHeading}</h3>
-            <p className="mt-5 max-w-md text-sm leading-[1.5] text-espresso-soft md:mt-6 md:text-base">{copy.featureDescription}</p>
-            <a href={dictionary.location.phoneHref} data-event-reveal className="site-button site-button-primary mt-6 self-start md:mt-7">{copy.featureCta}</a>
+        <div className="mx-auto mt-16 grid max-w-[950px] grid-cols-[42%_58%] overflow-hidden rounded-[1.25rem] bg-[#e9e1d5] md:mt-28 md:grid-cols-[42%_58%] md:rounded-[2rem]">
+          <div data-event-reveal className="order-2 flex min-w-0 flex-col justify-center p-3 md:order-2 md:p-10 lg:p-12">
+            <h3 className="editorial-heading max-w-[10ch] text-[clamp(1.35rem,4vw,2.75rem)] font-medium leading-[0.92] tracking-[-0.05em]">{copy.featureHeading}</h3>
+            <p className="mt-2 max-w-md text-[clamp(0.68rem,2.5vw,1rem)] leading-[1.35] text-espresso-soft md:mt-6 md:text-base md:leading-[1.5]">{copy.featureDescription}</p>
+            <a href={dictionary.location.phoneHref} data-event-reveal className="site-button site-button-primary mt-3 min-h-11 self-start px-3 text-[0.68rem] md:mt-7 md:min-h-[3.5rem] md:px-6 md:text-sm">{copy.featureCta}</a>
           </div>
-          <div data-event-image className="order-1 group relative min-h-[14rem] overflow-hidden md:order-1 md:min-h-[22rem]">
+          <div data-event-image className="order-1 group relative min-h-[13rem] overflow-hidden md:order-1 md:min-h-[22rem]">
             <Image src="/menu-coffee.jpeg" alt={copy.featureImageAlt} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
           </div>
         </div>
