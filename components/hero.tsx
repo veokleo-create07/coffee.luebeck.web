@@ -66,6 +66,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
             ))}
           </h1>
 
+          <p className="hero-microcopy">{locale === "de" ? "Guter Matcha.\nGutes Frühstück.\nGute Zeit." : "Good matcha.\nGood breakfast.\nGood time."}</p>
+
           <div className="hero-editorial-actions">
             <Link href={reservationHref} className="site-button site-button-primary hero-button hero-cta">
               {dictionary.home.primaryCta}
@@ -82,7 +84,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
           <div className="hero-cafe-photo" aria-label={locale === "de" ? "Warmer Café-Moment mit Matcha und Frühstück" : "A warm café moment with matcha and breakfast"}>
             <Image src="/hero-cafe-editorial.png" alt={dictionary.home.imageAlt} fill sizes="(max-width: 767px) 100vw, 56vw" className="object-cover object-[63%_center]" priority />
           </div>
-          <p className="hero-microcopy">{locale === "de" ? "Guter Matcha.\nGutes Frühstück.\nGute Zeit." : "Good matcha.\nGood breakfast.\nGood time."}</p>
         </div>
       </div>
     </section>
