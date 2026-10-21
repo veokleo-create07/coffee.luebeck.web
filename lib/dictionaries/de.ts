@@ -30,6 +30,7 @@ export type Dictionary = {
     description: string;
     cta: string;
     imageAlt: string;
+    experiences: [{ title: string; description: string; imageAlt: string }, { title: string; description: string; imageAlt: string }, { title: string; description: string; imageAlt: string }];
   };
   gallery: {
     eyebrow: string;
@@ -161,10 +162,15 @@ export const de: Dictionary = {
   },
   showcase: {
     eyebrow: "Kaffee & Frühstück",
-    heading: "Kaffee & Frühstück.",
-    description: "Guter Kaffee, leckeres Frühstück und Zeit zum Genießen.",
+    heading: "Worauf hast du heute Lust?",
+    description: "Drei Wege, deinen Moment in der Altstadt zu genießen.",
     cta: "Speisekarte entdecken",
     imageAlt: "Café-Atmosphäre von Altstadtliebe mit gedeckten Tischen und Kaffeebar",
+    experiences: [
+      { title: "Matcha-Liebe", description: "Für deinen grünen Glücksmoment.", imageAlt: "Fruchtiger Matcha von Altstadtliebe" },
+      { title: "Frühstücksglück", description: "Weil gute Morgen länger dauern dürfen.", imageAlt: "Frühstück und Matcha von Altstadtliebe" },
+      { title: "Kaffeepause", description: "Ein guter Kaffee. Ein bisschen Zeit für dich.", imageAlt: "Kaffee von Altstadtliebe" },
+    ],
   },
   gallery: {
     eyebrow: "Einblicke",

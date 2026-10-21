@@ -28,10 +28,15 @@ export const en: Dictionary = {
   },
   showcase: {
     eyebrow: "Coffee & breakfast",
-    heading: "Coffee & breakfast.",
-    description: "Good coffee, delicious breakfast, and time to enjoy.",
+    heading: "What are you in the mood for today?",
+    description: "Three ways to enjoy your moment in the old town.",
     cta: "Explore the menu",
     imageAlt: "Altstadtliebe café atmosphere with set tables and coffee bar",
+    experiences: [
+      { title: "Matcha Love", description: "For your little green moment of joy.", imageAlt: "Fruit matcha from Altstadtliebe" },
+      { title: "Breakfast Bliss", description: "Because good mornings deserve more time.", imageAlt: "Breakfast and matcha at Altstadtliebe" },
+      { title: "Coffee Pause", description: "A good coffee. A little time for yourself.", imageAlt: "Coffee at Altstadtliebe" },
+    ],
   },
   gallery: {
     eyebrow: "A closer look",

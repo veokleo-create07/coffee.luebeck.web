@@ -49,6 +49,8 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
           },
         },
       );
+
+         ScrollTrigger.refresh();
     }, root);
 
     return () => context.revert();
