@@ -279,6 +279,36 @@ a {
   opacity: 0.45;
 }
 
+.hero-photo-shell::before,
+.hero-photo-shell::after {
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid rgb(44 33 28 / 13%);
+  border-radius: 1.45rem;
+  content: "";
+}
+
+.hero-photo-shell::before {
+  inset: 0.2rem;
+  box-shadow: 0 18px 35px -30px rgb(44 33 28 / 45%);
+}
+
+.hero-photo-shell::after {
+  inset: -0.15rem;
+  border-color: rgb(44 33 28 / 7%);
+  border-radius: 1.7rem;
+}
+
+@media (max-width: 767px) {
+  .hero-photo-shell::before {
+    border-radius: 1.2rem;
+  }
+
+  .hero-photo-shell::after {
+    border-radius: 1.4rem;
+  }
+}
+
 .site-button {
   display: inline-flex;
   min-height: 3.5rem;
