@@ -69,13 +69,13 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
       <div className="mx-auto max-w-7xl">
         <h2 id="showcase-title" data-menu-reveal className="editorial-heading mx-auto max-w-[13ch] text-center text-balance text-[clamp(2.8rem,5.5vw,5.8rem)] font-medium leading-[0.88] tracking-[-0.055em] text-espresso">{dictionary.showcase.heading}</h2>
 
-        <div className="menu-experience-track mt-12 grid grid-cols-3 gap-2 md:mt-16 md:gap-6" role="list" aria-label={dictionary.showcase.heading}>
+        <div className="menu-experience-track mx-auto mt-12 grid w-full max-w-[760px] grid-cols-3 gap-2 md:mt-16 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
           {cards.map((experience, index) => (
             <article
               key={experience.title}
               data-menu-card
               role="listitem"
-              className={`menu-experience-card group relative aspect-[3/4] overflow-hidden rounded-[0.9rem] bg-espresso/10 shadow-[0_18px_35px_-28px_rgb(44_33_28_/_70%)] transition-transform duration-500 hover:-translate-y-1 md:rounded-[1.8rem] ${index === 1 ? "md:mt-8" : ""}`}
+              className="menu-experience-card group relative aspect-[3/4] overflow-hidden rounded-[0.9rem] bg-espresso/10 shadow-[0_18px_35px_-28px_rgb(44_33_28_/_70%)] transition-transform duration-500 hover:-translate-y-1 md:rounded-[1.8rem]"
             >
               <Link href={menuHref} className="absolute inset-0" aria-label={experience.title}>
                 <Image src={menuImages[imageIndexes[index]]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 100vw, 33vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
