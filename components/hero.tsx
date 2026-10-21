@@ -50,5 +50,41 @@ export function Hero({ locale, dictionary }: HeroProps) {
     return () => context.revert();
   }, []);
 
-  return <section className="page-gutter pt-8 pb-0 text-center md:pt-8" aria-labelledby="hero-title"><div ref={rootRef} className="flex w-full flex-col items-center"><h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] text-balance text-[clamp(3.6rem,13vw,6rem)] font-normal leading-[0.88] tracking-[-0.045em] text-espresso md:text-[clamp(5rem,13.5vw,12rem)]">{words.map((word, index) => <span key={`${word}-${index}`} className="hero-word inline-block">{word}{index < words.length - 1 ? " " : ""}</span>)}</h1><div className="mx-auto mt-6 flex w-full max-w-[48rem] flex-row items-center justify-center gap-[10px] md:mt-7 md:gap-5"><Link href={reservationHref} className="site-button site-button-primary hero-button hero-cta min-w-0 flex-1 whitespace-nowrap px-3 text-[0.78rem] tracking-[-0.01em] md:px-6 md:text-sm">{dictionary.home.primaryCta}</Link><a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-w-0 flex-none items-center justify-center gap-2 whitespace-nowrap px-3 text-[0.78rem] tracking-[-0.01em] md:px-5 md:text-sm"><Instagram size={15} strokeWidth={1.8} aria-hidden="true" />{dictionary.home.secondaryCta}</a></div><div className="hero-photo-frame relative -left-1 mx-auto mt-12 aspect-[0.9/1] w-full overflow-hidden rounded-2xl bg-espresso/10 shadow-[0_20px_45px_-30px_rgba(44,33,28,0.62)] md:left-0 md:mt-10 md:aspect-[1.15/1] md:w-[76%] md:max-w-[58rem] md:rounded-[1.5rem]"><div className="hero-photo absolute -inset-y-[8%] inset-x-0"><Image src="/altstadtliebe-hero.png" alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" /></div><div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" /></div></div></section>;
+  return (
+    <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
+      <div ref={rootRef} className="flex w-full flex-col items-center">
+        <div className="grid w-full items-end gap-8 text-center md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.65fr)] md:gap-12 md:text-left lg:gap-20">
+          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] text-balance text-[clamp(3.6rem,13vw,6rem)] font-normal leading-[0.88] tracking-[-0.045em] text-espresso md:max-w-[42rem] md:text-[clamp(4.5rem,8.5vw,8rem)]">
+            {words.map((word, index) => (
+              <span key={`${word}-${index}`} className="hero-word inline-block">
+                {word}{index < words.length - 1 ? " " : ""}
+              </span>
+            ))}
+          </h1>
+
+          <div className="flex max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
+            <p className="max-w-[22rem] text-pretty text-[0.98rem] leading-[1.45] text-espresso-soft md:text-[1.05rem]">
+              {dictionary.home.description}
+            </p>
+            <div className="flex w-full flex-row items-center justify-center gap-2.5 md:justify-start md:gap-3">
+              <Link href={reservationHref} className="site-button site-button-primary hero-button hero-cta min-w-0 flex-none whitespace-nowrap px-3.5 text-[0.76rem] tracking-[-0.01em] md:px-4 md:text-[0.8rem]">
+                {dictionary.home.primaryCta}
+              </Link>
+              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-w-0 flex-none items-center justify-center gap-1.5 whitespace-nowrap px-3 text-[0.76rem] tracking-[-0.01em] md:px-3.5 md:text-[0.8rem]">
+                <Instagram size={15} strokeWidth={1.8} aria-hidden="true" />
+                {dictionary.home.secondaryCta}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-photo-frame relative -left-1 mx-auto mt-12 aspect-[0.9/1] w-full overflow-hidden rounded-2xl bg-espresso/10 shadow-[0_20px_45px_-30px_rgba(44,33,28,0.62)] md:left-0 md:mt-14 md:aspect-[1.15/1] md:w-[76%] md:max-w-[58rem] md:rounded-[1.5rem]">
+          <div className="hero-photo absolute -inset-y-[8%] inset-x-0">
+            <Image src="/altstadtliebe-hero.png" alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
+          </div>
+          <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
+        </div>
+      </div>
+    </section>
+  );
 }

@@ -165,7 +165,10 @@ a {
 
 .hero-cta {
   flex: 0 1 auto;
-  min-width: 9.5rem;
+}
+
+.hero-button {
+  min-height: 2.875rem;
 }
 
 .site-button {
@@ -233,7 +236,7 @@ a {
 
 @media (min-width: 768px) {
   .hero-cta {
-    min-width: 12.5rem;
+    min-width: 0;
   }
 }
 
