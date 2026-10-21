@@ -74,7 +74,7 @@ export const en: Dictionary = {
     cateringDescription: "From breakfast favourites to coffee and matcha, we create individual catering tailored to your wishes.",
     featureHeading: "Made for your occasion.",
     featureDescription: "Planning a company celebration, birthday, or special event? Tell us your ideas and together we’ll find the right offering.",
-    featureCta: "Send an enquiry ↗",
+    featureCta: "Get in touch",
     privateImageAlt: "Elegant matcha bar overlooking Lübeck harbour",
     cateringImageAlt: "Altstadtliebe café with pastry display, coffee, and matcha",
     featureImageAlt: "Two Altstadtliebe matcha drinks ready to take away",

@@ -222,7 +222,7 @@ export const de: Dictionary = {
     cateringDescription: "Von köstlichen Frühstückslieblingen bis zu Kaffee und Matcha – wir stellen ein individuelles Catering ganz nach deinen Wünschen zusammen.",
     featureHeading: "Ganz nach deinen Wünschen.",
     featureDescription: "Du planst eine Firmenfeier, einen Geburtstag oder ein besonderes Event? Erzähl uns von deinen Ideen und gemeinsam finden wir das passende Angebot.",
-    featureCta: "Anfrage senden ↗",
+    featureCta: "Kontakt aufnehmen",
     privateImageAlt: "Elegante Matcha-Bar mit Blick auf den Lübecker Hafen",
     cateringImageAlt: "Altstadtliebe Café mit Kuchenvitrine, Kaffee und Matcha",
     featureImageAlt: "Zwei Matcha-Getränke von Altstadtliebe zum Mitnehmen",

@@ -70,7 +70,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
           <div data-event-reveal className="order-2 flex min-w-0 flex-col justify-center p-2 md:order-2 md:p-8 lg:p-10">
             <h3 className="editorial-heading max-w-[10ch] text-[clamp(1.35rem,4vw,2.75rem)] font-medium leading-[0.92] tracking-[-0.05em]">{copy.featureHeading}</h3>
             <p className="mt-2 max-w-md text-[clamp(0.68rem,2.5vw,1rem)] leading-[1.35] text-espresso-soft md:mt-6 md:text-base md:leading-[1.5]">{copy.featureDescription}</p>
-            <a href={dictionary.location.phoneHref} data-event-reveal className="site-button site-button-primary mt-3 min-h-11 self-start rounded-full px-3 text-[0.68rem] shadow-[0_14px_22px_-16px_rgb(44_33_28_/_72%)] hover:shadow-[0_17px_25px_-16px_rgb(44_33_28_/_76%)] md:mt-6 md:min-h-[3.25rem] md:px-5 md:text-sm">{copy.featureCta}</a>
+            <a href={dictionary.location.phoneHref} data-event-reveal className="events-feature-cta site-button site-button-primary mt-3 min-h-10 self-start rounded-full px-3 text-[0.68rem] shadow-[0_12px_20px_-16px_rgb(44_33_28_/_58%)] hover:shadow-[0_16px_24px_-16px_rgb(44_33_28_/_64%)] md:mt-6 md:min-h-12 md:px-5 md:text-sm"><span className="relative z-10">{copy.featureCta}</span></a>
           </div>
           <div data-event-image className="order-1 group relative min-h-[13rem] overflow-hidden rounded-[0.9rem] md:order-1 md:min-h-[22rem] md:rounded-[1.25rem]">
             <Image src="/events-feature.jpeg" alt={copy.featureImageAlt} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
