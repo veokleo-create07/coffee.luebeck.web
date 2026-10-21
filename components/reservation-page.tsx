@@ -162,7 +162,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     <div className="min-h-screen overflow-hidden bg-ivory">
       <SiteHeader locale={locale} dictionary={dictionary} />
       <main className="page-gutter py-8 md:py-12 lg:py-16">
-        <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(32rem,1.08fr)] lg:items-start lg:gap-14 xl:gap-20">
+        <div className="mx-auto grid max-w-5xl gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(28rem,1.08fr)] lg:items-start lg:gap-10 xl:gap-14">
           <aside className="hidden lg:block lg:sticky lg:top-8" aria-label={dictionary.reservation.imageAlt}>
             <div className="relative h-[min(76vh,46rem)] min-h-[34rem] overflow-hidden rounded-[2rem] bg-espresso/10">
               <Image src="/altstadtliebe-interior.png" alt={dictionary.reservation.imageAlt} fill sizes="45vw" className="object-cover object-center" priority />
@@ -192,7 +192,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 <button type="button" onClick={resetBooking} className={`${buttonClass} mt-7`}>{copy.startOver}</button>
               </section>
             ) : (
-              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-6 border-y border-espresso/20 py-6 md:mt-8 md:py-8">
+              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-5 border-y border-espresso/20 py-5 md:mt-6 md:py-6">
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
@@ -217,7 +217,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       </div>
                     </div>
 
-                    <div className="mt-9">
+                    <div className="mt-7">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
                         <label className="text-sm font-medium text-espresso">{copy.timeLabel}</label>
                       </div>
@@ -231,12 +231,12 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       {availableTimes.length > 0 && <div className="mt-4 flex items-start gap-2 text-xs leading-5 text-espresso-soft"><Clock3 size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-olive" aria-hidden="true" /><span>{copy.durationNotice}</span></div>}
                     </div>
 
-                    <button type="submit" disabled={availabilityLoading || !availability?.available} className={`${buttonClass} mt-9 w-full sm:w-auto sm:min-w-44 disabled:cursor-not-allowed disabled:opacity-45`}><span>{copy.continue}</span><ArrowRight size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
+                    <button type="submit" disabled={availabilityLoading || !availability?.available} className={`${buttonClass} mt-7 w-full sm:w-auto sm:min-w-44 disabled:cursor-not-allowed disabled:opacity-45`}><span>{copy.continue}</span><ArrowRight size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
                     <h2 id="contact-details-title" className="sr-only">{copy.stepLabels[1]}</h2>
-                    <dl className="mb-7 grid grid-cols-3 gap-3 border-b border-espresso/15 pb-6 text-sm">
+                    <dl className="mb-5 grid grid-cols-3 gap-3 border-b border-espresso/15 pb-5 text-sm">
                       <div><dt className="text-xs text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1 text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd></div>
                       <div><dt className="text-xs text-espresso-soft">{copy.summaryTime}</dt><dd className="mt-1 text-espresso">{form.time}</dd></div>
                       <div><dt className="text-xs text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1 text-espresso">{form.guests} {copy.guestsSuffix}</dd></div>
@@ -254,12 +254,12 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         {errors.email && <p id="email-error" className={errorClass} role="alert">{errors.email}</p>}
                       </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-3">
                       <label htmlFor="requests" className="text-sm font-medium text-espresso">{copy.requests} <span className="text-xs text-espresso-soft/60">({copy.optional})</span></label>
                       <textarea id="requests" rows={2} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
-                    <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="site-button site-button-secondary gap-2"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
                       <button type="submit" disabled={submitting} className={`${buttonClass} w-full sm:w-auto disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                     </div>
