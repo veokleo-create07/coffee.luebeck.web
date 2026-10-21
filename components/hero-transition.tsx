@@ -27,9 +27,10 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       ScrollTrigger.create({
         trigger: heroLayer,
         start: "top top",
-        end: () => `+=${Math.max(heroLayer.offsetHeight, window.innerHeight * 0.9)}`,
+        endTrigger: incomingLayer,
+        end: "top top",
         pin: heroLayer,
-           pinSpacing: false,
+        pinSpacing: false,
         anticipatePin: 1,
         invalidateOnRefresh: true,
       });
@@ -49,8 +50,7 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
           },
         },
       );
-
-         ScrollTrigger.refresh();
+      ScrollTrigger.refresh();
     }, root);
 
     return () => context.revert();
