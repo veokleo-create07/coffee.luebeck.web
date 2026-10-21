@@ -66,13 +66,13 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
           </article>
         </div>
 
-        <div className="mt-20 grid overflow-hidden rounded-[1.5rem] bg-[#e9e1d5] md:mt-28 md:grid-cols-[0.82fr_1.18fr] md:rounded-[2rem]">
-          <div data-event-reveal className="flex flex-col justify-center p-8 md:p-14 lg:p-20">
-            <h3 className="editorial-heading max-w-[9ch] text-[clamp(2.7rem,5vw,5.2rem)] font-medium leading-[0.9] tracking-[-0.055em]">{copy.featureHeading}</h3>
-            <p className="mt-7 max-w-md text-base leading-[1.5] text-espresso-soft md:mt-9 md:text-lg">{copy.featureDescription}</p>
-            <a href={dictionary.location.phoneHref} data-event-reveal className="site-button site-button-primary mt-8 self-start md:mt-10">{copy.featureCta}</a>
+        <div className="mx-auto mt-20 grid max-w-[950px] overflow-hidden rounded-[1.5rem] bg-[#e9e1d5] md:mt-28 md:grid-cols-[42%_58%] md:rounded-[2rem]">
+          <div data-event-reveal className="order-2 flex flex-col justify-center p-7 md:order-2 md:p-10 lg:p-12">
+            <h3 className="editorial-heading max-w-[10ch] text-[clamp(2.25rem,4vw,2.75rem)] font-medium leading-[0.92] tracking-[-0.05em]">{copy.featureHeading}</h3>
+            <p className="mt-5 max-w-md text-sm leading-[1.5] text-espresso-soft md:mt-6 md:text-base">{copy.featureDescription}</p>
+            <a href={dictionary.location.phoneHref} data-event-reveal className="site-button site-button-primary mt-6 self-start md:mt-7">{copy.featureCta}</a>
           </div>
-          <div data-event-image className="group relative min-h-[19rem] overflow-hidden md:min-h-[30rem]">
+          <div data-event-image className="order-1 group relative min-h-[14rem] overflow-hidden md:order-1 md:min-h-[22rem]">
             <Image src="/menu-coffee.jpeg" alt={copy.featureImageAlt} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
           </div>
         </div>
