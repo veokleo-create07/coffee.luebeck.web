@@ -66,7 +66,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
             <p className="max-w-[22rem] text-pretty text-[0.98rem] leading-[1.45] text-espresso-soft md:text-[1.05rem]">
               {dictionary.home.description}
             </p>
-            <div className="flex w-full flex-row items-center justify-center gap-2.5 md:justify-start md:gap-3">
+            <div className="hero-actions relative isolate flex w-full flex-row items-center justify-center gap-2.5 md:justify-start md:gap-3">
               <Link href={reservationHref} className="site-button site-button-primary hero-button hero-cta min-w-0 flex-none whitespace-nowrap px-3.5 text-[0.76rem] tracking-[-0.01em] md:px-4 md:text-[0.8rem]">
                 {dictionary.home.primaryCta}
               </Link>
@@ -78,10 +78,11 @@ export function Hero({ locale, dictionary }: HeroProps) {
           </div>
         </div>
 
-        <div className="hero-photo-frame relative -left-1 mx-auto mt-12 aspect-[0.9/1] w-full overflow-hidden rounded-2xl bg-espresso/10 shadow-[0_20px_45px_-30px_rgba(44,33,28,0.62)] md:left-0 md:mt-14 md:aspect-[1.15/1] md:w-[76%] md:max-w-[58rem] md:rounded-[1.5rem]">
+        <div className="hero-photo-frame relative mx-auto mt-12 aspect-[0.92/1] w-[calc(100%-2rem)] overflow-hidden rounded-[1.35rem] bg-espresso/10 shadow-[0_24px_50px_-34px_rgba(44,33,28,0.58)] md:mt-14 md:aspect-[1.15/1] md:w-[72%] md:max-w-[54rem] md:rounded-[1.75rem]">
           <div className="hero-photo absolute -inset-y-[8%] inset-x-0">
             <Image src="/altstadtliebe-hero.png" alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
           </div>
+          <div className="hero-photo-gloss pointer-events-none absolute inset-0" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
         </div>
       </div>

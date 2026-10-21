@@ -171,6 +171,26 @@ a {
   min-height: 2.875rem;
 }
 
+.hero-actions::after {
+  position: absolute;
+  right: 10%;
+  bottom: -0.65rem;
+  left: 10%;
+  z-index: -1;
+  height: 1rem;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at center, rgb(44 33 28 / 20%), rgb(44 33 28 / 0%) 72%);
+  content: "";
+  filter: blur(8px);
+  opacity: 0.5;
+}
+
+.hero-photo-gloss {
+  background: linear-gradient(112deg, rgb(255 255 255 / 18%) 0%, rgb(255 255 255 / 5%) 22%, transparent 48%, transparent 100%);
+  mix-blend-mode: screen;
+  opacity: 0.45;
+}
+
 .site-button {
   display: inline-flex;
   min-height: 3.5rem;
