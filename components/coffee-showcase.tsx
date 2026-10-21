@@ -1,7 +1,7 @@
 "use client";
 
 import gsap from "gsap";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
@@ -78,36 +78,29 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
     }
   }, [active]);
 
-  function moveExperience(step: number) {
-    setActive((current) => (current + step + experiences.length) % experiences.length);
-  }
-
   return (
-    <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-28" aria-labelledby="showcase-title">
+    <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-24" aria-labelledby="showcase-title">
       <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-3xl">
-            <p data-menu-reveal className="eyebrow mb-5">{dictionary.showcase.eyebrow}</p>
-            <h2 id="showcase-title" data-menu-reveal className="editorial-heading max-w-[12ch] text-balance text-[clamp(3.4rem,7vw,7rem)] font-medium leading-[0.86] text-espresso">{dictionary.showcase.heading}</h2>
-          </div>
-          <p data-menu-reveal className="max-w-sm text-base leading-[1.4] text-espresso-soft md:mb-1 md:text-lg">{dictionary.showcase.description}</p>
+        <div className="mx-auto max-w-2xl text-center">
+          <p data-menu-reveal className="eyebrow mb-4">{dictionary.showcase.eyebrow}</p>
+          <h2 id="showcase-title" data-menu-reveal className="editorial-heading text-balance text-[clamp(2.5rem,5vw,4.8rem)] font-medium leading-[0.9] tracking-[-0.045em] text-espresso">{dictionary.showcase.heading}</h2>
+          <p data-menu-reveal className="mx-auto mt-5 max-w-md text-sm leading-[1.45] text-espresso-soft md:text-base">{dictionary.showcase.description}</p>
         </div>
 
-        <div className="menu-experience-track mt-12 flex gap-4 overflow-x-auto pb-4 md:mt-16 md:gap-3 md:overflow-visible" role="list" aria-label={dictionary.showcase.heading}>
+        <div className="menu-experience-track mt-10 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-3 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
           {experiences.map((experience, index) => (
             <article
               key={experience.title}
               ref={(element) => { experienceRefs.current[index] = element; }}
               data-menu-panel
               role="listitem"
-              style={{ flexGrow: active === index ? 1.6 : 0.8 }}
-              className={`menu-experience-panel group relative flex min-w-[78vw] flex-[0.8_1_0%] flex-col md:min-w-0 ${index === 0 ? "md:order-2" : index === 1 ? "md:order-1" : "md:order-3"}`}
+              className="menu-experience-panel group relative flex min-w-0 flex-col"
             >
-              <button type="button" onClick={() => setActive(index)} className="menu-experience-image relative block h-[26rem] w-full overflow-hidden rounded-[1.5rem] text-left md:h-[34rem] md:rounded-[2rem]" aria-pressed={active === index} aria-label={`${experience.title}: ${experience.description}`}>
+              <button type="button" onClick={() => setActive(index)} className={`menu-experience-image relative block h-[23rem] w-full overflow-hidden rounded-[1.35rem] text-left transition-shadow duration-500 md:h-[27rem] md:rounded-[1.6rem] ${active === index ? "shadow-[0_18px_38px_-24px_rgb(44_33_28_/_65%)]" : "shadow-[0_12px_30px_-26px_rgb(44_33_28_/_45%)]"}`} aria-pressed={active === index} aria-label={`${experience.title}: ${experience.description}`}>
                 <Image src={menuImages[index]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 78vw, 42vw" className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
                 <span className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/10 to-transparent" aria-hidden="true" />
-                <span className="absolute inset-x-6 bottom-6 flex items-end justify-between gap-4 text-ivory md:inset-x-7 md:bottom-7">
-                  <span className="max-w-[10ch] text-balance text-[clamp(1.55rem,3vw,3.2rem)] font-normal leading-[0.95] tracking-[-0.045em]">{experience.title}</span>
+                <span className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 text-ivory md:inset-x-6 md:bottom-6">
+                  <span className="max-w-[12ch] text-balance text-[clamp(1.35rem,2.2vw,2.25rem)] font-normal leading-[0.95] tracking-[-0.045em]">{experience.title}</span>
                   <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border border-ivory/50 transition-colors duration-300 ${active === index ? "bg-ivory text-espresso" : "bg-espresso/15 text-ivory"}`} aria-hidden="true"><ArrowUpRight size={17} strokeWidth={1.5} /></span>
                 </span>
               </button>
@@ -121,13 +114,6 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
           ))}
         </div>
 
-        <div className="mt-2 flex items-center justify-between md:hidden">
-          <p className="text-xs tracking-[0.12em] text-espresso-soft">{String(active + 1).padStart(2, "0")} / {String(experiences.length).padStart(2, "0")}</p>
-          <div className="flex items-center gap-2">
-            <button type="button" onClick={() => moveExperience(-1)} className="grid h-10 w-10 place-items-center rounded-full border border-espresso/20 text-espresso transition-colors hover:bg-espresso hover:text-ivory" aria-label="Previous experience"><ChevronLeft size={16} strokeWidth={1.5} /></button>
-            <button type="button" onClick={() => moveExperience(1)} className="grid h-10 w-10 place-items-center rounded-full bg-espresso text-ivory transition-colors hover:bg-olive-deep" aria-label="Next experience"><ChevronRight size={16} strokeWidth={1.5} /></button>
-          </div>
-        </div>
       </div>
     </section>
   );
