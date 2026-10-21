@@ -74,7 +74,6 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
       panels.forEach((panel, index) => gsap.to(panel, { flexGrow: index === active ? 1.6 : 0.8, duration: 0.7, ease: "power3.out", overwrite: true }));
     } else {
       panels.forEach((panel, index) => gsap.to(panel, { scale: index === active ? 1 : 0.965, duration: 0.45, ease: "power3.out", overwrite: true }));
-      panels[active]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
     }
   }, [active]);
 
@@ -87,21 +86,21 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
           <p data-menu-reveal className="mx-auto mt-5 max-w-md text-sm leading-[1.45] text-espresso-soft md:text-base">{dictionary.showcase.description}</p>
         </div>
 
-        <div className="menu-experience-track mt-10 grid grid-cols-1 gap-4 md:mt-14 md:grid-cols-3 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
+        <div className="menu-experience-track mt-10 grid grid-cols-3 items-start gap-2 md:mt-14 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
           {experiences.map((experience, index) => (
             <article
               key={experience.title}
               ref={(element) => { experienceRefs.current[index] = element; }}
               data-menu-panel
               role="listitem"
-              className="menu-experience-panel group relative flex min-w-0 flex-col"
+              className={`menu-experience-panel group relative flex min-w-0 flex-col ${index === 0 ? "order-2" : index === 1 ? "order-1" : "order-3"}`}
             >
-              <button type="button" onClick={() => setActive(index)} className={`menu-experience-image relative block h-[23rem] w-full overflow-hidden rounded-[1.35rem] text-left transition-shadow duration-500 md:h-[27rem] md:rounded-[1.6rem] ${active === index ? "shadow-[0_18px_38px_-24px_rgb(44_33_28_/_65%)]" : "shadow-[0_12px_30px_-26px_rgb(44_33_28_/_45%)]"}`} aria-pressed={active === index} aria-label={`${experience.title}: ${experience.description}`}>
+              <button type="button" onClick={() => setActive(index)} className={`menu-experience-image relative block h-[14rem] w-full overflow-hidden rounded-[1rem] text-left transition-shadow duration-500 md:h-[27rem] md:rounded-[1.6rem] ${index === 0 ? "md:-translate-y-3" : ""} ${active === index ? "shadow-[0_18px_38px_-24px_rgb(44_33_28_/_65%)]" : "shadow-[0_12px_30px_-26px_rgb(44_33_28_/_45%)]"}`} aria-pressed={active === index} aria-label={`${experience.title}: ${experience.description}`}>
                 <Image src={menuImages[index]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 78vw, 42vw" className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
                 <span className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/10 to-transparent" aria-hidden="true" />
                 <span className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 text-ivory md:inset-x-6 md:bottom-6">
-                  <span className="max-w-[12ch] text-balance text-[clamp(1.35rem,2.2vw,2.25rem)] font-normal leading-[0.95] tracking-[-0.045em]">{experience.title}</span>
-                  <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border border-ivory/50 transition-colors duration-300 ${active === index ? "bg-ivory text-espresso" : "bg-espresso/15 text-ivory"}`} aria-hidden="true"><ArrowUpRight size={17} strokeWidth={1.5} /></span>
+                  <span className="max-w-[10ch] text-balance text-[clamp(0.9rem,2.2vw,2.25rem)] font-normal leading-[0.95] tracking-[-0.045em]">{experience.title}</span>
+                  <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border border-ivory/50 transition-colors duration-300 md:h-10 md:w-10 ${active === index ? "bg-ivory text-espresso" : "bg-espresso/15 text-ivory"}`} aria-hidden="true"><ArrowUpRight size={14} strokeWidth={1.5} /></span>
                 </span>
               </button>
               <div className={`menu-experience-detail overflow-hidden transition-[max-height,opacity,margin] duration-500 ease-out ${active === index ? "mt-4 max-h-40 opacity-100 md:mt-5" : "max-h-0 opacity-0 md:mt-0"}`}>
