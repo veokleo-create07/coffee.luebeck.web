@@ -9,14 +9,14 @@ import type { Locale } from "@/lib/i18n";
 
 type CoffeeShowcaseProps = { locale: Locale; dictionary: Dictionary };
 
-const menuImages = ["/menu-matcha.png", "/menu-breakfast.png", "/menu-coffee.png"];
+const menuImages = ["/menu-matcha.jpeg", "/menu-breakfast.jpeg", "/menu-coffee.jpeg"];
 
 export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const menuHref = locale === "de" ? "/menu" : "/en/menu";
   const experiences = dictionary.showcase.experiences;
-  const cards = [experiences[1], experiences[0], experiences[2]];
-  const imageIndexes = [1, 0, 2];
+  const cards = [experiences[0], experiences[1], experiences[2]];
+  const imageIndexes = [0, 1, 2];
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
