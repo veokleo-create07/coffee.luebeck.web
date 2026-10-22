@@ -12,8 +12,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 type SiteFooterProps = { locale: Locale; dictionary: Dictionary };
 
-const footerLinkClass = "group relative inline-flex min-h-10 w-fit items-center text-sm text-ivory/72 transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass";
-const socialLinkClass = "group inline-flex min-h-10 items-center gap-2 rounded-full border border-ivory/22 bg-ivory/[0.06] px-3.5 text-xs text-ivory/82 transition-[background-color,border-color,color,transform] duration-300 hover:-translate-y-0.5 hover:border-ivory/45 hover:bg-ivory/12 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass";
+const footerLinkClass = "group relative inline-flex min-h-8 w-fit items-center text-xs text-ivory/72 transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass sm:text-sm";
+const socialButtonClass = "group inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/60 bg-ivory text-espresso shadow-[0_8px_18px_-12px_rgba(0,0,0,0.7)] transition-[transform,box-shadow,background-color] duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_22px_-12px_rgba(0,0,0,0.72)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass sm:h-12 sm:w-12";
 
 export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const footerRef = useRef<HTMLElement>(null);
@@ -39,55 +39,60 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         return;
       }
 
-      gsap.fromTo(content, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: footer, start: "top 88%", once: true } });
+      gsap.fromTo(content, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power3.out", scrollTrigger: { trigger: footer, start: "top 92%", once: true } });
     }, footer);
 
     return () => context.revert();
   }, []);
 
-  return <footer ref={footerRef} className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] py-14 text-ivory md:py-20" aria-label="Footer">
-    <div className="mx-auto max-w-6xl">
-      <div data-footer-reveal className="flex justify-center">
-        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3" aria-label={dictionary.footer.contactActionsLabel}>
-          <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialLinkClass}><Phone size={15} strokeWidth={1.6} aria-hidden="true" /><span>{locale === "de" ? "Anrufen" : "Call"}</span></a>
-          <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialLinkClass}><Instagram size={15} strokeWidth={1.6} aria-hidden="true" /><span>Instagram</span></a>
-          <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialLinkClass}><Music2 size={15} strokeWidth={1.6} aria-hidden="true" /><span>TikTok</span></a>
-        </div>
-      </div>
-
-      <div className="mt-12 grid gap-12 border-t border-ivory/12 pt-10 md:mt-16 md:grid-cols-2 md:gap-20 md:pt-12">
-        <div id="footer-contact" data-footer-reveal>
-          <p className="mb-5 text-[0.68rem] uppercase tracking-[0.18em] text-brass">{dictionary.location.eyebrow}</p>
-          <address className="not-italic text-base leading-[1.45] text-ivory/88">
+  return <footer ref={footerRef} className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] py-10 text-ivory sm:py-12 md:py-16" aria-label="Footer">
+    <div className="mx-auto max-w-7xl">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-3 sm:gap-6 md:gap-12">
+        <div id="footer-contact" data-footer-reveal className="min-w-0">
+          <address className="not-italic text-xs leading-[1.45] text-ivory/78 sm:text-sm">
             <span className="block">{dictionary.location.addressLines[0]}</span>
             <span className="block">{dictionary.location.addressLines[1]}</span>
           </address>
-          <a href={dictionary.location.directionsHref} target="_blank" rel="noreferrer" className={`${footerLinkClass} mt-5 gap-2`}>
+          <a href={dictionary.location.directionsHref} target="_blank" rel="noreferrer" className={`${footerLinkClass} mt-3 gap-1.5`}>
             <span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brass after:transition-transform after:duration-300 after:content-[''] group-hover:after:scale-x-100">{dictionary.location.directions}</span>
-            <ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight size={12} strokeWidth={1.5} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
-          <div className="mt-9">
-            <p className="mb-3 text-[0.68rem] uppercase tracking-[0.18em] text-brass">{dictionary.location.hoursLabel}</p>
-            <ul className="space-y-1.5 text-sm leading-[1.45] text-ivory/68" aria-label={dictionary.footer.hoursLabel}>{hours.map((line) => <li key={line}>{line}</li>)}</ul>
+          <div className="mt-5">
+            <p className="text-[0.62rem] uppercase tracking-[0.12em] text-ivory/48">{dictionary.location.hoursLabel}</p>
+            <ul className="mt-2 space-y-1 text-[0.68rem] leading-[1.4] text-ivory/62 sm:text-xs">{hours.map((line) => <li key={line}>{line}</li>)}</ul>
           </div>
         </div>
 
-        <nav data-footer-reveal aria-label="Footer navigation" className="flex flex-col gap-1 md:items-end">
-          <p className="mb-4 text-[0.68rem] uppercase tracking-[0.18em] text-brass">{locale === "de" ? "Entdecken" : "Explore"}</p>
-          <div className="flex flex-col md:items-end">
-            {navigation.map((item) => <Link key={item.label} href={item.href} className={footerLinkClass}><span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brass after:transition-transform after:duration-300 after:content-[''] group-hover:after:scale-x-100">{item.label}</span><ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" className="ml-2 opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" /></Link>)}
+        <div data-footer-reveal className="flex min-w-0 justify-center">
+          <div className="flex gap-2 sm:gap-3" aria-label={dictionary.footer.contactActionsLabel}>
+            <div className="flex flex-col items-center gap-1.5">
+              <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}><Phone size={16} strokeWidth={1.7} aria-hidden="true" /></a>
+              <span className="text-[0.58rem] text-ivory/55 sm:text-[0.65rem]">{locale === "de" ? "Anrufen" : "Call"}</span>
+            </div>
+            <div className="flex flex-col items-center gap-1.5">
+              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass}><Instagram size={16} strokeWidth={1.7} aria-hidden="true" /></a>
+              <span className="text-[0.58rem] text-ivory/55 sm:text-[0.65rem]">Instagram</span>
+            </div>
+            <div className="flex flex-col items-center gap-1.5">
+              <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass}><Music2 size={16} strokeWidth={1.7} aria-hidden="true" /></a>
+              <span className="text-[0.58rem] text-ivory/55 sm:text-[0.65rem]">TikTok</span>
+            </div>
           </div>
+        </div>
+
+        <nav data-footer-reveal aria-label="Footer navigation" className="flex min-w-0 flex-col items-end gap-0.5 text-right">
+          {navigation.map((item) => <Link key={item.label} href={item.href} className={footerLinkClass}><span className="relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-brass after:transition-transform after:duration-300 after:content-[''] group-hover:after:scale-x-100">{item.label}</span><ArrowUpRight size={12} strokeWidth={1.5} aria-hidden="true" className="ml-1.5 opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" /></Link>)}
         </nav>
       </div>
 
-      <div className="mt-14 border-t border-ivory/15 pt-10 md:mt-20 md:pt-14">
-        <div data-footer-reveal className="text-center">
-          <Link href={homeHref} className="inline-block text-[clamp(3.3rem,10vw,8.5rem)] font-medium leading-[0.82] tracking-[-0.075em] text-ivory transition-colors duration-300 hover:text-brass">Altstadtliebe</Link>
-          <p className="mt-5 text-xs tracking-[0.16em] text-ivory/52">{dictionary.footer.brandTagline} · Lübeck</p>
+      <div className="mt-9 text-center sm:mt-11">
+        <div data-footer-reveal>
+          <Link href={homeHref} className="inline-block text-[clamp(2.35rem,6vw,4.8rem)] font-medium leading-[0.84] tracking-[-0.065em] text-ivory transition-colors duration-300 hover:text-brass">Altstadtliebe</Link>
+          <p className="mt-2 text-[0.62rem] tracking-[0.14em] text-ivory/48 sm:text-xs">{dictionary.footer.brandTagline} · Lübeck</p>
         </div>
-        <div data-footer-reveal className="mt-10 flex flex-col gap-3 border-t border-ivory/12 pt-5 text-[0.68rem] tracking-[0.03em] text-ivory/48 sm:flex-row sm:items-center sm:justify-between">
+        <div data-footer-reveal className="mt-7 flex flex-col gap-2 text-[0.62rem] text-ivory/45 sm:flex-row sm:items-center sm:justify-between sm:text-[0.68rem]">
           <span>© 2026 Altstadtliebe Lübeck</span>
-          <div className="flex flex-wrap gap-x-4 gap-y-2 sm:justify-end">
+          <div className="flex justify-center gap-3 sm:justify-end">
             <a href="#imprint" className="transition-colors hover:text-ivory">{dictionary.footer.imprint}</a>
             <span aria-hidden="true" className="text-ivory/25">·</span>
             <a href="#privacy" className="transition-colors hover:text-ivory">{dictionary.footer.privacy}</a>
