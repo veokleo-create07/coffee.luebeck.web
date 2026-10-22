@@ -45,7 +45,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
         </div>
 
         <div className="mt-12 grid grid-cols-2 gap-3 md:mt-20 md:gap-7">
-          <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-transparent p-2 md:rounded-[1.75rem] md:p-4">
+          <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-[#fbfaf6] p-2 md:rounded-[1.75rem] md:p-4">
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[0.85rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[1.25rem]">
               <Image src="/events-private.png" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
@@ -55,7 +55,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
             </div>
           </article>
 
-          <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-transparent p-2 md:rounded-[1.75rem] md:p-4">
+          <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-[#fbfaf6] p-2 md:rounded-[1.75rem] md:p-4">
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[0.85rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[1.25rem]">
               <Image src="/events-catering.png" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
@@ -66,7 +66,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
           </article>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-[950px] grid-cols-[42%_58%] overflow-hidden rounded-[1.25rem] bg-transparent p-2 md:mt-20 md:grid-cols-[42%_58%] md:rounded-[1.75rem] md:p-4">
+        <div className="mx-auto mt-12 grid max-w-[950px] grid-cols-[42%_58%] overflow-hidden rounded-[1.25rem] bg-[#fbfaf6] p-2 md:mt-20 md:grid-cols-[42%_58%] md:rounded-[1.75rem] md:p-4">
           <div data-event-reveal className="order-2 flex min-w-0 flex-col justify-center p-2 md:order-2 md:p-8 lg:p-10">
             <h3 className="editorial-heading max-w-[10ch] text-[clamp(1.35rem,4vw,2.75rem)] font-medium leading-[0.92] tracking-[-0.05em]">{copy.featureHeading}</h3>
             <p className="mt-2 max-w-md text-[clamp(0.68rem,2.5vw,1rem)] leading-[1.35] text-espresso-soft md:mt-6 md:text-base md:leading-[1.5]">{copy.featureDescription}</p>
