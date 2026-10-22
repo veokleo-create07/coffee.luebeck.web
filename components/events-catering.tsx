@@ -67,7 +67,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
         </div>
 
         <div className="mx-auto mt-12 grid max-w-[950px] grid-cols-[42%_58%] overflow-hidden rounded-[1.25rem] bg-[#eee9e1] p-2 shadow-[0_10px_28px_-24px_rgb(73_48_36_/_24%)] md:mt-20 md:grid-cols-[42%_58%] md:rounded-[1.75rem] md:p-4">
-          <div data-event-reveal className="order-2 flex min-w-0 flex-col justify-center p-2 md:order-2 md:p-8 lg:p-10">
+          <div data-event-reveal className="relative top-3 order-2 flex min-w-0 flex-col justify-center p-2 md:top-5 md:order-2 md:p-8 lg:p-10">
             <h3 className="editorial-heading max-w-[10ch] text-[clamp(1.35rem,4vw,2.75rem)] font-medium leading-[0.92] tracking-[-0.05em]">{copy.featureHeading}</h3>
             <p className="mt-2 max-w-md text-[clamp(0.68rem,2.5vw,1rem)] leading-[1.35] text-espresso-soft md:mt-6 md:text-base md:leading-[1.5]">{copy.featureDescription}</p>
             <a href={dictionary.location.phoneHref} data-event-reveal className="events-feature-cta site-button site-button-primary mt-3 min-h-11 self-start rounded-full px-4 text-xs md:mt-6 md:min-h-12 md:px-6 md:text-sm"><span className="relative z-10">{copy.featureCta}</span></a>
