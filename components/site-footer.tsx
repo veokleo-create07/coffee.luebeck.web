@@ -74,10 +74,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-2 items-start gap-x-5 gap-y-9 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12">
           <section id="footer-contact" data-footer-reveal className="min-w-0">
-            <h2 className="text-[0.68rem] font-medium uppercase tracking-[0.16em] text-brass/85 md:text-xs">
-              {locale === "de" ? "Besuch uns" : "Visit us"}
-            </h2>
-            <address className="mt-3 not-italic text-[0.95rem] leading-[1.45] text-ivory/90 md:text-[1.2rem] md:leading-[1.4]">
+            <address className="not-italic text-[0.95rem] leading-[1.45] text-ivory/90 md:text-[1.2rem] md:leading-[1.4]">
               {addressLines.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -95,10 +92,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             </a>
 
             <div className="mt-6 md:mt-7">
-              <h2 className="text-[0.68rem] font-medium uppercase tracking-[0.16em] text-brass/85 md:text-xs">
-                {dictionary.location.hoursLabel}
-              </h2>
-              <ul className="mt-2 space-y-1 text-[0.78rem] leading-[1.55] text-ivory/72 md:text-sm md:leading-[1.7]">
+              <ul className="space-y-1 text-[0.78rem] leading-[1.55] text-ivory/72 md:text-sm md:leading-[1.7]">
                 {hours.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
@@ -143,7 +137,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           </div>
         </div>
 
-        <div data-footer-reveal className="relative mt-12 text-center md:mt-16">
+        <div data-footer-reveal className="mt-12 text-center md:mt-16">
           <Link
             href={homeHref}
             className="inline-block text-[clamp(2.35rem,4vw,3.4rem)] font-medium leading-[0.94] tracking-[-0.055em] text-ivory transition-colors duration-300 hover:text-brass"
@@ -153,20 +147,6 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           <p className="mt-2 text-[0.62rem] tracking-[0.19em] text-ivory/55 sm:text-[0.7rem]">
             {dictionary.footer.brandTagline} · Lübeck
           </p>
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 32 32"
-            className="pointer-events-none absolute right-0 top-1/2 h-6 w-6 -translate-y-1/2 text-brass/80 sm:h-7 sm:w-7"
-            fill="none"
-          >
-            <path
-              d="M16.1 25.8C13.7 23.7 5.4 18 5.4 11.4c0-3.1 2.1-5.3 4.9-5.3 2.7 0 4.4 2 5.7 4.3 1.4-2.5 3.2-4.3 5.8-4.3 2.9 0 4.9 2.2 4.9 5.3 0 6.2-7.7 11.8-10.6 14.4Z"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.35"
-            />
-          </svg>
         </div>
 
         <div data-footer-reveal className="mt-8 flex flex-col items-center gap-2.5 text-[0.66rem] text-ivory/48 sm:flex-row sm:justify-between sm:text-xs">

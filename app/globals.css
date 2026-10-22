@@ -214,6 +214,26 @@ a {
   box-shadow: 0 -12px 28px -24px rgb(44 33 28 / 48%);
 }
 
+.site-footer-transition {
+  position: relative;
+}
+
+.site-footer-transition::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4.5rem;
+  background: linear-gradient(
+    to bottom,
+    var(--color-ivory) 0%,
+    rgb(245 240 232 / 78%) 26%,
+    rgb(44 33 28 / 0%) 100%
+  );
+  content: "";
+  pointer-events: none;
+}
+
 @media (min-width: 768px) {
   .hero-transition-incoming {
     border-radius: 1.75rem 1.75rem 0 0;
