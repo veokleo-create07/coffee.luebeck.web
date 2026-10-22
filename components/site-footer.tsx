@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 type SiteFooterProps = { locale: Locale; dictionary: Dictionary };
 
 const footerLinkClass =
-  "group inline-flex min-h-10 w-fit items-center gap-2 text-xs text-[#F8F5F0] transition-colors duration-300 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:text-base";
+  "group inline-flex min-h-10 w-fit items-center gap-2 text-xs font-medium text-[#F8F5F0] transition-colors duration-300 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:text-base";
 
 const socialButtonClass =
   "inline-flex h-11 w-11 items-center justify-center bg-transparent text-[#F8F5F0] transition-opacity duration-200 hover:opacity-100 md:hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass";
@@ -74,7 +74,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-start gap-y-7 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12 md:gap-y-9">
           <section id="footer-contact" data-footer-reveal className="flex min-w-0 flex-col md:block">
-            <address className="not-italic text-[0.875rem] leading-[1.45] text-[#F8F5F0] md:text-[1.2rem] md:leading-[1.4]">
+            <address className="not-italic text-[0.875rem] font-medium leading-[1.45] text-[#F8F5F0] md:text-[1.2rem] md:leading-[1.4]">
               {addressLines.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -92,7 +92,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             </a>
 
             <div className="order-2 mt-3 md:order-none md:mt-7">
-              <ul className="space-y-1 text-xs leading-[1.55] text-[#F8F5F0] md:text-sm md:leading-[1.7]">
+              <ul className="space-y-1 text-xs font-medium leading-[1.55] text-[#F8F5F0] md:text-sm md:leading-[1.7]">
                 {hours.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
@@ -103,7 +103,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           <nav
             data-footer-reveal
             aria-label="Footer navigation"
-            className="order-2 flex min-w-0 items-center justify-between gap-1 text-[0.6875rem] text-[#F8F5F0] md:order-3 md:flex-col md:items-end md:gap-2.5 md:text-right md:text-base"
+            className="order-2 flex min-w-0 items-center justify-between gap-1 text-[0.6875rem] font-medium text-[#F8F5F0] md:order-3 md:flex-col md:items-end md:gap-2.5 md:text-right md:text-base"
           >
             {navigation.map((item) => (
               <Link key={item.label} href={item.href} className={footerLinkClass}>
@@ -118,19 +118,19 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}>
                   <Phone size={24} className="md:h-[26px] md:w-[26px]" strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-[#F8F5F0]">{locale === "de" ? "Anrufen" : "Call"}</span>
+                <span className="text-xs font-medium text-[#F8F5F0]">{locale === "de" ? "Anrufen" : "Call"}</span>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass}>
                   <Instagram size={24} className="md:h-[26px] md:w-[26px]" strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-[#F8F5F0]">Instagram</span>
+                <span className="text-xs font-medium text-[#F8F5F0]">Instagram</span>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass}>
                   <Music2 size={24} className="md:h-[26px] md:w-[26px]" strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-[#F8F5F0]">TikTok</span>
+                <span className="text-xs font-medium text-[#F8F5F0]">TikTok</span>
               </div>
             </div>
           </div>
@@ -139,16 +139,16 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         <div data-footer-reveal className="mt-10 text-center sm:mt-24">
           <Link
             href={homeHref}
-            className="inline-block text-[clamp(1.9rem,4vw,3.4rem)] font-medium leading-[0.94] tracking-[-0.055em] text-[#F8F5F0] transition-colors duration-300 hover:text-brass sm:text-[clamp(2.35rem,4vw,3.4rem)]"
+            className="inline-block text-[clamp(1.9rem,4vw,3.4rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-[#F8F5F0] transition-colors duration-300 hover:text-brass sm:text-[clamp(2.35rem,4vw,3.4rem)]"
           >
             Altstadtliebe
           </Link>
-          <p className="mt-1.5 text-[0.6875rem] tracking-[0.16em] text-[#F8F5F0] sm:mt-2 sm:text-[0.7rem] sm:tracking-[0.19em]">
+          <p className="mt-1.5 text-[0.6875rem] font-medium tracking-[0.16em] text-[#F8F5F0] sm:mt-2 sm:text-[0.7rem] sm:tracking-[0.19em]">
             {dictionary.footer.brandTagline} · Lübeck
           </p>
         </div>
 
-        <div data-footer-reveal className="mt-7 flex flex-col items-center gap-1.5 text-[0.75rem] text-[#F8F5F0] sm:mt-16 sm:flex-row sm:justify-between sm:gap-2.5 sm:text-xs">
+        <div data-footer-reveal className="mt-7 flex flex-col items-center gap-1.5 text-[0.75rem] font-medium text-[#F8F5F0] sm:mt-16 sm:flex-row sm:justify-between sm:gap-2.5 sm:text-xs">
           <span className="order-2 sm:order-1">© 2026 Altstadtliebe Lübeck</span>
           <div className="order-1 flex min-h-10 items-center justify-center gap-3 sm:order-2">
             <a href="#imprint" className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
