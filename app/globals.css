@@ -410,28 +410,6 @@ a {
   .site-button {
     padding-inline: 1.25rem;
   }
-
-  .events-description {
-    font-size: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .events-feature-cta.site-button {
-    max-width: 100%;
-    min-height: 44px;
-    border-radius: 9999px;
-    padding: 0.5rem 0.625rem;
-    font-size: 0.75rem;
-    line-height: 1.1;
-    white-space: nowrap;
-    box-shadow: 0 4px 8px -6px rgb(44 33 28 / 50%);
-  }
-
-  .events-feature-cta.site-button:hover,
-  .events-feature-cta.site-button:focus-visible {
-    background: #2c211c;
-    box-shadow: 0 5px 9px -6px rgb(44 33 28 / 54%);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
