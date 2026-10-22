@@ -261,7 +261,7 @@ a {
 }
 
 .hero-button {
-  min-height: 2.875rem;
+  min-height: 2.75rem;
 }
 
 .hero-actions::after {
@@ -370,6 +370,34 @@ a {
 
 .hero-button.site-button-primary:hover {
   box-shadow: 0 21px 27px -16px rgb(44 33 28 / 62%), inset 0 2px 2px rgb(255 255 255 / 16%);
+}
+
+.hero-primary-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero-primary-cta::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 42%;
+  content: "";
+  background: linear-gradient(105deg, transparent, rgb(255 255 255 / 26%), transparent);
+  transform: translateX(-180%) skewX(-18deg);
+  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-primary-cta:hover::after,
+.hero-primary-cta:focus-visible::after {
+  transform: translateX(360%) skewX(-18deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-primary-cta::after {
+    transition: none;
+  }
 }
 
 .hero-button.site-button-secondary {

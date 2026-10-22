@@ -67,10 +67,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
               {dictionary.home.description}
             </p>
             <div className="hero-actions relative isolate flex w-full flex-row items-center justify-center gap-2.5 md:justify-start md:gap-3">
-              <Link href={reservationHref} className="site-button site-button-primary hero-button hero-cta min-w-0 flex-none whitespace-nowrap px-3.5 text-[0.76rem] tracking-[-0.01em] md:px-4 md:text-[0.8rem]">
-                {dictionary.home.primaryCta}
+              <Link href={reservationHref} className="site-button site-button-primary hero-button hero-primary-cta hero-cta min-w-0 flex-none whitespace-nowrap px-3 text-[0.74rem] tracking-[-0.01em] md:px-3.5 md:text-[0.78rem]">
+                <span className="relative z-10">{dictionary.home.primaryCta}</span>
               </Link>
-              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-w-0 flex-none items-center justify-center gap-1.5 whitespace-nowrap px-3 text-[0.76rem] tracking-[-0.01em] md:px-3.5 md:text-[0.8rem]">
+              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-w-0 flex-none items-center justify-center gap-1.5 whitespace-nowrap px-2.5 text-[0.74rem] tracking-[-0.01em] md:px-3 md:text-[0.78rem]">
                 <Instagram size={15} strokeWidth={1.8} aria-hidden="true" />
                 {dictionary.home.secondaryCta}
               </a>
