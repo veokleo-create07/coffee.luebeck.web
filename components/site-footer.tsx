@@ -49,12 +49,12 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
 
       gsap.fromTo(
         content,
-        { autoAlpha: 0, y: 10 },
+        { autoAlpha: 0, y: 14 },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 0.6,
-          stagger: 0.06,
+          duration: 0.8,
+          stagger: 0.07,
           ease: "power3.out",
           scrollTrigger: { trigger: footer, start: "top 92%", once: true },
         },

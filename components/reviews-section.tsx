@@ -57,9 +57,10 @@ export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
         return;
       }
 
-      gsap.fromTo(section.querySelectorAll<HTMLElement>("[data-review-reveal]"), { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power3.out", scrollTrigger: { trigger: section, start: "top 78%", once: true } });
+      const reveal = section.querySelectorAll<HTMLElement>("[data-review-reveal]");
+      gsap.fromTo(reveal, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.09, ease: "power3.out", clearProps: "transform,opacity,visibility", scrollTrigger: { trigger: section, start: "top 80%", once: true } });
       gsap.set(words, { y: "0.45em", autoAlpha: 0 });
-      gsap.to(section.querySelectorAll<HTMLElement>("[data-review-index='0'] .review-word"), { y: 0, autoAlpha: 1, duration: 0.65, stagger: 0.035, delay: 0.2, ease: "power3.out", scrollTrigger: { trigger: section, start: "top 78%", once: true } });
+      gsap.to(section.querySelectorAll<HTMLElement>("[data-review-index='0'] .review-word"), { y: 0, autoAlpha: 1, duration: 0.72, stagger: 0.032, delay: 0.16, ease: "power3.out", scrollTrigger: { trigger: section, start: "top 80%", once: true } });
     }, section);
 
     return () => context.revert();
@@ -81,7 +82,7 @@ export function ReviewsSection({ locale, dictionary }: ReviewsSectionProps) {
     if (previous === active) return;
 
     const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-    timeline.to(quotes[previous], { autoAlpha: 0, y: active > previous ? -24 : 24, duration: 0.3 }).fromTo(quotes[active], { autoAlpha: 0, y: active > previous ? 24 : -24 }, { autoAlpha: 1, y: 0, duration: 0.45 }, "-=0.08").fromTo(quotes[active].querySelectorAll(".review-word"), { y: "0.35em", autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.45, stagger: 0.025 }, "-=0.25");
+    timeline.to(quotes[previous], { autoAlpha: 0, y: active > previous ? -18 : 18, duration: 0.32 }).fromTo(quotes[active], { autoAlpha: 0, y: active > previous ? 18 : -18 }, { autoAlpha: 1, y: 0, duration: 0.52 }, "-=0.1").fromTo(quotes[active].querySelectorAll(".review-word"), { y: "0.3em", autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.52, stagger: 0.022 }, "-=0.3");
     previousActive.current = active;
     return () => { timeline.kill(); };
   }, [active]);

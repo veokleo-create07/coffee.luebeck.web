@@ -23,6 +23,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
     if (!section) return;
     let observer: IntersectionObserver | null = null;
     let revealTimeline: gsap.core.Timeline | null = null;
+    let handleScroll: (() => void) | null = null;
 
     const context = gsap.context(() => {
       const reveal = section.querySelectorAll<HTMLElement>("[data-menu-reveal]");
@@ -45,6 +46,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
         if (hasRevealed) return;
         hasRevealed = true;
         observer?.disconnect();
+        if (handleScroll) window.removeEventListener("scroll", handleScroll);
 
         revealTimeline = gsap.timeline({ defaults: { ease: "power3.out" } })
           .to(panels, {
@@ -64,13 +66,21 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
       };
 
       observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) playReveal();
+        const hasPassedRevealPoint = entry.boundingClientRect.top < window.innerHeight * 0.92;
+        if (entry.isIntersecting || hasPassedRevealPoint) playReveal();
       }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
       observer.observe(track);
+
+      handleScroll = () => {
+        if (track.getBoundingClientRect().top < window.innerHeight * 0.92) playReveal();
+      };
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      window.requestAnimationFrame(handleScroll);
     }, section);
 
     return () => {
       observer?.disconnect();
+      if (handleScroll) window.removeEventListener("scroll", handleScroll);
       revealTimeline?.kill();
       context.revert();
     };

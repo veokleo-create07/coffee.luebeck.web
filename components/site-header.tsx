@@ -24,7 +24,7 @@ export function SiteHeader({ locale, dictionary }: SiteHeaderProps) {
       setIsOpen(false);
       setIsClosing(false);
       closeTimer.current = null;
-    }, 420);
+    }, 360);
   }, [isOpen, isClosing]);
 
   useEffect(() => {

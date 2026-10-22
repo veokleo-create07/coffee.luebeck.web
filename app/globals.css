@@ -16,6 +16,11 @@
   color-scheme: light;
   --page-gutter: clamp(1.25rem, 4vw, 4.5rem);
   --section-space: clamp(5rem, 12vw, 10rem);
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-fast: 220ms;
+  --motion-medium: 380ms;
+  --motion-slow: 700ms;
 }
 
 * {
@@ -24,10 +29,12 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 1.5rem;
 }
 
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--color-ivory);
   color: var(--color-espresso);
   font-family: var(--font-bricolage), sans-serif;
@@ -65,7 +72,7 @@ a {
   gap: 0.45rem;
   color: var(--color-espresso);
   white-space: nowrap;
-  transition: color 300ms ease;
+  transition: color var(--motion-medium) var(--ease-premium);
 }
 
 .language-option {
@@ -89,7 +96,7 @@ a {
 
 .language-option-link {
   color: var(--color-espresso-soft);
-  transition: color 300ms ease, opacity 300ms ease;
+  transition: color var(--motion-medium) var(--ease-premium), opacity var(--motion-medium) var(--ease-premium);
 }
 
 .language-option-link:hover {
@@ -122,17 +129,17 @@ a {
 
 .navigation-overlay {
   transform-origin: top center;
-  animation: navigation-overlay-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: navigation-overlay-in 480ms var(--ease-premium) both;
 }
 
 .navigation-overlay > div {
-  animation: navigation-content-in 560ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both;
+  animation: navigation-content-in 560ms var(--ease-premium) 60ms both;
 }
 
 .navigation-overlay a {
   opacity: 0;
   transform: translateY(1.25rem);
-  animation: navigation-link-in 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: navigation-link-in 560ms var(--ease-premium) both;
 }
 
 .navigation-overlay a:nth-child(2) {
@@ -146,7 +153,7 @@ a {
 .navigation-overlay .nav-language-toggle {
   opacity: 0;
   transform: translateY(0.75rem);
-  animation: navigation-link-in 480ms cubic-bezier(0.22, 1, 0.36, 1) 210ms both;
+  animation: navigation-link-in 480ms var(--ease-premium) 210ms both;
 }
 
 .navigation-overlay.is-closing,
@@ -256,7 +263,7 @@ a {
 }
 
 .reservation-panel {
-  animation: reservation-fade 240ms ease-out both;
+  animation: reservation-fade var(--motion-medium) var(--ease-premium) both;
 }
 
 .hero-cta {
@@ -339,7 +346,12 @@ a {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1;
-  transition: transform 300ms ease, background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease, color 300ms ease;
+  transition:
+    transform var(--motion-medium) var(--ease-premium),
+    background-color var(--motion-medium) var(--ease-premium),
+    border-color var(--motion-medium) var(--ease-premium),
+    box-shadow var(--motion-medium) var(--ease-premium),
+    color var(--motion-medium) var(--ease-premium);
 }
 
 .site-button-primary {
@@ -389,7 +401,7 @@ a {
   content: "";
   background: linear-gradient(105deg, transparent, rgb(255 255 255 / 26%), transparent);
   transform: translateX(-180%) skewX(-18deg);
-  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 650ms var(--ease-premium);
 }
 
 .hero-primary-cta:hover::after,
@@ -435,7 +447,7 @@ a {
   font-size: 14px;
   font-weight: 500;
   line-height: 1.1;
-  transition: transform 280ms ease, background-color 280ms ease, box-shadow 280ms ease;
+  transition: transform var(--motion-medium) var(--ease-premium), background-color var(--motion-medium) var(--ease-premium), box-shadow var(--motion-medium) var(--ease-premium);
 }
 
 .events-feature-cta.site-button::after {
@@ -446,7 +458,7 @@ a {
   content: "";
   background: linear-gradient(105deg, transparent, rgb(255 255 255 / 26%), transparent);
   transform: translateX(-180%) skewX(-18deg);
-  transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 650ms var(--ease-premium);
 }
 
 .events-feature-cta.site-button:hover,
