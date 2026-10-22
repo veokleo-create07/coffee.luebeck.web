@@ -11,5 +11,5 @@ import { HeroTransition } from "./hero-transition";
 type HomeShellProps = { locale: Locale; dictionary: Dictionary };
 
 export function HomeShell({ locale, dictionary }: HomeShellProps) {
-  return <div className="min-h-screen"><SiteHeader locale={locale} dictionary={dictionary} /><main><HeroTransition hero={<Hero dictionary={dictionary} locale={locale} />} next={<CoffeeShowcase locale={locale} dictionary={dictionary} />} /><ReviewsSection locale={locale} dictionary={dictionary} /><EventsCatering dictionary={dictionary} /></main><SiteFooter locale={locale} dictionary={dictionary} /></div>;
+  return <div className="min-h-screen"><SiteHeader locale={locale} dictionary={dictionary} /><main><HeroTransition hero={<Hero dictionary={dictionary} locale={locale} />} next={<><CoffeeShowcase locale={locale} dictionary={dictionary} /><ReviewsSection locale={locale} dictionary={dictionary} /><EventsCatering dictionary={dictionary} /></>} /></main><SiteFooter locale={locale} dictionary={dictionary} /></div>;
 }

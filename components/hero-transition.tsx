@@ -24,7 +24,10 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       ScrollTrigger.create({
         trigger: root,
         start: "top top",
-        end: () => `+=${Math.max(1, incomingLayer.offsetTop)}`,
+        // Measure only the hero. Measuring the incoming layer here is circular:
+        // its offset can include ScrollTrigger's pin spacer during a refresh,
+        // which lets the pin run into later homepage sections.
+        end: () => `+=${Math.max(1, Math.ceil(heroLayer.getBoundingClientRect().height))}`,
         pin: heroLayer,
         pinSpacing: false,
         pinReparent: false,
@@ -32,6 +35,9 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
         scrub: true,
         invalidateOnRefresh: true,
         refreshPriority: 1,
+        onLeave: () => gsap.set(heroLayer, { autoAlpha: 0 }),
+        onEnterBack: () => gsap.set(heroLayer, { autoAlpha: 1 }),
+        onRefresh: (self) => gsap.set(heroLayer, { autoAlpha: self.progress < 1 ? 1 : 0 }),
       });
 
       let disposed = false;
@@ -42,18 +48,16 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
           if (!disposed) ScrollTrigger.refresh();
         });
       };
-      const resizeObserver = new ResizeObserver(refresh);
-      resizeObserver.observe(heroLayer);
-      resizeObserver.observe(incomingLayer);
       window.addEventListener("load", refresh, { once: true });
+      window.addEventListener("resize", refresh, { passive: true });
       document.fonts.ready.then(refresh);
       refresh();
 
       return () => {
         disposed = true;
         window.cancelAnimationFrame(refreshFrame);
-        resizeObserver.disconnect();
         window.removeEventListener("load", refresh);
+        window.removeEventListener("resize", refresh);
       };
     }, root);
 
