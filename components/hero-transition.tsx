@@ -32,7 +32,9 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
         end: () => `+=${Math.max(1, heroLayer.offsetHeight)}`,
         pin: heroLayer,
         pinSpacing: false,
-        pinReparent: true,
+        // Keep the pinned layer inside the scene so its stacking order remains
+        // below the incoming section on Safari and other mobile browsers.
+        pinReparent: false,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         refreshPriority: 1,

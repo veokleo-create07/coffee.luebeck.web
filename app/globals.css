@@ -209,7 +209,9 @@ a {
 
 .hero-transition-incoming {
   position: relative;
-  z-index: 2;
+  z-index: 10;
+  isolation: isolate;
+  background-color: var(--color-ivory);
   border-radius: 1rem 1rem 0 0;
   box-shadow: 0 -12px 28px -24px rgb(44 33 28 / 48%);
 }
