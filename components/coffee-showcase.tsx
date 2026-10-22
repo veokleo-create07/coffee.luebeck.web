@@ -22,44 +22,56 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
     const section = sectionRef.current;
     if (!section) return;
     let observer: IntersectionObserver | null = null;
-    let revealIfVisible: (() => void) | null = null;
-    let revealTimeout: number | null = null;
+    let revealTimeline: gsap.core.Timeline | null = null;
 
     const context = gsap.context(() => {
       const reveal = section.querySelectorAll<HTMLElement>("[data-menu-reveal]");
       const panels = section.querySelectorAll<HTMLElement>("[data-menu-card]");
+      const images = section.querySelectorAll<HTMLElement>("[data-menu-card] img");
+      const track = section.querySelector<HTMLElement>(".menu-experience-track");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      if (reducedMotion) {
-        gsap.set([...reveal, ...panels], { autoAlpha: 1, clearProps: "transform" });
+      if (reducedMotion || !track) {
+        gsap.set([...reveal, ...panels, ...images], { autoAlpha: 1, clearProps: "transform" });
         return;
       }
 
-      gsap.set([...reveal, ...panels], { autoAlpha: 1 });
-      gsap.set(reveal, { y: 24 });
-      gsap.set(panels, { y: 56 });
+      gsap.set(reveal, { autoAlpha: 1, clearProps: "transform" });
+      gsap.set(panels, { autoAlpha: 0, y: 38, scale: 0.97, transformOrigin: "50% 70%", willChange: "transform, opacity" });
+      gsap.set(images, { scale: 1.075, transformOrigin: "50% 50%", willChange: "transform" });
 
+      let hasRevealed = false;
       const playReveal = () => {
-        gsap.to(reveal, { y: 0, duration: 0.75, stagger: 0.08, ease: "power3.out", overwrite: true });
-        gsap.to(panels, { y: 0, duration: 0.9, stagger: 0.12, ease: "power3.out", overwrite: true });
+        if (hasRevealed) return;
+        hasRevealed = true;
+        observer?.disconnect();
+
+        revealTimeline = gsap.timeline({ defaults: { ease: "power3.out" } })
+          .to(panels, {
+            autoAlpha: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.95,
+            stagger: 0.13,
+            onComplete: () => gsap.set(panels, { clearProps: "transform,opacity,visibility,willChange" }),
+          })
+          .to(images, {
+            scale: 1,
+            duration: 1.2,
+            stagger: 0.13,
+            onComplete: () => gsap.set(images, { clearProps: "transform,willChange" }),
+          }, 0);
       };
-      revealIfVisible = () => {
-        const bounds = section.getBoundingClientRect();
-        if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) playReveal();
-      };
+
       observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) playReveal();
-      }, { threshold: 0.08 });
-      observer.observe(section);
-      window.addEventListener("scroll", revealIfVisible, { passive: true });
-      revealIfVisible();
-      revealTimeout = window.setTimeout(playReveal, 900);
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+      observer.observe(track);
     }, section);
 
     return () => {
       observer?.disconnect();
-      if (revealIfVisible) window.removeEventListener("scroll", revealIfVisible);
-      if (revealTimeout) window.clearTimeout(revealTimeout);
+      revealTimeline?.kill();
       context.revert();
     };
   }, []);
