@@ -9,7 +9,7 @@ import type { Locale } from "@/lib/i18n";
 
 type CoffeeShowcaseProps = { locale: Locale; dictionary: Dictionary };
 
-const menuImages = ["/menu-matcha.jpeg", "/menu-breakfast.jpeg", "/coffee-pause-premium.png"];
+const menuImages = ["/menu-matcha.jpeg", "/menu-breakfast.jpeg", "/coffee-pause.jpg"];
 
 export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   const sectionRef = useRef<HTMLElement>(null);
