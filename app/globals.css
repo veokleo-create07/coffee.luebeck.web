@@ -274,9 +274,21 @@ a {
 }
 
 .hero-photo-gloss {
-  background: linear-gradient(112deg, rgb(255 255 255 / 18%) 0%, rgb(255 255 255 / 5%) 22%, transparent 48%, transparent 100%);
+  background: linear-gradient(105deg, transparent 20%, transparent 38%, rgb(255 255 255 / 22%) 49%, transparent 60%, transparent 80%);
+  background-size: 220% 100%;
   mix-blend-mode: screen;
-  opacity: 0.45;
+  opacity: 0.34;
+  animation: hero-photo-sheen 7s ease-in-out 1s 1 both;
+}
+
+@keyframes hero-photo-sheen {
+  0%, 100% {
+    background-position: 120% 0;
+  }
+
+  48% {
+    background-position: -20% 0;
+  }
 }
 
 .hero-photo-shell::before,
