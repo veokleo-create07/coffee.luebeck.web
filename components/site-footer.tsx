@@ -16,7 +16,7 @@ const footerLinkClass =
   "group inline-flex min-h-10 w-fit items-center gap-2 text-sm text-ivory/82 transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:text-base";
 
 const socialButtonClass =
-  "group inline-flex h-[3.375rem] w-[3.375rem] items-center justify-center rounded-full bg-ivory text-espresso shadow-[0_9px_20px_-13px_rgba(10,7,5,0.48)] transition-[transform,box-shadow,background-color] duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_13px_24px_-13px_rgba(10,7,5,0.56)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:h-[3.625rem] md:w-[3.625rem]";
+  "footer-social-action group inline-flex h-11 w-11 items-center justify-center rounded-none bg-transparent text-[#F8F5F0] shadow-none transition-[transform,box-shadow,background-color] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:h-[3.625rem] md:w-[3.625rem] md:rounded-full md:bg-ivory md:shadow-[0_9px_20px_-13px_rgba(10,7,5,0.48)] md:hover:-translate-y-1 md:hover:bg-white md:hover:shadow-[0_13px_24px_-13px_rgba(10,7,5,0.56)]";
 
 export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const footerRef = useRef<HTMLElement>(null);
@@ -117,21 +117,21 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             <div className="flex gap-5 sm:gap-7" aria-label={dictionary.footer.contactActionsLabel}>
               <div className="flex flex-col items-center gap-2.5">
                 <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass} style={{ color: "var(--color-espresso)" }}>
-                  <Phone size={21} strokeWidth={1.7} aria-hidden="true" />
+                  <Phone size={25} className="h-[25px] w-[25px] md:h-[21px] md:w-[21px]" strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-ivory/68">{locale === "de" ? "Anrufen" : "Call"}</span>
+                <span className="text-xs text-[#F8F5F0] md:text-ivory/68">{locale === "de" ? "Anrufen" : "Call"}</span>
               </div>
               <div className="flex flex-col items-center gap-2.5">
                 <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass} style={{ color: "var(--color-espresso)" }}>
-                  <Instagram size={21} strokeWidth={1.7} aria-hidden="true" />
+                  <Instagram size={25} className="h-[25px] w-[25px] md:h-[21px] md:w-[21px]" strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-ivory/68">Instagram</span>
+                <span className="text-xs text-[#F8F5F0] md:text-ivory/68">Instagram</span>
               </div>
               <div className="flex flex-col items-center gap-2.5">
                 <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass} style={{ color: "var(--color-espresso)" }}>
-                  <Music2 size={21} strokeWidth={1.7} aria-hidden="true" />
+                  <Music2 size={25} className="h-[25px] w-[25px] md:h-[21px] md:w-[21px]" strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-ivory/68">TikTok</span>
+                <span className="text-xs text-[#F8F5F0] md:text-ivory/68">TikTok</span>
               </div>
             </div>
           </div>
