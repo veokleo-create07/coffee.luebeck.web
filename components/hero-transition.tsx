@@ -21,9 +21,12 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       const incomingLayer = root.querySelector<HTMLElement>("[data-incoming-layer]");
       if (!heroLayer || !incomingLayer) return;
 
-      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+      // The incoming section is already in normal document flow, so scrolling
+      // naturally moves it upward. Avoid a second transform on that section;
+      // it creates a separate stacking context and is the source of mobile
+      // overlap bugs when the pinned hero is released.
       const transition = gsap.timeline({ paused: true });
-      transition.fromTo(incomingLayer, { yPercent: 100 }, { yPercent: 0, ease: "none" });
+      transition.set(incomingLayer, { yPercent: 0 });
 
       ScrollTrigger.create({
         trigger: root,
@@ -32,7 +35,6 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
         pin: heroLayer,
         pinSpacing: false,
         pinReparent: false,
-        pinType: isTouchDevice ? "transform" : "fixed",
         anticipatePin: 1,
         animation: transition,
         scrub: true,
