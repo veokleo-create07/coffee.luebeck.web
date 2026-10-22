@@ -68,7 +68,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   return (
     <footer
       ref={footerRef}
-      className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] py-16 font-sans text-ivory sm:py-20"
+      className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] pt-[6.25rem] pb-16 font-sans text-ivory sm:pt-36 sm:pb-20"
       aria-label="Footer"
     >
       <div className="mx-auto max-w-7xl">
