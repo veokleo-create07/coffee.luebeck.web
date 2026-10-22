@@ -13,10 +13,10 @@ gsap.registerPlugin(ScrollTrigger);
 type SiteFooterProps = { locale: Locale; dictionary: Dictionary };
 
 const footerLinkClass =
-  "group inline-flex min-h-10 w-fit items-center gap-2 text-sm text-ivory/82 transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:text-base";
+  "group inline-flex min-h-10 w-fit items-center gap-2 text-[0.8125rem] text-ivory/82 transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:text-base";
 
 const socialButtonClass =
-  "footer-social-action group inline-flex h-11 w-11 items-center justify-center rounded-none bg-transparent text-[#F8F5F0] shadow-none transition-[transform,box-shadow,background-color] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:h-[3.625rem] md:w-[3.625rem] md:rounded-full md:bg-ivory md:shadow-[0_9px_20px_-13px_rgba(10,7,5,0.48)] md:hover:-translate-y-1 md:hover:bg-white md:hover:shadow-[0_13px_24px_-13px_rgba(10,7,5,0.56)]";
+  "inline-flex h-11 w-11 items-center justify-center bg-transparent text-[#F8F5F0] transition-opacity duration-200 hover:opacity-100 md:hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass";
 
 export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const footerRef = useRef<HTMLElement>(null);
@@ -68,13 +68,13 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   return (
     <footer
       ref={footerRef}
-      className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] pt-[6.25rem] pb-16 font-sans text-ivory sm:pt-36 sm:pb-20"
+      className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] pt-22 pb-16 font-sans text-ivory sm:pt-36 sm:pb-20"
       aria-label="Footer"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-2 items-start gap-x-5 gap-y-9 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12">
+        <div className="grid grid-cols-2 items-start gap-x-5 gap-y-7 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12 md:gap-y-9">
           <section id="footer-contact" data-footer-reveal className="min-w-0">
-            <address className="not-italic text-[0.95rem] leading-[1.45] text-ivory/90 md:text-[1.2rem] md:leading-[1.4]">
+            <address className="not-italic text-[0.875rem] leading-[1.45] text-ivory/90 md:text-[1.2rem] md:leading-[1.4]">
               {addressLines.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -91,8 +91,8 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" />
             </a>
 
-            <div className="mt-6 md:mt-7">
-              <ul className="space-y-1 text-[0.78rem] leading-[1.55] text-ivory/72 md:text-sm md:leading-[1.7]">
+            <div className="mt-5 md:mt-7">
+              <ul className="space-y-1 text-xs leading-[1.55] text-ivory/72 md:text-sm md:leading-[1.7]">
                 {hours.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
@@ -103,7 +103,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           <nav
             data-footer-reveal
             aria-label="Footer navigation"
-            className="order-2 flex min-w-0 flex-col items-end gap-2 text-right md:order-3 md:gap-2.5"
+            className="order-2 flex min-w-0 flex-col items-end gap-1.5 text-right md:order-3 md:gap-2.5"
           >
             {navigation.map((item) => (
               <Link key={item.label} href={item.href} className={footerLinkClass}>
@@ -115,41 +115,41 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
 
           <div data-footer-reveal className="order-3 col-span-2 flex justify-center md:order-2 md:col-span-1">
             <div className="flex gap-5 sm:gap-7" aria-label={dictionary.footer.contactActionsLabel}>
-              <div className="flex flex-col items-center gap-2.5">
-                <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass} style={{ color: "var(--color-espresso)" }}>
-                  <Phone size={25} className="h-[25px] w-[25px] md:h-[21px] md:w-[21px]" strokeWidth={1.7} aria-hidden="true" />
+              <div className="flex flex-col items-center gap-2">
+                <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}>
+                  <Phone size={26} strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-[#F8F5F0] md:text-ivory/68">{locale === "de" ? "Anrufen" : "Call"}</span>
+                <span className="text-xs text-[#F8F5F0]">{locale === "de" ? "Anrufen" : "Call"}</span>
               </div>
-              <div className="flex flex-col items-center gap-2.5">
-                <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass} style={{ color: "var(--color-espresso)" }}>
-                  <Instagram size={25} className="h-[25px] w-[25px] md:h-[21px] md:w-[21px]" strokeWidth={1.7} aria-hidden="true" />
+              <div className="flex flex-col items-center gap-2">
+                <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass}>
+                  <Instagram size={26} strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-[#F8F5F0] md:text-ivory/68">Instagram</span>
+                <span className="text-xs text-[#F8F5F0]">Instagram</span>
               </div>
-              <div className="flex flex-col items-center gap-2.5">
-                <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass} style={{ color: "var(--color-espresso)" }}>
-                  <Music2 size={25} className="h-[25px] w-[25px] md:h-[21px] md:w-[21px]" strokeWidth={1.7} aria-hidden="true" />
+              <div className="flex flex-col items-center gap-2">
+                <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass}>
+                  <Music2 size={26} strokeWidth={1.7} aria-hidden="true" />
                 </a>
-                <span className="text-xs text-[#F8F5F0] md:text-ivory/68">TikTok</span>
+                <span className="text-xs text-[#F8F5F0]">TikTok</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div data-footer-reveal className="mt-20 text-center sm:mt-24">
+        <div data-footer-reveal className="mt-14 text-center sm:mt-24">
           <Link
             href={homeHref}
-            className="inline-block text-[clamp(2.35rem,4vw,3.4rem)] font-medium leading-[0.94] tracking-[-0.055em] text-ivory transition-colors duration-300 hover:text-brass"
+            className="inline-block text-[clamp(1.9rem,4vw,3.4rem)] font-medium leading-[0.94] tracking-[-0.055em] text-ivory transition-colors duration-300 hover:text-brass sm:text-[clamp(2.35rem,4vw,3.4rem)]"
           >
             Altstadtliebe
           </Link>
-          <p className="mt-2 text-[0.62rem] tracking-[0.19em] text-ivory/55 sm:text-[0.7rem]">
+          <p className="mt-1.5 text-[0.6875rem] tracking-[0.16em] text-ivory/65 sm:mt-2 sm:text-[0.7rem] sm:tracking-[0.19em] sm:text-ivory/55">
             {dictionary.footer.brandTagline} · Lübeck
           </p>
         </div>
 
-        <div data-footer-reveal className="mt-14 flex flex-col items-center gap-2.5 text-[0.66rem] text-ivory/48 sm:mt-16 sm:flex-row sm:justify-between sm:text-xs">
+        <div data-footer-reveal className="mt-8 flex flex-col items-center gap-2.5 text-[0.75rem] text-ivory/65 sm:mt-16 sm:flex-row sm:justify-between sm:text-xs sm:text-ivory/48">
           <span>© 2026 Altstadtliebe Lübeck</span>
           <div className="flex min-h-10 items-center justify-center gap-3">
             <a href="#imprint" className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">

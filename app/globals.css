@@ -234,12 +234,6 @@ a {
   pointer-events: none;
 }
 
-@media (max-width: 47.999rem) {
-  .footer-social-action {
-    color: #f8f5f0 !important;
-  }
-}
-
 @media (min-width: 768px) {
   .hero-transition-incoming {
     border-radius: 1.75rem 1.75rem 0 0;
