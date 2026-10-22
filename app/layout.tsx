@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
+import { CookieConsentProvider } from "@/components/cookie-consent";
 import "./globals.css";
 
 const bricology = Bricolage_Grotesque({
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="de" className={bricology.variable}>
-      <body>{children}</body>
+      <body><CookieConsentProvider>{children}</CookieConsentProvider></body>
     </html>
   );
 }
