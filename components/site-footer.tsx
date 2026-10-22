@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 type SiteFooterProps = { locale: Locale; dictionary: Dictionary };
 
 const footerLinkClass = "group relative inline-flex min-h-8 w-fit items-center text-xs text-ivory/72 transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass sm:text-sm";
-const socialButtonClass = "group inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/60 bg-ivory text-espresso shadow-[0_8px_18px_-12px_rgba(0,0,0,0.7)] transition-[transform,box-shadow,background-color] duration-300 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_12px_22px_-12px_rgba(0,0,0,0.72)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass sm:h-12 sm:w-12";
+const socialButtonClass = "group inline-flex h-12 w-12 items-center justify-center rounded-full border border-ivory/80 bg-ivory text-espresso shadow-[0_12px_24px_-14px_rgba(0,0,0,0.82)] transition-[transform,box-shadow,background-color] duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_16px_28px_-14px_rgba(0,0,0,0.88)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass sm:h-[3.25rem] sm:w-[3.25rem]";
 
 export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const footerRef = useRef<HTMLElement>(null);
@@ -65,17 +65,17 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
 
         <div data-footer-reveal className="flex min-w-0 justify-center">
           <div className="flex gap-2 sm:gap-3" aria-label={dictionary.footer.contactActionsLabel}>
-            <div className="flex flex-col items-center gap-1.5">
-              <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}><Phone size={16} strokeWidth={1.7} aria-hidden="true" /></a>
-              <span className="text-[0.58rem] text-ivory/55 sm:text-[0.65rem]">{locale === "de" ? "Anrufen" : "Call"}</span>
+            <div className="flex flex-col items-center gap-2">
+              <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}><Phone size={17} strokeWidth={1.65} aria-hidden="true" /></a>
+              <span className="text-[0.6rem] tracking-[0.02em] text-ivory/62 sm:text-[0.66rem]">{locale === "de" ? "Anrufen" : "Call"}</span>
             </div>
-            <div className="flex flex-col items-center gap-1.5">
-              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass}><Instagram size={16} strokeWidth={1.7} aria-hidden="true" /></a>
-              <span className="text-[0.58rem] text-ivory/55 sm:text-[0.65rem]">Instagram</span>
+            <div className="flex flex-col items-center gap-2">
+              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass}><Instagram size={17} strokeWidth={1.65} aria-hidden="true" /></a>
+              <span className="text-[0.6rem] tracking-[0.02em] text-ivory/62 sm:text-[0.66rem]">Instagram</span>
             </div>
-            <div className="flex flex-col items-center gap-1.5">
-              <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass}><Music2 size={16} strokeWidth={1.7} aria-hidden="true" /></a>
-              <span className="text-[0.58rem] text-ivory/55 sm:text-[0.65rem]">TikTok</span>
+            <div className="flex flex-col items-center gap-2">
+              <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass}><Music2 size={17} strokeWidth={1.65} aria-hidden="true" /></a>
+              <span className="text-[0.6rem] tracking-[0.02em] text-ivory/62 sm:text-[0.66rem]">TikTok</span>
             </div>
           </div>
         </div>
