@@ -381,13 +381,13 @@ a {
   min-height: 48px;
   border-radius: 999px;
   padding: 14px 24px;
-  background: #33251f;
-  box-shadow: 0 16px 30px -18px rgb(73 48 36 / 62%), inset 0 1px 0 rgb(255 255 255 / 19%), inset 0 0 0 1px rgb(255 255 255 / 7%);
+  background: #2c211c;
+  box-shadow: 0 12px 24px -16px rgb(73 48 36 / 48%), inset 0 1px 0 rgb(255 255 255 / 20%), inset 0 0 0 1px rgb(255 255 255 / 7%);
   font-family: var(--font-bricolage), sans-serif;
   font-size: 14px;
   font-weight: 500;
   line-height: 1.1;
-  transition: transform 280ms ease, background-color 280ms ease, box-shadow 280ms ease;
+  transition: transform 240ms ease, background-color 240ms ease, box-shadow 240ms ease;
 }
 
 .events-feature-cta.site-button::after {
@@ -396,8 +396,8 @@ a {
 
 .events-feature-cta.site-button:hover,
 .events-feature-cta.site-button:focus-visible {
-  background: #3c2b24;
-  box-shadow: 0 19px 34px -18px rgb(73 48 36 / 68%), inset 0 1px 0 rgb(255 255 255 / 23%), inset 0 0 0 1px rgb(255 255 255 / 9%);
+  background: #382820;
+  box-shadow: 0 14px 26px -16px rgb(73 48 36 / 54%), inset 0 1px 0 rgb(255 255 255 / 22%), inset 0 0 0 1px rgb(255 255 255 / 8%);
   transform: translateY(-2px);
 }
 
