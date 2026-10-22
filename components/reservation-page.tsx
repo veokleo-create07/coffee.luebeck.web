@@ -17,6 +17,21 @@ type AvailabilityResponse = { date: string; times: string[]; durationMinutes: nu
 
 const initialDetails: Details = { fullName: "", email: "", requests: "" };
 
+function timeToMinutes(value: string) {
+  const [hours, minutes] = value.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
+const reservationTimes = Array.from(
+  {
+    length: Math.floor((timeToMinutes(BOOKING_CONFIG.lastTime) - timeToMinutes(BOOKING_CONFIG.firstTime)) / BOOKING_CONFIG.intervalMinutes) + 1,
+  },
+  (_, index) => {
+    const minutes = timeToMinutes(BOOKING_CONFIG.firstTime) + index * BOOKING_CONFIG.intervalMinutes;
+    return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+  },
+);
+
 function dateInputValue(date: Date) {
   const parts = new Intl.DateTimeFormat("en-CA", { timeZone: BOOKING_CONFIG.timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
   return `${parts.find((part) => part.type === "year")?.value}-${parts.find((part) => part.type === "month")?.value}-${parts.find((part) => part.type === "day")?.value}`;
@@ -154,7 +169,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     setAvailability(null);
   }
 
-  const inputClass = "mt-2 min-h-11 w-full min-w-0 rounded-none border-0 border-b border-espresso/25 bg-transparent px-0 py-2.5 text-base text-espresso outline-none transition-colors placeholder:text-espresso-soft/55 focus:border-espresso";
+  const inputClass = "mt-2 min-h-12 w-full min-w-0 rounded-[0.85rem] border border-espresso/14 bg-espresso/[0.025] px-3.5 py-2.5 text-base text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 focus:border-espresso/45 focus:bg-espresso/[0.045] focus:ring-2 focus:ring-espresso/8";
+  const labelClass = "text-xs font-medium uppercase tracking-[0.08em] text-espresso-soft";
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
   const buttonClass = "site-button site-button-primary";
 
@@ -173,7 +189,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           <section className="min-w-0">
             <header className="grid grid-cols-[minmax(0,1fr)_6.5rem] items-start gap-5 sm:grid-cols-[minmax(0,1fr)_8rem] lg:block">
               <div>
-                <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.5rem,6vw,4.8rem)] font-semibold leading-[0.9] text-espresso">{copy.title}</h1>
+                <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.65rem,5.5vw,4.5rem)] font-semibold leading-[0.9] tracking-[-0.045em] text-espresso">{copy.title}</h1>
+                <p className="mt-5 max-w-[22rem] text-sm leading-[1.5] text-espresso-soft md:mt-6 md:text-base">{dictionary.reservation.description}</p>
               </div>
               <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
                 <Image src="/booking-cups.jpeg" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
@@ -191,23 +208,23 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 <button type="button" onClick={resetBooking} className={`${buttonClass} mt-7`}>{copy.startOver}</button>
               </section>
             ) : (
-              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-5 border-y border-espresso/20 py-5 md:mt-6 md:py-6">
+              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-9 md:mt-12">
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
                     <div className="grid grid-cols-2 gap-4 sm:gap-8">
                       <div className="min-w-0">
-                        <label htmlFor="visit-date" className="text-sm font-medium text-espresso">{copy.dateLabel}</label>
+                        <label htmlFor="visit-date" className={labelClass}>{copy.dateLabel}</label>
                         <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className={inputClass} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
                       <div className="min-w-0">
-                        <label htmlFor="guest-count" className="text-sm font-medium text-espresso">{copy.guestsLabel}</label>
+                        <label htmlFor="guest-count" className={labelClass}>{copy.guestsLabel}</label>
                         <div className="relative">
                           <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className={`${inputClass} appearance-none pr-6`} aria-label={copy.guestsLabel}>
                             {Array.from({ length: BOOKING_CONFIG.maxGuests }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1} {copy.guestsSuffix}</option>)}
                           </select>
-                          <ChevronDown size={16} strokeWidth={1.5} className="pointer-events-none absolute bottom-4 right-0 text-espresso-soft" aria-hidden="true" />
+                          <ChevronDown size={16} strokeWidth={1.5} className="pointer-events-none absolute bottom-4 right-3 text-espresso-soft" aria-hidden="true" />
                         </div>
                       </div>
                       <div className="col-span-2 mt-1">
@@ -218,10 +235,14 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
                     <div className="mt-7">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <label className="text-sm font-medium text-espresso">{copy.timeLabel}</label>
+                        <label className={labelClass}>{copy.timeLabel}</label>
                       </div>
                       <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4" aria-busy={availabilityLoading}>
-                        {availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-12 w-full border px-2 text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/25 hover:border-espresso"}`} aria-pressed={form.time === time}>{time}</button>)}
+                        {reservationTimes.map((time) => {
+                          const isAvailable = availableTimes.includes(time);
+                          const isDisabled = availabilityLoading || !isAvailable;
+                          return <button key={time} type="button" disabled={isDisabled} onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-10 w-full border px-2 text-xs shadow-none transition-colors sm:min-h-11 sm:text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/20 hover:border-espresso/55"} disabled:cursor-not-allowed disabled:border-espresso/10 disabled:bg-espresso/[0.035] disabled:text-espresso-soft/35 disabled:shadow-none`} aria-pressed={form.time === time}>{time}</button>;
+                        })}
                       </div>
                       {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
                       {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
@@ -243,18 +264,18 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     </dl>
                     <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
                       <div className="sm:col-span-2">
-                        <label htmlFor="full-name" className="text-sm font-medium text-espresso">{copy.fullName}</label>
+                        <label htmlFor="full-name" className={labelClass}>{copy.fullName}</label>
                         <input id="full-name" value={form.details.fullName} onChange={(event) => updateDetails("fullName", event.target.value)} className={inputClass} autoComplete="name" aria-invalid={Boolean(errors.fullName)} aria-describedby={errors.fullName ? "full-name-error" : undefined} />
                         {errors.fullName && <p id="full-name-error" className={errorClass} role="alert">{errors.fullName}</p>}
                       </div>
                       <div>
-                        <label htmlFor="email" className="text-sm font-medium text-espresso">{copy.email}</label>
+                        <label htmlFor="email" className={labelClass}>{copy.email}</label>
                         <input id="email" type="email" value={form.details.email} onChange={(event) => updateDetails("email", event.target.value)} className={inputClass} autoComplete="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} />
                         {errors.email && <p id="email-error" className={errorClass} role="alert">{errors.email}</p>}
                       </div>
                     </div>
                     <div className="mt-3">
-                      <label htmlFor="requests" className="text-sm font-medium text-espresso">{copy.requests} <span className="text-xs text-espresso-soft/60">({copy.optional})</span></label>
+                      <label htmlFor="requests" className={labelClass}>{copy.requests} <span className="normal-case tracking-normal text-espresso-soft/60">({copy.optional})</span></label>
                       <textarea id="requests" rows={2} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
