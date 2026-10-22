@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Instagram, Music2, Phone } from "lucide-react";
+import { ArrowUpRight, Instagram, Music2, Phone } from "lucide-react";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
@@ -88,7 +88,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               className={`${footerLinkClass} order-3 mt-2 text-ivory/78 no-underline underline-offset-4 hover:decoration-ivory/70 md:order-none md:underline md:decoration-ivory/25`}
             >
               {dictionary.location.directions}
-              <span aria-hidden="true" className="md:hidden">↗</span>
+              <ArrowUpRight size={13} strokeWidth={1.7} aria-hidden="true" className="md:hidden" />
             </a>
 
             <div className="order-2 mt-3 md:order-none md:mt-7">
