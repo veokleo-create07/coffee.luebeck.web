@@ -165,7 +165,7 @@ export const de: Dictionary = {
     description: "Guter Kaffee, leckeres Frühstück und Momente, für die man gerne länger bleibt.",
     primaryCta: "Reservieren",
     secondaryCta: "Einblicke",
-    imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
+    imageAlt: "Getränke von Altstadtliebe im Café fotografiert",
     note: "Unsere Geschichte beginnt hier.",
   },
   story: {

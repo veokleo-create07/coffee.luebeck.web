@@ -165,10 +165,9 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
         <div className="mx-auto grid max-w-5xl gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(28rem,1.08fr)] lg:items-start lg:gap-10 xl:gap-14">
           <aside className="hidden lg:block lg:sticky lg:top-8" aria-label={dictionary.reservation.imageAlt}>
             <div className="relative h-[min(76vh,46rem)] min-h-[34rem] overflow-hidden rounded-[2rem] bg-espresso/10">
-              <Image src="/altstadtliebe-interior.png" alt={dictionary.reservation.imageAlt} fill sizes="45vw" className="object-cover object-center" priority />
+              <Image src="/booking-cups.jpeg" alt={dictionary.reservation.imageAlt} fill sizes="45vw" className="object-cover object-center" priority />
               <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
             </div>
-            <p className="eyebrow mt-4">Altstadtliebe · Lübeck</p>
           </aside>
 
           <section className="min-w-0">
@@ -177,7 +176,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.5rem,6vw,4.8rem)] font-semibold leading-[0.9] text-espresso">{copy.title}</h1>
               </div>
               <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
-                <Image src="/altstadtliebe-interior.png" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
+                <Image src="/booking-cups.jpeg" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
               </div>
             </header>
 
