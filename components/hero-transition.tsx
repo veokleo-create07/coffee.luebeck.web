@@ -32,7 +32,8 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       ScrollTrigger.create({
         trigger: root,
         start: "top top",
-        end: () => `+=${Math.max(1, heroLayer.offsetHeight)}`,
+        endTrigger: incomingLayer,
+        end: "top top",
         pin: heroLayer,
         pinSpacing: false,
         pinReparent: false,
