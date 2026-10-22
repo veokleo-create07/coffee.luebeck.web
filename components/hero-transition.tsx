@@ -21,17 +21,13 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       const incomingLayer = root.querySelector<HTMLElement>("[data-incoming-layer]");
       if (!heroLayer || !incomingLayer) return;
 
-      // Touch browsers get normal document flow. Mobile Safari can retain a
-      // pinned layer after a viewport resize, which makes later sections leak
-      // through the hero; the stable fallback is the unpinned composition.
-      if (window.matchMedia("(pointer: coarse)").matches) return;
-
       // The incoming section is already in normal document flow, so scrolling
       // naturally moves it upward. Avoid a second transform on that section;
       // it creates a separate stacking context and is the source of mobile
       // overlap bugs when the pinned hero is released.
       const transition = gsap.timeline({ paused: true });
       transition.set(incomingLayer, { yPercent: 0 });
+      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
       ScrollTrigger.create({
         trigger: root,
@@ -40,6 +36,7 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
         pin: heroLayer,
         pinSpacing: false,
         pinReparent: false,
+        pinType: isTouchDevice ? "transform" : "fixed",
         anticipatePin: 1,
         animation: transition,
         scrub: true,
