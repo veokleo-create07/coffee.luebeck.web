@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Instagram, Music2, Phone } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
@@ -143,13 +144,17 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         <div data-footer-reveal className="mt-10 text-center sm:mt-24">
           <Link
             href={homeHref}
-            className="inline-block text-[clamp(1.9rem,4vw,3.4rem)] font-semibold leading-[0.94] tracking-[-0.055em] text-[#F8F5F0] transition-colors duration-300 hover:text-brass sm:text-[clamp(2.35rem,4vw,3.4rem)]"
+            className="group inline-block rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
+            aria-label="Altstadtliebe — home"
           >
-            Altstadtliebe
+            <Image
+              src="/altstadtliebe-logo.png"
+              alt="Altstadtliebe breakfast & lunch"
+              width={759}
+              height={251}
+              className="h-auto w-[clamp(12rem,25vw,18rem)] brightness-0 invert transition-[opacity,transform] duration-300 group-hover:scale-[1.015] group-hover:opacity-90"
+            />
           </Link>
-          <p className="mt-1.5 text-[0.6875rem] font-medium tracking-[0.16em] text-[#F8F5F0] sm:mt-2 sm:text-[0.7rem] sm:tracking-[0.19em]">
-            {dictionary.footer.brandTagline} · Lübeck
-          </p>
         </div>
 
         <div data-footer-reveal className="mt-7 flex flex-col items-center gap-1.5 text-[0.75rem] font-medium text-[#F8F5F0] sm:mt-16 sm:flex-row sm:justify-between sm:gap-2.5 sm:text-xs">
