@@ -25,32 +25,28 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       const heroLayer = root.querySelector<HTMLElement>(".hero-transition-hero");
       const incomingLayer = root.querySelector<HTMLElement>(".hero-transition-incoming");
       if (!heroLayer || !incomingLayer) return;
+      const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const transition = gsap.timeline({ paused: true });
+      const trigger = isAppleMobile
+        ? { trigger: incomingLayer, start: "top 92%", end: "top 60%" }
+        : {
+            trigger: root,
+            start: "top top",
+            end: () => `+=${Math.max(1, heroLayer.offsetHeight)}`,
+            pin: heroLayer,
+            pinSpacing: false,
+            pinReparent: false,
+            anticipatePin: 1,
+            refreshPriority: 1,
+          };
 
-      ScrollTrigger.create({
-        trigger: root,
-        start: "top top",
-        end: () => `+=${Math.max(1, heroLayer.offsetHeight)}`,
-        pin: heroLayer,
-        pinSpacing: false,
-        // Keep the pinned layer inside the scene so its stacking order remains
-        // below the incoming section on Safari and other mobile browsers.
-        pinReparent: false,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        refreshPriority: 1,
-      });
+      if (isAppleMobile) {
+        transition.fromTo(incomingLayer, { yPercent: 7 }, { yPercent: 0, ease: "none" });
+      } else {
+        transition.fromTo(incomingLayer, { yPercent: 100 }, { yPercent: 0, ease: "none" });
+      }
 
-      gsap.fromTo(incomingLayer, { yPercent: 3 }, {
-        yPercent: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: incomingLayer,
-          start: "top bottom",
-          end: "top top",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      });
+      ScrollTrigger.create({ ...trigger, animation: transition, scrub: true, invalidateOnRefresh: true });
 
       refreshFrame = window.requestAnimationFrame(refresh);
       window.addEventListener("load", refresh, { once: true });

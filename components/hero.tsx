@@ -1,15 +1,12 @@
 "use client";
 
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Instagram } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type HeroProps = { locale: Locale; dictionary: Dictionary };
 
@@ -35,16 +32,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
         .fromTo(".hero-word", { opacity: 0, yPercent: 110 }, { opacity: 1, yPercent: 0, duration: 0.8, stagger: 0.09 })
         .fromTo(".hero-cta", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.1, onComplete: () => gsap.set(".hero-cta", { clearProps: "opacity,visibility" }) }, "-=0.28");
 
-      gsap.to(".hero-photo", {
-        yPercent: -8,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".hero-photo-frame",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
     }, root);
 
     return () => context.revert();
