@@ -23,6 +23,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const homeHref = locale === "de" ? "/" : "/en";
   const menuHref = locale === "de" ? "/menu" : "/en/menu";
   const reservationHref = locale === "de" ? "/reservation" : "/en/reservation";
+  const legalNoticeHref = locale === "de" ? "/impressum" : "/en/legal-notice";
   const addressLines = [...dictionary.location.addressLines];
   if (locale === "de" && addressLines[1]) {
     addressLines[1] = addressLines[1].replace(", Deutschland", "");
@@ -152,9 +153,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         <div data-footer-reveal className="mt-7 flex flex-col items-center gap-1.5 text-[0.75rem] font-medium text-[#F8F5F0] sm:mt-16 sm:flex-row sm:justify-between sm:gap-2.5 sm:text-xs">
           <span className="order-2 sm:order-1">© 2026 Altstadtliebe Lübeck</span>
           <div className="order-1 flex min-h-10 items-center justify-center gap-3 sm:order-2">
-            <a href="#imprint" className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+            <Link href={legalNoticeHref} className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
               {dictionary.footer.imprint}
-            </a>
+            </Link>
             <span aria-hidden="true" className="text-[#F8F5F0]">·</span>
             <a href="#privacy" className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
               {dictionary.footer.privacy}

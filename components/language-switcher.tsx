@@ -1,11 +1,11 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 
-type LanguageSwitcherProps = { locale: Locale; label: string };
+type LanguageSwitcherProps = { locale: Locale; label: string; href?: string };
 
-export function LanguageSwitcher({ locale, label }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ locale, label, href: providedHref }: LanguageSwitcherProps) {
   const nextLocale: Locale = locale === "de" ? "en" : "de";
-  const href = nextLocale === "de" ? "/" : "/en";
+  const href = providedHref ?? (nextLocale === "de" ? "/" : "/en");
   const currentLabel = locale === "de" ? "De" : "En";
   const nextLabel = nextLocale === "de" ? "De" : "En";
 
