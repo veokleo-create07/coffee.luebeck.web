@@ -27,24 +27,19 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       if (!heroLayer || !incomingLayer) return;
       const isAppleMobile = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       const transition = gsap.timeline({ paused: true });
-      const trigger = isAppleMobile
-        ? { trigger: incomingLayer, start: "top 92%", end: "top 60%" }
-        : {
-            trigger: root,
-            start: "top top",
-            end: () => `+=${Math.max(1, heroLayer.offsetHeight)}`,
-            pin: heroLayer,
-            pinSpacing: false,
-            pinReparent: false,
-            anticipatePin: 1,
-            refreshPriority: 1,
-          };
+      const trigger = {
+        trigger: root,
+        start: "top top",
+        end: () => `+=${Math.max(1, heroLayer.offsetHeight)}`,
+        pin: heroLayer,
+        pinSpacing: false,
+        pinReparent: false,
+        pinType: isAppleMobile ? "transform" as const : "fixed" as const,
+        anticipatePin: 1,
+        refreshPriority: 1,
+      };
 
-      if (isAppleMobile) {
-        transition.fromTo(incomingLayer, { yPercent: 7 }, { yPercent: 0, ease: "none" });
-      } else {
-        transition.fromTo(incomingLayer, { yPercent: 100 }, { yPercent: 0, ease: "none" });
-      }
+      transition.fromTo(incomingLayer, { yPercent: 100 }, { yPercent: 0, ease: "none" });
 
       ScrollTrigger.create({ ...trigger, animation: transition, scrub: true, invalidateOnRefresh: true });
 
