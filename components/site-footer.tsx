@@ -28,7 +28,6 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
     addressLines[1] = addressLines[1].replace(", Deutschland", "");
   }
   const hours = [...dictionary.location.hours]
-    .reverse()
     .map((line) => (locale === "de" ? line.replace("geschlossen", "Geschlossen") : line));
   const navigation = [
     { label: locale === "de" ? "Startseite" : dictionary.footer.navHome, href: homeHref },
@@ -73,25 +72,27 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-start gap-y-7 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12 md:gap-y-9">
-          <section id="footer-contact" data-footer-reveal className="flex min-w-0 flex-col md:block">
-            <address className="not-italic text-[0.875rem] font-medium leading-[1.45] text-[#F8F5F0] md:text-[1.2rem] md:leading-[1.4]">
-              {addressLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </address>
-            <a
-              href={dictionary.location.directionsHref}
-              target="_blank"
-              rel="noreferrer"
-              className={`${footerLinkClass} order-3 mt-2 text-[#F8F5F0] no-underline underline-offset-4 hover:decoration-[#F8F5F0] md:order-none md:underline md:decoration-[#F8F5F0]/40`}
-            >
-              {dictionary.location.directions}
-              <ArrowUpRight size={13} strokeWidth={1.7} aria-hidden="true" className="md:hidden" />
-            </a>
+          <section id="footer-contact" data-footer-reveal className="grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] items-start gap-x-5 md:gap-x-8">
+            <div className="min-w-0">
+              <address className="not-italic text-[0.875rem] font-medium leading-[1.45] text-[#F8F5F0] md:text-[1.2rem] md:leading-[1.4]">
+                {addressLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </address>
+              <a
+                href={dictionary.location.directionsHref}
+                target="_blank"
+                rel="noreferrer"
+                className={`${footerLinkClass} mt-2 text-[#F8F5F0] no-underline underline-offset-4 hover:decoration-[#F8F5F0] md:underline md:decoration-[#F8F5F0]/40`}
+              >
+                {dictionary.location.directions}
+                <ArrowUpRight size={13} strokeWidth={1.7} aria-hidden="true" className="md:hidden" />
+              </a>
+            </div>
 
-            <div className="order-2 mt-3 md:order-none md:mt-7">
+            <div className="min-w-0 justify-self-end text-right">
               <ul className="space-y-1 text-xs font-medium leading-[1.55] text-[#F8F5F0] md:text-sm md:leading-[1.7]">
                 {hours.map((line) => (
                   <li key={line}>{line}</li>
