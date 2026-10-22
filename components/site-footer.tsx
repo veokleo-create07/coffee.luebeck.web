@@ -68,7 +68,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   return (
     <footer
       ref={footerRef}
-      className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] py-12 font-sans text-ivory sm:py-14 md:py-16"
+      className="site-footer-transition overflow-hidden bg-espresso px-[var(--page-gutter)] py-16 font-sans text-ivory sm:py-20"
       aria-label="Footer"
     >
       <div className="mx-auto max-w-7xl">
@@ -137,7 +137,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           </div>
         </div>
 
-        <div data-footer-reveal className="mt-12 text-center md:mt-16">
+        <div data-footer-reveal className="mt-20 text-center sm:mt-24">
           <Link
             href={homeHref}
             className="inline-block text-[clamp(2.35rem,4vw,3.4rem)] font-medium leading-[0.94] tracking-[-0.055em] text-ivory transition-colors duration-300 hover:text-brass"
@@ -149,7 +149,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
           </p>
         </div>
 
-        <div data-footer-reveal className="mt-8 flex flex-col items-center gap-2.5 text-[0.66rem] text-ivory/48 sm:flex-row sm:justify-between sm:text-xs">
+        <div data-footer-reveal className="mt-14 flex flex-col items-center gap-2.5 text-[0.66rem] text-ivory/48 sm:mt-16 sm:flex-row sm:justify-between sm:text-xs">
           <span>© 2026 Altstadtliebe Lübeck</span>
           <div className="flex min-h-10 items-center justify-center gap-3">
             <a href="#imprint" className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
