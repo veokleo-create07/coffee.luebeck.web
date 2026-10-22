@@ -201,27 +201,24 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       {settingsOpen ? (
         <div className="cookie-dialog-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSettingsOpen(false); }}>
           <div ref={dialogRef} className="cookie-dialog" role="dialog" aria-modal="true" aria-labelledby="cookie-dialog-title" aria-describedby="cookie-dialog-description">
-            <div className="flex items-start justify-between gap-5">
-              <div>
-                <p className="eyebrow">Altstadtliebe</p>
-                <h2 id="cookie-dialog-title" className="mt-3 text-3xl font-semibold leading-none tracking-[-0.045em] md:text-4xl">{text.dialogTitle}</h2>
-              </div>
+            <div className="flex items-center justify-between gap-5">
+              <h2 id="cookie-dialog-title" className="text-[1.75rem] font-semibold leading-none tracking-[-0.045em] md:text-[2rem]">{text.dialogTitle}</h2>
               <button type="button" className="cookie-close" onClick={() => setSettingsOpen(false)} aria-label={text.close}><X size={20} strokeWidth={1.6} aria-hidden="true" /></button>
             </div>
-            <p id="cookie-dialog-description" className="mt-5 max-w-xl text-sm leading-[1.55] text-espresso-soft md:text-base">{text.dialogIntro}</p>
+            <p id="cookie-dialog-description" className="mt-3 max-w-[44rem] text-[0.8rem] leading-[1.5] text-espresso-soft md:text-sm">{text.dialogIntro}</p>
 
-            <div className="mt-7 divide-y divide-espresso/12 border-y border-espresso/12">
+            <div className="mt-5 divide-y divide-espresso/10 border-y border-espresso/10">
               <div className="cookie-category">
                 <div>
-                  <h3 className="font-semibold">{text.essentialTitle}</h3>
-                  <p className="mt-1 text-sm leading-[1.45] text-espresso-soft">{text.essentialBody}</p>
+                  <h3 className="text-[0.95rem] font-semibold">{text.essentialTitle}</h3>
+                  <p className="mt-1 max-w-[31rem] text-[0.78rem] leading-[1.45] text-espresso-soft md:text-sm">{text.essentialBody}</p>
                 </div>
-                <span className="shrink-0 text-xs font-semibold text-olive-deep">{text.alwaysActive}</span>
+                <span className="shrink-0 text-[0.68rem] font-semibold text-olive-deep md:text-xs">{text.alwaysActive}</span>
               </div>
               <div className="cookie-category">
                 <div>
-                  <h3 className="font-semibold">{text.mapsTitle}</h3>
-                  <p className="mt-1 text-sm leading-[1.45] text-espresso-soft">{text.mapsBody}</p>
+                  <h3 className="text-[0.95rem] font-semibold">{text.mapsTitle}</h3>
+                  <p className="mt-1 max-w-[31rem] text-[0.78rem] leading-[1.45] text-espresso-soft md:text-sm">{text.mapsBody}</p>
                 </div>
                 <label className="cookie-switch">
                   <span className="sr-only">{text.mapsTitle}</span>
@@ -231,12 +228,12 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
+            <div className="cookie-dialog-actions">
               <button type="button" className="cookie-action" onClick={() => savePreferences(googleMapsDraft)}>{text.save}</button>
               <button type="button" className="cookie-action" onClick={() => savePreferences(true)}>{text.accept}</button>
               <button type="button" className="cookie-action" onClick={() => savePreferences(false)}>{text.reject}</button>
             </div>
-            <Link href={privacyHref} className="mt-5 inline-block text-sm font-medium underline decoration-espresso/25 underline-offset-4 hover:decoration-espresso">{text.privacy}</Link>
+            <Link href={privacyHref} className="mt-4 inline-block text-xs font-medium text-espresso-soft underline decoration-espresso/20 underline-offset-4 hover:text-espresso hover:decoration-espresso">{text.privacy}</Link>
           </div>
         </div>
       ) : null}
