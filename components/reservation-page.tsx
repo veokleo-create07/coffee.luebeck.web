@@ -11,11 +11,22 @@ import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
-type Details = { fullName: string; email: string; requests: string };
+type Details = { fullName: string; email: string; phone: string; requests: string };
 type FormState = { date: string; guests: number; time: string; details: Details };
 type AvailabilityResponse = { date: string; times: string[]; durationMinutes: number; available: boolean; reason?: "closed" | "outside_window" };
 
-const initialDetails: Details = { fullName: "", email: "", requests: "" };
+const initialDetails: Details = { fullName: "", email: "", phone: "", requests: "" };
+function timeToMinutes(value: string) {
+  const [hours, minutes] = value.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
+const firstReservationMinute = timeToMinutes(BOOKING_CONFIG.firstTime);
+const lastReservationMinute = timeToMinutes(BOOKING_CONFIG.lastTime);
+const reservationTimes = Array.from({ length: Math.floor((lastReservationMinute - firstReservationMinute) / BOOKING_CONFIG.intervalMinutes) + 1 }, (_, index) => {
+  const minutes = firstReservationMinute + index * BOOKING_CONFIG.intervalMinutes;
+  return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+});
 
 function dateInputValue(date: Date) {
   const parts = new Intl.DateTimeFormat("en-CA", { timeZone: BOOKING_CONFIG.timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
@@ -125,7 +136,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
             guestCount: form.guests,
             date: form.date,
             time: form.time,
-            specialRequests: form.details.requests,
+            specialRequests: [form.details.phone.trim() ? `Telefon: ${form.details.phone.trim()}` : "", form.details.requests.trim()].filter(Boolean).join("\n") || null,
             language: locale,
           }),
         });
@@ -154,9 +165,10 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     setAvailability(null);
   }
 
-  const inputClass = "mt-2 min-h-11 w-full min-w-0 rounded-none border-0 border-b border-espresso/25 bg-transparent px-0 py-2.5 text-base text-espresso outline-none transition-colors placeholder:text-espresso-soft/55 focus:border-espresso";
+  const inputClass = "mt-2 min-h-12 w-full min-w-0 rounded-[0.8rem] border border-espresso/12 bg-[#eee9e1]/55 px-3.5 py-2.5 text-base text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 focus:border-espresso/45 focus:bg-[#eee9e1] focus:ring-2 focus:ring-espresso/8";
+  const labelClass = "text-xs font-medium uppercase tracking-[0.08em] text-espresso-soft";
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
-  const buttonClass = "site-button site-button-primary";
+  const buttonClass = "site-button site-button-primary min-h-12 px-5 text-sm";
 
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
@@ -173,7 +185,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           <section className="min-w-0">
             <header className="grid grid-cols-[minmax(0,1fr)_6.5rem] items-start gap-5 sm:grid-cols-[minmax(0,1fr)_8rem] lg:block">
               <div>
-                <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.5rem,6vw,4.8rem)] font-semibold leading-[0.9] text-espresso">{copy.title}</h1>
+                <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.2rem,5.2vw,4.15rem)] font-semibold leading-[0.92] tracking-[-0.045em] text-espresso">{copy.title}</h1>
               </div>
               <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
                 <Image src="/booking-cups.jpeg" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
@@ -197,12 +209,12 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
                     <div className="grid grid-cols-2 gap-4 sm:gap-8">
                       <div className="min-w-0">
-                        <label htmlFor="visit-date" className="text-sm font-medium text-espresso">{copy.dateLabel}</label>
+                        <label htmlFor="visit-date" className={labelClass}>{copy.dateLabel}</label>
                         <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className={inputClass} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
                       <div className="min-w-0">
-                        <label htmlFor="guest-count" className="text-sm font-medium text-espresso">{copy.guestsLabel}</label>
+                        <label htmlFor="guest-count" className={labelClass}>{copy.guestsLabel}</label>
                         <div className="relative">
                           <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className={`${inputClass} appearance-none pr-6`} aria-label={copy.guestsLabel}>
                             {Array.from({ length: BOOKING_CONFIG.maxGuests }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1} {copy.guestsSuffix}</option>)}
@@ -218,10 +230,14 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
                     <div className="mt-7">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <label className="text-sm font-medium text-espresso">{copy.timeLabel}</label>
+                        <label className={labelClass}>{copy.timeLabel}</label>
                       </div>
                       <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4" aria-busy={availabilityLoading}>
-                        {availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-12 w-full border px-2 text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/25 hover:border-espresso"}`} aria-pressed={form.time === time}>{time}</button>)}
+                        {reservationTimes.map((time) => {
+                          const isAvailable = availableTimes.includes(time);
+                          const isDisabled = availabilityLoading || !isAvailable;
+                          return <button key={time} type="button" disabled={isDisabled} onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-10 w-full border px-2 text-xs shadow-none transition-colors sm:min-h-11 sm:text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/18 hover:border-espresso/45"} disabled:cursor-not-allowed disabled:border-espresso/10 disabled:bg-espresso/[0.035] disabled:text-espresso-soft/35 disabled:shadow-none`} aria-pressed={form.time === time}>{time}</button>;
+                        })}
                       </div>
                       {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
                       {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
@@ -235,31 +251,35 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 ) : (
                   <section aria-labelledby="contact-details-title">
                     <h2 id="contact-details-title" className="sr-only">{copy.stepLabels[1]}</h2>
-                    <dl className="mb-5 grid grid-cols-3 gap-3 border-b border-espresso/15 pb-5 text-sm">
-                      <div><dt className="text-xs text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1 text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd></div>
-                      <div><dt className="text-xs text-espresso-soft">{copy.summaryTime}</dt><dd className="mt-1 text-espresso">{form.time}</dd></div>
-                      <div><dt className="text-xs text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1 text-espresso">{form.guests} {copy.guestsSuffix}</dd></div>
-                      <div className="col-span-3 flex items-center gap-2 text-xs text-espresso-soft"><Clock3 size={14} strokeWidth={1.5} className="text-olive" aria-hidden="true" /><dt>{copy.summaryDuration}:</dt><dd>{copy.durationNotice}</dd></div>
+                    <dl className="mb-7 grid grid-cols-3 gap-x-3 gap-y-5 border-b border-espresso/15 pb-6 text-sm sm:gap-x-6">
+                      <div><dt className="text-[0.65rem] uppercase tracking-[0.08em] text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1.5 font-medium text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd></div>
+                      <div><dt className="text-[0.65rem] uppercase tracking-[0.08em] text-espresso-soft">{copy.summaryTime}</dt><dd className="mt-1.5 font-medium text-espresso">{form.time}</dd></div>
+                      <div><dt className="text-[0.65rem] uppercase tracking-[0.08em] text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1.5 font-medium text-espresso">{form.guests} {copy.guestsSuffix}</dd></div>
+                      <div className="col-span-3 flex items-center gap-2 text-xs leading-5 text-espresso-soft"><Clock3 size={14} strokeWidth={1.5} className="shrink-0 text-olive" aria-hidden="true" /><dt>{copy.summaryDuration}:</dt><dd>{copy.durationNotice}</dd></div>
                     </dl>
                     <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
                       <div className="sm:col-span-2">
-                        <label htmlFor="full-name" className="text-sm font-medium text-espresso">{copy.fullName}</label>
+                        <label htmlFor="full-name" className={labelClass}>{copy.fullName}</label>
                         <input id="full-name" value={form.details.fullName} onChange={(event) => updateDetails("fullName", event.target.value)} className={inputClass} autoComplete="name" aria-invalid={Boolean(errors.fullName)} aria-describedby={errors.fullName ? "full-name-error" : undefined} />
                         {errors.fullName && <p id="full-name-error" className={errorClass} role="alert">{errors.fullName}</p>}
                       </div>
                       <div>
-                        <label htmlFor="email" className="text-sm font-medium text-espresso">{copy.email}</label>
+                        <label htmlFor="email" className={labelClass}>{copy.email}</label>
                         <input id="email" type="email" value={form.details.email} onChange={(event) => updateDetails("email", event.target.value)} className={inputClass} autoComplete="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} />
                         {errors.email && <p id="email-error" className={errorClass} role="alert">{errors.email}</p>}
                       </div>
+                      <div>
+                        <label htmlFor="phone" className={labelClass}>{locale === "de" ? "Telefon" : "Phone"}</label>
+                        <input id="phone" type="tel" value={form.details.phone} onChange={(event) => updateDetails("phone", event.target.value)} className={inputClass} autoComplete="tel" />
+                      </div>
                     </div>
                     <div className="mt-3">
-                      <label htmlFor="requests" className="text-sm font-medium text-espresso">{copy.requests} <span className="text-xs text-espresso-soft/60">({copy.optional})</span></label>
-                      <textarea id="requests" rows={2} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
+                      <label htmlFor="requests" className={labelClass}>{copy.requests} <span className="normal-case tracking-normal text-espresso-soft/60">({copy.optional})</span></label>
+                      <textarea id="requests" rows={3} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
                     <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="site-button site-button-secondary gap-2"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
+                      <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="site-button site-button-secondary min-h-12 gap-2 px-5 text-sm"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
                       <button type="submit" disabled={submitting} className={`${buttonClass} w-full sm:w-auto disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                     </div>
                   </section>
