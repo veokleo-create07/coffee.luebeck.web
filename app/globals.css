@@ -200,6 +200,7 @@ a {
 .hero-transition-scene {
   position: relative;
   isolation: isolate;
+  overflow: visible;
 }
 
 .hero-transition-hero {

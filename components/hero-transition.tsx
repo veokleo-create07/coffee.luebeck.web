@@ -21,36 +21,38 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
       const incomingLayer = root.querySelector<HTMLElement>("[data-incoming-layer]");
       if (!heroLayer || !incomingLayer) return;
 
-      // The incoming section is already in normal document flow, so scrolling
-      // naturally moves it upward. Avoid a second transform on that section;
-      // it creates a separate stacking context and is the source of mobile
-      // overlap bugs when the pinned hero is released.
-      const transition = gsap.timeline({ paused: true });
-      transition.set(incomingLayer, { yPercent: 0 });
-      const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-
       ScrollTrigger.create({
         trigger: root,
         start: "top top",
-        endTrigger: incomingLayer,
-        end: "top top",
+        end: () => `+=${Math.max(1, incomingLayer.offsetTop)}`,
         pin: heroLayer,
         pinSpacing: false,
         pinReparent: false,
-        pinType: isTouchDevice ? "transform" : "fixed",
         anticipatePin: 1,
-        animation: transition,
         scrub: true,
         invalidateOnRefresh: true,
         refreshPriority: 1,
       });
 
-      const refresh = () => ScrollTrigger.refresh();
-      const refreshFrame = window.requestAnimationFrame(refresh);
+      let disposed = false;
+      let refreshFrame = 0;
+      const refresh = () => {
+        window.cancelAnimationFrame(refreshFrame);
+        refreshFrame = window.requestAnimationFrame(() => {
+          if (!disposed) ScrollTrigger.refresh();
+        });
+      };
+      const resizeObserver = new ResizeObserver(refresh);
+      resizeObserver.observe(heroLayer);
+      resizeObserver.observe(incomingLayer);
       window.addEventListener("load", refresh, { once: true });
+      document.fonts.ready.then(refresh);
+      refresh();
 
       return () => {
+        disposed = true;
         window.cancelAnimationFrame(refreshFrame);
+        resizeObserver.disconnect();
         window.removeEventListener("load", refresh);
       };
     }, root);
