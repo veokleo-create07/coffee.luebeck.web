@@ -24,6 +24,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const menuHref = locale === "de" ? "/menu" : "/en/menu";
   const reservationHref = locale === "de" ? "/reservation" : "/en/reservation";
   const legalNoticeHref = locale === "de" ? "/impressum" : "/en/legal-notice";
+  const privacyHref = locale === "de" ? "/datenschutz" : "/en/privacy";
   const addressLines = [...dictionary.location.addressLines];
   if (locale === "de" && addressLines[1]) {
     addressLines[1] = addressLines[1].replace(", Deutschland", "");
@@ -157,9 +158,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               {dictionary.footer.imprint}
             </Link>
             <span aria-hidden="true" className="text-[#F8F5F0]">·</span>
-            <a href="#privacy" className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+            <Link href={privacyHref} className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
               {dictionary.footer.privacy}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

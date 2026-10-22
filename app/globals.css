@@ -204,6 +204,17 @@ a {
   letter-spacing: var(--tracking-editorial);
 }
 
+.privacy-copy ul {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.privacy-copy li::marker {
+  color: var(--color-brass);
+}
+
 .hero-transition-scene {
   position: relative;
   isolation: isolate;
