@@ -68,7 +68,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         <div className="hero-photo-shell relative mx-auto mt-12 aspect-[0.92/1] w-[calc(100%-2rem)] md:mt-14 md:aspect-[1.15/1] md:w-[72%] md:max-w-[54rem]">
           <div className="hero-photo-frame absolute inset-[0.55rem] overflow-hidden rounded-[1.05rem] bg-espresso/10 shadow-[0_24px_50px_-34px_rgba(44,33,28,0.58)] md:inset-[0.7rem] md:rounded-[1.45rem]">
             <div className="hero-photo absolute -inset-y-[8%] inset-x-0">
-              <Image src="/coffee-pause-premium.png" alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
+              <Image src="/menu-coffee.jpeg" alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
             </div>
             <div className="hero-photo-gloss pointer-events-none absolute inset-0" aria-hidden="true" />
             <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
