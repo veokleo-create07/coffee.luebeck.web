@@ -2,7 +2,7 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowUpRight, Instagram, Music2, Phone } from "lucide-react";
+import { Instagram, Music2, Phone } from "lucide-react";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
@@ -88,7 +88,6 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               className={`${footerLinkClass} mt-2 text-ivory/78 underline decoration-ivory/25 underline-offset-4 hover:decoration-ivory/70`}
             >
               {dictionary.location.directions}
-              <ArrowUpRight size={15} strokeWidth={1.6} aria-hidden="true" />
             </a>
 
             <div className="mt-5 md:mt-7">
@@ -108,7 +107,6 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             {navigation.map((item) => (
               <Link key={item.label} href={item.href} className={footerLinkClass}>
                 <span>{item.label}</span>
-                <ArrowUpRight size={15} strokeWidth={1.55} aria-hidden="true" className="text-ivory/65 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
             ))}
           </nav>
