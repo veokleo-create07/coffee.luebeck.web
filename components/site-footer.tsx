@@ -75,7 +75,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
     >
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 items-start gap-y-7 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12 md:gap-y-9">
-          <section id="footer-contact" data-footer-reveal className="grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] items-start gap-x-5 md:gap-x-8">
+          <section id="footer-contact" data-footer-reveal className="grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] items-start gap-x-5 md:grid-cols-1 md:gap-x-0">
             <div className="min-w-0">
               <address className="not-italic text-[0.875rem] font-medium leading-[1.45] text-[#F8F5F0] md:text-[1.2rem] md:leading-[1.4]">
                 {addressLines.map((line) => (
@@ -93,9 +93,15 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 {dictionary.location.directions}
                 <ArrowUpRight size={13} strokeWidth={1.7} aria-hidden="true" className="md:hidden" />
               </a>
+
+              <ul className="mt-3 hidden space-y-1 text-sm font-medium leading-[1.7] text-[#F8F5F0] md:block">
+                {hours.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
             </div>
 
-            <div className="min-w-0 justify-self-end text-right">
+            <div className="min-w-0 justify-self-end text-right md:hidden">
               <ul className="space-y-1 text-xs font-medium leading-[1.55] text-[#F8F5F0] md:text-sm md:leading-[1.7]">
                 {hours.map((line) => (
                   <li key={line}>{line}</li>
