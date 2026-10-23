@@ -5,9 +5,10 @@ import { createSupabaseAdminClient } from "./server";
 export type AvailabilityResult = {
   date: string;
   times: string[];
+  alternativeTimes: string[];
   durationMinutes: number;
   available: boolean;
-  reason?: "closed" | "outside_window";
+  reason?: "closed" | "outside_window" | "fully_booked";
 };
 
 function partsToRecord(parts: Intl.DateTimeFormatPart[]) {
@@ -93,7 +94,7 @@ async function loadContext(date: string, guests: number) {
 
 export async function getAvailability(date: string, guests: number): Promise<AvailabilityResult> {
   const context = await loadContext(date, guests);
-  if ("unavailable" in context) return { date, times: [], durationMinutes: context.settings.reservation_duration_minutes, available: false, reason: context.unavailable };
+  if ("unavailable" in context) return { date, times: [], alternativeTimes: [], durationMinutes: context.settings.reservation_duration_minutes, available: false, reason: context.unavailable };
 
   const { settings, hours, exception } = context;
   const first = timeToMinutes(settings.first_reservation_time);
@@ -101,14 +102,41 @@ export async function getAvailability(date: string, guests: number): Promise<Ava
   const openingTime = timeToMinutes(exception?.opens_at ?? hours.opens_at ?? settings.first_reservation_time);
   const closingTime = timeToMinutes(exception?.closes_at ?? hours.closes_at ?? settings.last_reservation_time);
   const slotTimes = Array.from({ length: Math.floor((last - first) / settings.booking_interval_minutes) + 1 }, (_, index) => formatTime(first + index * settings.booking_interval_minutes))
-    .filter((time) => timeToMinutes(time) >= openingTime && timeToMinutes(time) <= closingTime);
+    .filter((time) => timeToMinutes(time) >= openingTime && timeToMinutes(time) + settings.reservation_duration_minutes <= closingTime);
   const now = Date.now();
-  const times = slotTimes.filter((time) => {
+  const futureTimes = slotTimes.filter((time) => {
     const start = localDateTimeToUtc(date, time, settings.time_zone);
     return start.getTime() > now;
   });
+  if (!futureTimes.length) return { date, times: [], alternativeTimes: [], durationMinutes: settings.reservation_duration_minutes, available: false };
 
-  return { date, times, durationMinutes: settings.reservation_duration_minutes, available: times.length > 0, ...(hours ? {} : {}) };
+  const windowStart = localDateTimeToUtc(date, futureTimes[0], settings.time_zone).toISOString();
+  const lastStart = localDateTimeToUtc(date, futureTimes[futureTimes.length - 1], settings.time_zone);
+  const windowEnd = new Date(lastStart.getTime() + settings.reservation_duration_minutes * 60_000).toISOString();
+  const { data: reservations, error: reservationsError } = await context.client
+    .from("reservations")
+    .select("starts_at,ends_at,guest_count")
+    .in("status", ["pending", "confirmed"])
+    .lt("starts_at", windowEnd)
+    .gt("ends_at", windowStart);
+  if (reservationsError) throw new Error(reservationsError.message);
+
+  const capacity = settings.total_reservable_capacity;
+  const available = futureTimes.filter((time) => {
+    const start = localDateTimeToUtc(date, time, settings.time_zone).getTime();
+    const end = start + settings.reservation_duration_minutes * 60_000;
+    const overlapping = (reservations ?? []).filter((reservation) => Date.parse(reservation.starts_at) < end && Date.parse(reservation.ends_at) > start);
+    // Occupancy can only increase at a reservation's start while this candidate
+    // is active. Sampling the candidate's end can miscount its half-open interval.
+    const boundaries = new Set<number>([start]);
+    overlapping.forEach((reservation) => {
+      const reservationStart = Date.parse(reservation.starts_at);
+      if (reservationStart > start && reservationStart < end) boundaries.add(reservationStart);
+    });
+    return [...boundaries].every((at) => overlapping.reduce((sum, reservation) => sum + (Date.parse(reservation.starts_at) <= at && Date.parse(reservation.ends_at) > at ? reservation.guest_count : 0), 0) + guests <= capacity);
+  });
+
+  return { date, times: available, alternativeTimes: available.slice(0, 3), durationMinutes: settings.reservation_duration_minutes, available: available.length > 0, ...(available.length ? {} : { reason: "fully_booked" as const }) };
 }
 
 export type ReservationInput = {

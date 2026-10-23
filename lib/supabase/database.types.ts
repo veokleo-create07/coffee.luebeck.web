@@ -48,8 +48,8 @@ export type Database = {
         Relationships: [];
       };
       booking_settings: {
-        Row: { id: "default"; time_zone: string; reservation_duration_minutes: number; booking_interval_minutes: number; max_online_guests: number; advance_booking_months: number; first_reservation_time: string; last_reservation_time: string; larger_party_contact: string; created_at: string; updated_at: string };
-        Insert: { id?: "default"; time_zone?: string; reservation_duration_minutes?: number; booking_interval_minutes?: number; max_online_guests?: number; advance_booking_months?: number; first_reservation_time?: string; last_reservation_time?: string; larger_party_contact?: string; created_at?: string; updated_at?: string };
+        Row: { id: "default"; time_zone: string; reservation_duration_minutes: number; booking_interval_minutes: number; max_online_guests: number; total_reservable_capacity: number; advance_booking_months: number; first_reservation_time: string; last_reservation_time: string; larger_party_contact: string; created_at: string; updated_at: string };
+        Insert: { id?: "default"; time_zone?: string; reservation_duration_minutes?: number; booking_interval_minutes?: number; max_online_guests?: number; total_reservable_capacity?: number; advance_booking_months?: number; first_reservation_time?: string; last_reservation_time?: string; larger_party_contact?: string; created_at?: string; updated_at?: string };
         Update: Partial<Database["public"]["Tables"]["booking_settings"]["Insert"]>;
         Relationships: [];
       };

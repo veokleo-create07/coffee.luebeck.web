@@ -73,6 +73,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [availabilityError, setAvailabilityError] = useState(false);
+  const [fullyBooked, setFullyBooked] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const availableTimes = useMemo(() => availability?.times ?? [], [availability]);
 
@@ -128,6 +129,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     event.preventDefault();
     if (step === 1 && validateVisit()) {
       setErrors({});
+      setFullyBooked(false);
       setStep(2);
     }
     if (step === 2 && validateDetails()) {
@@ -147,8 +149,15 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
             language: locale,
           }),
         });
-        const payload = await response.json() as { reservationReference?: string; status?: ReservationStatus };
+        const payload = await response.json() as { reservationReference?: string; status?: ReservationStatus; error?: string; alternativeTimes?: string[] };
         if (!response.ok) {
+          if (response.status === 409 && payload.error === "fully_booked") {
+            setFullyBooked(true);
+            setAvailability((current) => current ? { ...current, times: payload.alternativeTimes ?? [], available: Boolean(payload.alternativeTimes?.length) } : current);
+            setStep(1);
+            setForm((current) => ({ ...current, time: "" }));
+            return;
+          }
           setErrors({ submit: copy.availabilityError });
           return;
         }
@@ -283,6 +292,15 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
                       {!availabilityLoading && !availabilityError && availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
+                      {fullyBooked && <div className="mt-4 rounded-xl border border-espresso/10 bg-[#eee9e1]/70 p-4" role="status">
+                        <p className="text-sm font-medium text-espresso">{copy.fullyBooked}</p>
+                        <p className="mt-1 text-sm text-espresso-soft">{copy.fullyBookedCall}</p>
+                        <a href={dictionary.location.phoneHref} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-espresso underline decoration-espresso/30 underline-offset-4"><Phone size={15} aria-hidden="true" />{copy.callCafe}: {dictionary.location.phoneLabel}</a>
+                        {availableTimes.length > 0 && <>
+                          <p className="mt-3 text-xs font-medium text-espresso-soft">{copy.alternativeTimes}</p>
+                          <div className="mt-2 flex flex-wrap gap-2">{availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setFullyBooked(false); setStep(1); }} className="min-h-10 rounded-lg border border-espresso/15 bg-[#eee9e1] px-3 text-sm font-medium text-espresso">{time}</button>)}</div>
+                        </>}
+                      </div>}
                     </div>
 
                     <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-40 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>

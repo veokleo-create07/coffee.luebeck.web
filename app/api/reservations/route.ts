@@ -34,6 +34,10 @@ export async function POST(request: Request) {
     });
 
     if (error) {
+      if (error.message.includes("RESERVATION_FULL:")) {
+        const availability = await import("@/lib/supabase/reservation-engine").then(({ getAvailability }) => getAvailability(input.date, input.guestCount));
+        return NextResponse.json({ error: "fully_booked", alternativeTimes: availability.times.slice(0, 3) }, { status: 409 });
+      }
       const conflict = /unavailable|closed|booking|past|advance|guest|time/i.test(error.message);
       return NextResponse.json({ error: conflict ? "unavailable" : "server" }, { status: conflict ? 409 : 500 });
     }
