@@ -9,11 +9,8 @@ type PrivacyPolicyPageProps = { locale: Locale; dictionary: Dictionary };
 
 function PolicySection({ number, title, children }: { number: number; title: string; children: ReactNode }) {
   return (
-    <section id={`privacy-section-${number}`} className="scroll-mt-10 border-t border-espresso/12 py-9 md:py-11" aria-labelledby={`privacy-heading-${number}`}>
-      <div className="flex items-baseline gap-3">
-        <span className="text-[0.68rem] font-semibold tabular-nums tracking-[0.14em] text-brass" aria-hidden="true">{String(number).padStart(2, "0")}</span>
-        <h2 id={`privacy-heading-${number}`} className="text-[clamp(1.45rem,2.5vw,2rem)] font-semibold leading-[1.08] tracking-[-0.035em]">{title}</h2>
-      </div>
+    <section id={`privacy-section-${number}`} className="scroll-mt-10 py-8 first:pt-0 md:py-10" aria-labelledby={`privacy-heading-${number}`}>
+      <h2 id={`privacy-heading-${number}`} className="text-[clamp(1.45rem,2.5vw,2rem)] font-semibold leading-[1.08] tracking-[-0.035em]">{title}</h2>
       <div className="privacy-copy mt-5 space-y-4 text-[0.9375rem] leading-[1.72] text-espresso-soft md:text-base md:leading-[1.75]">{children}</div>
     </section>
   );
@@ -293,7 +290,7 @@ export function PrivacyPolicyPage({ locale, dictionary }: PrivacyPolicyPageProps
   return (
     <div className="min-h-screen overflow-x-hidden bg-ivory text-espresso">
       <header className="page-gutter pt-6 md:pt-8">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 border-b border-espresso/12 pb-5 md:pb-7">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 pb-5 md:pb-7">
           <Link href={homeHref} className="group inline-flex items-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass" aria-label="Altstadtliebe — home">
             <Image src="/altstadtliebe-logo.png" alt="Altstadtliebe" width={192} height={64} priority className="h-auto w-32 object-contain transition-transform duration-300 group-hover:scale-[1.015] md:w-44" />
           </Link>
@@ -331,7 +328,7 @@ export function PrivacyPolicyPage({ locale, dictionary }: PrivacyPolicyPageProps
 
             <aside className="sticky top-8 hidden lg:block" aria-label={isGerman ? "Inhalt dieser Seite" : "On this page"}>
               <p className="text-sm font-semibold text-espresso">{isGerman ? "Auf dieser Seite" : "On this page"}</p>
-              <nav className="mt-5 border-l border-espresso/15 pl-5">
+              <nav className="mt-5">
                 <ol className="space-y-3.5">
                   {sections.map((title, index) => (
                     <li key={title}>
