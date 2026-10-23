@@ -182,9 +182,9 @@ export const de: Dictionary = {
     cta: "Speisekarte entdecken",
     imageAlt: "Café-Atmosphäre von Altstadtliebe mit gedeckten Tischen und Kaffeebar",
     experiences: [
-      { title: "Matcha-Liebe", description: "Für deinen grünen Glücksmoment.", imageAlt: "Fruchtiger Matcha von Altstadtliebe" },
-      { title: "Frühstücksglück", description: "Weil gute Morgen länger dauern dürfen.", imageAlt: "Frühstück und Matcha von Altstadtliebe" },
-      { title: "Kaffeepause", description: "Ein guter Kaffee. Ein bisschen Zeit für dich.", imageAlt: "Kaffee von Altstadtliebe" },
+      { title: "Matcha", description: "Für deinen grünen Glücksmoment.", imageAlt: "Fruchtiger Matcha von Altstadtliebe" },
+      { title: "Frühstück", description: "Weil gute Morgen länger dauern dürfen.", imageAlt: "Frühstück und Matcha von Altstadtliebe" },
+      { title: "Kaffee", description: "Ein guter Kaffee. Ein bisschen Zeit für dich.", imageAlt: "Kaffee von Altstadtliebe" },
     ],
   },
   gallery: {

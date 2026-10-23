@@ -33,9 +33,9 @@ export const en: Dictionary = {
     cta: "Explore the menu",
     imageAlt: "Altstadtliebe café atmosphere with set tables and coffee bar",
     experiences: [
-      { title: "Matcha Love", description: "For your little green moment of joy.", imageAlt: "Fruit matcha from Altstadtliebe" },
-      { title: "Breakfast Bliss", description: "Because good mornings deserve more time.", imageAlt: "Breakfast and matcha at Altstadtliebe" },
-      { title: "Coffee Pause", description: "A good coffee. A little time for yourself.", imageAlt: "Coffee at Altstadtliebe" },
+      { title: "Matcha", description: "For your little green moment of joy.", imageAlt: "Fruit matcha from Altstadtliebe" },
+      { title: "Breakfast", description: "Because good mornings deserve more time.", imageAlt: "Breakfast and matcha at Altstadtliebe" },
+      { title: "Coffee", description: "A good coffee. A little time for yourself.", imageAlt: "Coffee at Altstadtliebe" },
     ],
   },
   gallery: {
