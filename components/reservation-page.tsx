@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, Clock3, Phone } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
@@ -11,6 +12,7 @@ import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
+type ReservationStatus = "pending" | "confirmed";
 type Details = { fullName: string; email: string; requests: string };
 type FormState = { date: string; guests: number; time: string; details: Details };
 type AvailabilityResponse = { date: string; times: string[]; durationMinutes: number; available: boolean; reason?: "closed" | "outside_window" };
@@ -59,8 +61,9 @@ function displayDate(date: string, locale: string) {
 
 export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const copy = dictionary.reservation.booking;
+  const homeHref = locale === "de" ? "/" : "/en";
   const [step, setStep] = useState<Step>(1);
-  const [confirmed, setConfirmed] = useState(false);
+  const [reservationStatus, setReservationStatus] = useState<ReservationStatus | null>(null);
   const [reservationReference, setReservationReference] = useState("");
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
@@ -144,13 +147,17 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
             language: locale,
           }),
         });
-        const payload = await response.json();
+        const payload = await response.json() as { reservationReference?: string; status?: ReservationStatus };
         if (!response.ok) {
           setErrors({ submit: copy.availabilityError });
           return;
         }
+        if (!payload.reservationReference) {
+          setErrors({ submit: copy.availabilityError });
+          return;
+        }
         setReservationReference(payload.reservationReference);
-        setConfirmed(true);
+        setReservationStatus(payload.status === "confirmed" ? "confirmed" : "pending");
       } catch {
         setErrors({ submit: copy.availabilityError });
       } finally {
@@ -159,20 +166,12 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     }
   }
 
-  function resetBooking() {
-    setConfirmed(false);
-    setReservationReference("");
-    setStep(1);
-    setForm({ date: minDate, guests: 2, time: "", details: { ...initialDetails } });
-    setShowLargePartyInfo(false);
-    setErrors({});
-    setAvailability(null);
-  }
-
   const inputClass = "mt-2 min-h-[2.85rem] w-full min-w-0 rounded-[0.75rem] border border-espresso/15 bg-[#eee9e1]/75 px-3.5 py-2.5 text-[0.9375rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 hover:bg-[#eee9e1] focus:border-espresso/40 focus:bg-[#f1ece4] focus:ring-2 focus:ring-espresso/8 md:min-h-12 md:text-base";
   const labelClass = "text-xs font-medium uppercase tracking-[0.08em] text-espresso-soft";
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
   const buttonClass = "site-button site-button-primary";
+  const isConfirmed = reservationStatus === "confirmed";
+  const durationMinutes = availability?.durationMinutes ?? BOOKING_CONFIG.durationMinutes;
 
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
@@ -187,25 +186,59 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           </aside>
 
           <section className="min-w-0">
-            <header className="grid grid-cols-[minmax(0,1fr)_6.5rem] items-start gap-5 sm:grid-cols-[minmax(0,1fr)_8rem] lg:block">
-              <div>
-                <h1 className="editorial-heading max-w-[13ch] text-[clamp(2.35rem,4.8vw,3.85rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-espresso">{copy.title}</h1>
-                <p className="mt-4 max-w-[25rem] text-sm leading-[1.6] text-espresso-soft md:mt-5 md:text-base md:leading-[1.55]">{dictionary.reservation.description}</p>
+            {reservationStatus ? (
+              <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-[1.15rem] bg-espresso/10 lg:hidden">
+                <Image src="/booking-cups.jpeg" alt="" fill sizes="calc(100vw - 2.5rem)" className="object-cover object-[62%_center]" />
               </div>
-              <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
-                <Image src="/booking-cups.jpeg" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
-              </div>
-            </header>
-
-            {confirmed ? (
-              <section aria-live="polite" className="reservation-panel mt-10 border-y border-espresso/20 py-10 text-center md:mt-12 md:py-12">
-                <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-olive text-ivory">
-                  <Check size={20} strokeWidth={1.5} aria-hidden="true" />
+            ) : (
+              <header className="grid grid-cols-[minmax(0,1fr)_6.5rem] items-start gap-5 sm:grid-cols-[minmax(0,1fr)_8rem] lg:block">
+                <div>
+                  <h1 className="editorial-heading max-w-[13ch] text-[clamp(2.35rem,4.8vw,3.85rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-espresso">{copy.title}</h1>
+                  <p className="mt-4 max-w-[25rem] text-sm leading-[1.6] text-espresso-soft md:mt-5 md:text-base md:leading-[1.55]">{dictionary.reservation.description}</p>
                 </div>
-                <p className="mt-6 text-2xl leading-[1.15] text-espresso md:text-3xl">{copy.confirmationTitle}</p>
-                <p className="mx-auto mt-4 max-w-lg text-sm leading-[1.5] text-espresso-soft">{copy.confirmationBody}</p>
-                <p className="mt-5 text-sm text-espresso"><span className="text-espresso-soft">{copy.confirmationReference}: </span><strong>{reservationReference}</strong></p>
-                <button type="button" onClick={resetBooking} className={`${buttonClass} mt-7`}>{copy.startOver}</button>
+                <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
+                  <Image src="/booking-cups.jpeg" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
+                </div>
+              </header>
+            )}
+
+            {reservationStatus ? (
+              <section aria-live="polite" className="reservation-panel lg:pt-5">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-espresso/15 bg-[#eee9e1]/75 text-espresso">
+                  <Check size={21} strokeWidth={1.7} aria-hidden="true" />
+                </div>
+                <h1 className="editorial-heading mt-6 max-w-[13ch] text-[clamp(2.25rem,5vw,3.65rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-espresso">
+                  {isConfirmed ? copy.confirmationTitle : copy.pendingTitle}
+                </h1>
+                <p className="mt-4 max-w-[28rem] text-sm leading-[1.6] text-espresso-soft md:text-base">
+                  {isConfirmed ? copy.confirmationBody : copy.pendingBody}
+                </p>
+
+                <dl className="mt-7 grid grid-cols-2 gap-x-5 gap-y-5 rounded-[1.15rem] border border-espresso/10 bg-[#eee9e1]/70 p-4 sm:p-5">
+                  <div className="col-span-2 sm:col-span-1">
+                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryDate}</dt>
+                    <dd className="mt-1.5 text-sm font-medium leading-[1.4] text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryTime}</dt>
+                    <dd className="mt-1.5 text-sm font-medium text-espresso">{form.time}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryGuests}</dt>
+                    <dd className="mt-1.5 text-sm font-medium text-espresso">{form.guests} {copy.guestsSuffix}</dd>
+                  </div>
+                  <div className="col-span-2 sm:col-span-1">
+                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryDuration}</dt>
+                    <dd className="mt-1.5 text-sm font-medium text-espresso">{durationMinutes} {locale === "de" ? "Minuten" : "minutes"}</dd>
+                  </div>
+                </dl>
+
+                <p className="mt-4 text-xs leading-5 text-espresso-soft">
+                  {copy.confirmationReference}: <span className="font-semibold tracking-[0.04em] text-espresso">{reservationReference}</span>
+                </p>
+                <Link href={homeHref} className="mt-7 inline-flex min-h-11 items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+                  {copy.startOver}
+                </Link>
               </section>
             ) : (
               <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-8 md:mt-10">

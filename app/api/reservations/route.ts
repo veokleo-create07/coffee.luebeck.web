@@ -23,7 +23,8 @@ export async function POST(request: Request) {
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
 
   try {
-    const { data, error } = await createSupabaseAdminClient().rpc("create_reservation_atomic", {
+    const client = createSupabaseAdminClient();
+    const { data, error } = await client.rpc("create_reservation_atomic", {
       p_customer_name: input.customerName.trim(),
       p_customer_email: input.customerEmail.trim().toLowerCase(),
       p_guest_count: input.guestCount,
@@ -39,7 +40,13 @@ export async function POST(request: Request) {
 
     const reservation = Array.isArray(data) ? data[0] : data;
     if (!reservation?.reservation_reference) return NextResponse.json({ error: "server" }, { status: 500 });
-    return NextResponse.json({ reservationReference: reservation.reservation_reference });
+    const { data: storedReservation } = await client
+      .from("reservations")
+      .select("status")
+      .eq("reservation_reference", reservation.reservation_reference)
+      .maybeSingle();
+    const status = storedReservation?.status === "confirmed" ? "confirmed" : "pending";
+    return NextResponse.json({ reservationReference: reservation.reservation_reference, status });
   } catch (error) {
     console.error("Reservation creation failed", error);
     return NextResponse.json({ error: "server" }, { status: 500 });

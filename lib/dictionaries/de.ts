@@ -98,6 +98,8 @@ export type Dictionary = {
       confirm: string;
       confirmationTitle: string;
       confirmationBody: string;
+      pendingTitle: string;
+      pendingBody: string;
       confirmationReference: string;
       startOver: string;
       summaryDate: string;
@@ -258,10 +260,12 @@ export const de: Dictionary = {
       back: "Zurück",
       continue: "Weiter",
       confirm: "Reservierung bestätigen",
-      confirmationTitle: "Danke für deine Anfrage.",
-      confirmationBody: "Deine Reservierung wurde erfolgreich gespeichert.",
+      confirmationTitle: "Dein Tisch ist reserviert.",
+      confirmationBody: "Wir freuen uns auf deinen Besuch bei Altstadtliebe!",
+      pendingTitle: "Deine Reservierungsanfrage ist eingegangen.",
+      pendingBody: "Wir prüfen deinen Wunschtermin und melden uns per E-Mail bei dir.",
       confirmationReference: "Reservierungsnummer",
-      startOver: "Neue Reservierung",
+      startOver: "Zur Startseite",
       summaryDate: "Datum",
       summaryTime: "Uhrzeit",
       summaryGuests: "Gäste",
