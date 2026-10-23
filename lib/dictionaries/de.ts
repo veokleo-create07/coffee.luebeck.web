@@ -127,7 +127,6 @@ export type Dictionary = {
     claim: string;
     imprint: string;
     privacy: string;
-    cookies: string;
     navHome: string;
     navMenu: string;
     navGallery: string;
@@ -290,7 +289,6 @@ export const de: Dictionary = {
     claim: "Mit Zeit gemacht.",
     imprint: "Impressum",
     privacy: "Datenschutz",
-    cookies: "Cookie-Einstellungen",
     navHome: "Start",
     navMenu: "Menü",
     navGallery: "Galerie",

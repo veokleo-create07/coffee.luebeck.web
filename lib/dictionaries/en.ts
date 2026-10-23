@@ -142,7 +142,6 @@ export const en: Dictionary = {
     claim: "Made with time.",
     imprint: "Imprint",
     privacy: "Privacy",
-    cookies: "Cookie Settings",
     navHome: "Home",
     navMenu: "Menu",
     navGallery: "Gallery",

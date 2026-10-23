@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
-import { OPEN_COOKIE_SETTINGS_EVENT } from "./cookie-consent";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -167,10 +166,6 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             <Link href={privacyHref} className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
               {dictionary.footer.privacy}
             </Link>
-            <span aria-hidden="true" className="text-[#F8F5F0]">·</span>
-            <button type="button" onClick={() => window.dispatchEvent(new Event(OPEN_COOKIE_SETTINGS_EVENT))} className="transition-colors duration-300 hover:text-ivory focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
-              {dictionary.footer.cookies}
-            </button>
           </div>
         </div>
       </div>
