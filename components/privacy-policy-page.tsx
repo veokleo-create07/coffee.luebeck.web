@@ -1,20 +1,20 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
 import { SiteFooter } from "./site-footer";
-import { SiteHeader } from "./site-header";
 
 type PrivacyPolicyPageProps = { locale: Locale; dictionary: Dictionary };
 
 function PolicySection({ number, title, children }: { number: number; title: string; children: ReactNode }) {
   return (
-    <section className="border-t border-espresso/15 py-9 md:grid md:grid-cols-[4rem_minmax(0,1fr)] md:gap-8 md:py-12" aria-labelledby={`privacy-section-${number}`}>
-      <span className="text-sm font-semibold text-brass" aria-hidden="true">{String(number).padStart(2, "0")}</span>
-      <div className="mt-3 min-w-0 md:mt-0">
-        <h2 id={`privacy-section-${number}`} className="text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-[1.05] tracking-[-0.04em]">{title}</h2>
-        <div className="privacy-copy mt-5 space-y-4 text-[0.95rem] leading-[1.65] text-espresso-soft md:text-base">{children}</div>
+    <section id={`privacy-section-${number}`} className="scroll-mt-10 border-t border-espresso/12 py-9 md:py-11" aria-labelledby={`privacy-heading-${number}`}>
+      <div className="flex items-baseline gap-3">
+        <span className="text-[0.68rem] font-semibold tabular-nums tracking-[0.14em] text-brass" aria-hidden="true">{String(number).padStart(2, "0")}</span>
+        <h2 id={`privacy-heading-${number}`} className="text-[clamp(1.45rem,2.5vw,2rem)] font-semibold leading-[1.08] tracking-[-0.035em]">{title}</h2>
       </div>
+      <div className="privacy-copy mt-5 space-y-4 text-[0.9375rem] leading-[1.72] text-espresso-soft md:text-base md:leading-[1.75]">{children}</div>
     </section>
   );
 }
@@ -251,32 +251,100 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
   );
 }
 
+const policyNavigation = {
+  de: [
+    "Verantwortlicher",
+    "Allgemeine Hinweise zum Datenschutz",
+    "Hosting durch Vercel",
+    "Online-Tischreservierungen",
+    "Datenbank und Speicherung durch Supabase",
+    "Reservierungsbestätigungen per E-Mail",
+    "Speicherdauer und Löschung",
+    "Google Maps",
+    "Google Search Console",
+    "Cookies und ähnliche Technologien",
+    "Ihre Rechte",
+    "Datensicherheit",
+    "Änderungen dieser Datenschutzerklärung",
+  ],
+  en: [
+    "Controller",
+    "General information on data protection",
+    "Hosting by Vercel",
+    "Online table reservations",
+    "Database and storage by Supabase",
+    "Reservation confirmations by email",
+    "Retention and deletion",
+    "Google Maps",
+    "Google Search Console",
+    "Cookies and similar technologies",
+    "Your rights",
+    "Data security",
+    "Changes to this privacy policy",
+  ],
+} as const;
+
 export function PrivacyPolicyPage({ locale, dictionary }: PrivacyPolicyPageProps) {
   const isGerman = locale === "de";
   const homeHref = isGerman ? "/" : "/en";
   const languageHref = isGerman ? "/en/privacy" : "/datenschutz";
+  const sections = policyNavigation[locale];
 
   return (
-    <div className="min-h-screen overflow-hidden bg-ivory text-espresso">
-      <SiteHeader locale={locale} dictionary={dictionary} languageHref={languageHref} />
-      <main className="page-gutter py-20 md:py-28">
-        <article className="mx-auto max-w-4xl">
-          <header className="max-w-3xl pb-14 md:pb-20">
-            <p className="eyebrow">Altstadtliebe</p>
-            <h1 className="editorial-heading mt-6 text-[clamp(3.25rem,8vw,7rem)] font-medium leading-[0.88] tracking-[-0.055em]">
-              {isGerman ? "Datenschutzerklärung" : "Privacy Policy"}
+    <div className="min-h-screen overflow-x-hidden bg-ivory text-espresso">
+      <header className="page-gutter pt-6 md:pt-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 border-b border-espresso/12 pb-5 md:pb-7">
+          <Link href={homeHref} className="group inline-flex items-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass" aria-label="Altstadtliebe — home">
+            <Image src="/altstadtliebe-logo.png" alt="Altstadtliebe" width={192} height={64} priority className="h-auto w-32 object-contain transition-transform duration-300 group-hover:scale-[1.015] md:w-44" />
+          </Link>
+          <div className="flex items-center gap-4 text-xs font-medium text-espresso-soft md:gap-7 md:text-sm">
+            <Link href={languageHref} className="transition-colors hover:text-espresso focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+              {isGerman ? "English" : "Deutsch"}
+            </Link>
+            <Link href={homeHref} className="transition-colors hover:text-espresso focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+              <span className="sm:hidden">{isGerman ? "Zurück" : "Back"}</span>
+              <span className="hidden sm:inline">{isGerman ? "Zurück zu Altstadtliebe" : "Back to Altstadtliebe"}</span>
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <main className="page-gutter pb-20 pt-14 md:pb-28 md:pt-24">
+        <div className="mx-auto max-w-7xl">
+          <header className="max-w-4xl pb-14 md:pb-20">
+            <h1 lang={locale} className="editorial-heading text-[clamp(3.15rem,7.5vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.055em]">
+              {isGerman ? <>Datenschutz<wbr />erklärung</> : "Privacy Policy"}
             </h1>
-            <p className="mt-7 text-sm font-medium text-espresso-soft md:text-base">
+            <p className="mt-6 text-sm font-medium text-espresso-soft md:mt-7 md:text-base">
               {isGerman ? "Stand: 22. Oktober 2026" : "Last updated: 22 October 2026"}
             </p>
           </header>
 
-          {isGerman ? <GermanPolicy dictionary={dictionary} /> : <EnglishPolicy dictionary={dictionary} />}
+          <div className="grid items-start gap-16 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-20 xl:gap-28">
+            <article className="min-w-0 max-w-4xl">
+              {isGerman ? <GermanPolicy dictionary={dictionary} /> : <EnglishPolicy dictionary={dictionary} />}
 
-          <Link href={homeHref} className="site-button site-button-secondary mt-8 md:mt-12">
-            {isGerman ? "Zurück zur Startseite" : "Back to homepage"}
-          </Link>
-        </article>
+              <Link href={homeHref} className="mt-10 inline-flex min-h-11 items-center rounded-full border border-espresso/15 bg-[#eee9e1]/60 px-5 text-sm font-medium text-espresso transition-[background-color,border-color,transform] hover:-translate-y-px hover:border-espresso/30 hover:bg-[#eee9e1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass md:mt-14">
+                {isGerman ? "Zurück zur Startseite" : "Back to homepage"}
+              </Link>
+            </article>
+
+            <aside className="sticky top-8 hidden lg:block" aria-label={isGerman ? "Inhalt dieser Seite" : "On this page"}>
+              <p className="text-sm font-semibold text-espresso">{isGerman ? "Auf dieser Seite" : "On this page"}</p>
+              <nav className="mt-5 border-l border-espresso/15 pl-5">
+                <ol className="space-y-3.5">
+                  {sections.map((title, index) => (
+                    <li key={title}>
+                      <a href={`#privacy-section-${index + 1}`} className="block text-[0.8rem] leading-[1.35] text-espresso-soft transition-[color,transform] hover:translate-x-0.5 hover:text-espresso focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+                        {title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            </aside>
+          </div>
+        </div>
       </main>
       <SiteFooter locale={locale} dictionary={dictionary} />
     </div>
