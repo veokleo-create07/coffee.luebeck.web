@@ -229,7 +229,7 @@ export const de: Dictionary = {
   reservation: {
     eyebrow: "Reservierung",
     heading: "Dein Platz wartet.",
-    description: "Nimm dir Zeit für einen guten Moment in der Altstadt.",
+    description: "Wähle deinen Wunschtermin und sichere dir deinen Platz bei Altstadtliebe.",
     cta: "Tisch reservieren",
     imageAlt: "Warmer, lichtdurchfluteter Innenraum von Altstadtliebe",
     booking: {

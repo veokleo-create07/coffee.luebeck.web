@@ -169,7 +169,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     setAvailability(null);
   }
 
-  const inputClass = "mt-2 min-h-12 w-full min-w-0 rounded-[0.85rem] border border-espresso/14 bg-espresso/[0.025] px-3.5 py-2.5 text-base text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 focus:border-espresso/45 focus:bg-espresso/[0.045] focus:ring-2 focus:ring-espresso/8";
+  const inputClass = "mt-2 min-h-[2.85rem] w-full min-w-0 rounded-[0.75rem] border border-espresso/15 bg-[#eee9e1]/75 px-3.5 py-2.5 text-[0.9375rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 hover:bg-[#eee9e1] focus:border-espresso/40 focus:bg-[#f1ece4] focus:ring-2 focus:ring-espresso/8 md:min-h-12 md:text-base";
   const labelClass = "text-xs font-medium uppercase tracking-[0.08em] text-espresso-soft";
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
   const buttonClass = "site-button site-button-primary";
@@ -189,8 +189,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           <section className="min-w-0">
             <header className="grid grid-cols-[minmax(0,1fr)_6.5rem] items-start gap-5 sm:grid-cols-[minmax(0,1fr)_8rem] lg:block">
               <div>
-                <h1 className="editorial-heading max-w-[12ch] text-[clamp(2.65rem,5.5vw,4.5rem)] font-semibold leading-[0.9] tracking-[-0.045em] text-espresso">{copy.title}</h1>
-                <p className="mt-5 max-w-[22rem] text-sm leading-[1.5] text-espresso-soft md:mt-6 md:text-base">{dictionary.reservation.description}</p>
+                <h1 className="editorial-heading max-w-[13ch] text-[clamp(2.35rem,4.8vw,3.85rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-espresso">{copy.title}</h1>
+                <p className="mt-4 max-w-[25rem] text-sm leading-[1.6] text-espresso-soft md:mt-5 md:text-base md:leading-[1.55]">{dictionary.reservation.description}</p>
               </div>
               <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
                 <Image src="/booking-cups.jpeg" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
@@ -208,11 +208,11 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 <button type="button" onClick={resetBooking} className={`${buttonClass} mt-7`}>{copy.startOver}</button>
               </section>
             ) : (
-              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-9 md:mt-12">
+              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-8 md:mt-10">
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
-                    <div className="grid grid-cols-2 gap-4 sm:gap-8">
+                    <div className="grid grid-cols-2 gap-3.5 sm:gap-6">
                       <div className="min-w-0">
                         <label htmlFor="visit-date" className={labelClass}>{copy.dateLabel}</label>
                         <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className={inputClass} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
@@ -233,25 +233,26 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       </div>
                     </div>
 
-                    <div className="mt-7">
-                      <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <label className={labelClass}>{copy.timeLabel}</label>
+                    <div className="mt-6 md:mt-7">
+                      <h3 className={labelClass}>{copy.timeLabel}</h3>
+                      <div className="mt-2 flex items-start gap-2 text-xs leading-5 text-espresso-soft">
+                        <Clock3 size={14} strokeWidth={1.5} className="mt-0.5 shrink-0 text-olive" aria-hidden="true" />
+                        <span>{copy.durationNotice}</span>
                       </div>
-                      <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4" aria-busy={availabilityLoading}>
+                      <div className="mt-3.5 grid grid-cols-3 gap-2 sm:grid-cols-4" aria-busy={availabilityLoading}>
                         {reservationTimes.map((time) => {
                           const isAvailable = availableTimes.includes(time);
                           const isDisabled = availabilityLoading || !isAvailable;
-                          return <button key={time} type="button" disabled={isDisabled} onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`site-button min-h-10 w-full border px-2 text-xs shadow-none transition-colors sm:min-h-11 sm:text-sm ${form.time === time ? "site-button-primary border-espresso" : "site-button-secondary border-espresso/20 hover:border-espresso/55"} disabled:cursor-not-allowed disabled:border-espresso/10 disabled:bg-espresso/[0.035] disabled:text-espresso-soft/35 disabled:shadow-none`} aria-pressed={form.time === time}>{time}</button>;
+                          return <button key={time} type="button" disabled={isDisabled} onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`min-h-10 w-full rounded-[0.7rem] border px-2 text-xs font-medium tabular-nums outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:min-h-11 sm:text-sm ${form.time === time ? "border-espresso bg-espresso text-ivory" : "border-espresso/15 bg-[#eee9e1]/70 text-espresso hover:-translate-y-px hover:border-espresso/35 hover:bg-[#eee9e1]"} disabled:cursor-not-allowed disabled:border-espresso/[0.07] disabled:bg-espresso/[0.025] disabled:text-espresso-soft/25 disabled:hover:translate-y-0`} aria-pressed={form.time === time}>{time}</button>;
                         })}
                       </div>
                       {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
                       {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
                       {!availabilityLoading && !availabilityError && availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
-                      {availableTimes.length > 0 && <div className="mt-4 flex items-start gap-2 text-xs leading-5 text-espresso-soft"><Clock3 size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-olive" aria-hidden="true" /><span>{copy.durationNotice}</span></div>}
                     </div>
 
-                    <button type="submit" disabled={availabilityLoading || !availability?.available} className={`${buttonClass} mt-7 w-full sm:w-auto sm:min-w-44 disabled:cursor-not-allowed disabled:opacity-45`}><span>{copy.continue}</span><ArrowRight size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
+                    <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-40 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
