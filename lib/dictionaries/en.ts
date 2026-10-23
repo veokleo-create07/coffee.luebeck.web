@@ -13,8 +13,8 @@ export const en: Dictionary = {
     switchTo: "Deutsch",
   },
   home: {
-    title: "Stay a little longer.",
-    description: "Good coffee, delicious breakfasts, and moments worth staying for.",
+    title: "Your favorite spot in the Old Town.",
+    description: "Breakfast, matcha, and good coffee in the heart of Lübeck's Old Town. Discover Altstadtliebe and reserve your table for a relaxing break.",
     primaryCta: "Book a Table",
     secondaryCta: "See us on Instagram",
     imageAlt: "Altstadtliebe drinks photographed in the café",

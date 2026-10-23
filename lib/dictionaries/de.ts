@@ -160,8 +160,8 @@ export const de: Dictionary = {
     switchTo: "English",
   },
   home: {
-    title: "Bleib noch ein bisschen.",
-    description: "Guter Kaffee, leckeres Frühstück und Momente, für die man gerne länger bleibt.",
+    title: "Dein Lieblingsplatz in der Altstadt.",
+    description: "Frühstück, Matcha und guter Kaffee mitten in der Lübecker Altstadt. Entdecke Altstadtliebe und reserviere deinen Tisch für eine entspannte Auszeit.",
     primaryCta: "Reservieren",
     secondaryCta: "Einblicke",
     imageAlt: "Getränke von Altstadtliebe im Café fotografiert",
