@@ -82,6 +82,7 @@ export type Dictionary = {
       fullyBookedCall: string;
       alternativeTimes: string;
       fullyBookedOr: string;
+      closeDialog: string;
       availabilityError: string;
       loadingAvailability: string;
       closedDayError: string;
@@ -250,6 +251,7 @@ export const de: Dictionary = {
       fullyBookedCall: "Vielleicht finden wir trotzdem noch einen Tisch für dich. Ruf uns kurz an – wir prüfen das gern!",
       alternativeTimes: "Wähle eine andere verfügbare Uhrzeit",
       fullyBookedOr: "oder",
+      closeDialog: "Hinweis schließen",
       availabilityError: "Die Verfügbarkeit konnte gerade nicht geladen werden. Bitte versuche es erneut.",
       loadingAvailability: "Verfügbarkeit wird geladen …",
       closedDayError: "Montags ist das Café geschlossen.",

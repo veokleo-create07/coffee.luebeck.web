@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, ChevronDown, Clock3, Phone } from "lucide-react";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, Clock3, Phone, X } from "lucide-react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
 import { BOOKING_CONFIG } from "@/lib/booking-config";
@@ -74,8 +74,26 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [availabilityError, setAvailabilityError] = useState(false);
   const [fullyBookedTime, setFullyBookedTime] = useState("");
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeModalRef = useRef<HTMLButtonElement>(null);
+  const modalOpenerRef = useRef<HTMLButtonElement | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const availableTimes = useMemo(() => availability?.times ?? [], [availability]);
+
+  useEffect(() => {
+    if (!fullyBookedTime) return;
+    closeModalRef.current?.focus();
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") { event.preventDefault(); setFullyBookedTime(""); return; }
+      if (event.key !== "Tab" || !modalRef.current) return;
+      const focusable = Array.from(modalRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'));
+      if (!focusable.length) return;
+      if (event.shiftKey && document.activeElement === focusable[0]) { event.preventDefault(); focusable.at(-1)?.focus(); }
+      else if (!event.shiftKey && document.activeElement === focusable.at(-1)) { event.preventDefault(); focusable[0].focus(); }
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => { document.removeEventListener("keydown", onKeyDown); modalOpenerRef.current?.focus(); };
+  }, [fullyBookedTime]);
 
   useEffect(() => {
     const today = dateInputValue(new Date());
@@ -287,21 +305,10 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                           const isFull = availability?.fullyBookedTimes.includes(time) ?? false;
                           const isInvalid = !isAvailable && !isFull;
                           const isDisabled = availabilityLoading || isInvalid;
-                          return <button key={time} type="button" disabled={isDisabled} onClick={() => { setErrors((current) => ({ ...current, time: "" })); if (isFull) { setForm((current) => ({ ...current, time: "" })); setFullyBookedTime(time); } else { setFullyBookedTime(""); setForm((current) => ({ ...current, time })); } }} className={`min-h-10 w-full rounded-[0.7rem] border px-2 text-xs font-medium tabular-nums outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:min-h-11 sm:text-sm ${form.time === time ? "border-espresso bg-espresso text-ivory" : isFull ? "border-espresso/15 bg-[#eee9e1]/35 text-espresso-soft hover:border-espresso/30 hover:bg-[#eee9e1]/70" : "border-espresso/15 bg-[#eee9e1]/70 text-espresso hover:-translate-y-px hover:border-espresso/35 hover:bg-[#eee9e1]"} disabled:cursor-not-allowed disabled:border-espresso/[0.07] disabled:bg-espresso/[0.025] disabled:text-espresso-soft/25`} aria-pressed={form.time === time} aria-label={isFull ? `${time} — ${copy.fullyBooked}` : time}>{time}{isFull && <span className="ml-1 text-[9px] opacity-70">·</span>}</button>;
+                          return <button key={time} type="button" disabled={isDisabled} onClick={(event) => { setErrors((current) => ({ ...current, time: "" })); if (isFull) { modalOpenerRef.current = event.currentTarget; setForm((current) => ({ ...current, time: "" })); setFullyBookedTime(time); } else { setFullyBookedTime(""); setForm((current) => ({ ...current, time })); } }} className={`min-h-10 w-full rounded-[0.7rem] border px-2 text-xs font-medium tabular-nums outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:min-h-11 sm:text-sm ${form.time === time ? "border-espresso bg-espresso text-ivory" : isFull ? "border-espresso/15 bg-[#eee9e1]/35 text-espresso-soft hover:border-espresso/30 hover:bg-[#eee9e1]/70" : "border-espresso/15 bg-[#eee9e1]/70 text-espresso hover:-translate-y-px hover:border-espresso/35 hover:bg-[#eee9e1]"} disabled:cursor-not-allowed disabled:border-espresso/[0.07] disabled:bg-espresso/[0.025] disabled:text-espresso-soft/25`} aria-pressed={form.time === time} aria-label={isFull ? `${time} — ${copy.fullyBooked}` : time}>{time}{isFull && <span className="ml-1 text-[9px] opacity-70">·</span>}</button>;
                         })}
                       </div>
-                      {fullyBookedTime ? <div className="mt-4 space-y-4" role="status">
-                        <div>
-                          <h4 className="text-base font-semibold tracking-[-0.02em] text-espresso">{copy.fullyBooked}</h4>
-                          <p className="mt-1.5 max-w-md text-sm leading-6 text-espresso-soft">{copy.fullyBookedCall}</p>
-                          <a href={dictionary.location.phoneHref} className="mt-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-espresso px-5 text-sm font-medium text-ivory shadow-[0_8px_18px_-14px_rgba(44,33,28,0.7)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_10px_20px_-14px_rgba(44,33,28,0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0"><Phone size={15} strokeWidth={1.6} aria-hidden="true" />{copy.callCafe}</a>
-                        </div>
-                        <div className="flex items-center gap-3 text-xs text-espresso-soft/70" aria-hidden="true"><span className="h-px flex-1 bg-espresso/10" /><span>{copy.fullyBookedOr}</span><span className="h-px flex-1 bg-espresso/10" /></div>
-                        <div>
-                          <h5 className="text-sm font-medium text-espresso">{copy.alternativeTimes}</h5>
-                          {availability?.alternativeTimes.length ? <div className="mt-2.5 flex flex-wrap gap-2">{availability.alternativeTimes.slice(0, 3).map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); setFullyBookedTime(""); }} className="min-h-10 min-w-[4.5rem] rounded-lg border border-espresso/15 bg-[#eee9e1]/70 px-4 text-sm font-medium tabular-nums text-espresso outline-none transition-colors hover:border-espresso/35 hover:bg-[#eee9e1] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory">{time}</button>)}</div> : <p className="mt-1.5 text-sm leading-6 text-espresso-soft">{copy.noTimes}</p>}
-                        </div>
-                      </div> : <>
+                      {!fullyBookedTime && <>
                         {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
                         {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
                         {!availabilityLoading && !availabilityError && availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
@@ -348,6 +355,18 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           </section>
         </div>
       </main>
+      {fullyBookedTime && <div className="fixed inset-0 z-[100] flex items-end justify-center bg-espresso/35 px-3 pb-3 pt-8 backdrop-blur-[2px] sm:items-center sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) setFullyBookedTime(""); }}>
+        <div ref={modalRef} role="dialog" aria-modal="true" aria-labelledby="fully-booked-title" aria-describedby="fully-booked-description" className="relative max-h-[min(90dvh,34rem)] w-full max-w-md overflow-y-auto rounded-[1.35rem] border border-espresso/10 bg-ivory p-5 shadow-[0_24px_70px_-28px_rgba(44,33,28,0.45)] sm:p-7">
+          <button ref={closeModalRef} type="button" onClick={() => setFullyBookedTime("")} aria-label={copy.closeDialog} className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full text-espresso-soft transition-colors hover:bg-espresso/5 hover:text-espresso focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass"><X size={17} aria-hidden="true" /></button>
+          <CalendarDays size={19} strokeWidth={1.5} className="text-espresso-soft" aria-hidden="true" />
+          <h2 id="fully-booked-title" className="mt-3 pr-9 text-xl font-semibold tracking-[-0.03em] text-espresso">{copy.fullyBooked}</h2>
+          <p id="fully-booked-description" className="mt-2 max-w-sm text-sm leading-6 text-espresso-soft">{copy.fullyBookedCall}</p>
+          <a href={dictionary.location.phoneHref} className="mt-4 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-espresso px-5 text-sm font-medium text-ivory shadow-[0_8px_18px_-14px_rgba(44,33,28,0.7)] transition-colors hover:bg-[#3a2922] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2"><Phone size={15} strokeWidth={1.6} aria-hidden="true" /><span>{copy.callCafe}</span></a>
+          <div className="my-4 flex items-center gap-3 text-xs text-espresso-soft/70"><span className="h-px flex-1 bg-espresso/10" /><span>{copy.fullyBookedOr}</span><span className="h-px flex-1 bg-espresso/10" /></div>
+          <h3 className="text-sm font-medium text-espresso">{copy.alternativeTimes}</h3>
+          {availability?.alternativeTimes.length ? <div className="mt-2.5 flex flex-wrap gap-2">{availability.alternativeTimes.slice(0, 3).map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); setFullyBookedTime(""); }} className="min-h-10 min-w-[4.5rem] rounded-lg border border-espresso/15 bg-[#eee9e1]/70 px-4 text-sm font-medium tabular-nums text-espresso outline-none transition-colors hover:border-espresso/35 hover:bg-[#eee9e1] focus-visible:ring-2 focus-visible:ring-brass">{time}</button>)}</div> : <p className="mt-1.5 text-sm leading-6 text-espresso-soft">{copy.noTimes}</p>}
+        </div>
+      </div>}
       <SiteFooter locale={locale} dictionary={dictionary} />
     </div>
   );

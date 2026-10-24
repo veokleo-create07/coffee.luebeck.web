@@ -97,6 +97,7 @@ export const en: Dictionary = {
       fullyBookedCall: "We might still be able to find a table for you. Give us a quick call, and we'll be happy to check!",
       alternativeTimes: "Choose another available time",
       fullyBookedOr: "or",
+      closeDialog: "Close message",
       availabilityError: "Availability could not be loaded. Please try again.",
       loadingAvailability: "Loading availability …",
       closedDayError: "The café is closed on Mondays.",
