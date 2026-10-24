@@ -5,6 +5,7 @@ import { createSupabaseAdminClient } from "./server";
 export type AvailabilityResult = {
   date: string;
   times: string[];
+  fullyBookedTimes: string[];
   alternativeTimes: string[];
   durationMinutes: number;
   available: boolean;
@@ -94,7 +95,7 @@ async function loadContext(date: string, guests: number) {
 
 export async function getAvailability(date: string, guests: number): Promise<AvailabilityResult> {
   const context = await loadContext(date, guests);
-  if ("unavailable" in context) return { date, times: [], alternativeTimes: [], durationMinutes: context.settings.reservation_duration_minutes, available: false, reason: context.unavailable };
+  if ("unavailable" in context) return { date, times: [], fullyBookedTimes: [], alternativeTimes: [], durationMinutes: context.settings.reservation_duration_minutes, available: false, reason: context.unavailable };
 
   const { settings, hours, exception } = context;
   const first = timeToMinutes(settings.first_reservation_time);
@@ -108,7 +109,7 @@ export async function getAvailability(date: string, guests: number): Promise<Ava
     const start = localDateTimeToUtc(date, time, settings.time_zone);
     return start.getTime() > now;
   });
-  if (!futureTimes.length) return { date, times: [], alternativeTimes: [], durationMinutes: settings.reservation_duration_minutes, available: false };
+  if (!futureTimes.length) return { date, times: [], fullyBookedTimes: [], alternativeTimes: [], durationMinutes: settings.reservation_duration_minutes, available: false };
 
   const windowStart = localDateTimeToUtc(date, futureTimes[0], settings.time_zone).toISOString();
   const lastStart = localDateTimeToUtc(date, futureTimes[futureTimes.length - 1], settings.time_zone);
@@ -122,7 +123,7 @@ export async function getAvailability(date: string, guests: number): Promise<Ava
   if (reservationsError) throw new Error(reservationsError.message);
 
   const capacity = settings.total_reservable_capacity;
-  const available = futureTimes.filter((time) => {
+  const isAvailable = (time: string) => {
     const start = localDateTimeToUtc(date, time, settings.time_zone).getTime();
     const end = start + settings.reservation_duration_minutes * 60_000;
     const overlapping = (reservations ?? []).filter((reservation) => Date.parse(reservation.starts_at) < end && Date.parse(reservation.ends_at) > start);
@@ -134,9 +135,11 @@ export async function getAvailability(date: string, guests: number): Promise<Ava
       if (reservationStart > start && reservationStart < end) boundaries.add(reservationStart);
     });
     return [...boundaries].every((at) => overlapping.reduce((sum, reservation) => sum + (Date.parse(reservation.starts_at) <= at && Date.parse(reservation.ends_at) > at ? reservation.guest_count : 0), 0) + guests <= capacity);
-  });
+  };
+  const available = futureTimes.filter(isAvailable);
+  const fullyBooked = futureTimes.filter((time) => !isAvailable(time));
 
-  return { date, times: available, alternativeTimes: available.slice(0, 3), durationMinutes: settings.reservation_duration_minutes, available: available.length > 0, ...(available.length ? {} : { reason: "fully_booked" as const }) };
+  return { date, times: available, fullyBookedTimes: fullyBooked, alternativeTimes: available.slice(0, 3), durationMinutes: settings.reservation_duration_minutes, available: available.length > 0, ...(available.length ? {} : { reason: "fully_booked" as const }) };
 }
 
 export type ReservationInput = {

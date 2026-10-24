@@ -81,6 +81,7 @@ export type Dictionary = {
       fullyBooked: string;
       fullyBookedCall: string;
       alternativeTimes: string;
+      fullyBookedOr: string;
       availabilityError: string;
       loadingAvailability: string;
       closedDayError: string;
@@ -245,9 +246,10 @@ export const de: Dictionary = {
       guestsSuffix: "Gäste",
       timeLabel: "Uhrzeit",
       noTimes: "Für dieses Datum sind keine Demo-Zeiten hinterlegt.",
-      fullyBooked: "Diese Uhrzeit ist sehr gefragt. Vielleicht finden wir trotzdem noch einen Platz für dich.",
-      fullyBookedCall: "Ruf uns kurz an – wir prüfen gern, ob wir noch einen Tisch für dich finden.",
-      alternativeTimes: "Diese Zeiten sind noch verfügbar:",
+      fullyBooked: "Diese Uhrzeit ist sehr gefragt!",
+      fullyBookedCall: "Vielleicht finden wir trotzdem noch einen Tisch für dich. Ruf uns kurz an – wir prüfen das gern!",
+      alternativeTimes: "Wähle eine andere verfügbare Uhrzeit",
+      fullyBookedOr: "oder",
       availabilityError: "Die Verfügbarkeit konnte gerade nicht geladen werden. Bitte versuche es erneut.",
       loadingAvailability: "Verfügbarkeit wird geladen …",
       closedDayError: "Montags ist das Café geschlossen.",

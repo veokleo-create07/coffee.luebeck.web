@@ -15,7 +15,7 @@ type Step = 1 | 2;
 type ReservationStatus = "pending" | "confirmed";
 type Details = { fullName: string; email: string; requests: string };
 type FormState = { date: string; guests: number; time: string; details: Details };
-type AvailabilityResponse = { date: string; times: string[]; durationMinutes: number; available: boolean; reason?: "closed" | "outside_window" };
+type AvailabilityResponse = { date: string; times: string[]; fullyBookedTimes: string[]; alternativeTimes: string[]; durationMinutes: number; available: boolean; reason?: "closed" | "outside_window" | "fully_booked" };
 
 const initialDetails: Details = { fullName: "", email: "", requests: "" };
 
@@ -73,7 +73,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [availabilityError, setAvailabilityError] = useState(false);
-  const [fullyBooked, setFullyBooked] = useState(false);
+  const [fullyBookedTime, setFullyBookedTime] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const availableTimes = useMemo(() => availability?.times ?? [], [availability]);
 
@@ -129,7 +129,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     event.preventDefault();
     if (step === 1 && validateVisit()) {
       setErrors({});
-      setFullyBooked(false);
+      setFullyBookedTime("");
       setStep(2);
     }
     if (step === 2 && validateDetails()) {
@@ -152,8 +152,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
         const payload = await response.json() as { reservationReference?: string; status?: ReservationStatus; error?: string; alternativeTimes?: string[] };
         if (!response.ok) {
           if (response.status === 409 && payload.error === "fully_booked") {
-            setFullyBooked(true);
-            setAvailability((current) => current ? { ...current, times: payload.alternativeTimes ?? [], available: Boolean(payload.alternativeTimes?.length) } : current);
+            setAvailability((current) => current ? { ...current, fullyBookedTimes: [...new Set([...current.fullyBookedTimes, form.time])], alternativeTimes: payload.alternativeTimes ?? [], available: Boolean(payload.alternativeTimes?.length) } : current);
+            setFullyBookedTime(form.time);
             setStep(1);
             setForm((current) => ({ ...current, time: "" }));
             return;
@@ -284,23 +284,29 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       <div className="mt-3.5 grid grid-cols-3 gap-2 sm:grid-cols-4" aria-busy={availabilityLoading}>
                         {reservationTimes.map((time) => {
                           const isAvailable = availableTimes.includes(time);
-                          const isDisabled = availabilityLoading || !isAvailable;
-                          return <button key={time} type="button" disabled={isDisabled} onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); }} className={`min-h-10 w-full rounded-[0.7rem] border px-2 text-xs font-medium tabular-nums outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:min-h-11 sm:text-sm ${form.time === time ? "border-espresso bg-espresso text-ivory" : "border-espresso/15 bg-[#eee9e1]/70 text-espresso hover:-translate-y-px hover:border-espresso/35 hover:bg-[#eee9e1]"} disabled:cursor-not-allowed disabled:border-espresso/[0.07] disabled:bg-espresso/[0.025] disabled:text-espresso-soft/25 disabled:hover:translate-y-0`} aria-pressed={form.time === time}>{time}</button>;
+                          const isFull = availability?.fullyBookedTimes.includes(time) ?? false;
+                          const isInvalid = !isAvailable && !isFull;
+                          const isDisabled = availabilityLoading || isInvalid;
+                          return <button key={time} type="button" disabled={isDisabled} onClick={() => { setErrors((current) => ({ ...current, time: "" })); if (isFull) { setForm((current) => ({ ...current, time: "" })); setFullyBookedTime(time); } else { setFullyBookedTime(""); setForm((current) => ({ ...current, time })); } }} className={`min-h-10 w-full rounded-[0.7rem] border px-2 text-xs font-medium tabular-nums outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:min-h-11 sm:text-sm ${form.time === time ? "border-espresso bg-espresso text-ivory" : isFull ? "border-espresso/15 bg-[#eee9e1]/35 text-espresso-soft hover:border-espresso/30 hover:bg-[#eee9e1]/70" : "border-espresso/15 bg-[#eee9e1]/70 text-espresso hover:-translate-y-px hover:border-espresso/35 hover:bg-[#eee9e1]"} disabled:cursor-not-allowed disabled:border-espresso/[0.07] disabled:bg-espresso/[0.025] disabled:text-espresso-soft/25`} aria-pressed={form.time === time} aria-label={isFull ? `${time} — ${copy.fullyBooked}` : time}>{time}{isFull && <span className="ml-1 text-[9px] opacity-70">·</span>}</button>;
                         })}
                       </div>
-                      {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
-                      {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
-                      {!availabilityLoading && !availabilityError && availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
+                      {fullyBookedTime ? <div className="mt-4 space-y-4" role="status">
+                        <div>
+                          <h4 className="text-base font-semibold tracking-[-0.02em] text-espresso">{copy.fullyBooked}</h4>
+                          <p className="mt-1.5 max-w-md text-sm leading-6 text-espresso-soft">{copy.fullyBookedCall}</p>
+                          <a href={dictionary.location.phoneHref} className="mt-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-espresso px-5 text-sm font-medium text-ivory shadow-[0_8px_18px_-14px_rgba(44,33,28,0.7)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_10px_20px_-14px_rgba(44,33,28,0.72)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0"><Phone size={15} strokeWidth={1.6} aria-hidden="true" />{copy.callCafe}</a>
+                        </div>
+                        <div className="flex items-center gap-3 text-xs text-espresso-soft/70" aria-hidden="true"><span className="h-px flex-1 bg-espresso/10" /><span>{copy.fullyBookedOr}</span><span className="h-px flex-1 bg-espresso/10" /></div>
+                        <div>
+                          <h5 className="text-sm font-medium text-espresso">{copy.alternativeTimes}</h5>
+                          {availability?.alternativeTimes.length ? <div className="mt-2.5 flex flex-wrap gap-2">{availability.alternativeTimes.slice(0, 3).map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); setFullyBookedTime(""); }} className="min-h-10 min-w-[4.5rem] rounded-lg border border-espresso/15 bg-[#eee9e1]/70 px-4 text-sm font-medium tabular-nums text-espresso outline-none transition-colors hover:border-espresso/35 hover:bg-[#eee9e1] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory">{time}</button>)}</div> : <p className="mt-1.5 text-sm leading-6 text-espresso-soft">{copy.noTimes}</p>}
+                        </div>
+                      </div> : <>
+                        {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
+                        {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
+                        {!availabilityLoading && !availabilityError && availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
+                      </>}
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
-                      {fullyBooked && <div className="mt-4 rounded-xl border border-espresso/10 bg-[#eee9e1]/70 p-4" role="status">
-                        <p className="text-sm font-medium text-espresso">{copy.fullyBooked}</p>
-                        <p className="mt-1 text-sm text-espresso-soft">{copy.fullyBookedCall}</p>
-                        <a href={dictionary.location.phoneHref} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-espresso underline decoration-espresso/30 underline-offset-4"><Phone size={15} aria-hidden="true" />{copy.callCafe}: {dictionary.location.phoneLabel}</a>
-                        {availableTimes.length > 0 && <>
-                          <p className="mt-3 text-xs font-medium text-espresso-soft">{copy.alternativeTimes}</p>
-                          <div className="mt-2 flex flex-wrap gap-2">{availableTimes.map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setFullyBooked(false); setStep(1); }} className="min-h-10 rounded-lg border border-espresso/15 bg-[#eee9e1] px-3 text-sm font-medium text-espresso">{time}</button>)}</div>
-                        </>}
-                      </div>}
                     </div>
 
                     <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-40 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
