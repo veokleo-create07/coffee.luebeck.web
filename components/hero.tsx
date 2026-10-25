@@ -20,7 +20,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     if (!root) return;
 
     const context = gsap.context(() => {
-      const animatedElements = root.querySelectorAll<HTMLElement>(".hero-word, .hero-cta");
+      const animatedElements = root.querySelectorAll<HTMLElement>(".hero-word, .hero-description, .hero-cta");
       const photoFrame = root.querySelector<HTMLElement>(".hero-photo-frame");
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -53,8 +53,20 @@ export function Hero({ locale, dictionary }: HeroProps) {
       }
 
       opening
-        .fromTo(".hero-word", { opacity: 0, yPercent: 110 }, { opacity: 1, yPercent: 0, duration: 0.76, stagger: 0.075 }, shouldAnimatePhoto ? 0.18 : 0)
-        .fromTo(".hero-description", { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.48 }, "-=0.24")
+        .fromTo(".hero-word", { autoAlpha: 0, yPercent: 115 }, {
+          autoAlpha: 1,
+          yPercent: 0,
+          duration: 0.82,
+          stagger: 0.09,
+          ease: "back.out(1.35)",
+        }, shouldAnimatePhoto ? 0.18 : 0)
+        .fromTo(".hero-description", { autoAlpha: 0, x: -12, y: 10 }, {
+          autoAlpha: 1,
+          x: 0,
+          y: 0,
+          duration: 0.58,
+          ease: "power3.out",
+        }, "-=0.2")
         .fromTo(".hero-cta", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.48, stagger: 0.1, onComplete: () => gsap.set(".hero-cta", { clearProps: "opacity,visibility" }) }, "-=0.2");
 
     }, root);
@@ -66,16 +78,18 @@ export function Hero({ locale, dictionary }: HeroProps) {
     <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
       <div ref={rootRef} className="flex w-full flex-col items-center">
         <div className="grid w-full items-end gap-8 text-center md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.65fr)] md:gap-12 md:text-left lg:gap-20">
-          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] text-balance text-[clamp(3.6rem,13vw,6rem)] font-normal leading-[0.88] tracking-[-0.045em] text-espresso md:max-w-[42rem] md:text-[clamp(4.5rem,8.5vw,8rem)]">
+          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] text-balance text-[clamp(3.55rem,12.8vw,6.15rem)] font-semibold leading-[0.86] tracking-[-0.055em] text-espresso md:max-w-[44rem] md:text-[clamp(4.8rem,8.8vw,8.35rem)]">
             {words.map((word, index) => (
-              <span key={`${word}-${index}`} className="hero-word inline-block">
-                {word}{index < words.length - 1 ? " " : ""}
+              <span key={`${word}-${index}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+                <span className="hero-word inline-block">
+                  {word}{index < words.length - 1 ? " " : ""}
+                </span>
               </span>
             ))}
           </h1>
 
           <div className="flex max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
-            <p className="hero-description max-w-[22rem] text-pretty text-[0.98rem] leading-[1.45] text-espresso-soft md:text-[1.05rem]">
+            <p className="hero-description ml-2 max-w-[22rem] text-pretty text-left text-[0.98rem] leading-[1.5] text-espresso-soft md:ml-5 md:text-[1.05rem]">
               {dictionary.home.description}
             </p>
             <div className="hero-actions relative isolate flex w-full flex-row items-center justify-center gap-2.5 md:justify-start md:gap-3">
