@@ -78,7 +78,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
       <div ref={rootRef} className="flex w-full flex-col items-center">
         <div className="grid w-full items-end gap-8 text-center md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.65fr)] md:gap-12 md:text-left lg:gap-20">
-          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] text-balance text-[clamp(3.55rem,12.8vw,6.15rem)] font-semibold leading-[0.86] tracking-[-0.055em] text-espresso md:max-w-[44rem] md:text-[clamp(4.8rem,8.8vw,8.35rem)]">
+          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] translate-x-[3vw] text-balance text-[clamp(3.55rem,12.8vw,6.15rem)] font-semibold leading-[0.86] tracking-[-0.055em] text-espresso md:max-w-[44rem] md:translate-x-6 md:text-[clamp(4.8rem,8.8vw,8.35rem)]">
             {words.map((word, index) => (
               <span key={`${word}-${index}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
                 <span className="hero-word inline-block">
@@ -88,11 +88,11 @@ export function Hero({ locale, dictionary }: HeroProps) {
             ))}
           </h1>
 
-          <div className="flex max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
-            <p className="hero-description ml-2 max-w-[22rem] text-pretty text-left text-[0.98rem] leading-[1.5] text-espresso-soft md:ml-5 md:text-[1.05rem]">
+          <div className="flex w-full max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
+            <p className="hero-description ml-auto w-[92%] max-w-[22rem] translate-x-2 text-pretty text-right text-[0.98rem] leading-[1.5] text-espresso-soft md:translate-x-5 md:text-[1.05rem]">
               {dictionary.home.description}
             </p>
-            <div className="hero-actions relative isolate flex w-full flex-row items-center justify-center gap-2.5 md:justify-start md:gap-3">
+            <div className="hero-actions relative isolate -mt-2 flex w-full translate-y-[-0.25rem] flex-row items-center justify-start gap-2.5 self-start md:gap-3">
               <Link href={reservationHref} className="site-button site-button-primary hero-button hero-primary-cta hero-cta min-w-0 flex-none whitespace-nowrap px-3 text-[0.74rem] tracking-[-0.01em] md:px-3.5 md:text-[0.78rem]">
                 <span className="relative z-10">{dictionary.home.primaryCta}</span>
               </Link>
