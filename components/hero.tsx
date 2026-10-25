@@ -13,6 +13,9 @@ type HeroProps = { locale: Locale; dictionary: Dictionary };
 export function Hero({ locale, dictionary }: HeroProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const words = dictionary.home.title.split(" ");
+  const titleLines = locale === "de"
+    ? [words.slice(0, 2), words.slice(2)]
+    : [words.slice(0, 3), words.slice(3)];
   const reservationHref = locale === "de" ? "/reservation" : "/en/reservation";
 
   useLayoutEffect(() => {
@@ -78,12 +81,16 @@ export function Hero({ locale, dictionary }: HeroProps) {
     <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
       <div ref={rootRef} className="flex w-full flex-col items-center">
         <div className="grid w-full items-end gap-8 text-center md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.65fr)] md:gap-12 md:text-left lg:gap-20">
-          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] translate-x-[4vw] text-balance text-[clamp(3.3rem,12vw,5.7rem)] font-normal leading-[0.88] tracking-[-0.055em] text-espresso md:max-w-[44rem] md:translate-x-8 md:text-[clamp(4.5rem,8.2vw,7.6rem)]">
-            {words.map((word, index) => (
-              <span key={`${word}-${index}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-                <span className="hero-word inline-block">
-                  {word}{index < words.length - 1 ? " " : ""}
-                </span>
+          <h1 id="hero-title" className="editorial-heading w-full max-w-full translate-x-[2vw] text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:translate-x-8 md:text-[clamp(3rem,5.4vw,6rem)]">
+            {titleLines.map((line, lineIndex) => (
+              <span key={`line-${lineIndex}`} className="block whitespace-nowrap">
+                {line.map((word, wordIndex) => (
+                  <span key={`${word}-${wordIndex}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+                    <span className="hero-word inline-block">
+                      {word}{wordIndex < line.length - 1 ? " " : ""}
+                    </span>
+                  </span>
+                ))}
               </span>
             ))}
           </h1>
