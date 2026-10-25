@@ -78,7 +78,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
       <div ref={rootRef} className="flex w-full flex-col items-center">
         <div className="grid w-full items-end gap-8 text-center md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.65fr)] md:gap-12 md:text-left lg:gap-20">
-          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] translate-x-[4vw] text-balance text-[clamp(3.3rem,12vw,5.7rem)] font-semibold leading-[0.88] tracking-[-0.055em] text-espresso md:max-w-[44rem] md:translate-x-8 md:text-[clamp(4.5rem,8.2vw,7.6rem)]">
+          <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] translate-x-[4vw] text-balance text-[clamp(3.3rem,12vw,5.7rem)] font-normal leading-[0.88] tracking-[-0.055em] text-espresso md:max-w-[44rem] md:translate-x-8 md:text-[clamp(4.5rem,8.2vw,7.6rem)]">
             {words.map((word, index) => (
               <span key={`${word}-${index}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
                 <span className="hero-word inline-block">
