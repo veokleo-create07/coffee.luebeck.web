@@ -14,7 +14,7 @@ export const en: Dictionary = {
   },
   home: {
     title: "Your favorite spot in the Old Town.",
-    description: "Breakfast, matcha, and good coffee in the heart of Lübeck's Old Town. Discover Altstadtliebe and reserve your table for a relaxing break.",
+    description: "Breakfast, matcha, and good coffee in the heart of Lübeck's Old Town.",
     primaryCta: "Book a Table",
     secondaryCta: "See us on Instagram",
     imageAlt: "Altstadtliebe drinks photographed in the café",
