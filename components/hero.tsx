@@ -81,7 +81,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
       <div ref={rootRef} className="flex w-full flex-col items-center">
         <div className="flex w-full flex-col items-center gap-5 text-center md:gap-6">
-          <h1 id="hero-title" className="editorial-heading w-full max-w-full text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:text-[clamp(3rem,5.4vw,6rem)]">
+          <h1 id="hero-title" className="editorial-heading relative left-[2vw] w-full max-w-full text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:left-[6vw] md:text-[clamp(3rem,5.4vw,6rem)]">
             {titleLines.map((line, lineIndex) => (
               <span key={`line-${lineIndex}`} className="block whitespace-nowrap">
                 {line.map((word, wordIndex) => (
