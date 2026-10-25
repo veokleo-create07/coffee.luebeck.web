@@ -81,24 +81,26 @@ export function Hero({ locale, dictionary }: HeroProps) {
     <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
       <div ref={rootRef} className="flex w-full flex-col items-center">
         <div className="grid w-full items-end gap-8 text-center md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.65fr)] md:gap-12 md:text-left lg:gap-20">
-          <h1 id="hero-title" className="editorial-heading w-full max-w-full translate-x-[2vw] text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:translate-x-8 md:text-[clamp(3rem,5.4vw,6rem)]">
-            {titleLines.map((line, lineIndex) => (
-              <span key={`line-${lineIndex}`} className="block whitespace-nowrap">
-                {line.map((word, wordIndex) => (
-                  <span key={`${word}-${wordIndex}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-                    <span className="hero-word inline-block">
-                      {word}{wordIndex < line.length - 1 ? " " : ""}
+          <div className="w-full max-w-[44rem] translate-x-[2vw] text-left md:translate-x-8">
+            <h1 id="hero-title" className="editorial-heading w-full max-w-[92vw] text-left text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:text-[clamp(3rem,5.4vw,6rem)]">
+              {titleLines.map((line, lineIndex) => (
+                <span key={`line-${lineIndex}`} className="block whitespace-nowrap">
+                  {line.map((word, wordIndex) => (
+                    <span key={`${word}-${wordIndex}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
+                      <span className="hero-word inline-block">
+                        {word}{wordIndex < line.length - 1 ? " " : ""}
+                      </span>
                     </span>
-                  </span>
-                ))}
-              </span>
-            ))}
-          </h1>
-
-          <div className="flex w-full max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
-            <p className="hero-description mx-auto w-[92%] max-w-[34rem] text-pretty text-center font-serif text-[1.05rem] leading-[1.55] text-espresso-soft md:text-[1.15rem]">
+                  ))}
+                </span>
+              ))}
+            </h1>
+            <p className="hero-description mt-3 w-[92%] max-w-[30rem] text-pretty text-left font-serif text-[0.8rem] leading-[1.5] text-espresso-soft md:mt-4 md:text-[0.88rem]">
               {dictionary.home.description}
             </p>
+          </div>
+
+          <div className="flex w-full max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
             <div className="hero-actions relative isolate mt-0 flex w-full translate-y-2 flex-row items-center justify-start gap-2.5 self-start md:gap-3">
               <Link href={reservationHref} className="site-button site-button-primary hero-button hero-primary-cta hero-cta min-w-0 flex-none whitespace-nowrap px-3 text-[0.74rem] tracking-[-0.01em] md:px-3.5 md:text-[0.78rem]">
                 <span className="relative z-10">{dictionary.home.primaryCta}</span>
