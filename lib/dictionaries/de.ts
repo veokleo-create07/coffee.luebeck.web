@@ -168,7 +168,7 @@ export const de: Dictionary = {
   },
   home: {
     title: "Dein Lieblingsplatz in der Altstadt.",
-    description: "Frühstück, Matcha und guter Kaffee mitten in der Lübecker Altstadt. Entdecke Altstadtliebe und reserviere deinen Tisch für eine entspannte Auszeit.",
+    description: "Frühstück, Matcha und guter Kaffee mitten in der Lübecker Altstadt.",
     primaryCta: "Reservieren",
     secondaryCta: "Einblicke",
     imageAlt: "Getränke von Altstadtliebe im Café fotografiert",
