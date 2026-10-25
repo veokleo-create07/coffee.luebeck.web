@@ -21,6 +21,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
 
     const context = gsap.context(() => {
       const animatedElements = root.querySelectorAll<HTMLElement>(".hero-word, .hero-cta");
+      const photoFrame = root.querySelector<HTMLElement>(".hero-photo-frame");
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (prefersReducedMotion) {
@@ -28,9 +29,33 @@ export function Hero({ locale, dictionary }: HeroProps) {
         return;
       }
 
-      gsap.timeline({ defaults: { ease: "power3.out" } })
-        .fromTo(".hero-word", { opacity: 0, yPercent: 110 }, { opacity: 1, yPercent: 0, duration: 0.8, stagger: 0.09 })
-        .fromTo(".hero-cta", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.1, onComplete: () => gsap.set(".hero-cta", { clearProps: "opacity,visibility" }) }, "-=0.28");
+      const opening = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const photoImage = root.querySelector<HTMLImageElement>(".hero-photo img");
+      const photoIsReady = Boolean(photoImage?.complete && photoImage.naturalWidth > 0);
+      const shouldAnimatePhoto = Boolean(photoFrame && photoIsReady && window.scrollY < 12);
+
+      if (photoFrame && shouldAnimatePhoto) {
+        const restingRadius = window.getComputedStyle(photoFrame).borderRadius;
+
+        opening.fromTo(photoFrame, {
+          clipPath: `inset(100% 0% 0% 0% round ${restingRadius})`,
+        }, {
+          clipPath: `inset(0% 0% 0% 0% round ${restingRadius})`,
+          duration: 1.2,
+          ease: "power3.inOut",
+        }, 0);
+        opening.fromTo(".hero-photo img", { scale: 1.08 }, {
+          scale: 1,
+          duration: 1.35,
+          ease: "power2.out",
+          onComplete: () => gsap.set(".hero-photo img", { clearProps: "transform" }),
+        }, 0);
+      }
+
+      opening
+        .fromTo(".hero-word", { opacity: 0, yPercent: 110 }, { opacity: 1, yPercent: 0, duration: 0.76, stagger: 0.075 }, shouldAnimatePhoto ? 0.18 : 0)
+        .fromTo(".hero-description", { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.48 }, "-=0.24")
+        .fromTo(".hero-cta", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.48, stagger: 0.1, onComplete: () => gsap.set(".hero-cta", { clearProps: "opacity,visibility" }) }, "-=0.2");
 
     }, root);
 
@@ -50,7 +75,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
           </h1>
 
           <div className="flex max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
-            <p className="max-w-[22rem] text-pretty text-[0.98rem] leading-[1.45] text-espresso-soft md:text-[1.05rem]">
+            <p className="hero-description max-w-[22rem] text-pretty text-[0.98rem] leading-[1.45] text-espresso-soft md:text-[1.05rem]">
               {dictionary.home.description}
             </p>
             <div className="hero-actions relative isolate flex w-full flex-row items-center justify-center gap-2.5 md:justify-start md:gap-3">
@@ -68,7 +93,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         <div className="hero-photo-shell relative mx-auto mt-12 aspect-[0.92/1] w-[calc(100%-2rem)] md:mt-14 md:aspect-[1.15/1] md:w-[72%] md:max-w-[54rem]">
           <div className="hero-photo-frame absolute inset-[0.55rem] overflow-hidden rounded-[1.05rem] bg-espresso/10 shadow-[0_24px_50px_-34px_rgba(44,33,28,0.58)] md:inset-[0.7rem] md:rounded-[1.45rem]">
             <div className="hero-photo absolute -inset-y-[8%] inset-x-0">
-              <Image src="/menu-coffee.jpeg" alt={dictionary.home.imageAlt} fill sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
+              <Image src="/menu-coffee.jpeg" alt={dictionary.home.imageAlt} fill priority sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
             </div>
             <div className="hero-photo-gloss pointer-events-none absolute inset-0" aria-hidden="true" />
             <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
