@@ -80,8 +80,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
   return (
     <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
       <div ref={rootRef} className="flex w-full flex-col items-center">
-        <div className="grid w-full items-end gap-8 text-center md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.65fr)] md:gap-12 md:text-left lg:gap-20">
-          <h1 id="hero-title" className="editorial-heading w-full max-w-full translate-x-[2vw] text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:translate-x-8 md:text-[clamp(3rem,5.4vw,6rem)]">
+        <div className="flex w-full flex-col items-center gap-5 text-center md:gap-6">
+          <h1 id="hero-title" className="editorial-heading w-full max-w-full text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:text-[clamp(3rem,5.4vw,6rem)]">
             {titleLines.map((line, lineIndex) => (
               <span key={`line-${lineIndex}`} className="block whitespace-nowrap">
                 {line.map((word, wordIndex) => (
@@ -95,16 +95,16 @@ export function Hero({ locale, dictionary }: HeroProps) {
             ))}
           </h1>
 
-          <div className="flex w-full max-w-[25rem] flex-col items-center gap-5 md:items-start md:pb-2">
-            <p className="hero-description mx-auto w-[92%] max-w-[34rem] text-pretty text-center font-serif text-[0.8rem] leading-[1.5] text-espresso-soft md:text-[0.88rem]">
+          <div className="flex w-full max-w-[52rem] flex-col items-center gap-5">
+            <p className="hero-description mx-auto w-[92%] max-w-[48rem] text-pretty text-center font-serif text-[0.98rem] font-medium leading-[1.5] text-espresso-soft md:text-[1.25rem]">
               {dictionary.home.description}
             </p>
-            <div className="hero-actions relative isolate mt-0 flex w-full translate-y-2 flex-row items-center justify-start gap-2.5 self-start md:gap-3">
-              <Link href={reservationHref} className="site-button site-button-primary hero-button hero-primary-cta hero-cta min-w-0 flex-none whitespace-nowrap px-3 text-[0.74rem] tracking-[-0.01em] md:px-3.5 md:text-[0.78rem]">
+            <div className="hero-actions relative isolate mt-1 flex w-full flex-row items-center justify-center gap-3">
+              <Link href={reservationHref} className="site-button site-button-primary hero-button hero-primary-cta hero-cta min-h-14 min-w-0 flex-none whitespace-nowrap px-5 text-sm tracking-[-0.01em] md:px-6 md:text-base">
                 <span className="relative z-10">{dictionary.home.primaryCta}</span>
               </Link>
-              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-w-0 flex-none items-center justify-center gap-1.5 whitespace-nowrap px-2.5 text-[0.74rem] tracking-[-0.01em] md:px-3 md:text-[0.78rem]">
-                <Instagram size={15} strokeWidth={1.8} aria-hidden="true" />
+              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-h-14 min-w-0 flex-none items-center justify-center gap-2 whitespace-nowrap px-5 text-sm tracking-[-0.01em] md:px-6 md:text-base">
+                <Instagram size={17} strokeWidth={1.8} aria-hidden="true" />
                 {dictionary.home.secondaryCta}
               </a>
             </div>
