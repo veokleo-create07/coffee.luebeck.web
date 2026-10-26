@@ -96,7 +96,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
           </h1>
 
           <div className="flex w-full max-w-[52rem] flex-col items-center gap-5">
-            <p className="hero-description mx-auto w-[92%] max-w-[48rem] text-pretty text-center font-serif text-[0.98rem] font-medium leading-[1.5] text-espresso-soft md:text-[1.25rem]">
+            <p className="hero-description mx-auto w-[92%] max-w-[48rem] text-pretty text-center font-serif text-[0.875rem] font-medium leading-[1.55] text-espresso-soft md:text-[1.25rem]">
               {dictionary.home.description}
             </p>
             <div className="hero-actions relative isolate mt-1 flex w-full flex-row items-center justify-center gap-3">
