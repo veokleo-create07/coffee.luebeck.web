@@ -64,7 +64,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const homeHref = locale === "de" ? "/" : "/en";
   const [step, setStep] = useState<Step>(1);
   const [reservationStatus, setReservationStatus] = useState<ReservationStatus | null>(null);
-  const [reservationReference, setReservationReference] = useState("");
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
   const [showLargePartyInfo, setShowLargePartyInfo] = useState(false);
@@ -183,7 +182,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           setErrors({ submit: copy.availabilityError });
           return;
         }
-        setReservationReference(payload.reservationReference);
         setReservationStatus(payload.status === "confirmed" ? "confirmed" : "pending");
       } catch {
         setErrors({ submit: copy.availabilityError });
@@ -196,7 +194,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
   const buttonClass = "site-button site-button-primary";
   const isConfirmed = reservationStatus === "confirmed";
-  const durationMinutes = availability?.durationMinutes ?? BOOKING_CONFIG.durationMinutes;
 
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
@@ -228,40 +225,15 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
             {reservationStatus ? (
               <section aria-live="polite" className="reservation-panel lg:pt-5">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full border border-espresso/15 bg-[#eee9e1]/75 text-espresso">
-                  <Check size={21} strokeWidth={1.7} aria-hidden="true" />
-                </div>
-                <h1 className="editorial-heading mt-6 max-w-[13ch] text-[clamp(2.25rem,5vw,3.65rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-espresso">
+                <h1 className="editorial-heading max-w-[13ch] text-[clamp(2.25rem,5vw,3.65rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-espresso">
                   {isConfirmed ? copy.confirmationTitle : copy.pendingTitle}
                 </h1>
                 <p className="mt-4 max-w-[28rem] text-sm leading-[1.6] text-espresso-soft md:text-base">
                   {isConfirmed ? copy.confirmationBody : copy.pendingBody}
                 </p>
-
-                <dl className="mt-7 grid grid-cols-2 gap-x-5 gap-y-5 rounded-[1.15rem] border border-espresso/10 bg-[#eee9e1]/70 p-4 sm:p-5">
-                  <div className="col-span-2 sm:col-span-1">
-                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryDate}</dt>
-                    <dd className="mt-1.5 text-sm font-medium leading-[1.4] text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryTime}</dt>
-                    <dd className="mt-1.5 text-sm font-medium text-espresso">{form.time}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryGuests}</dt>
-                    <dd className="mt-1.5 text-sm font-medium text-espresso">{form.guests} {copy.guestsSuffix}</dd>
-                  </div>
-                  <div className="col-span-2 sm:col-span-1">
-                    <dt className="text-[0.68rem] font-medium uppercase tracking-[0.09em] text-espresso-soft/70">{copy.summaryDuration}</dt>
-                    <dd className="mt-1.5 text-sm font-medium text-espresso">{durationMinutes} {locale === "de" ? "Minuten" : "minutes"}</dd>
-                  </div>
-                </dl>
-
-                <p className="mt-4 text-xs leading-5 text-espresso-soft">
-                  {copy.confirmationReference}: <span className="font-semibold tracking-[0.04em] text-espresso">{reservationReference}</span>
-                </p>
-                <Link href={homeHref} className="mt-7 inline-flex min-h-11 items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+                <Link href={homeHref} className="mt-7 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-espresso px-7 text-sm font-semibold text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
                   {copy.startOver}
+                  <ArrowRight size={15} strokeWidth={1.7} aria-hidden="true" />
                 </Link>
               </section>
             ) : (
