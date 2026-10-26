@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, Clock3, Phone, UserRound, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, Clock3, Mail, MessageSquare, Phone, UserRound, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
@@ -193,8 +193,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     }
   }
 
-  const inputClass = "mt-2 min-h-[2.85rem] w-full min-w-0 rounded-[0.75rem] border border-espresso/15 bg-[#eee9e1]/75 px-3.5 py-2.5 text-[0.9375rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 hover:bg-[#eee9e1] focus:border-espresso/40 focus:bg-[#f1ece4] focus:ring-2 focus:ring-espresso/8 md:min-h-12 md:text-base";
-  const labelClass = "text-xs font-medium uppercase tracking-[0.08em] text-espresso-soft";
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
   const buttonClass = "site-button site-button-primary";
   const isConfirmed = reservationStatus === "confirmed";
@@ -333,21 +331,30 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       <div><dt className="text-xs text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1 text-espresso">{form.guests} {copy.guestsSuffix}</dd></div>
                       <div className="col-span-3 flex items-center gap-2 text-xs text-espresso-soft"><Clock3 size={14} strokeWidth={1.5} className="text-olive" aria-hidden="true" /><dt>{copy.summaryDuration}:</dt><dd>{copy.durationNotice}</dd></div>
                     </dl>
-                    <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
-                      <div className="sm:col-span-2">
-                        <label htmlFor="full-name" className={labelClass}>{copy.fullName}</label>
-                        <input id="full-name" value={form.details.fullName} onChange={(event) => updateDetails("fullName", event.target.value)} className={inputClass} autoComplete="name" aria-invalid={Boolean(errors.fullName)} aria-describedby={errors.fullName ? "full-name-error" : undefined} />
+                    <div className="grid gap-x-4 gap-y-4 sm:grid-cols-2">
+                      <div className="min-w-0">
+                        <div className="relative">
+                          <UserRound size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
+                          <label htmlFor="full-name" className="pointer-events-none absolute left-12 top-2.5 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.fullName}</label>
+                          <input id="full-name" value={form.details.fullName} onChange={(event) => updateDetails("fullName", event.target.value)} className="min-h-[4.5rem] w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-4 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8" autoComplete="name" aria-invalid={Boolean(errors.fullName)} aria-describedby={errors.fullName ? "full-name-error" : undefined} />
+                        </div>
                         {errors.fullName && <p id="full-name-error" className={errorClass} role="alert">{errors.fullName}</p>}
                       </div>
-                      <div>
-                        <label htmlFor="email" className={labelClass}>{copy.email}</label>
-                        <input id="email" type="email" value={form.details.email} onChange={(event) => updateDetails("email", event.target.value)} className={inputClass} autoComplete="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} />
+                      <div className="min-w-0">
+                        <div className="relative">
+                          <Mail size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
+                          <label htmlFor="email" className="pointer-events-none absolute left-12 top-2.5 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.email}</label>
+                          <input id="email" type="email" value={form.details.email} onChange={(event) => updateDetails("email", event.target.value)} className="min-h-[4.5rem] w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-4 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8" autoComplete="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-error" : undefined} />
+                        </div>
                         {errors.email && <p id="email-error" className={errorClass} role="alert">{errors.email}</p>}
                       </div>
-                    </div>
-                    <div className="mt-3">
-                      <label htmlFor="requests" className={labelClass}>{copy.requests} <span className="normal-case tracking-normal text-espresso-soft/60">({copy.optional})</span></label>
-                      <textarea id="requests" rows={2} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className={`${inputClass} resize-none`} />
+                      <div className="min-w-0 sm:col-span-2">
+                        <div className="relative">
+                          <MessageSquare size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-4 z-10 text-espresso" aria-hidden="true" />
+                          <label htmlFor="requests" className="pointer-events-none absolute left-12 top-3 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.requests} <span className="normal-case tracking-normal text-espresso-soft/60">({copy.optional})</span></label>
+                          <textarea id="requests" rows={3} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className="min-h-28 w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] py-9 pl-12 pr-4 text-[0.94rem] font-medium leading-6 text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8" />
+                        </div>
+                      </div>
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
                     <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
