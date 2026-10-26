@@ -326,6 +326,20 @@ a {
   animation: reservation-fade var(--motion-medium) var(--ease-premium) both;
 }
 
+.reservation-date-input {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.reservation-date-input::-webkit-date-and-time-value {
+  min-inline-size: 0;
+  text-align: left;
+}
+
 .hero-cta {
   flex: 0 1 auto;
 }
