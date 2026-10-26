@@ -325,11 +325,11 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 ) : (
                   <section aria-labelledby="contact-details-title">
                     <h2 id="contact-details-title" className="sr-only">{copy.stepLabels[1]}</h2>
-                    <dl className="mb-5 grid grid-cols-3 gap-3 border-b border-espresso/15 pb-5 text-sm">
-                      <div><dt className="text-xs text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1 text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd></div>
-                      <div><dt className="text-xs text-espresso-soft">{copy.summaryTime}</dt><dd className="mt-1 text-espresso">{form.time}</dd></div>
-                      <div><dt className="text-xs text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1 text-espresso">{form.guests} {copy.guestsSuffix}</dd></div>
-                      <div className="col-span-3 flex items-center gap-2 text-xs text-espresso-soft"><Clock3 size={14} strokeWidth={1.5} className="text-olive" aria-hidden="true" /><dt>{copy.summaryDuration}:</dt><dd>{copy.durationNotice}</dd></div>
+                    <dl className="mb-6 grid grid-cols-3 gap-3 text-sm">
+                      <div><dt className="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1.5 text-[0.94rem] font-semibold text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd></div>
+                      <div><dt className="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-espresso-soft">{copy.summaryTime}</dt><dd className="mt-1.5 text-[0.94rem] font-semibold text-espresso">{form.time}</dd></div>
+                      <div><dt className="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1.5 text-[0.94rem] font-semibold text-espresso">{form.guests} {copy.guestsSuffix}</dd></div>
+                      <div className="col-span-3 flex items-start gap-2 text-xs leading-5 text-espresso-soft"><Clock3 size={14} strokeWidth={1.5} className="mt-0.5 shrink-0 text-olive" aria-hidden="true" /><dt className="shrink-0 font-semibold text-espresso-soft">{copy.summaryDuration}:</dt><dd className="font-medium text-espresso-soft">{copy.durationNotice}</dd></div>
                     </dl>
                     <div className="grid gap-x-4 gap-y-4 sm:grid-cols-2">
                       <div className="min-w-0">
