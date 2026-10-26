@@ -268,7 +268,7 @@ export const de: Dictionary = {
       continue: "Weiter",
       confirm: "Reservierung bestätigen",
       confirmationTitle: "Deine Reservierung ist bestätigt.",
-      confirmationBody: "Wir freuen uns darauf, dich bald bei Altstadtliebe willkommen zu heißen!",
+      confirmationBody: "Wir freuen uns auf deinen Besuch.",
       pendingTitle: "Deine Reservierungsanfrage ist eingegangen.",
       pendingBody: "Wir prüfen deine Anfrage und informieren dich, sobald deine Reservierung bestätigt ist.",
       startOver: "Zur Startseite",

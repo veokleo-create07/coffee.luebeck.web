@@ -116,7 +116,7 @@ export const en: Dictionary = {
       continue: "Continue",
       confirm: "Confirm Reservation",
       confirmationTitle: "Your reservation is confirmed.",
-      confirmationBody: "We look forward to welcoming you to Altstadtliebe.",
+      confirmationBody: "We look forward to your visit.",
       pendingTitle: "Your reservation request has been received.",
       pendingBody: "We’ll review your request and let you know once your table is confirmed.",
       startOver: "Back to homepage",
