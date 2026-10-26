@@ -59,6 +59,12 @@ function displayDate(date: string, locale: string) {
   return new Intl.DateTimeFormat(locale, { dateStyle: "long", timeZone: "Europe/Berlin" }).format(new Date(Date.UTC(year, month - 1, day, 12)));
 }
 
+function displayFieldDate(date: string, locale: string) {
+  if (!date) return "";
+  const [year, month, day] = date.split("-").map(Number);
+  return new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(year, month - 1, day, 12)));
+}
+
 export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const copy = dictionary.reservation.booking;
   const homeHref = locale === "de" ? "/" : "/en";
@@ -243,10 +249,13 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
                     <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
                       <div className="min-w-0">
-                        <div className="relative w-full min-w-0 max-w-full">
+                        <div className="relative flex min-h-[4.5rem] w-full min-w-0 max-w-full items-center rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] px-3 transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus-within:border-espresso/40 focus-within:ring-2 focus-within:ring-espresso/8">
                           <CalendarDays size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
-                          <label htmlFor="visit-date" className="absolute left-12 top-2.5 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.dateLabel}</label>
-                          <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className="reservation-date-input box-border min-h-[4.5rem] w-full min-w-0 max-w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-3 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8 [&::-webkit-calendar-picker-indicator]:cursor-pointer" aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+                          <div className="pointer-events-none absolute left-12 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-0.5">
+                            <label htmlFor="visit-date" className="text-[0.68rem] font-medium leading-tight text-espresso-soft">{copy.dateLabel}</label>
+                            <span aria-hidden="true" className="text-[0.94rem] font-medium leading-tight text-espresso">{displayFieldDate(form.date, copy.dateFormatLocale)}</span>
+                          </div>
+                          <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className="absolute inset-0 z-20 h-full w-full cursor-pointer opacity-0" aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
                         </div>
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
