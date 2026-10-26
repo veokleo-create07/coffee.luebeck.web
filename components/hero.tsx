@@ -116,6 +116,28 @@ export function Hero({ locale, dictionary }: HeroProps) {
             <div className="hero-photo absolute -inset-y-[8%] inset-x-0">
               <Image src="/hero-altstadtliebe-interior.jpg" alt={dictionary.home.imageAlt} fill priority sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
             </div>
+            <div className="pointer-events-none absolute left-[4.5%] top-[4.5%] z-10 w-[22%] max-w-32 -rotate-3 md:w-[17%]">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[0.85rem] border-[3px] border-[#f5f0e8] shadow-[0_8px_24px_-12px_rgba(32,24,20,0.65)] md:rounded-[1rem]">
+                <Image
+                  src="/hero-matcha-accent.png"
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 22vw, 150px"
+                  className="object-cover object-center"
+                />
+              </div>
+            </div>
+            <div className="pointer-events-none absolute bottom-[4.5%] right-[4.5%] z-10 w-[22%] max-w-32 rotate-3 md:w-[17%]">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[0.85rem] border-[3px] border-[#f5f0e8] shadow-[0_8px_24px_-12px_rgba(32,24,20,0.65)] md:rounded-[1rem]">
+                <Image
+                  src="/hero-breakfast-accent.jpeg"
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 22vw, 150px"
+                  className="object-cover object-[center_68%]"
+                />
+              </div>
+            </div>
             <div className="hero-photo-gloss pointer-events-none absolute inset-0" aria-hidden="true" />
             <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
           </div>
