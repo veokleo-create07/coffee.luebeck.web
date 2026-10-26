@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
+import { ParticleTitle } from "@/components/ui/particle-title";
 
 type CoffeeShowcaseProps = { locale: Locale; dictionary: Dictionary };
 
@@ -89,7 +90,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   return (
     <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-24" aria-labelledby="showcase-title">
       <div className="mx-auto max-w-7xl">
-        <h2 id="showcase-title" data-menu-reveal className="editorial-heading mx-auto max-w-[13ch] text-center text-balance text-[clamp(2.8rem,5.5vw,5.8rem)] font-medium leading-[0.88] tracking-[-0.055em] text-espresso">{dictionary.showcase.heading}</h2>
+        <ParticleTitle id="showcase-title" text={dictionary.showcase.heading} className="mx-auto h-[clamp(190px,22vw,260px)] max-w-[13ch] text-[clamp(2.8rem,5.5vw,5.8rem)] font-medium leading-[0.88] tracking-[-0.055em]" />
 
         <div className="menu-experience-track mx-auto mt-12 grid w-full max-w-[760px] grid-cols-3 gap-2 md:mt-16 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
           {cards.map((experience, index) => (
