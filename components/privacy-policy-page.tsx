@@ -89,47 +89,23 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Für technische Protokolldaten, E-Mail-Versandprotokolle und Sicherungskopien können abweichende Speicherfristen der jeweiligen Dienstleister gelten.</p>
       </PolicySection>
 
-      <PolicySection number={8} title="Google Maps">
-        <p>Auf unserer Website bieten wir eine interaktive Karte des Dienstes Google Maps an, damit Besucher den Standort unseres Cafés leichter finden können.</p>
-        <p>Anbieter ist Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.</p>
-        <p>Die interaktive Karte wird erst geladen, nachdem Sie der Einbindung zugestimmt haben.</p>
-        <p>Bei Aktivierung können insbesondere Ihre IP-Adresse, technische Geräte- und Browserinformationen sowie weitere Nutzungsdaten an Google übermittelt werden. Dabei kann eine Datenverarbeitung außerhalb der Europäischen Union stattfinden.</p>
-        <p>Rechtsgrundlage der Verarbeitung ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO sowie, soweit erforderlich, § 25 Abs. 1 TDDDG.</p>
-        <p>Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen.</p>
-        <p>Weitere Informationen: <ExternalLink href="https://policies.google.com/privacy">Google Privacy Policy</ExternalLink></p>
-      </PolicySection>
-
-      <PolicySection number={9} title="Google Search Console">
-        <p>Wir verwenden Google Search Console, um die Auffindbarkeit unserer Website in der Google-Suche zu analysieren und technisch zu verbessern.</p>
-        <p>Hierzu gehören insbesondere Auswertungen über Suchanfragen, Impressionen, Klicks und die Position unserer Website in Suchergebnissen.</p>
-        <p>Die Verwendung von Google Search Console allein führt nicht dazu, dass über unsere Website Tracking-Cookies für Besucher gesetzt werden.</p>
-        <p>Die Auswertung erfolgt zur Verbesserung unseres Internetangebots auf Grundlage unseres berechtigten Interesses gemäß Art. 6 Abs. 1 lit. f DSGVO.</p>
-      </PolicySection>
-
-      <PolicySection number={10} title="Cookies und ähnliche Technologien">
+      <PolicySection number={8} title="Cookies und ähnliche Technologien">
         <p>Unsere Website kann technisch notwendige Cookies oder vergleichbare Speichertechnologien verwenden, sofern diese für die Bereitstellung der Website und ihrer Funktionen erforderlich sind.</p>
         <p>Soweit technisch nicht notwendige Technologien eingesetzt werden, die eine Einwilligung erfordern, werden diese erst nach Ihrer vorherigen Zustimmung verwendet.</p>
         <p>Eine erteilte Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden.</p>
       </PolicySection>
 
-      <PolicySection number={11} title="Ihre Rechte">
+      <PolicySection number={9} title="Ihre Rechte">
         <p>Sie haben im Rahmen der gesetzlichen Voraussetzungen insbesondere folgende Rechte:</p>
         <ul><li>Auskunft: Art. 15 DSGVO</li><li>Berichtigung: Art. 16 DSGVO</li><li>Löschung: Art. 17 DSGVO</li><li>Einschränkung der Verarbeitung: Art. 18 DSGVO</li><li>Datenübertragbarkeit: Art. 20 DSGVO</li><li>Widerspruch gegen bestimmte Verarbeitungen: Art. 21 DSGVO</li><li>Widerruf erteilter Einwilligungen: Art. 7 Abs. 3 DSGVO</li></ul>
-        <p>Zur Ausübung Ihrer Rechte können Sie sich jederzeit an die unter Abschnitt 1 genannten Kontaktdaten wenden.</p>
-        <p>Sie haben außerdem das Recht, sich bei einer zuständigen Datenschutzaufsichtsbehörde zu beschweren.</p>
-        <p>Für Schleswig-Holstein ist dies insbesondere das Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein (ULD).</p>
-        <p>Website: <ExternalLink href="https://www.datenschutzzentrum.de/">datenschutzzentrum.de</ExternalLink></p>
+        <p>Zur Ausübung Ihrer Rechte oder bei Fragen und Anliegen schreiben Sie uns bitte eine E-Mail an die in Abschnitt 1 genannten Kontaktdaten.</p>
       </PolicySection>
 
-      <PolicySection number={12} title="Datensicherheit">
+      <PolicySection number={10} title="Datensicherheit">
         <p>Wir setzen angemessene technische und organisatorische Maßnahmen ein, um personenbezogene Daten vor unbefugtem Zugriff, Verlust, Veränderung und unrechtmäßiger Verarbeitung zu schützen.</p>
         <p>Die Übertragung von Daten zwischen Ihrem Browser und unserer Website erfolgt über eine verschlüsselte HTTPS-Verbindung.</p>
       </PolicySection>
 
-      <PolicySection number={13} title="Änderungen dieser Datenschutzerklärung">
-        <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, wenn sich rechtliche Anforderungen oder die Datenverarbeitung auf unserer Website ändern.</p>
-        <p>Es gilt die jeweils auf dieser Website veröffentlichte Fassung.</p>
-      </PolicySection>
     </>
   );
 }
@@ -203,47 +179,23 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Different retention periods may apply to technical logs, email-delivery logs, and backups maintained by the respective service providers.</p>
       </PolicySection>
 
-      <PolicySection number={8} title="Google Maps">
-        <p>We offer an interactive Google Maps map on our website to help visitors find our café.</p>
-        <p>The provider is Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland.</p>
-        <p>The interactive map is loaded only after you have consented to its integration.</p>
-        <p>When activated, your IP address, technical device and browser information, and other usage data may be transmitted to Google. This may involve processing outside the European Union.</p>
-        <p>The legal basis for processing is your consent under Article 6(1)(a) GDPR and, where applicable, Section 25(1) TDDDG.</p>
-        <p>You may withdraw your consent at any time with effect for the future.</p>
-        <p>Further information: <ExternalLink href="https://policies.google.com/privacy">Google Privacy Policy</ExternalLink></p>
-      </PolicySection>
-
-      <PolicySection number={9} title="Google Search Console">
-        <p>We use Google Search Console to analyse and technically improve the visibility of our website in Google Search.</p>
-        <p>This includes analyses of search queries, impressions, clicks, and our website’s position in search results.</p>
-        <p>The use of Google Search Console alone does not cause tracking cookies to be set for visitors through our website.</p>
-        <p>The analysis is carried out to improve our online offering on the basis of our legitimate interest under Article 6(1)(f) GDPR.</p>
-      </PolicySection>
-
-      <PolicySection number={10} title="Cookies and similar technologies">
+      <PolicySection number={8} title="Cookies and similar technologies">
         <p>Our website may use technically necessary cookies or comparable storage technologies where these are required to provide the website and its functions.</p>
         <p>If non-essential technologies requiring consent are used, they will be activated only after your prior consent.</p>
         <p>Consent may be withdrawn at any time with effect for the future.</p>
       </PolicySection>
 
-      <PolicySection number={11} title="Your rights">
+      <PolicySection number={9} title="Your rights">
         <p>Subject to the statutory requirements, you have the following rights in particular:</p>
         <ul><li>Access: Article 15 GDPR</li><li>Rectification: Article 16 GDPR</li><li>Erasure: Article 17 GDPR</li><li>Restriction of processing: Article 18 GDPR</li><li>Data portability: Article 20 GDPR</li><li>Objection to certain processing: Article 21 GDPR</li><li>Withdrawal of consent: Article 7(3) GDPR</li></ul>
-        <p>To exercise your rights, you may contact us at any time using the contact details in Section 1.</p>
-        <p>You also have the right to lodge a complaint with a competent data-protection supervisory authority.</p>
-        <p>For Schleswig-Holstein, this is in particular the Independent State Centre for Data Protection Schleswig-Holstein (ULD).</p>
-        <p>Website: <ExternalLink href="https://www.datenschutzzentrum.de/">datenschutzzentrum.de</ExternalLink></p>
+        <p>To exercise your rights or if you have any questions or issues, please send us an email using the contact details in Section 1.</p>
       </PolicySection>
 
-      <PolicySection number={12} title="Data security">
+      <PolicySection number={10} title="Data security">
         <p>We use appropriate technical and organisational measures to protect personal data against unauthorised access, loss, alteration, and unlawful processing.</p>
         <p>Data transmitted between your browser and our website is protected by an encrypted HTTPS connection.</p>
       </PolicySection>
 
-      <PolicySection number={13} title="Changes to this privacy policy">
-        <p>We reserve the right to update this privacy policy if legal requirements or the processing activities on our website change.</p>
-        <p>The version published on this website at the relevant time applies.</p>
-      </PolicySection>
     </>
   );
 }
@@ -257,12 +209,9 @@ const policyNavigation = {
     "Datenbank und Speicherung durch Supabase",
     "Reservierungsbestätigungen per E-Mail",
     "Speicherdauer und Löschung",
-    "Google Maps",
-    "Google Search Console",
     "Cookies und ähnliche Technologien",
     "Ihre Rechte",
     "Datensicherheit",
-    "Änderungen dieser Datenschutzerklärung",
   ],
   en: [
     "Controller",
@@ -272,12 +221,9 @@ const policyNavigation = {
     "Database and storage by Supabase",
     "Reservation confirmations by email",
     "Retention and deletion",
-    "Google Maps",
-    "Google Search Console",
     "Cookies and similar technologies",
     "Your rights",
     "Data security",
-    "Changes to this privacy policy",
   ],
 } as const;
 
