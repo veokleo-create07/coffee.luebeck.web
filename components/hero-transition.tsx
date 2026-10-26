@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { useLayoutEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 type HeroTransitionProps = { hero: ReactNode; next: ReactNode };
 
@@ -40,25 +41,6 @@ export function HeroTransition({ hero, next }: HeroTransitionProps) {
         onRefresh: (self) => gsap.set(heroLayer, { autoAlpha: self.progress < 1 ? 1 : 0 }),
       });
 
-      let disposed = false;
-      let refreshFrame = 0;
-      const refresh = () => {
-        window.cancelAnimationFrame(refreshFrame);
-        refreshFrame = window.requestAnimationFrame(() => {
-          if (!disposed) ScrollTrigger.refresh();
-        });
-      };
-      window.addEventListener("load", refresh, { once: true });
-      window.addEventListener("resize", refresh, { passive: true });
-      document.fonts.ready.then(refresh);
-      refresh();
-
-      return () => {
-        disposed = true;
-        window.cancelAnimationFrame(refreshFrame);
-        window.removeEventListener("load", refresh);
-        window.removeEventListener("resize", refresh);
-      };
     }, root);
 
     return () => context.revert();
