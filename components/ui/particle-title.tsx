@@ -12,10 +12,10 @@ type Cell = {
   x: number; y: number; w: number; h: number; nx: number; ny: number;
   r1: number; r2: number; r3: number; size: number; tx: number; ty: number; color: RGB; delay: number; bend: number;
 };
-type Phase = "text" | "dissolving" | "field" | "gathering";
+type Phase = "text" | "gathering";
 
 const MODES: Mode[] = ["smoke", "vortex", "sand", "burst", "sweep", "absorb"];
-const TIMING = { hold: 5200, field: 1400, travel: 4200 };
+const TIMING = { travel: 1500 };
 const PALETTE: Palette = {
   ink: [44, 33, 28],
   page: [245, 240, 232],
@@ -113,8 +113,8 @@ function createEngine(canvas: HTMLCanvasElement, text: string): { destroy: () =>
   let width = 0, height = 0, dpr = 1, cells: Cell[] = [];
   let area: Box = { x: 0, y: 0, w: 0, h: 0 };
   let field: Field = { cx: 0, cy: 0, rx: 0, ry: 0 };
-  let phase: Phase = "gathering", mode = nextMode(), started = 0, raf = 0, timer = 0;
-  let active = true, destroyed = false;
+  let phase: Phase = "gathering", mode = nextMode(), started = 0, raf = 0;
+  let active = false, initialized = false, destroyed = false;
 
   const seedField = () => {
     const random = createRng((Math.random() * 1e9) | 0);
@@ -189,15 +189,14 @@ function createEngine(canvas: HTMLCanvasElement, text: string): { destroy: () =>
     seedField();
   };
 
-  const stop = () => { clearTimeout(timer); cancelAnimationFrame(raf); raf = 0; };
+  const stop = () => { cancelAnimationFrame(raf); raf = 0; };
   const drawText = () => {
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(textCanvas, 0, 0); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
 
-  const advance = () => enter(phase === "text" ? "dissolving" : phase === "dissolving" ? "field" : phase === "field" ? "gathering" : "text");
   const frame = (now: number) => {
     raf = 0;
-    const progress = clamp((now - started) / TIMING.travel), outward = phase === "dissolving";
+    const progress = clamp((now - started) / TIMING.travel), outward = false;
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (const cell of cells) {
       const path = pathFor(mode, cell, width, height);
@@ -223,22 +222,33 @@ function createEngine(canvas: HTMLCanvasElement, text: string): { destroy: () =>
       ctx.beginPath(); ctx.arc(point[0], point[1], (cell.size * mix(1, 1.7, smooth(point[2]))) / 2, 0, Math.PI * 2); ctx.fill();
     }
     ctx.globalAlpha = 1;
-    if (progress < 1) raf = requestAnimationFrame(frame); else advance();
+    if (progress < 1) raf = requestAnimationFrame(frame);
+    else { phase = "text"; drawText(); }
   };
 
   function enter(next: Phase) {
     phase = next; started = performance.now(); stop();
     if (!active || destroyed) return;
-    if (next === "text") { drawText(); timer = window.setTimeout(advance, TIMING.hold); }
-    else if (next === "field") { ctx!.setTransform(1, 0, 0, 1, 0, 0); ctx!.clearRect(0, 0, canvas.width, canvas.height); ctx!.setTransform(dpr, 0, 0, dpr, 0, 0); timer = window.setTimeout(advance, TIMING.field); }
-    else { if (next === "dissolving") { mode = nextMode(); seedField(); } frame(performance.now()); }
+    if (next === "text") drawText();
+    else frame(performance.now());
   }
 
-  build();
-  enter("gathering");
   return {
-    setActive(on) { if (on === active || destroyed) return; active = on; if (on) enter(phase); else stop(); },
-    resize() { if (destroyed) return; stop(); build(); if (active) enter(phase); else if (phase === "text") drawText(); },
+    setActive(on) {
+      if (on === active || destroyed) return;
+      active = on;
+      if (!on) stop();
+      else {
+        if (!initialized) { build(); initialized = true; }
+        enter(phase);
+      }
+    },
+    resize() {
+      if (destroyed || !initialized) return;
+      stop(); build();
+      if (phase === "text") drawText();
+      else if (active) enter(phase);
+    },
     destroy() { destroyed = true; active = false; stop(); },
   };
 }
@@ -272,11 +282,12 @@ export function ParticleTitle({ text, className = "", id }: ParticleTitleProps) 
     if (!engine) return;
     let visible = false;
     let size = `${canvas.clientWidth}x${canvas.clientHeight}`;
-    const sync = () => engine.setActive(visible && !document.hidden);
+    const sync = () => engine.setActive(visible);
     const intersection = new IntersectionObserver((entries) => {
       visible = entries[entries.length - 1]?.isIntersecting ?? false;
       sync();
-    });
+      if (visible) intersection.disconnect();
+    }, { rootMargin: "0px 0px 18% 0px", threshold: 0.01 });
     intersection.observe(canvas);
     let resizeTimer = 0;
     const resize = new ResizeObserver(() => {
@@ -287,9 +298,7 @@ export function ParticleTitle({ text, className = "", id }: ParticleTitleProps) 
       resizeTimer = window.setTimeout(() => engine.resize(), 200);
     });
     resize.observe(canvas);
-    document.addEventListener("visibilitychange", sync);
     return () => {
-      document.removeEventListener("visibilitychange", sync);
       clearTimeout(resizeTimer); intersection.disconnect(); resize.disconnect(); engine.destroy();
     };
   }, [reduce, text]);

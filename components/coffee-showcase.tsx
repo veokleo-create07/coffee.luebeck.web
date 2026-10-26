@@ -90,7 +90,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   return (
     <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-24" aria-labelledby="showcase-title">
       <div className="mx-auto max-w-7xl">
-        <ParticleTitle id="showcase-title" text={dictionary.showcase.heading} className="mx-auto h-[clamp(190px,22vw,260px)] max-w-[13ch] text-[clamp(2.8rem,5.5vw,5.8rem)] font-medium leading-[0.88] tracking-[-0.055em]" />
+        <ParticleTitle id="showcase-title" text={dictionary.showcase.heading} className="mx-auto h-[clamp(145px,17vw,205px)] max-w-[22ch] text-[clamp(2.15rem,4.25vw,4.5rem)] font-medium leading-[0.94] tracking-[-0.05em]" />
 
         <div className="menu-experience-track mx-auto mt-12 grid w-full max-w-[760px] grid-cols-3 gap-2 md:mt-16 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
           {cards.map((experience, index) => (
