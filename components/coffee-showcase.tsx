@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
-import { ParticleTitle } from "@/components/ui/particle-title";
 
 type CoffeeShowcaseProps = { locale: Locale; dictionary: Dictionary };
 
@@ -39,8 +38,8 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
       }
 
       gsap.set(reveal, { autoAlpha: 1, clearProps: "transform" });
-      gsap.set(panels, { autoAlpha: 0, y: 38, scale: 0.97, transformOrigin: "50% 70%", willChange: "transform, opacity" });
-      gsap.set(images, { scale: 1.075, transformOrigin: "50% 50%", willChange: "transform" });
+      gsap.set(panels, { autoAlpha: 0, y: 24, scale: 0.985, transformOrigin: "50% 70%", willChange: "transform, opacity" });
+      gsap.set(images, { scale: 1.04, transformOrigin: "50% 50%", willChange: "transform" });
 
       let hasRevealed = false;
       const playReveal = () => {
@@ -54,14 +53,14 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
             autoAlpha: 1,
             y: 0,
             scale: 1,
-            duration: 0.95,
-            stagger: 0.13,
+            duration: 0.82,
+            stagger: 0.14,
             onComplete: () => gsap.set(panels, { clearProps: "transform,opacity,visibility,willChange" }),
           })
           .to(images, {
             scale: 1,
-            duration: 1.2,
-            stagger: 0.13,
+            duration: 1.15,
+            stagger: 0.14,
             onComplete: () => gsap.set(images, { clearProps: "transform,willChange" }),
           }, 0);
       };
@@ -90,7 +89,9 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   return (
     <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-24" aria-labelledby="showcase-title">
       <div className="mx-auto max-w-7xl">
-        <ParticleTitle id="showcase-title" text={dictionary.showcase.heading} className="mx-auto h-[clamp(145px,17vw,205px)] max-w-[22ch] text-[clamp(2.15rem,4.25vw,4.5rem)] font-medium leading-[0.94] tracking-[-0.05em]" />
+        <h2 id="showcase-title" className="editorial-heading mx-auto max-w-[21ch] text-balance text-center text-[clamp(2rem,4.2vw,4rem)] font-medium leading-[0.98] tracking-[-0.05em]">
+          {dictionary.showcase.heading}
+        </h2>
 
         <div className="menu-experience-track mx-auto mt-12 grid w-full max-w-[760px] grid-cols-3 gap-2 md:mt-16 md:gap-5" role="list" aria-label={dictionary.showcase.heading}>
           {cards.map((experience, index) => (
