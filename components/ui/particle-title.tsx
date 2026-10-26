@@ -15,7 +15,7 @@ type Cell = {
 type Phase = "text" | "gathering";
 
 const MODES: Mode[] = ["smoke", "vortex", "sand", "burst", "sweep", "absorb"];
-const TIMING = { travel: 1500 };
+const TIMING = { travel: 2500 };
 const PALETTE: Palette = {
   ink: [44, 33, 28],
   page: [245, 240, 232],
