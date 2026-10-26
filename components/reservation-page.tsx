@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, Clock3, Phone, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, Clock3, Phone, UserRound, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
@@ -204,9 +204,9 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     <div className="min-h-screen overflow-hidden bg-ivory">
       <SiteHeader locale={locale} dictionary={dictionary} />
       <main className="page-gutter py-8 md:py-12 lg:py-16">
-        <div className="mx-auto grid max-w-5xl gap-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(28rem,1.08fr)] lg:items-start lg:gap-10 xl:gap-14">
-          <aside className="hidden lg:block lg:sticky lg:top-8" aria-label={dictionary.reservation.imageAlt}>
-            <div className="relative h-[min(76vh,46rem)] min-h-[34rem] overflow-hidden rounded-[2rem] bg-espresso/10">
+        <div className="mx-auto grid max-w-7xl gap-7 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
+          <aside className="hidden lg:sticky lg:top-8 lg:block" aria-label={dictionary.reservation.imageAlt}>
+            <div className="relative aspect-[0.78] w-full overflow-hidden rounded-[2rem] bg-espresso/10">
               <Image src="/booking-cups.jpeg" alt={dictionary.reservation.imageAlt} fill sizes="45vw" className="object-cover object-center" priority />
               <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
             </div>
@@ -218,15 +218,14 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 <Image src="/booking-cups.jpeg" alt="" fill sizes="calc(100vw - 2.5rem)" className="object-cover object-[62%_center]" />
               </div>
             ) : (
-              <header className="grid grid-cols-[minmax(0,1fr)_6.5rem] items-start gap-5 sm:grid-cols-[minmax(0,1fr)_8rem] lg:block">
-                <div>
-                  <h1 className="editorial-heading max-w-[13ch] text-[clamp(2.35rem,4.8vw,3.85rem)] font-semibold leading-[0.94] tracking-[-0.04em] text-espresso">{copy.title}</h1>
-                  <p className="mt-4 max-w-[25rem] text-sm leading-[1.6] text-espresso-soft md:mt-5 md:text-base md:leading-[1.55]">{dictionary.reservation.description}</p>
+              <>
+                <div className="relative mb-7 aspect-[1.55] overflow-hidden rounded-[1.25rem] bg-espresso/10 lg:hidden">
+                  <Image src="/booking-cups.jpeg" alt={dictionary.reservation.imageAlt} fill sizes="(max-width: 1023px) 100vw, 1px" className="object-cover object-[62%_center]" priority />
                 </div>
-                <div className="relative mt-1 aspect-[0.8] overflow-hidden rounded-[1.1rem] bg-espresso/10 lg:hidden">
-                  <Image src="/booking-cups.jpeg" alt="" fill sizes="128px" className="object-cover object-[62%_center]" />
-                </div>
-              </header>
+                <header>
+                  <h1 className="editorial-heading text-[clamp(2.25rem,5.1vw,3.65rem)] font-medium leading-[1.02] tracking-[-0.045em] text-espresso">{copy.title}</h1>
+                </header>
+              </>
             )}
 
             {reservationStatus ? (
@@ -268,44 +267,50 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 </Link>
               </section>
             ) : (
-              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-8 md:mt-10">
+              <form key={step} onSubmit={submitStep} noValidate className="reservation-panel mt-7 md:mt-9">
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
-                    <div className="grid grid-cols-2 gap-3.5 sm:gap-6">
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
                       <div className="min-w-0">
-                        <label htmlFor="visit-date" className={labelClass}>{copy.dateLabel}</label>
-                        <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className={inputClass} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+                        <div className="relative">
+                          <CalendarDays size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
+                          <label htmlFor="visit-date" className="absolute left-12 top-2.5 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.dateLabel}</label>
+                          <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className="min-h-[4.5rem] w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-3 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8 [&::-webkit-calendar-picker-indicator]:cursor-pointer" aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+                        </div>
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
                       <div className="min-w-0">
-                        <label htmlFor="guest-count" className={labelClass}>{copy.guestsLabel}</label>
                         <div className="relative">
-                          <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className={`${inputClass} appearance-none pr-6`} aria-label={copy.guestsLabel}>
+                          <UserRound size={21} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
+                          <label htmlFor="guest-count" className="pointer-events-none absolute left-12 top-2.5 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.guestsLabel}</label>
+                          <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className="min-h-[4.5rem] w-full appearance-none rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-10 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8">
                             {Array.from({ length: BOOKING_CONFIG.maxGuests }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1} {copy.guestsSuffix}</option>)}
                           </select>
-                          <ChevronDown size={16} strokeWidth={1.5} className="pointer-events-none absolute bottom-4 right-3 text-espresso-soft" aria-hidden="true" />
+                          <ChevronDown size={18} strokeWidth={1.6} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-espresso" aria-hidden="true" />
                         </div>
                       </div>
-                      <div className="col-span-2 mt-1">
+                      <div className="mt-1 sm:col-span-2">
                         <button type="button" onClick={() => setShowLargePartyInfo((current) => !current)} className="text-sm text-espresso underline decoration-espresso/30 underline-offset-4 transition-colors hover:decoration-espresso">{copy.moreThanSix}</button>
                         {showLargePartyInfo && <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-espresso-soft"><span>{copy.moreThanSixMessage}</span><a href={dictionary.location.phoneHref} className="site-button site-button-secondary min-h-11 gap-2 px-4" aria-label={`${copy.callCafe}: ${dictionary.location.phoneLabel}`}><Phone size={15} strokeWidth={1.5} aria-hidden="true" />{copy.callCafe}</a></div>}
                       </div>
                     </div>
 
-                    <div className="mt-6 md:mt-7">
-                      <h3 className={labelClass}>{copy.timeLabel}</h3>
-                      <div className="mt-2 flex items-start gap-2 text-xs leading-5 text-espresso-soft">
-                        <Clock3 size={14} strokeWidth={1.5} className="mt-0.5 shrink-0 text-olive" aria-hidden="true" />
+                    <div className="mt-7 md:mt-8">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                        <h3 className="editorial-heading text-[1.3rem] font-medium leading-tight tracking-[-0.035em] text-espresso">{copy.timeLabel}</h3>
+                        <div className="flex items-start gap-2 text-xs leading-5 text-espresso-soft sm:max-w-[62%] sm:justify-end">
+                          <Clock3 size={15} strokeWidth={1.5} className="mt-0.5 shrink-0 text-espresso-soft" aria-hidden="true" />
                         <span>{copy.durationNotice}</span>
+                        </div>
                       </div>
-                      <div className="mt-3.5 grid grid-cols-3 gap-2 sm:grid-cols-4" aria-busy={availabilityLoading}>
+                      <div className="mt-4 grid grid-cols-3 gap-2.5 sm:grid-cols-4 sm:gap-2.5" aria-busy={availabilityLoading}>
                         {reservationTimes.map((time) => {
                           const isAvailable = availableTimes.includes(time);
                           const isFull = availability?.fullyBookedTimes.includes(time) ?? false;
                           const isInvalid = !isAvailable && !isFull;
                           const isDisabled = availabilityLoading || isInvalid;
-                          return <button key={time} type="button" disabled={isDisabled} onClick={(event) => { setErrors((current) => ({ ...current, time: "" })); if (isFull) { modalOpenerRef.current = event.currentTarget; setForm((current) => ({ ...current, time: "" })); setFullyBookedTime(time); } else { setFullyBookedTime(""); setForm((current) => ({ ...current, time })); } }} className={`min-h-10 w-full rounded-[0.7rem] border px-2 text-xs font-medium tabular-nums outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:min-h-11 sm:text-sm ${form.time === time ? "border-espresso bg-espresso text-ivory" : isFull ? "border-espresso/15 bg-[#eee9e1]/35 text-espresso-soft hover:border-espresso/30 hover:bg-[#eee9e1]/70" : "border-espresso/15 bg-[#eee9e1]/70 text-espresso hover:-translate-y-px hover:border-espresso/35 hover:bg-[#eee9e1]"} disabled:cursor-not-allowed disabled:border-espresso/[0.07] disabled:bg-espresso/[0.025] disabled:text-espresso-soft/25`} aria-pressed={form.time === time} aria-label={isFull ? `${time} — ${copy.fullyBooked}` : time}>{time}{isFull && <span className="ml-1 text-[9px] opacity-70">·</span>}</button>;
+                          return <button key={time} type="button" disabled={isDisabled} onClick={(event) => { setErrors((current) => ({ ...current, time: "" })); if (isFull) { modalOpenerRef.current = event.currentTarget; setForm((current) => ({ ...current, time: "" })); setFullyBookedTime(time); } else { setFullyBookedTime(""); setForm((current) => ({ ...current, time })); } }} className={`min-h-12 w-full rounded-[1rem] border px-2 text-[0.82rem] font-medium tabular-nums outline-none transition-[border-color,background-color,color,transform] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory sm:min-h-[3.35rem] sm:text-sm ${form.time === time ? "border-espresso bg-espresso text-ivory" : isFull ? "border-espresso/15 bg-[#fbf9f5] text-espresso-soft hover:border-espresso/30 hover:bg-[#eee9e1]/70" : "border-espresso/15 bg-[#fbf9f5] text-espresso hover:-translate-y-px hover:border-espresso/35 hover:bg-[#eee9e1]/50"} disabled:cursor-not-allowed disabled:border-espresso/[0.07] disabled:bg-espresso/[0.025] disabled:text-espresso-soft/25`} aria-pressed={form.time === time} aria-label={isFull ? `${time} — ${copy.fullyBooked}` : time}>{time}{isFull && <span className="ml-1 text-[9px] opacity-70">·</span>}</button>;
                         })}
                       </div>
                       {!fullyBookedTime && <>
@@ -315,7 +320,9 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
                     </div>
 
-                    <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-40 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
+                    <div className="mt-7 flex justify-end">
+                      <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-56 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
+                    </div>
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
