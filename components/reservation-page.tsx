@@ -311,7 +311,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       {!fullyBookedTime && <>
                         {availabilityLoading && <p className="mt-3 text-sm text-espresso-soft" role="status">{copy.loadingAvailability}</p>}
                         {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
-                        {!availabilityLoading && !availabilityError && availableTimes.length === 0 && <p className="mt-3 text-sm text-espresso-soft">{copy.noTimes}</p>}
                       </>}
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
                     </div>
@@ -364,7 +363,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           <a href={dictionary.location.phoneHref} className="site-button site-button-primary mt-4 !min-h-11 w-full gap-2 !bg-[#2c211c] !px-5 !text-white shadow-[0_8px_18px_-14px_rgba(44,33,28,0.7)] hover:!bg-[#3a2922] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2"><Phone size={15} strokeWidth={1.8} className="shrink-0 !text-white" aria-hidden="true" /><span className="!text-white">{copy.callCafe}</span></a>
           <div className="my-4 flex items-center gap-3 text-xs text-espresso-soft/70"><span className="h-px flex-1 bg-espresso/10" /><span>{copy.fullyBookedOr}</span><span className="h-px flex-1 bg-espresso/10" /></div>
           <h3 className="text-sm font-medium text-espresso">{copy.alternativeTimes}</h3>
-          {availability?.alternativeTimes.length ? <div className="mt-2.5 flex flex-wrap gap-2">{availability.alternativeTimes.slice(0, 3).map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); setFullyBookedTime(""); }} className="min-h-10 min-w-[4.5rem] rounded-lg border border-espresso/15 bg-[#eee9e1]/70 px-4 text-sm font-medium tabular-nums text-espresso outline-none transition-colors hover:border-espresso/35 hover:bg-[#eee9e1] focus-visible:ring-2 focus-visible:ring-brass">{time}</button>)}</div> : <p className="mt-1.5 text-sm leading-6 text-espresso-soft">{copy.noTimes}</p>}
+          {availability?.alternativeTimes.length ? <div className="mt-2.5 flex flex-wrap gap-2">{availability.alternativeTimes.slice(0, 3).map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); setFullyBookedTime(""); }} className="min-h-10 min-w-[4.5rem] rounded-lg border border-espresso/15 bg-[#eee9e1]/70 px-4 text-sm font-medium tabular-nums text-espresso outline-none transition-colors hover:border-espresso/35 hover:bg-[#eee9e1] focus-visible:ring-2 focus-visible:ring-brass">{time}</button>)}</div> : null}
         </div>
       </div>}
       <SiteFooter locale={locale} dictionary={dictionary} />

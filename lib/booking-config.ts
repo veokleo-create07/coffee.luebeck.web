@@ -5,7 +5,7 @@ export const BOOKING_CONFIG = {
   minGuests: 1,
   maxGuests: 6,
   firstTime: "09:00",
-  lastTime: "17:00",
+  lastTime: "16:30",
   intervalMinutes: 30,
   durationMinutes: 90,
 } as const;

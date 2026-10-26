@@ -77,7 +77,6 @@ export type Dictionary = {
       guestsLabel: string;
       guestsSuffix: string;
       timeLabel: string;
-      noTimes: string;
       fullyBooked: string;
       fullyBookedCall: string;
       alternativeTimes: string;
@@ -246,7 +245,6 @@ export const de: Dictionary = {
       guestsLabel: "Gäste",
       guestsSuffix: "Gäste",
       timeLabel: "Uhrzeit",
-      noTimes: "Für dieses Datum sind keine Demo-Zeiten hinterlegt.",
       fullyBooked: "Diese Uhrzeit ist sehr gefragt!",
       fullyBookedCall: "Vielleicht finden wir trotzdem noch einen Tisch für dich. Ruf uns kurz an – wir prüfen das gern!",
       alternativeTimes: "Wähle eine andere verfügbare Uhrzeit",

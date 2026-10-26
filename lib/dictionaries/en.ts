@@ -92,7 +92,6 @@ export const en: Dictionary = {
       guestsLabel: "Guests",
       guestsSuffix: "guests",
       timeLabel: "Time",
-      noTimes: "No demo times are listed for this date.",
       fullyBooked: "This time is very popular!",
       fullyBookedCall: "We might still be able to find a table for you. Give us a quick call, and we'll be happy to check!",
       alternativeTimes: "Choose another available time",
