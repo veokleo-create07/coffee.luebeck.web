@@ -13,6 +13,31 @@ type EventsCateringProps = { dictionary: Dictionary };
 export function EventsCatering({ dictionary }: EventsCateringProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const copy = dictionary.events;
+  const titleImages = [
+    "/reveal-coffee.jpeg",
+    "/reveal-matcha.jpeg",
+    "/reveal-breakfast.jpeg",
+    "/reveal-interior.jpeg",
+  ];
+
+  const moveTitleImages = (event: React.PointerEvent<HTMLHeadingElement>) => {
+    if (event.pointerType !== "mouse") return;
+    const words = event.currentTarget.querySelectorAll<HTMLElement>("[data-event-title-word]");
+    words.forEach((word) => {
+      const bounds = word.getBoundingClientRect();
+      const x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
+      const y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100));
+      word.style.setProperty("--reveal-x", `${x}%`);
+      word.style.setProperty("--reveal-y", `${y}%`);
+    });
+  };
+
+  const resetTitleImages = (event: React.PointerEvent<HTMLHeadingElement>) => {
+    event.currentTarget.querySelectorAll<HTMLElement>("[data-event-title-word]").forEach((word) => {
+      word.style.setProperty("--reveal-x", "50%");
+      word.style.setProperty("--reveal-y", "50%");
+    });
+  };
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -21,10 +46,11 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
     const context = gsap.context(() => {
       const reveal = section.querySelectorAll<HTMLElement>("[data-event-reveal]");
       const images = section.querySelectorAll<HTMLElement>("[data-event-image]");
+      const titleWords = section.querySelectorAll<HTMLElement>("[data-event-title-word]");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (reducedMotion) {
-        gsap.set([...reveal, ...images], { autoAlpha: 1, clearProps: "transform" });
+        gsap.set([...reveal, ...images, ...titleWords], { autoAlpha: 1, clearProps: "transform,clipPath" });
         return;
       }
 
@@ -34,6 +60,12 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
       });
 
       timeline
+        .fromTo(
+          titleWords,
+          { clipPath: "inset(0 100% 0 0)" },
+          { clipPath: "inset(0 0% 0 0)", duration: 0.85, stagger: 0.12, ease: "power2.inOut", onComplete: () => gsap.set(titleWords, { clearProps: "clipPath" }) },
+          0,
+        )
         .fromTo(
           reveal,
           { autoAlpha: 0, y: 20 },
@@ -65,7 +97,11 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
     <section ref={sectionRef} className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-24 text-espresso md:py-32" aria-labelledby="events-title">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 id="events-title" data-event-reveal className="editorial-heading text-balance text-[clamp(3rem,6vw,6rem)] font-medium leading-[0.88] tracking-[-0.055em]">{copy.heading}</h2>
+          <h2 id="events-title" aria-label={copy.heading} className="event-mask-heading editorial-heading text-balance text-[clamp(3rem,6vw,6rem)] font-semibold leading-[0.88] tracking-[-0.055em]" onPointerMove={moveTitleImages} onPointerLeave={resetTitleImages}>
+            {copy.heading.split(" ").map((word, index) => (
+              <span key={`${word}-${index}`} data-event-title-word className="event-mask-word inline-block whitespace-nowrap" style={{ backgroundImage: `url("${titleImages[index % titleImages.length]}")` }}>{word}</span>
+            ))}
+          </h2>
           <p data-event-reveal className="mx-auto mt-7 max-w-2xl text-base leading-[1.5] text-espresso-soft md:mt-9 md:text-lg">{copy.subtitle}</p>
         </div>
 

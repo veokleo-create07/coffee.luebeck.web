@@ -220,7 +220,7 @@ export const de: Dictionary = {
     ],
   },
   events: {
-    heading: "Mehr als nur ein Café.",
+    heading: "Mehr als ein Café.",
     subtitle: "Besondere Anlässe verdienen besondere Momente. Ob Geburtstag, Firmenfeier oder ein anderer Anlass – wir machen ihn mit ein bisschen Altstadtliebe noch schöner.",
     privateTitle: "Private Feiern",
     privateDescription: "Ob Geburtstag, Hochzeit oder ein besonderer Anlass – wir helfen dir, deine schönsten Momente noch ein bisschen besonderer zu machen.",
