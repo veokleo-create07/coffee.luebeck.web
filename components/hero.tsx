@@ -34,13 +34,14 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
+    let fallbackTimer = 0;
     let targetTime = 0;
-    let renderedTime = 0;
     let lastProgress = 0;
     let videoDuration = FALLBACK_DURATION;
 
     const showStaticFallback = () => {
       trigger?.kill();
+      window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       root.dataset.static = "true";
       gsap.set(opening, { autoAlpha: 0, pointerEvents: "none" });
@@ -56,24 +57,24 @@ export function Hero({ locale, dictionary }: HeroProps) {
       return;
     }
 
-    const seekTowardsTarget = () => {
-      seekFrame = 0;
-      const distance = targetTime - renderedTime;
-      renderedTime = Math.abs(distance) < 0.012 ? targetTime : renderedTime + distance * 0.2;
-
-      if (video.readyState >= HTMLMediaElement.HAVE_METADATA && !video.seeking) {
-        const safeTime = Math.min(renderedTime, Math.max(0, videoDuration - 0.025));
-        if (Math.abs(video.currentTime - safeTime) > 0.012) video.currentTime = safeTime;
-      }
-
-      if (Math.abs(targetTime - renderedTime) > 0.012 || video.seeking) {
-        seekFrame = requestAnimationFrame(seekTowardsTarget);
-      }
+    const scheduleSeek = () => {
+      if (seekFrame || video.seeking || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+      seekFrame = requestAnimationFrame(() => {
+        seekFrame = 0;
+        if (video.seeking || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+        const safeTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
+        if (Math.abs(video.currentTime - safeTime) < 0.035) return;
+        try {
+          video.currentTime = safeTime;
+        } catch {
+          showStaticFallback();
+        }
+      });
     };
 
     const requestSeek = (time: number) => {
-      targetTime = time;
-      if (!seekFrame) seekFrame = requestAnimationFrame(seekTowardsTarget);
+      targetTime = Math.max(0, Math.min(time, videoDuration));
+      scheduleSeek();
     };
 
     const context = gsap.context(() => {
@@ -113,10 +114,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         onRefresh: (self) => {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           targetTime = self.progress >= lastProgress ? Math.max(targetTime, mappedTime) : mappedTime;
-          renderedTime = targetTime;
-          if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-            video.currentTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
-          }
+          scheduleSeek();
           lastProgress = self.progress;
         },
       });
@@ -124,26 +122,35 @@ export function Hero({ locale, dictionary }: HeroProps) {
 
     const handleMetadata = () => {
       if (Number.isFinite(video.duration) && video.duration > 0) videoDuration = video.duration;
-      video.currentTime = 0.001;
+      window.clearTimeout(fallbackTimer);
+      targetTime = Math.min(targetTime, videoDuration);
+      try {
+        video.currentTime = targetTime || 0.001;
+      } catch {
+        showStaticFallback();
+        return;
+      }
       root.dataset.videoReady = "true";
       ScrollTrigger.refresh();
     };
 
     const handleSeeked = () => {
-      if (Math.abs(targetTime - renderedTime) > 0.012 && !seekFrame) {
-        seekFrame = requestAnimationFrame(seekTowardsTarget);
-      }
+      if (Math.abs(targetTime - video.currentTime) > 0.035) scheduleSeek();
     };
 
     video.addEventListener("loadedmetadata", handleMetadata);
     video.addEventListener("seeked", handleSeeked);
     video.addEventListener("error", showStaticFallback);
+    fallbackTimer = window.setTimeout(() => {
+      if (video.readyState < HTMLMediaElement.HAVE_METADATA) showStaticFallback();
+    }, 7000);
     if (video.readyState >= HTMLMediaElement.HAVE_METADATA) handleMetadata();
 
     return () => {
       video.removeEventListener("loadedmetadata", handleMetadata);
       video.removeEventListener("seeked", handleSeeked);
       video.removeEventListener("error", showStaticFallback);
+      window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       context.revert();
     };
@@ -165,10 +172,13 @@ export function Hero({ locale, dictionary }: HeroProps) {
       <video
         data-matcha-video
         className="cinematic-video"
-        poster="/animations/matcha-hero-poster.png"
+        poster="/animations/matcha-hero-poster.jpg"
         preload="auto"
         muted
         playsInline
+        disablePictureInPicture
+        controls={false}
+        tabIndex={-1}
         aria-hidden="true"
       >
         <source src="/animations/matcha-hero.mp4" type="video/mp4" />
