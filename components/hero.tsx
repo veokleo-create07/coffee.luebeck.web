@@ -136,6 +136,12 @@ export function Hero({ locale, dictionary }: HeroProps) {
       root.dataset.videoReady = "true";
     };
 
+    const primeVideo = () => {
+      if (!video.paused || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+      const playAttempt = video.play();
+      if (playAttempt) playAttempt.then(() => video.pause()).catch(() => undefined);
+    };
+
     const handleSeeked = () => {
       if (Math.abs(targetTime - video.currentTime) > 0.035) scheduleSeek();
     };
@@ -144,6 +150,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("seeked", handleSeeked);
     video.addEventListener("error", showStaticFallback);
+    window.addEventListener("touchstart", primeVideo, { once: true, passive: true });
     fallbackTimer = window.setTimeout(() => {
       if (video.readyState < HTMLMediaElement.HAVE_METADATA) showStaticFallback();
     }, 7000);
@@ -155,6 +162,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("seeked", handleSeeked);
       video.removeEventListener("error", showStaticFallback);
+      window.removeEventListener("touchstart", primeVideo);
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       context.revert();

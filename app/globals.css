@@ -314,11 +314,6 @@ a {
   background: transparent;
   object-fit: cover;
   object-position: center center;
-  opacity: 0;
-  transition: opacity 180ms ease-out;
-}
-
-.cinematic-hero[data-video-ready="true"] .cinematic-video {
   opacity: 1;
 }
 
