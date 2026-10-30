@@ -32,6 +32,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
     const siteHeader = document.querySelector<HTMLElement>(".site-header");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileViewport = window.matchMedia("(max-width: 767px)").matches;
+    const mobileOpeningScale = Math.min(0.86, Math.max(0.81, window.innerWidth / 500));
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
     let fallbackTimer = 0;
@@ -102,13 +104,14 @@ export function Hero({ locale, dictionary }: HeroProps) {
       gsap.set(finalItems, { autoAlpha: 0, y: 28 });
       gsap.set(finalFrame, { opacity: 0 });
       gsap.set(shade, { opacity: 0 });
-      gsap.set(video, { scale: 1, transformOrigin: "50% 50%" });
+      gsap.set(video, { scale: mobileViewport ? mobileOpeningScale : 1, transformOrigin: "50% 50%" });
       siteHeader?.removeAttribute("data-final-hero");
 
       const progressProxy = { value: 0 };
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
       timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
       timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
+      if (mobileViewport) timeline.to(video, { scale: 1, duration: 0.42, ease: "power1.inOut" }, 0.2);
       timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.78);
       timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.8);
       timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.84);

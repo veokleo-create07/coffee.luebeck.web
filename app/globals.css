@@ -307,6 +307,11 @@ a {
 .cinematic-poster {
   z-index: 0;
   background: var(--color-ivory) url("/animations/matcha-hero-poster.jpg?v=3c1d318") center / cover no-repeat;
+  transition: opacity 220ms var(--ease-premium);
+}
+
+.cinematic-hero[data-video-ready="true"] .cinematic-poster {
+  opacity: 0;
 }
 
 .cinematic-video {
@@ -491,6 +496,10 @@ a {
 
   .cinematic-video {
     object-position: center;
+  }
+
+  .cinematic-hero {
+    background: #f0e4d9;
   }
 
   .cinematic-final-content {
