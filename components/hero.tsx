@@ -26,10 +26,12 @@ export function Hero({ locale, dictionary }: HeroProps) {
     if (!root || !video) return;
 
     const scrollIndicator = root.querySelector<HTMLElement>("[data-scroll-indicator]");
+    const finalFrame = root.querySelector<HTMLElement>("[data-final-frame]");
     const shade = root.querySelector<HTMLElement>("[data-final-shade]");
     const finalContent = root.querySelector<HTMLElement>("[data-final-content]");
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileViewport = window.matchMedia("(max-width: 767px)").matches;
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
     let fallbackTimer = 0;
@@ -43,6 +45,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       cancelAnimationFrame(seekFrame);
       root.dataset.static = "true";
       gsap.set(scrollIndicator, { autoAlpha: 0 });
+      gsap.set(finalFrame, { opacity: 0 });
       gsap.set(shade, { opacity: 0.12 });
       gsap.set(finalContent, { autoAlpha: 1, pointerEvents: "auto" });
       gsap.set(finalItems, { autoAlpha: 1, y: 0 });
@@ -76,12 +79,16 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const context = gsap.context(() => {
       gsap.set(finalContent, { autoAlpha: 0, pointerEvents: "none" });
       gsap.set(finalItems, { autoAlpha: 0, y: 28 });
+      gsap.set(finalFrame, { opacity: 0 });
       gsap.set(shade, { opacity: 0 });
+      gsap.set(video, { scale: 1, transformOrigin: "50% 50%" });
 
       const progressProxy = { value: 0 };
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
       timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
       timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
+      if (mobileViewport) timeline.to(video, { scale: 2.28, duration: 0.32, ease: "power1.inOut" }, 0.1);
+      timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.62);
       timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.64);
       timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.68);
       timeline.to(finalItems, { autoAlpha: 1, y: 0, duration: 0.14, stagger: 0.025 }, 0.69);
@@ -90,7 +97,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         id: "matcha-hero-scroll",
         trigger: root,
         start: "top top",
-        end: () => `+=${Math.round(window.innerHeight * 4)}`,
+        end: () => `+=${Math.round(window.innerHeight * (window.innerWidth < 768 ? 3.25 : 4))}`,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
@@ -122,8 +129,11 @@ export function Hero({ locale, dictionary }: HeroProps) {
         showStaticFallback();
         return;
       }
-      root.dataset.videoReady = "true";
       ScrollTrigger.refresh();
+    };
+
+    const handleLoadedData = () => {
+      root.dataset.videoReady = "true";
     };
 
     const handleSeeked = () => {
@@ -131,15 +141,18 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     video.addEventListener("loadedmetadata", handleMetadata);
+    video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("seeked", handleSeeked);
     video.addEventListener("error", showStaticFallback);
     fallbackTimer = window.setTimeout(() => {
       if (video.readyState < HTMLMediaElement.HAVE_METADATA) showStaticFallback();
     }, 7000);
     if (video.readyState >= HTMLMediaElement.HAVE_METADATA) handleMetadata();
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) handleLoadedData();
 
     return () => {
       video.removeEventListener("loadedmetadata", handleMetadata);
+      video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("seeked", handleSeeked);
       video.removeEventListener("error", showStaticFallback);
       window.clearTimeout(fallbackTimer);
@@ -150,10 +163,11 @@ export function Hero({ locale, dictionary }: HeroProps) {
 
   return (
     <section ref={rootRef} className="cinematic-hero" aria-labelledby="hero-title">
+      <div className="cinematic-poster" aria-hidden="true" />
+
       <video
         data-matcha-video
         className="cinematic-video"
-        poster="/animations/matcha-hero-poster.jpg"
         preload="auto"
         muted
         playsInline
@@ -162,9 +176,11 @@ export function Hero({ locale, dictionary }: HeroProps) {
         tabIndex={-1}
         aria-hidden="true"
       >
+        <source media="(max-width: 767px)" src="/animations/matcha-hero-mobile.mp4" type="video/mp4" />
         <source src="/animations/matcha-hero.mp4" type="video/mp4" />
       </video>
 
+      <div data-final-frame className="cinematic-final-frame" aria-hidden="true" />
       <div data-final-shade className="cinematic-final-shade" aria-hidden="true" />
 
       <div data-final-content className="cinematic-final-content">

@@ -294,16 +294,39 @@ a {
   background: var(--color-ivory);
 }
 
-.cinematic-video {
+.cinematic-poster,
+.cinematic-video,
+.cinematic-final-frame {
   position: absolute;
   inset: 0;
-  z-index: 0;
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--color-ivory);
+}
+
+.cinematic-poster {
+  z-index: 0;
+  background: var(--color-ivory) url("/animations/matcha-hero-poster.jpg") center / cover no-repeat;
+}
+
+.cinematic-video {
+  z-index: 1;
+  background: transparent;
   object-fit: cover;
   object-position: center center;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+
+.cinematic-hero[data-video-ready="true"] .cinematic-video {
+  opacity: 1;
+}
+
+.cinematic-final-frame {
+  z-index: 4;
+  background: #46691d url("/animations/matcha-hero-final.jpg") center / cover no-repeat;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .cinematic-final-shade {
@@ -442,8 +465,12 @@ a {
 }
 
 @media (max-width: 767px) {
+  .cinematic-poster {
+    background-image: url("/animations/matcha-hero-mobile-poster.jpg");
+  }
+
   .cinematic-video {
-    object-position: center 48%;
+    object-position: center;
   }
 
   .cinematic-final-content {
