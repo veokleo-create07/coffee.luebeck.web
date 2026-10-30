@@ -30,6 +30,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const shade = root.querySelector<HTMLElement>("[data-final-shade]");
     const finalContent = root.querySelector<HTMLElement>("[data-final-content]");
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
+    const siteHeader = document.querySelector<HTMLElement>(".site-header");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mobileViewport = window.matchMedia("(max-width: 767px)").matches;
     let trigger: ScrollTrigger | null = null;
@@ -49,6 +50,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       gsap.set(shade, { opacity: 0.12 });
       gsap.set(finalContent, { autoAlpha: 1, pointerEvents: "auto" });
       gsap.set(finalItems, { autoAlpha: 1, y: 0 });
+      siteHeader?.setAttribute("data-final-hero", "true");
     };
 
     if (reduceMotion) {
@@ -82,6 +84,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       gsap.set(finalFrame, { opacity: 0 });
       gsap.set(shade, { opacity: 0 });
       gsap.set(video, { scale: 1, transformOrigin: "50% 50%" });
+      siteHeader?.removeAttribute("data-final-hero");
 
       const progressProxy = { value: 0 };
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
@@ -105,6 +108,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
         animation: timeline,
         scrub: 0.35,
         onUpdate: (self) => {
+          if (self.progress >= 0.67) siteHeader?.setAttribute("data-final-hero", "true");
+          else siteHeader?.removeAttribute("data-final-hero");
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           const nextTime = self.direction >= 0 ? Math.max(targetTime, mappedTime) : mappedTime;
           requestSeek(nextTime);
@@ -166,6 +171,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       context.revert();
+      siteHeader?.removeAttribute("data-final-hero");
     };
   }, []);
 
