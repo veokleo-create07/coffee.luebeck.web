@@ -306,7 +306,7 @@ a {
 
 .cinematic-poster {
   z-index: 0;
-  background: var(--color-ivory) url("/animations/matcha-hero-poster.jpg") center / cover no-repeat;
+  background: var(--color-ivory) url("/animations/matcha-hero-poster.jpg?v=3c1d318") center / cover no-repeat;
 }
 
 .cinematic-video {
@@ -319,7 +319,7 @@ a {
 
 .cinematic-final-frame {
   z-index: 4;
-  background: #46691d url("/animations/matcha-hero-final.jpg") center / cover no-repeat;
+  background: #46691d url("/animations/matcha-hero-final.jpg?v=3c1d318") center / cover no-repeat;
   opacity: 0;
   pointer-events: none;
 }
@@ -486,7 +486,7 @@ a {
 
 @media (max-width: 767px) {
   .cinematic-poster {
-    background-image: url("/animations/matcha-hero-mobile-poster.jpg");
+    background-image: url("/animations/matcha-hero-mobile-poster.jpg?v=3c1d318");
   }
 
   .cinematic-video {

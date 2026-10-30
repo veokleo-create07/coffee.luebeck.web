@@ -208,8 +208,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
         tabIndex={-1}
         aria-hidden="true"
       >
-        <source media="(max-width: 767px)" src="/animations/matcha-hero-mobile.mp4" type="video/mp4" />
-        <source src="/animations/matcha-hero.mp4" type="video/mp4" />
+        <source media="(max-width: 767px)" src="/animations/matcha-hero-mobile.mp4?v=3c1d318" type="video/mp4" />
+        <source src="/animations/matcha-hero.mp4?v=3c1d318" type="video/mp4" />
       </video>
 
       <div data-final-frame className="cinematic-final-frame" aria-hidden="true" />
