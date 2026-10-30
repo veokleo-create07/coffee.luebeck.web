@@ -486,7 +486,7 @@ a {
 
 @media (max-width: 767px) {
   .cinematic-poster {
-    background-image: url("/animations/matcha-hero-mobile-poster.jpg?v=3c1d318");
+    background-image: url("/animations/matcha-hero-mobile-poster.jpg?v=mobile-crop-1");
   }
 
   .cinematic-video {

@@ -32,7 +32,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
     const siteHeader = document.querySelector<HTMLElement>(".site-header");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mobileViewport = window.matchMedia("(max-width: 767px)").matches;
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
     let fallbackTimer = 0;
@@ -110,7 +109,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
       timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
       timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
-      if (mobileViewport) timeline.to(video, { scale: 2.28, duration: 0.32, ease: "power1.inOut" }, 0.1);
       timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.78);
       timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.8);
       timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.84);
@@ -208,7 +206,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         tabIndex={-1}
         aria-hidden="true"
       >
-        <source media="(max-width: 767px)" src="/animations/matcha-hero-mobile.mp4?v=3c1d318" type="video/mp4" />
+        <source media="(max-width: 767px)" src="/animations/matcha-hero-mobile.mp4?v=mobile-crop-1" type="video/mp4" />
         <source src="/animations/matcha-hero.mp4?v=3c1d318" type="video/mp4" />
       </video>
 
