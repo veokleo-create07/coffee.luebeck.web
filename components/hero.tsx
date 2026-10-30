@@ -1,147 +1,208 @@
 "use client";
 
 import gsap from "gsap";
-import { Instagram } from "lucide-react";
-import Image from "next/image";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
 
+gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 type HeroProps = { locale: Locale; dictionary: Dictionary };
 
+const VIDEO_REVEAL_END = 0.72;
+const FALLBACK_DURATION = 6;
+
 export function Hero({ locale, dictionary }: HeroProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const words = dictionary.home.title.split(" ");
-  const titleLines = locale === "de"
-    ? [words.slice(0, 2), words.slice(2)]
-    : [words.slice(0, 3), words.slice(3)];
+  const rootRef = useRef<HTMLElement>(null);
   const reservationHref = locale === "de" ? "/reservation" : "/en/reservation";
+  const instagramHref = dictionary.footer.instagramHref;
 
   useLayoutEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    const video = root?.querySelector<HTMLVideoElement>("[data-matcha-video]");
+    if (!root || !video) return;
+
+    const opening = root.querySelector<HTMLElement>("[data-opening-content]");
+    const scrollIndicator = root.querySelector<HTMLElement>("[data-scroll-indicator]");
+    const midReservation = root.querySelector<HTMLElement>("[data-mid-reservation]");
+    const shade = root.querySelector<HTMLElement>("[data-final-shade]");
+    const finalContent = root.querySelector<HTMLElement>("[data-final-content]");
+    const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let trigger: ScrollTrigger | null = null;
+    let seekFrame = 0;
+    let targetTime = 0;
+    let renderedTime = 0;
+    let lastProgress = 0;
+    let videoDuration = FALLBACK_DURATION;
+
+    const showStaticFallback = () => {
+      trigger?.kill();
+      cancelAnimationFrame(seekFrame);
+      root.dataset.static = "true";
+      gsap.set(opening, { autoAlpha: 0, pointerEvents: "none" });
+      gsap.set(scrollIndicator, { autoAlpha: 0 });
+      gsap.set(midReservation, { autoAlpha: 0, pointerEvents: "none" });
+      gsap.set(shade, { opacity: 0.12 });
+      gsap.set(finalContent, { autoAlpha: 1, pointerEvents: "auto" });
+      gsap.set(finalItems, { autoAlpha: 1, y: 0 });
+    };
+
+    if (reduceMotion) {
+      showStaticFallback();
+      return;
+    }
+
+    const seekTowardsTarget = () => {
+      seekFrame = 0;
+      const distance = targetTime - renderedTime;
+      renderedTime = Math.abs(distance) < 0.012 ? targetTime : renderedTime + distance * 0.2;
+
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA && !video.seeking) {
+        const safeTime = Math.min(renderedTime, Math.max(0, videoDuration - 0.025));
+        if (Math.abs(video.currentTime - safeTime) > 0.012) video.currentTime = safeTime;
+      }
+
+      if (Math.abs(targetTime - renderedTime) > 0.012 || video.seeking) {
+        seekFrame = requestAnimationFrame(seekTowardsTarget);
+      }
+    };
+
+    const requestSeek = (time: number) => {
+      targetTime = time;
+      if (!seekFrame) seekFrame = requestAnimationFrame(seekTowardsTarget);
+    };
 
     const context = gsap.context(() => {
-      const animatedElements = root.querySelectorAll<HTMLElement>(".hero-word, .hero-description, .hero-cta");
-      const photoFrame = root.querySelector<HTMLElement>(".hero-photo-frame");
-      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      gsap.set(finalContent, { autoAlpha: 0, pointerEvents: "none" });
+      gsap.set(finalItems, { autoAlpha: 0, y: 28 });
+      gsap.set(midReservation, { autoAlpha: 0, pointerEvents: "none", y: 10 });
+      gsap.set(shade, { opacity: 0 });
 
-      if (prefersReducedMotion) {
-        gsap.set(animatedElements, { autoAlpha: 1, clearProps: "transform" });
-        return;
-      }
+      const progressProxy = { value: 0 };
+      const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
+      timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
+      timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
+      timeline.to(opening, { autoAlpha: 0, y: -16, pointerEvents: "none", duration: 0.14 }, 0.1);
+      timeline.to(midReservation, { autoAlpha: 1, y: 0, pointerEvents: "auto", duration: 0.1 }, 0.19);
+      timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.64);
+      timeline.to(midReservation, { autoAlpha: 0, y: 8, pointerEvents: "none", duration: 0.09 }, 0.66);
+      timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.68);
+      timeline.to(finalItems, { autoAlpha: 1, y: 0, duration: 0.14, stagger: 0.025 }, 0.69);
 
-      const opening = gsap.timeline({ defaults: { ease: "power3.out" } });
-      const photoImage = root.querySelector<HTMLImageElement>(".hero-photo img");
-      const photoIsReady = Boolean(photoImage?.complete && photoImage.naturalWidth > 0);
-      const shouldAnimatePhoto = Boolean(photoFrame && photoIsReady && window.scrollY < 12);
-
-      if (photoFrame && shouldAnimatePhoto) {
-        const restingRadius = window.getComputedStyle(photoFrame).borderRadius;
-
-        opening.fromTo(photoFrame, {
-          clipPath: `inset(100% 0% 0% 0% round ${restingRadius})`,
-        }, {
-          clipPath: `inset(0% 0% 0% 0% round ${restingRadius})`,
-          duration: 1.2,
-          ease: "power3.inOut",
-        }, 0);
-        opening.fromTo(".hero-photo img", { scale: 1.08 }, {
-          scale: 1,
-          duration: 1.35,
-          ease: "power2.out",
-          onComplete: () => gsap.set(".hero-photo img", { clearProps: "transform" }),
-        }, 0);
-      }
-
-      opening
-        .fromTo(".hero-word", { autoAlpha: 0, yPercent: 115 }, {
-          autoAlpha: 1,
-          yPercent: 0,
-          duration: 0.82,
-          stagger: 0.09,
-          ease: "back.out(1.35)",
-        }, shouldAnimatePhoto ? 0.18 : 0)
-        .fromTo(".hero-description", { autoAlpha: 0, x: -12, y: 10 }, {
-          autoAlpha: 1,
-          x: 0,
-          y: 0,
-          duration: 0.58,
-          ease: "power3.out",
-        }, "-=0.2")
-        .fromTo(".hero-cta", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.48, stagger: 0.1, onComplete: () => gsap.set(".hero-cta", { clearProps: "opacity,visibility" }) }, "-=0.2");
-
+      trigger = ScrollTrigger.create({
+        id: "matcha-hero-scroll",
+        trigger: root,
+        start: "top top",
+        end: () => `+=${Math.round(window.innerHeight * 4)}`,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        animation: timeline,
+        scrub: 0.35,
+        onUpdate: (self) => {
+          const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
+          const nextTime = self.direction >= 0 ? Math.max(targetTime, mappedTime) : mappedTime;
+          requestSeek(nextTime);
+          lastProgress = self.progress;
+        },
+        onRefresh: (self) => {
+          const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
+          targetTime = self.progress >= lastProgress ? Math.max(targetTime, mappedTime) : mappedTime;
+          renderedTime = targetTime;
+          if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+            video.currentTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
+          }
+          lastProgress = self.progress;
+        },
+      });
     }, root);
 
-    return () => context.revert();
+    const handleMetadata = () => {
+      if (Number.isFinite(video.duration) && video.duration > 0) videoDuration = video.duration;
+      video.currentTime = 0.001;
+      root.dataset.videoReady = "true";
+      ScrollTrigger.refresh();
+    };
+
+    const handleSeeked = () => {
+      if (Math.abs(targetTime - renderedTime) > 0.012 && !seekFrame) {
+        seekFrame = requestAnimationFrame(seekTowardsTarget);
+      }
+    };
+
+    video.addEventListener("loadedmetadata", handleMetadata);
+    video.addEventListener("seeked", handleSeeked);
+    video.addEventListener("error", showStaticFallback);
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) handleMetadata();
+
+    return () => {
+      video.removeEventListener("loadedmetadata", handleMetadata);
+      video.removeEventListener("seeked", handleSeeked);
+      video.removeEventListener("error", showStaticFallback);
+      cancelAnimationFrame(seekFrame);
+      context.revert();
+    };
   }, []);
 
+  const openingButtons = (
+    <div className="cinematic-actions flex items-center justify-center gap-2.5 sm:gap-3">
+      <Link href={reservationHref} className="cinematic-button cinematic-button-dark">
+        {dictionary.home.primaryCta}
+      </Link>
+      <a href={instagramHref} target="_blank" rel="noreferrer" className="cinematic-button cinematic-button-light">
+        {dictionary.home.secondaryCta}
+      </a>
+    </div>
+  );
+
   return (
-    <section className="page-gutter pt-8 pb-0 md:pt-10" aria-labelledby="hero-title">
-      <div ref={rootRef} className="flex w-full flex-col items-center">
-        <div className="flex w-full flex-col items-center gap-5 text-center md:gap-6">
-          <h1 id="hero-title" className="editorial-heading relative left-[2vw] w-full max-w-full text-[clamp(1.8rem,8.8vw,3.5rem)] font-normal leading-[0.94] tracking-[-0.05em] text-espresso md:left-[6vw] md:text-[clamp(3rem,5.4vw,6rem)]">
-            {titleLines.map((line, lineIndex) => (
-              <span key={`line-${lineIndex}`} className="block whitespace-nowrap">
-                {line.map((word, wordIndex) => (
-                  <span key={`${word}-${wordIndex}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-                    <span className="hero-word inline-block">
-                      {word}{wordIndex < line.length - 1 ? " " : ""}
-                    </span>
-                  </span>
-                ))}
-              </span>
-            ))}
-          </h1>
+    <section ref={rootRef} className="cinematic-hero" aria-labelledby="hero-title">
+      <video
+        data-matcha-video
+        className="cinematic-video"
+        poster="/animations/matcha-hero-poster.png"
+        preload="auto"
+        muted
+        playsInline
+        aria-hidden="true"
+      >
+        <source src="/animations/matcha-hero.mp4" type="video/mp4" />
+      </video>
 
-          <div className="flex w-full max-w-[52rem] flex-col items-center gap-5">
-            <p className="hero-description mx-auto w-[92%] max-w-[48rem] text-pretty text-center font-serif text-[0.8125rem] font-normal leading-[1.6] text-espresso-soft md:text-[1.25rem] md:font-medium md:leading-[1.5]">
-              {dictionary.home.description}
-            </p>
-            <div className="hero-actions relative isolate mt-1 flex w-full flex-row items-center justify-center gap-3">
-              <Link href={reservationHref} className="site-button site-button-primary hero-button hero-primary-cta hero-cta min-h-14 min-w-0 flex-none whitespace-nowrap px-5 text-sm tracking-[-0.01em] md:px-6 md:text-base">
-                <span className="relative z-10">{dictionary.home.primaryCta}</span>
-              </Link>
-              <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" className="site-button site-button-secondary hero-button hero-secondary-cta hero-cta inline-flex min-h-14 min-w-0 flex-none items-center justify-center gap-2 whitespace-nowrap px-5 text-sm tracking-[-0.01em] md:px-6 md:text-base">
-                <Instagram size={17} strokeWidth={1.8} aria-hidden="true" />
-                {dictionary.home.secondaryCta}
-              </a>
-            </div>
-          </div>
-        </div>
+      <div data-final-shade className="cinematic-final-shade" aria-hidden="true" />
 
-        <div className="hero-photo-shell relative mx-auto mt-12 aspect-[0.92/1] w-[calc(100%-2rem)] md:mt-14 md:aspect-[1.15/1] md:w-[72%] md:max-w-[54rem]">
-          <div className="hero-photo-frame absolute inset-[0.55rem] overflow-hidden rounded-[1.05rem] bg-espresso/10 shadow-[0_24px_50px_-34px_rgba(44,33,28,0.58)] md:inset-[0.7rem] md:rounded-[1.45rem]">
-            <div className="hero-photo absolute -inset-y-[8%] inset-x-0">
-              <Image src="/hero-altstadtliebe-interior.jpg" alt={dictionary.home.imageAlt} fill priority sizes="(max-width: 768px) 100vw, 76vw" className="object-cover object-center" />
-            </div>
-            <div className="pointer-events-none absolute left-[4.5%] top-[4.5%] z-10 w-[22%] max-w-32 -rotate-3 md:w-[17%]">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[0.85rem] border-[3px] border-[#f5f0e8] shadow-[0_8px_24px_-12px_rgba(32,24,20,0.65)] md:rounded-[1rem]">
-                <Image
-                  src="/hero-matcha-accent.png"
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 22vw, 150px"
-                  className="object-cover object-center"
-                />
-              </div>
-            </div>
-            <div className="pointer-events-none absolute bottom-[4.5%] right-[4.5%] z-10 w-[22%] max-w-32 rotate-3 md:w-[17%]">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[0.85rem] border-[3px] border-[#f5f0e8] shadow-[0_8px_24px_-12px_rgba(32,24,20,0.65)] md:rounded-[1rem]">
-                <Image
-                  src="/hero-breakfast-accent.jpeg"
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 22vw, 150px"
-                  className="object-cover object-[center_68%]"
-                />
-              </div>
-            </div>
-            <div className="hero-photo-gloss pointer-events-none absolute inset-0" aria-hidden="true" />
-            <div className="pointer-events-none absolute inset-0 bg-espresso/5" aria-hidden="true" />
-          </div>
+      <div data-opening-content className="cinematic-opening">
+        {openingButtons}
+      </div>
+
+      <Link data-mid-reservation href={reservationHref} className="cinematic-mid-reservation">
+        {dictionary.home.primaryCta}
+      </Link>
+
+      <div data-final-content className="cinematic-final-content">
+        <h1 id="hero-title" data-final-item className="cinematic-final-title">
+          {dictionary.home.title}
+        </h1>
+        <p data-final-item className="cinematic-final-description">
+          {dictionary.home.description}
+        </p>
+        <div data-final-item className="cinematic-actions flex items-center justify-center gap-2.5 sm:gap-3">
+          <Link href={reservationHref} className="cinematic-button cinematic-button-final-primary">
+            {dictionary.home.primaryCta}
+          </Link>
+          <a href={instagramHref} target="_blank" rel="noreferrer" className="cinematic-button cinematic-button-final-secondary">
+            {dictionary.home.secondaryCta}
+          </a>
         </div>
+      </div>
+
+      <div data-scroll-indicator className="cinematic-scroll-indicator" aria-hidden="true">
+        <span />
       </div>
     </section>
   );
