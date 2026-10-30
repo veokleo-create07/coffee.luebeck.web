@@ -12,7 +12,7 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 
 type HeroProps = { locale: Locale; dictionary: Dictionary };
 
-const VIDEO_REVEAL_END = 0.72;
+const VIDEO_REVEAL_END = 0.82;
 const FALLBACK_DURATION = 6;
 
 export function Hero({ locale, dictionary }: HeroProps) {
@@ -39,6 +39,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
     let targetTime = 0;
     let lastProgress = 0;
     let videoDuration = FALLBACK_DURATION;
+    let scrubbingReady = false;
+    let primeAttempted = false;
 
     const showStaticFallback = () => {
       trigger?.kill();
@@ -59,10 +61,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || video.seeking || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+      if (seekFrame || video.seeking || !scrubbingReady) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
-        if (video.seeking || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+        if (video.seeking || !scrubbingReady) return;
         const safeTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
         if (Math.abs(video.currentTime - safeTime) < 0.035) return;
         try {
@@ -78,6 +80,24 @@ export function Hero({ locale, dictionary }: HeroProps) {
       scheduleSeek();
     };
 
+    const isSeekable = () => video.readyState >= HTMLMediaElement.HAVE_METADATA && video.seekable.length > 0;
+
+    const primeDecoder = () => {
+      if (primeAttempted || !isSeekable()) return;
+      primeAttempted = true;
+      const playAttempt = video.play();
+      if (playAttempt) playAttempt.then(() => video.pause()).catch(() => { primeAttempted = false; });
+    };
+
+    const enableScrubbing = () => {
+      if (!isSeekable()) return;
+      scrubbingReady = true;
+      window.clearTimeout(fallbackTimer);
+      primeDecoder();
+      scheduleSeek();
+      ScrollTrigger.refresh();
+    };
+
     const context = gsap.context(() => {
       gsap.set(finalContent, { autoAlpha: 0, pointerEvents: "none" });
       gsap.set(finalItems, { autoAlpha: 0, y: 28 });
@@ -91,10 +111,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
       timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
       timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
       if (mobileViewport) timeline.to(video, { scale: 2.28, duration: 0.32, ease: "power1.inOut" }, 0.1);
-      timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.62);
-      timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.64);
-      timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.68);
-      timeline.to(finalItems, { autoAlpha: 1, y: 0, duration: 0.14, stagger: 0.025 }, 0.69);
+      timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.78);
+      timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.8);
+      timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.84);
+      timeline.to(finalItems, { autoAlpha: 1, y: 0, duration: 0.14, stagger: 0.025 }, 0.85);
 
       trigger = ScrollTrigger.create({
         id: "matcha-hero-scroll",
@@ -106,18 +126,17 @@ export function Hero({ locale, dictionary }: HeroProps) {
         anticipatePin: 1,
         invalidateOnRefresh: true,
         animation: timeline,
-        scrub: 0.35,
+        scrub: 0.2,
         onUpdate: (self) => {
-          if (self.progress >= 0.67) siteHeader?.setAttribute("data-final-hero", "true");
+          if (self.progress >= 0.83) siteHeader?.setAttribute("data-final-hero", "true");
           else siteHeader?.removeAttribute("data-final-hero");
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
-          const nextTime = self.direction >= 0 ? Math.max(targetTime, mappedTime) : mappedTime;
-          requestSeek(nextTime);
+          requestSeek(mappedTime);
           lastProgress = self.progress;
         },
         onRefresh: (self) => {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
-          targetTime = self.progress >= lastProgress ? Math.max(targetTime, mappedTime) : mappedTime;
+          targetTime = mappedTime;
           scheduleSeek();
           lastProgress = self.progress;
         },
@@ -126,15 +145,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
 
     const handleMetadata = () => {
       if (Number.isFinite(video.duration) && video.duration > 0) videoDuration = video.duration;
-      window.clearTimeout(fallbackTimer);
-      targetTime = Math.min(targetTime, videoDuration);
-      try {
-        video.currentTime = targetTime || 0.001;
-      } catch {
-        showStaticFallback();
-        return;
-      }
-      ScrollTrigger.refresh();
+      enableScrubbing();
     };
 
     const handleLoadedData = () => {
@@ -142,9 +153,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const primeVideo = () => {
-      if (!video.paused || video.readyState < HTMLMediaElement.HAVE_METADATA) return;
-      const playAttempt = video.play();
-      if (playAttempt) playAttempt.then(() => video.pause()).catch(() => undefined);
+      primeDecoder();
     };
 
     const handleSeeked = () => {
@@ -152,22 +161,31 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     video.addEventListener("loadedmetadata", handleMetadata);
+    video.addEventListener("durationchange", handleMetadata);
+    video.addEventListener("canplay", enableScrubbing);
+    video.addEventListener("progress", enableScrubbing);
     video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("seeked", handleSeeked);
     video.addEventListener("error", showStaticFallback);
     window.addEventListener("touchstart", primeVideo, { once: true, passive: true });
+    window.addEventListener("pointerdown", primeVideo, { once: true, passive: true });
     fallbackTimer = window.setTimeout(() => {
-      if (video.readyState < HTMLMediaElement.HAVE_METADATA) showStaticFallback();
+      if (!scrubbingReady) showStaticFallback();
     }, 7000);
+    video.load();
     if (video.readyState >= HTMLMediaElement.HAVE_METADATA) handleMetadata();
     if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) handleLoadedData();
 
     return () => {
       video.removeEventListener("loadedmetadata", handleMetadata);
+      video.removeEventListener("durationchange", handleMetadata);
+      video.removeEventListener("canplay", enableScrubbing);
+      video.removeEventListener("progress", enableScrubbing);
       video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("seeked", handleSeeked);
       video.removeEventListener("error", showStaticFallback);
       window.removeEventListener("touchstart", primeVideo);
+      window.removeEventListener("pointerdown", primeVideo);
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       context.revert();
