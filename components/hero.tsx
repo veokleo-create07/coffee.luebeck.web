@@ -25,9 +25,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const video = root?.querySelector<HTMLVideoElement>("[data-matcha-video]");
     if (!root || !video) return;
 
-    const opening = root.querySelector<HTMLElement>("[data-opening-content]");
     const scrollIndicator = root.querySelector<HTMLElement>("[data-scroll-indicator]");
-    const midReservation = root.querySelector<HTMLElement>("[data-mid-reservation]");
     const shade = root.querySelector<HTMLElement>("[data-final-shade]");
     const finalContent = root.querySelector<HTMLElement>("[data-final-content]");
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
@@ -44,9 +42,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       root.dataset.static = "true";
-      gsap.set(opening, { autoAlpha: 0, pointerEvents: "none" });
       gsap.set(scrollIndicator, { autoAlpha: 0 });
-      gsap.set(midReservation, { autoAlpha: 0, pointerEvents: "none" });
       gsap.set(shade, { opacity: 0.12 });
       gsap.set(finalContent, { autoAlpha: 1, pointerEvents: "auto" });
       gsap.set(finalItems, { autoAlpha: 1, y: 0 });
@@ -80,17 +76,13 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const context = gsap.context(() => {
       gsap.set(finalContent, { autoAlpha: 0, pointerEvents: "none" });
       gsap.set(finalItems, { autoAlpha: 0, y: 28 });
-      gsap.set(midReservation, { autoAlpha: 0, pointerEvents: "none", y: 10 });
       gsap.set(shade, { opacity: 0 });
 
       const progressProxy = { value: 0 };
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
       timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
       timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
-      timeline.to(opening, { autoAlpha: 0, y: -16, pointerEvents: "none", duration: 0.14 }, 0.1);
-      timeline.to(midReservation, { autoAlpha: 1, y: 0, pointerEvents: "auto", duration: 0.1 }, 0.19);
       timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.64);
-      timeline.to(midReservation, { autoAlpha: 0, y: 8, pointerEvents: "none", duration: 0.09 }, 0.66);
       timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.68);
       timeline.to(finalItems, { autoAlpha: 1, y: 0, duration: 0.14, stagger: 0.025 }, 0.69);
 
@@ -156,17 +148,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
   }, []);
 
-  const openingButtons = (
-    <div className="cinematic-actions flex items-center justify-center gap-2.5 sm:gap-3">
-      <Link href={reservationHref} className="cinematic-button cinematic-button-dark">
-        {dictionary.home.primaryCta}
-      </Link>
-      <a href={instagramHref} target="_blank" rel="noreferrer" className="cinematic-button cinematic-button-light">
-        {dictionary.home.secondaryCta}
-      </a>
-    </div>
-  );
-
   return (
     <section ref={rootRef} className="cinematic-hero" aria-labelledby="hero-title">
       <video
@@ -185,14 +166,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
       </video>
 
       <div data-final-shade className="cinematic-final-shade" aria-hidden="true" />
-
-      <div data-opening-content className="cinematic-opening">
-        {openingButtons}
-      </div>
-
-      <Link data-mid-reservation href={reservationHref} className="cinematic-mid-reservation">
-        {dictionary.home.primaryCta}
-      </Link>
 
       <div data-final-content className="cinematic-final-content">
         <h1 id="hero-title" data-final-item className="cinematic-final-title">

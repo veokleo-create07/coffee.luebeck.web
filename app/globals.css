@@ -315,23 +315,11 @@ a {
   pointer-events: none;
 }
 
-.cinematic-opening {
-  position: absolute;
-  right: 0;
-  bottom: clamp(4.5rem, 8vh, 6.5rem);
-  left: 0;
-  z-index: 15;
-  display: flex;
-  justify-content: center;
-  padding-inline: var(--page-gutter);
-}
-
 .cinematic-actions {
   pointer-events: auto;
 }
 
-.cinematic-button,
-.cinematic-mid-reservation {
+.cinematic-button {
   display: inline-flex;
   min-height: 3rem;
   align-items: center;
@@ -348,32 +336,8 @@ a {
   transition: transform var(--motion-medium) var(--ease-premium), background-color var(--motion-medium) var(--ease-premium), color var(--motion-medium) var(--ease-premium), border-color var(--motion-medium) var(--ease-premium);
 }
 
-.cinematic-button:hover,
-.cinematic-mid-reservation:hover {
+.cinematic-button:hover {
   transform: translateY(-0.125rem);
-}
-
-.cinematic-button-dark,
-.cinematic-mid-reservation {
-  color: var(--color-ivory);
-  background: var(--color-espresso);
-}
-
-.cinematic-button-light {
-  color: var(--color-espresso);
-  border-color: rgb(44 33 28 / 10%);
-  background: rgb(250 247 241 / 92%);
-  backdrop-filter: blur(12px);
-}
-
-.cinematic-mid-reservation {
-  position: absolute;
-  right: var(--page-gutter);
-  bottom: clamp(1.25rem, 4vw, 2.5rem);
-  z-index: 25;
-  min-height: 2.75rem;
-  opacity: 0;
-  visibility: hidden;
 }
 
 .cinematic-final-content {
@@ -482,10 +446,6 @@ a {
     object-position: center 48%;
   }
 
-  .cinematic-opening {
-    bottom: 4.25rem;
-  }
-
   .cinematic-final-content {
     gap: 1rem;
     padding-top: 6.75rem;
@@ -501,8 +461,7 @@ a {
     font-size: 0.9rem;
   }
 
-  .cinematic-button,
-  .cinematic-mid-reservation {
+  .cinematic-button {
     min-height: 2.85rem;
     padding-inline: 1rem;
   }
