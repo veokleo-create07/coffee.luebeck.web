@@ -14,6 +14,7 @@ type HeroProps = { locale: Locale; dictionary: Dictionary };
 
 const VIDEO_REVEAL_END = 0.82;
 const FALLBACK_DURATION = 6;
+const SEEK_INTERVAL = 1000 / 30;
 
 export function Hero({ locale, dictionary }: HeroProps) {
   const rootRef = useRef<HTMLElement>(null);
@@ -33,12 +34,12 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
-    let seekWatchdog = 0;
     let fallbackTimer = 0;
     let targetTime = 0;
+    let lastRequestedTime = -1;
+    let lastSeekAt = -Infinity;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
-    let seekInFlight = false;
 
     const showStaticFallback = () => {
       trigger?.kill();
@@ -58,22 +59,27 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || seekInFlight || !scrubbingReady) return;
+      if (seekFrame || !scrubbingReady) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
-        if (seekInFlight || !scrubbingReady) return;
+        if (!scrubbingReady) return;
+        const now = performance.now();
+        if (now - lastSeekAt < SEEK_INTERVAL) {
+          scheduleSeek();
+          return;
+        }
         const safeTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
+        if (Math.abs(lastRequestedTime - safeTime) < 0.02) return;
         if (Math.abs(video.currentTime - safeTime) < 0.035) return;
         try {
-          seekInFlight = true;
-          video.currentTime = safeTime;
-          window.clearTimeout(seekWatchdog);
-          seekWatchdog = window.setTimeout(() => {
-            seekInFlight = false;
-            scheduleSeek();
-          }, 750);
+          lastRequestedTime = safeTime;
+          lastSeekAt = now;
+          if (typeof video.fastSeek === "function" && Math.abs(video.currentTime - safeTime) > 0.12) {
+            video.fastSeek(safeTime);
+          } else {
+            video.currentTime = safeTime;
+          }
         } catch {
-          seekInFlight = false;
           showStaticFallback();
         }
       });
@@ -120,7 +126,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         anticipatePin: 1,
         invalidateOnRefresh: true,
         animation: timeline,
-        scrub: 0.2,
+        scrub: true,
         onUpdate: (self) => {
           if (self.progress >= 0.83) siteHeader?.setAttribute("data-final-hero", "true");
           else siteHeader?.removeAttribute("data-final-hero");
@@ -150,8 +156,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const handleSeeked = () => {
-      window.clearTimeout(seekWatchdog);
-      seekInFlight = false;
       if (Math.abs(targetTime - video.currentTime) > 0.035) scheduleSeek();
     };
 
@@ -184,8 +188,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
       video.removeEventListener("error", showStaticFallback);
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
-      window.clearTimeout(seekWatchdog);
-      seekInFlight = false;
       context.revert();
       siteHeader?.removeAttribute("data-final-hero");
     };
