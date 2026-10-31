@@ -500,6 +500,13 @@ a {
     background-image: url("/animations/matcha-mobile-poster.jpg?v=native-portrait-1");
   }
 
+  .cinematic-hero {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
   .cinematic-video {
     object-position: 50% 50%;
   }
