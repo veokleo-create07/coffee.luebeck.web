@@ -443,35 +443,6 @@ a {
   backdrop-filter: blur(12px);
 }
 
-.cinematic-scroll-indicator {
-  position: absolute;
-  bottom: 1.15rem;
-  left: 50%;
-  z-index: 15;
-  width: 1.3rem;
-  height: 2.15rem;
-  border: 1px solid rgb(44 33 28 / 28%);
-  border-radius: 9999px;
-  transform: translateX(-50%);
-}
-
-.cinematic-scroll-indicator span {
-  position: absolute;
-  top: 0.42rem;
-  left: 50%;
-  width: 0.2rem;
-  height: 0.42rem;
-  border-radius: 9999px;
-  background: var(--color-espresso);
-  transform: translateX(-50%);
-  animation: cinematic-scroll-cue 1.8s ease-in-out infinite;
-}
-
-@keyframes cinematic-scroll-cue {
-  0%, 100% { opacity: 0.35; transform: translate(-50%, 0); }
-  45% { opacity: 1; transform: translate(-50%, 0.55rem); }
-}
-
 .cinematic-hero[data-static="true"] .cinematic-video {
   opacity: 0.42;
 }
@@ -535,12 +506,6 @@ a {
   .cinematic-button {
     min-height: 3.1rem;
     padding-inline: 1.2rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cinematic-scroll-indicator span {
-    animation: none;
   }
 }
 

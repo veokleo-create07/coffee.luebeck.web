@@ -25,7 +25,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const video = root?.querySelector<HTMLVideoElement>("[data-matcha-video]");
     if (!root || !video) return;
 
-    const scrollIndicator = root.querySelector<HTMLElement>("[data-scroll-indicator]");
     const finalFrame = root.querySelector<HTMLElement>("[data-final-frame]");
     const shade = root.querySelector<HTMLElement>("[data-final-shade]");
     const finalContent = root.querySelector<HTMLElement>("[data-final-content]");
@@ -46,7 +45,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       root.dataset.static = "true";
-      gsap.set(scrollIndicator, { autoAlpha: 0 });
       gsap.set(finalFrame, { opacity: 0 });
       gsap.set(shade, { opacity: 0.12 });
       gsap.set(finalContent, { autoAlpha: 1, pointerEvents: "auto" });
@@ -107,7 +105,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
       const progressProxy = { value: 0 };
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
       timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
-      timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
       timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.78);
       timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.8);
       timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.84);
@@ -233,9 +230,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
         </div>
       </div>
 
-      <div data-scroll-indicator className="cinematic-scroll-indicator" aria-hidden="true">
-        <span />
-      </div>
     </section>
   );
 }
