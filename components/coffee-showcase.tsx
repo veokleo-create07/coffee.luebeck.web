@@ -16,7 +16,6 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   const menuHref = locale === "de" ? "/menu" : "/en/menu";
   const experiences = dictionary.showcase.experiences;
   const cards = [experiences[0], experiences[1], experiences[2]];
-  const imageIndexes = [0, 1, 2];
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -26,18 +25,16 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
     let initialFrame = 0;
 
     const context = gsap.context(() => {
-      const reveal = section.querySelectorAll<HTMLElement>("[data-menu-reveal]");
       const panels = section.querySelectorAll<HTMLElement>("[data-menu-card]");
       const images = section.querySelectorAll<HTMLElement>("[data-menu-card] img");
       const track = section.querySelector<HTMLElement>(".menu-experience-track");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (reducedMotion || !track) {
-        gsap.set([...reveal, ...panels, ...images], { autoAlpha: 1, clearProps: "transform" });
+        gsap.set([...panels, ...images], { autoAlpha: 1, clearProps: "transform" });
         return;
       }
 
-      gsap.set(reveal, { autoAlpha: 1, clearProps: "transform" });
       gsap.set(panels, { autoAlpha: 0, y: 24, scale: 0.985, transformOrigin: "50% 70%", willChange: "transform, opacity" });
       gsap.set(images, { scale: 1.04, transformOrigin: "50% 50%", willChange: "transform" });
 
@@ -99,7 +96,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
               className="menu-experience-card group relative aspect-[3/4] overflow-hidden rounded-[0.9rem] bg-espresso/10 shadow-[0_18px_35px_-28px_rgb(44_33_28_/_70%)] transition-transform duration-500 hover:-translate-y-1 md:rounded-[1.8rem]"
             >
               <Link href={menuHref} className="absolute inset-0" aria-label={experience.title}>
-                <Image src={menuImages[imageIndexes[index]]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 31vw, 240px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
+                <Image src={menuImages[index]} alt={experience.imageAlt} fill sizes="(max-width: 767px) 31vw, 240px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]" />
                 <span className="absolute inset-x-1.5 bottom-1.5 rounded-full bg-ivory/95 px-1 py-2 text-center text-[0.68rem] font-medium leading-none text-espresso shadow-[0_10px_24px_-18px_rgb(44_33_28_/_65%)] backdrop-blur-sm md:inset-x-5 md:bottom-5 md:px-6 md:py-3.5 md:text-base">{experience.title}</span>
               </Link>
             </article>

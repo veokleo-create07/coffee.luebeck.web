@@ -76,7 +76,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
         <div className="mt-12 grid grid-cols-2 gap-3 md:mt-20 md:gap-7">
           <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-[#eee9e1] p-2 shadow-[0_10px_28px_-24px_rgb(73_48_36_/_24%)] md:rounded-[1.75rem] md:p-4">
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[0.85rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[1.25rem]">
-              <Image src="/events-private.png" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 48vw, (max-width: 1280px) 45vw, 550px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+              <Image src="/events-private.webp" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 48vw, (max-width: 1280px) 45vw, 550px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
             <div className="flex-1 px-1.5 pb-1.5 pt-3 md:px-2 md:pb-2 md:pt-5">
               <h3 className="text-[clamp(0.95rem,3.8vw,1.65rem)] font-semibold tracking-[-0.03em]">{copy.privateTitle}</h3>
@@ -86,7 +86,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
 
           <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-[#eee9e1] p-2 shadow-[0_10px_28px_-24px_rgb(73_48_36_/_24%)] md:rounded-[1.75rem] md:p-4">
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[0.85rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[1.25rem]">
-              <Image src="/events-catering.png" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 48vw, (max-width: 1280px) 45vw, 550px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+              <Image src="/events-catering.webp" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 48vw, (max-width: 1280px) 45vw, 550px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
             <div className="flex-1 px-1.5 pb-1.5 pt-3 md:px-2 md:pb-2 md:pt-5">
               <h3 className="text-[clamp(0.95rem,3.8vw,1.65rem)] font-semibold tracking-[-0.03em]">{copy.cateringTitle}</h3>

@@ -39,6 +39,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const seekInterval = isMobile ? MOBILE_SEEK_INTERVAL : DESKTOP_SEEK_INTERVAL;
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
+    let seekRetryTimer = 0;
     let fallbackTimer = 0;
     let targetTime = 0;
     let targetVersion = 1;
@@ -52,6 +53,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const showStaticFallback = () => {
       trigger?.kill();
       window.clearTimeout(fallbackTimer);
+      window.clearTimeout(seekRetryTimer);
       cancelAnimationFrame(seekFrame);
       root.dataset.static = "true";
       gsap.set(finalFrame, { opacity: 0 });
@@ -67,13 +69,16 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || seekInFlight || !scrubbingReady || appliedVersion === targetVersion) return;
+      if (seekFrame || seekRetryTimer || seekInFlight || !scrubbingReady || appliedVersion === targetVersion) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
         if (!scrubbingReady || seekInFlight || appliedVersion === targetVersion) return;
         const now = performance.now();
         if (now - lastSeekAt < seekInterval) {
-          scheduleSeek();
+          seekRetryTimer = window.setTimeout(() => {
+            seekRetryTimer = 0;
+            scheduleSeek();
+          }, seekInterval - (now - lastSeekAt));
           return;
         }
         const safeTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
@@ -201,6 +206,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       video.removeEventListener("play", stopUnexpectedPlayback);
       video.removeEventListener("error", showStaticFallback);
       window.clearTimeout(fallbackTimer);
+      window.clearTimeout(seekRetryTimer);
       cancelAnimationFrame(seekFrame);
       context.revert();
       siteHeader?.removeAttribute("data-final-hero");
