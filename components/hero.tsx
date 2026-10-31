@@ -15,8 +15,9 @@ type HeroProps = { locale: Locale; dictionary: Dictionary };
 const VIDEO_REVEAL_END = 0.82;
 const FALLBACK_DURATION = 6;
 const MOBILE_PIN_VIEWPORTS = 2.85;
-const DESKTOP_PIN_VIEWPORTS = 3.5;
-const SEEK_INTERVAL = 1000 / 24;
+const DESKTOP_PIN_VIEWPORTS = 2.6;
+const MOBILE_SEEK_INTERVAL = 1000 / 20;
+const DESKTOP_SEEK_INTERVAL = 1000 / 24;
 
 export function Hero({ locale, dictionary }: HeroProps) {
   const rootRef = useRef<HTMLElement>(null);
@@ -34,6 +35,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
     const siteHeader = document.querySelector<HTMLElement>(".site-header");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const seekInterval = isMobile ? MOBILE_SEEK_INTERVAL : DESKTOP_SEEK_INTERVAL;
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
     let fallbackTimer = 0;
@@ -67,7 +70,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         seekFrame = 0;
         if (!scrubbingReady || seekInFlight) return;
         const now = performance.now();
-        if (now - lastSeekAt < SEEK_INTERVAL) {
+        if (now - lastSeekAt < seekInterval) {
           scheduleSeek();
           return;
         }
@@ -78,7 +81,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
           seekInFlight = true;
           lastRequestedTime = safeTime;
           lastSeekAt = now;
-          if (typeof video.fastSeek === "function" && Math.abs(video.currentTime - safeTime) > 0.12) {
+          if (!isMobile && typeof video.fastSeek === "function" && Math.abs(video.currentTime - safeTime) > 0.12) {
             video.fastSeek(safeTime);
           } else {
             video.currentTime = safeTime;
