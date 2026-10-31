@@ -53,6 +53,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
     let appliedVersion = 0;
     let lastRequestedTime = -1;
     let lastSeekAt = -Infinity;
+    let frameCallbackPending = false;
+    let frameCallbackTimer = 0;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
 
@@ -60,6 +62,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       trigger?.kill();
       window.clearTimeout(fallbackTimer);
       window.clearTimeout(seekRetryTimer);
+      window.clearTimeout(frameCallbackTimer);
       cancelAnimationFrame(seekFrame);
       root.dataset.static = "true";
       gsap.set(finalFrame, { opacity: 0 });
@@ -75,7 +78,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || seekRetryTimer || video.seeking || !scrubbingReady || appliedVersion === targetVersion) return;
+      if (seekFrame || seekRetryTimer || frameCallbackPending || video.seeking || !scrubbingReady || appliedVersion === targetVersion) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
         if (!scrubbingReady || video.seeking || appliedVersion === targetVersion) return;
@@ -178,7 +181,23 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const handleSeeked = () => {
-      scheduleSeek();
+      if (typeof video.requestVideoFrameCallback !== "function") {
+        scheduleSeek();
+        return;
+      }
+      if (frameCallbackPending) return;
+      frameCallbackPending = true;
+      frameCallbackTimer = window.setTimeout(() => {
+        frameCallbackPending = false;
+        frameCallbackTimer = 0;
+        scheduleSeek();
+      }, 500);
+      video.requestVideoFrameCallback(() => {
+        frameCallbackPending = false;
+        window.clearTimeout(frameCallbackTimer);
+        frameCallbackTimer = 0;
+        scheduleSeek();
+      });
     };
 
     video.addEventListener("loadedmetadata", handleMetadata);
@@ -210,6 +229,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       video.removeEventListener("error", showStaticFallback);
       window.clearTimeout(fallbackTimer);
       window.clearTimeout(seekRetryTimer);
+      window.clearTimeout(frameCallbackTimer);
       cancelAnimationFrame(seekFrame);
       context.revert();
       siteHeader?.removeAttribute("data-final-hero");
