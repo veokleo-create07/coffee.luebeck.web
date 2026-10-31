@@ -12,6 +12,8 @@ type EventsCateringProps = { dictionary: Dictionary };
 
 export function EventsCatering({ dictionary }: EventsCateringProps) {
   const sectionRef = useRef<HTMLElement>(null);
+  const pointerFrameRef = useRef(0);
+  const pendingPointerRef = useRef<{ heading: HTMLHeadingElement; x: number; y: number } | null>(null);
   const copy = dictionary.events;
   const titleImages = [
     "/reveal-coffee.jpeg",
@@ -22,17 +24,27 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
 
   const moveTitleImages = (event: React.PointerEvent<HTMLHeadingElement>) => {
     if (event.pointerType !== "mouse") return;
-    const words = event.currentTarget.querySelectorAll<HTMLElement>("[data-event-title-word]");
-    words.forEach((word) => {
-      const bounds = word.getBoundingClientRect();
-      const x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
-      const y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100));
-      word.style.setProperty("--reveal-x", `${x}%`);
-      word.style.setProperty("--reveal-y", `${y}%`);
+    pendingPointerRef.current = { heading: event.currentTarget, x: event.clientX, y: event.clientY };
+    if (pointerFrameRef.current) return;
+
+    pointerFrameRef.current = window.requestAnimationFrame(() => {
+      pointerFrameRef.current = 0;
+      const pending = pendingPointerRef.current;
+      if (!pending) return;
+      pending.heading.querySelectorAll<HTMLElement>("[data-event-title-word]").forEach((word) => {
+        const bounds = word.getBoundingClientRect();
+        const x = Math.max(0, Math.min(100, ((pending.x - bounds.left) / bounds.width) * 100));
+        const y = Math.max(0, Math.min(100, ((pending.y - bounds.top) / bounds.height) * 100));
+        word.style.setProperty("--reveal-x", `${x}%`);
+        word.style.setProperty("--reveal-y", `${y}%`);
+      });
     });
   };
 
   const resetTitleImages = (event: React.PointerEvent<HTMLHeadingElement>) => {
+    window.cancelAnimationFrame(pointerFrameRef.current);
+    pointerFrameRef.current = 0;
+    pendingPointerRef.current = null;
     event.currentTarget.querySelectorAll<HTMLElement>("[data-event-title-word]").forEach((word) => {
       word.style.setProperty("--reveal-x", "50%");
       word.style.setProperty("--reveal-y", "50%");
@@ -90,7 +102,10 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
         );
     }, section);
 
-    return () => context.revert();
+    return () => {
+      window.cancelAnimationFrame(pointerFrameRef.current);
+      context.revert();
+    };
   }, []);
 
   return (
@@ -108,7 +123,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
         <div className="mt-12 grid grid-cols-2 gap-3 md:mt-20 md:gap-7">
           <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-[#eee9e1] p-2 shadow-[0_10px_28px_-24px_rgb(73_48_36_/_24%)] md:rounded-[1.75rem] md:p-4">
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[0.85rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[1.25rem]">
-              <Image src="/events-private.png" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+              <Image src="/events-private.png" alt={copy.privateImageAlt} fill sizes="(max-width: 767px) 48vw, (max-width: 1280px) 45vw, 550px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
             <div className="flex-1 px-1.5 pb-1.5 pt-3 md:px-2 md:pb-2 md:pt-5">
               <h3 className="text-[clamp(0.95rem,3.8vw,1.65rem)] font-semibold tracking-[-0.03em]">{copy.privateTitle}</h3>
@@ -118,7 +133,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
 
           <article data-event-reveal className="flex flex-col overflow-hidden rounded-[1.25rem] bg-[#eee9e1] p-2 shadow-[0_10px_28px_-24px_rgb(73_48_36_/_24%)] md:rounded-[1.75rem] md:p-4">
             <div data-event-image className="group relative aspect-square overflow-hidden rounded-[0.85rem] bg-espresso/10 md:aspect-[1.08/1] md:rounded-[1.25rem]">
-              <Image src="/events-catering.png" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 100vw, 45vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+              <Image src="/events-catering.png" alt={copy.cateringImageAlt} fill sizes="(max-width: 767px) 48vw, (max-width: 1280px) 45vw, 550px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
             </div>
             <div className="flex-1 px-1.5 pb-1.5 pt-3 md:px-2 md:pb-2 md:pt-5">
               <h3 className="text-[clamp(0.95rem,3.8vw,1.65rem)] font-semibold tracking-[-0.03em]">{copy.cateringTitle}</h3>
@@ -134,7 +149,7 @@ export function EventsCatering({ dictionary }: EventsCateringProps) {
             <a href={dictionary.location.phoneHref} className="events-feature-cta site-button site-button-primary mt-3 min-h-11 self-start rounded-full px-4 text-xs md:mt-6 md:min-h-12 md:px-6 md:text-sm"><span className="relative z-10">{copy.featureCta}</span></a>
           </div>
           <div data-event-image className="order-1 group relative min-h-[13rem] overflow-hidden rounded-[0.9rem] md:order-1 md:min-h-[22rem] md:rounded-[1.25rem]">
-            <Image src="/events-feature.jpeg" alt={copy.featureImageAlt} fill sizes="(max-width: 767px) 100vw, 60vw" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
+            <Image src="/events-feature.jpeg" alt={copy.featureImageAlt} fill sizes="(max-width: 767px) 42vw, 400px" className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]" />
           </div>
         </div>
       </div>

@@ -110,18 +110,30 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   useEffect(() => {
     if (!form.date || !minDate) return;
     let active = true;
+    const controller = new AbortController();
     setAvailabilityLoading(true);
     setAvailabilityError(false);
-    fetch(`/api/reservations/availability?date=${encodeURIComponent(form.date)}&guests=${form.guests}`, { cache: "no-store" })
+    fetch(`/api/reservations/availability?date=${encodeURIComponent(form.date)}&guests=${form.guests}`, {
+      cache: "no-store",
+      signal: controller.signal,
+    })
       .then(async (response) => {
         const payload = await response.json();
         if (!response.ok) throw new Error(payload.error ?? "availability");
         return payload as AvailabilityResponse;
       })
       .then((payload) => { if (active) setAvailability(payload); })
-      .catch(() => { if (active) { setAvailability(null); setAvailabilityError(true); } })
+      .catch((error: unknown) => {
+        if (active && !(error instanceof Error && error.name === "AbortError")) {
+          setAvailability(null);
+          setAvailabilityError(true);
+        }
+      })
       .finally(() => { if (active) setAvailabilityLoading(false); });
-    return () => { active = false; };
+    return () => {
+      active = false;
+      controller.abort();
+    };
   }, [form.date, form.guests, minDate]);
 
   function updateDetails(field: keyof Details, value: string) {

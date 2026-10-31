@@ -37,7 +37,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     let seekWatchdog = 0;
     let fallbackTimer = 0;
     let targetTime = 0;
-    let lastProgress = 0;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
     let primeAttempted = false;
@@ -139,13 +138,11 @@ export function Hero({ locale, dictionary }: HeroProps) {
           else siteHeader?.removeAttribute("data-final-hero");
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           requestSeek(mappedTime);
-          lastProgress = self.progress;
         },
         onRefresh: (self) => {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           targetTime = mappedTime;
           scheduleSeek();
-          lastProgress = self.progress;
         },
       });
     }, root);

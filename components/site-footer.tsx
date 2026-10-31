@@ -1,15 +1,11 @@
 "use client";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Instagram, Music2, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type SiteFooterProps = { locale: Locale; dictionary: Dictionary };
 
@@ -42,29 +38,35 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   useLayoutEffect(() => {
     const footer = footerRef.current;
     if (!footer) return;
+    const content = footer.querySelectorAll<HTMLElement>("[data-footer-reveal]");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const context = gsap.context(() => {
-      const content = footer.querySelectorAll<HTMLElement>("[data-footer-reveal]");
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        gsap.set(content, { autoAlpha: 1, clearProps: "transform" });
-        return;
-      }
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      footer.dataset.footerRevealed = "true";
+      return;
+    }
 
-      gsap.fromTo(
-        content,
-        { autoAlpha: 0, y: 14 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.07,
-          ease: "power3.out",
-          scrollTrigger: { trigger: footer, start: "top 92%", once: true },
-        },
-      );
-    }, footer);
+    footer.dataset.footerReveal = "ready";
+    content.forEach((item, index) => {
+      item.style.setProperty("--footer-reveal-delay", `${index * 70}ms`);
+    });
 
-    return () => context.revert();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        footer.dataset.footerRevealed = "true";
+        observer.disconnect();
+      },
+      { rootMargin: "0px 0px 8% 0px", threshold: 0.01 },
+    );
+    observer.observe(footer);
+
+    return () => {
+      observer.disconnect();
+      delete footer.dataset.footerReveal;
+      delete footer.dataset.footerRevealed;
+      content.forEach((item) => item.style.removeProperty("--footer-reveal-delay"));
+    };
   }, []);
 
   return (
