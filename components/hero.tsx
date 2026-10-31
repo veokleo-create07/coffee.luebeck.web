@@ -17,8 +17,6 @@ const FALLBACK_DURATION = 6;
 const MOBILE_PIN_VIEWPORTS = 3.25;
 const TABLET_PIN_VIEWPORTS = 2.35;
 const DESKTOP_PIN_VIEWPORTS = 1.9;
-const MOBILE_SEEK_INTERVAL = 1000 / 20;
-const DESKTOP_SEEK_INTERVAL = 1000 / 24;
 
 function getPinViewports(viewportWidth: number) {
   if (viewportWidth < 768) return MOBILE_PIN_VIEWPORTS;
@@ -42,27 +40,19 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
     const siteHeader = document.querySelector<HTMLElement>(".site-header");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
-    const seekInterval = isMobile ? MOBILE_SEEK_INTERVAL : DESKTOP_SEEK_INTERVAL;
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
-    let seekRetryTimer = 0;
     let fallbackTimer = 0;
     let targetTime = 0;
     let targetVersion = 1;
     let appliedVersion = 0;
     let lastRequestedTime = -1;
-    let lastSeekAt = -Infinity;
-    let frameCallbackPending = false;
-    let frameCallbackTimer = 0;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
 
     const showStaticFallback = () => {
       trigger?.kill();
       window.clearTimeout(fallbackTimer);
-      window.clearTimeout(seekRetryTimer);
-      window.clearTimeout(frameCallbackTimer);
       cancelAnimationFrame(seekFrame);
       root.dataset.static = "true";
       gsap.set(finalFrame, { opacity: 0 });
@@ -78,18 +68,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || seekRetryTimer || frameCallbackPending || video.seeking || !scrubbingReady || appliedVersion === targetVersion) return;
+      if (seekFrame || video.seeking || !scrubbingReady || appliedVersion === targetVersion) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
         if (!scrubbingReady || video.seeking || appliedVersion === targetVersion) return;
-        const now = performance.now();
-        if (now - lastSeekAt < seekInterval) {
-          seekRetryTimer = window.setTimeout(() => {
-            seekRetryTimer = 0;
-            scheduleSeek();
-          }, seekInterval - (now - lastSeekAt));
-          return;
-        }
         const safeTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
         if (Math.abs(lastRequestedTime - safeTime) < 0.02 || Math.abs(video.currentTime - safeTime) < 0.035) {
           appliedVersion = targetVersion;
@@ -98,12 +80,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         try {
           appliedVersion = targetVersion;
           lastRequestedTime = safeTime;
-          lastSeekAt = now;
-          if (!isMobile && typeof video.fastSeek === "function" && Math.abs(video.currentTime - safeTime) > 0.12) {
-            video.fastSeek(safeTime);
-          } else {
-            video.currentTime = safeTime;
-          }
+          video.currentTime = safeTime;
         } catch {
           showStaticFallback();
         }
@@ -181,23 +158,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const handleSeeked = () => {
-      if (typeof video.requestVideoFrameCallback !== "function") {
-        scheduleSeek();
-        return;
-      }
-      if (frameCallbackPending) return;
-      frameCallbackPending = true;
-      frameCallbackTimer = window.setTimeout(() => {
-        frameCallbackPending = false;
-        frameCallbackTimer = 0;
-        scheduleSeek();
-      }, 500);
-      video.requestVideoFrameCallback(() => {
-        frameCallbackPending = false;
-        window.clearTimeout(frameCallbackTimer);
-        frameCallbackTimer = 0;
-        scheduleSeek();
-      });
+      scheduleSeek();
     };
 
     video.addEventListener("loadedmetadata", handleMetadata);
@@ -228,8 +189,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
       video.removeEventListener("play", stopUnexpectedPlayback);
       video.removeEventListener("error", showStaticFallback);
       window.clearTimeout(fallbackTimer);
-      window.clearTimeout(seekRetryTimer);
-      window.clearTimeout(frameCallbackTimer);
       cancelAnimationFrame(seekFrame);
       context.revert();
       siteHeader?.removeAttribute("data-final-hero");
