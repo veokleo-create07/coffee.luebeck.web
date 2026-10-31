@@ -14,7 +14,9 @@ type HeroProps = { locale: Locale; dictionary: Dictionary };
 
 const VIDEO_REVEAL_END = 0.82;
 const FALLBACK_DURATION = 6;
-const SEEK_INTERVAL = 1000 / 30;
+const MOBILE_PIN_VIEWPORTS = 2.85;
+const DESKTOP_PIN_VIEWPORTS = 3.5;
+const SEEK_INTERVAL = 1000 / 24;
 
 export function Hero({ locale, dictionary }: HeroProps) {
   const rootRef = useRef<HTMLElement>(null);
@@ -38,6 +40,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     let targetTime = 0;
     let lastRequestedTime = -1;
     let lastSeekAt = -Infinity;
+    let seekInFlight = false;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
 
@@ -59,10 +62,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || !scrubbingReady) return;
+      if (seekFrame || seekInFlight || !scrubbingReady) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
-        if (!scrubbingReady) return;
+        if (!scrubbingReady || seekInFlight) return;
         const now = performance.now();
         if (now - lastSeekAt < SEEK_INTERVAL) {
           scheduleSeek();
@@ -72,6 +75,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         if (Math.abs(lastRequestedTime - safeTime) < 0.02) return;
         if (Math.abs(video.currentTime - safeTime) < 0.035) return;
         try {
+          seekInFlight = true;
           lastRequestedTime = safeTime;
           lastSeekAt = now;
           if (typeof video.fastSeek === "function" && Math.abs(video.currentTime - safeTime) > 0.12) {
@@ -80,6 +84,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
             video.currentTime = safeTime;
           }
         } catch {
+          seekInFlight = false;
           showStaticFallback();
         }
       });
@@ -108,9 +113,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       gsap.set(video, { scale: 1, transformOrigin: "50% 50%" });
       siteHeader?.removeAttribute("data-final-hero");
 
-      const progressProxy = { value: 0 };
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
-      timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
       timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.78);
       timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.8);
       timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.84);
@@ -120,7 +123,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         id: "matcha-hero-scroll",
         trigger: root,
         start: "top top",
-        end: () => `+=${Math.round(window.innerHeight * (window.innerWidth < 768 ? 3.25 : 4))}`,
+        end: () => `+=${Math.round(window.innerHeight * (window.innerWidth < 768 ? MOBILE_PIN_VIEWPORTS : DESKTOP_PIN_VIEWPORTS))}`,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
@@ -156,6 +159,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const handleSeeked = () => {
+      seekInFlight = false;
       if (Math.abs(targetTime - video.currentTime) > 0.035) scheduleSeek();
     };
 
