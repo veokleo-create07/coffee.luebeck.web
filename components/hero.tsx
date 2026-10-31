@@ -41,6 +41,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
     let seekFrame = 0;
     let fallbackTimer = 0;
     let targetTime = 0;
+    let targetVersion = 1;
+    let appliedVersion = 0;
     let lastRequestedTime = -1;
     let lastSeekAt = -Infinity;
     let seekInFlight = false;
@@ -65,20 +67,23 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || seekInFlight || !scrubbingReady) return;
+      if (seekFrame || seekInFlight || !scrubbingReady || appliedVersion === targetVersion) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
-        if (!scrubbingReady || seekInFlight) return;
+        if (!scrubbingReady || seekInFlight || appliedVersion === targetVersion) return;
         const now = performance.now();
         if (now - lastSeekAt < seekInterval) {
           scheduleSeek();
           return;
         }
         const safeTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
-        if (Math.abs(lastRequestedTime - safeTime) < 0.02) return;
-        if (Math.abs(video.currentTime - safeTime) < 0.035) return;
+        if (Math.abs(lastRequestedTime - safeTime) < 0.02 || Math.abs(video.currentTime - safeTime) < 0.035) {
+          appliedVersion = targetVersion;
+          return;
+        }
         try {
           seekInFlight = true;
+          appliedVersion = targetVersion;
           lastRequestedTime = safeTime;
           lastSeekAt = now;
           if (!isMobile && typeof video.fastSeek === "function" && Math.abs(video.currentTime - safeTime) > 0.12) {
@@ -94,7 +99,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const requestSeek = (time: number) => {
-      targetTime = Math.max(0, Math.min(time, videoDuration));
+      const nextTime = Math.max(0, Math.min(time, videoDuration));
+      if (Math.abs(targetTime - nextTime) < 0.01) return;
+      targetTime = nextTime;
+      targetVersion += 1;
       scheduleSeek();
     };
 
@@ -141,8 +149,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         },
         onRefresh: (self) => {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
-          targetTime = mappedTime;
-          scheduleSeek();
+          requestSeek(mappedTime);
         },
       });
     }, root);
@@ -163,7 +170,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
 
     const handleSeeked = () => {
       seekInFlight = false;
-      if (Math.abs(targetTime - video.currentTime) > 0.035) scheduleSeek();
+      scheduleSeek();
     };
 
     video.addEventListener("loadedmetadata", handleMetadata);
