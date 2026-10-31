@@ -491,15 +491,15 @@ a {
 
 @media (max-width: 767px) {
   .cinematic-poster {
-    background-image: url("/animations/matcha-hero-mobile-poster.jpg?v=mobile-crop-1");
+    background-image: url("/animations/matcha-mobile-poster.jpg?v=native-portrait-1");
   }
 
   .cinematic-video {
-    object-position: center;
+    object-position: 50% 50%;
   }
 
-  .cinematic-hero {
-    background: #f0e4d9;
+  .cinematic-final-frame {
+    background-image: url("/animations/matcha-mobile-final.jpg?v=native-portrait-1");
   }
 
   .cinematic-final-content {

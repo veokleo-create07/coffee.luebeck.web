@@ -32,16 +32,16 @@ export function Hero({ locale, dictionary }: HeroProps) {
     const finalItems = root.querySelectorAll<HTMLElement>("[data-final-item]");
     const siteHeader = document.querySelector<HTMLElement>(".site-header");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mobileViewport = window.matchMedia("(max-width: 767px)").matches;
-    const mobileOpeningScale = Math.min(0.86, Math.max(0.81, window.innerWidth / 500));
     let trigger: ScrollTrigger | null = null;
     let seekFrame = 0;
+    let seekWatchdog = 0;
     let fallbackTimer = 0;
     let targetTime = 0;
     let lastProgress = 0;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
     let primeAttempted = false;
+    let seekInFlight = false;
 
     const showStaticFallback = () => {
       trigger?.kill();
@@ -62,15 +62,22 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || video.seeking || !scrubbingReady) return;
+      if (seekFrame || seekInFlight || !scrubbingReady) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
-        if (video.seeking || !scrubbingReady) return;
+        if (seekInFlight || !scrubbingReady) return;
         const safeTime = Math.min(targetTime, Math.max(0, videoDuration - 0.025));
         if (Math.abs(video.currentTime - safeTime) < 0.035) return;
         try {
+          seekInFlight = true;
           video.currentTime = safeTime;
+          window.clearTimeout(seekWatchdog);
+          seekWatchdog = window.setTimeout(() => {
+            seekInFlight = false;
+            scheduleSeek();
+          }, 750);
         } catch {
+          seekInFlight = false;
           showStaticFallback();
         }
       });
@@ -91,7 +98,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const enableScrubbing = () => {
-      if (!isSeekable()) return;
+      if (scrubbingReady || !isSeekable()) return;
       scrubbingReady = true;
       window.clearTimeout(fallbackTimer);
       primeDecoder();
@@ -104,14 +111,13 @@ export function Hero({ locale, dictionary }: HeroProps) {
       gsap.set(finalItems, { autoAlpha: 0, y: 28 });
       gsap.set(finalFrame, { opacity: 0 });
       gsap.set(shade, { opacity: 0 });
-      gsap.set(video, { scale: mobileViewport ? mobileOpeningScale : 1, transformOrigin: "50% 50%" });
+      gsap.set(video, { scale: 1, transformOrigin: "50% 50%" });
       siteHeader?.removeAttribute("data-final-hero");
 
       const progressProxy = { value: 0 };
       const timeline = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
       timeline.to(progressProxy, { value: 1, duration: 1, ease: "none" }, 0);
       timeline.to(scrollIndicator, { autoAlpha: 0, duration: 0.06 }, 0.04);
-      if (mobileViewport) timeline.to(video, { scale: 1, duration: 0.42, ease: "power1.inOut" }, 0.2);
       timeline.to(finalFrame, { opacity: 1, duration: 0.1 }, 0.78);
       timeline.to(shade, { opacity: 0.2, duration: 0.12 }, 0.8);
       timeline.to(finalContent, { autoAlpha: 1, pointerEvents: "auto", duration: 0.08 }, 0.84);
@@ -158,6 +164,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const handleSeeked = () => {
+      window.clearTimeout(seekWatchdog);
+      seekInFlight = false;
       if (Math.abs(targetTime - video.currentTime) > 0.035) scheduleSeek();
     };
 
@@ -189,6 +197,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
       window.removeEventListener("pointerdown", primeVideo);
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
+      window.clearTimeout(seekWatchdog);
+      seekInFlight = false;
       context.revert();
       siteHeader?.removeAttribute("data-final-hero");
     };
@@ -209,7 +219,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         tabIndex={-1}
         aria-hidden="true"
       >
-        <source media="(max-width: 767px)" src="/animations/matcha-hero-mobile.mp4?v=mobile-crop-1" type="video/mp4" />
+        <source media="(max-width: 767px)" src="/animations/matcha-mobile.mp4?v=native-portrait-1" type="video/mp4" />
         <source src="/animations/matcha-hero.mp4?v=3c1d318" type="video/mp4" />
       </video>
 
