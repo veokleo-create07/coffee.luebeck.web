@@ -14,10 +14,17 @@ type HeroProps = { locale: Locale; dictionary: Dictionary };
 
 const VIDEO_REVEAL_END = 0.82;
 const FALLBACK_DURATION = 6;
-const MOBILE_PIN_VIEWPORTS = 2.85;
-const DESKTOP_PIN_VIEWPORTS = 2.6;
+const MOBILE_PIN_VIEWPORTS = 3.25;
+const TABLET_PIN_VIEWPORTS = 2.35;
+const DESKTOP_PIN_VIEWPORTS = 1.9;
 const MOBILE_SEEK_INTERVAL = 1000 / 20;
 const DESKTOP_SEEK_INTERVAL = 1000 / 24;
+
+function getPinViewports(viewportWidth: number) {
+  if (viewportWidth < 768) return MOBILE_PIN_VIEWPORTS;
+  if (viewportWidth < 1200) return TABLET_PIN_VIEWPORTS;
+  return DESKTOP_PIN_VIEWPORTS;
+}
 
 export function Hero({ locale, dictionary }: HeroProps) {
   const rootRef = useRef<HTMLElement>(null);
@@ -139,7 +146,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
         id: "matcha-hero-scroll",
         trigger: root,
         start: "top top",
-        end: () => `+=${Math.round(window.innerHeight * (window.innerWidth < 768 ? MOBILE_PIN_VIEWPORTS : DESKTOP_PIN_VIEWPORTS))}`,
+        end: () => `+=${Math.round(window.innerHeight * getPinViewports(window.innerWidth))}`,
         pin: true,
         pinSpacing: true,
         anticipatePin: 1,
