@@ -279,9 +279,6 @@ a {
   position: relative;
   z-index: 10;
   isolation: isolate;
-  background-color: var(--color-ivory);
-  border-radius: 1rem 1rem 0 0;
-  box-shadow: 0 -12px 28px -24px rgb(44 33 28 / 48%);
 }
 
 @media (max-width: 767px) {
@@ -329,9 +326,27 @@ a {
 }
 
 .cinematic-final-frame {
+  isolation: isolate;
   z-index: 4;
   background: #46691d url("/animations/matcha-hero-final.jpg?v=3c1d318") center / cover no-repeat;
   opacity: 0;
+  pointer-events: none;
+}
+
+.cinematic-final-frame::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: clamp(8rem, 25vh, 18rem);
+  background: linear-gradient(
+    to bottom,
+    rgb(245 240 232 / 0%) 0%,
+    rgb(245 240 232 / 12%) 34%,
+    rgb(245 240 232 / 72%) 78%,
+    var(--color-ivory) 100%
+  );
+  content: "";
   pointer-events: none;
 }
 
@@ -545,8 +560,7 @@ a {
 
 @media (min-width: 768px) {
   .hero-transition-incoming {
-    border-radius: 1.75rem 1.75rem 0 0;
-    box-shadow: 0 -18px 38px -28px rgb(44 33 28 / 52%);
+    background: transparent;
   }
 }
 
