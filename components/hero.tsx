@@ -39,7 +39,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     let targetTime = 0;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
-    let primeAttempted = false;
     let seekInFlight = false;
 
     const showStaticFallback = () => {
@@ -89,18 +88,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
 
     const isSeekable = () => video.readyState >= HTMLMediaElement.HAVE_METADATA && video.seekable.length > 0;
 
-    const primeDecoder = () => {
-      if (primeAttempted || !isSeekable()) return;
-      primeAttempted = true;
-      const playAttempt = video.play();
-      if (playAttempt) playAttempt.then(() => video.pause()).catch(() => { primeAttempted = false; });
-    };
-
     const enableScrubbing = () => {
       if (scrubbingReady || !isSeekable()) return;
       scrubbingReady = true;
       window.clearTimeout(fallbackTimer);
-      primeDecoder();
       scheduleSeek();
       ScrollTrigger.refresh();
     };
@@ -156,8 +147,9 @@ export function Hero({ locale, dictionary }: HeroProps) {
       root.dataset.videoReady = "true";
     };
 
-    const primeVideo = () => {
-      primeDecoder();
+    const stopUnexpectedPlayback = () => {
+      // The hero is a scroll scrubber, never a normal media player.
+      video.pause();
     };
 
     const handleSeeked = () => {
@@ -172,12 +164,14 @@ export function Hero({ locale, dictionary }: HeroProps) {
     video.addEventListener("progress", enableScrubbing);
     video.addEventListener("loadeddata", handleLoadedData);
     video.addEventListener("seeked", handleSeeked);
+    video.addEventListener("play", stopUnexpectedPlayback);
     video.addEventListener("error", showStaticFallback);
-    window.addEventListener("touchstart", primeVideo, { once: true, passive: true });
-    window.addEventListener("pointerdown", primeVideo, { once: true, passive: true });
     fallbackTimer = window.setTimeout(() => {
       if (!scrubbingReady) showStaticFallback();
     }, 7000);
+    video.autoplay = false;
+    video.loop = false;
+    video.pause();
     video.load();
     if (video.readyState >= HTMLMediaElement.HAVE_METADATA) handleMetadata();
     if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) handleLoadedData();
@@ -189,9 +183,8 @@ export function Hero({ locale, dictionary }: HeroProps) {
       video.removeEventListener("progress", enableScrubbing);
       video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("seeked", handleSeeked);
+      video.removeEventListener("play", stopUnexpectedPlayback);
       video.removeEventListener("error", showStaticFallback);
-      window.removeEventListener("touchstart", primeVideo);
-      window.removeEventListener("pointerdown", primeVideo);
       window.clearTimeout(fallbackTimer);
       cancelAnimationFrame(seekFrame);
       window.clearTimeout(seekWatchdog);
