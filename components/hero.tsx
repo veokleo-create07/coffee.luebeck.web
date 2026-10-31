@@ -53,7 +53,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     let appliedVersion = 0;
     let lastRequestedTime = -1;
     let lastSeekAt = -Infinity;
-    let seekInFlight = false;
     let videoDuration = FALLBACK_DURATION;
     let scrubbingReady = false;
 
@@ -76,10 +75,10 @@ export function Hero({ locale, dictionary }: HeroProps) {
     }
 
     const scheduleSeek = () => {
-      if (seekFrame || seekRetryTimer || seekInFlight || !scrubbingReady || appliedVersion === targetVersion) return;
+      if (seekFrame || seekRetryTimer || video.seeking || !scrubbingReady || appliedVersion === targetVersion) return;
       seekFrame = requestAnimationFrame(() => {
         seekFrame = 0;
-        if (!scrubbingReady || seekInFlight || appliedVersion === targetVersion) return;
+        if (!scrubbingReady || video.seeking || appliedVersion === targetVersion) return;
         const now = performance.now();
         if (now - lastSeekAt < seekInterval) {
           seekRetryTimer = window.setTimeout(() => {
@@ -94,7 +93,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
           return;
         }
         try {
-          seekInFlight = true;
           appliedVersion = targetVersion;
           lastRequestedTime = safeTime;
           lastSeekAt = now;
@@ -104,7 +102,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
             video.currentTime = safeTime;
           }
         } catch {
-          seekInFlight = false;
           showStaticFallback();
         }
       });
@@ -181,7 +178,6 @@ export function Hero({ locale, dictionary }: HeroProps) {
     };
 
     const handleSeeked = () => {
-      seekInFlight = false;
       scheduleSeek();
     };
 
