@@ -84,7 +84,7 @@ export function CoffeeShowcase({ locale, dictionary }: CoffeeShowcaseProps) {
   }, []);
 
   return (
-    <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] py-20 text-espresso md:py-24" aria-labelledby="showcase-title">
+    <section ref={sectionRef} id="menu-preview" className="overflow-hidden bg-ivory px-[var(--page-gutter)] pt-[clamp(7rem,16vh,10rem)] pb-20 text-espresso md:pt-[clamp(7rem,11vw,10rem)] md:pb-24" aria-labelledby="showcase-title">
       <div className="mx-auto max-w-7xl">
         <h2 id="showcase-title" className="editorial-heading mx-auto max-w-[21ch] text-balance text-center text-[clamp(2rem,4.2vw,4rem)] font-medium leading-[0.98] tracking-[-0.05em]">
           {dictionary.showcase.heading}
