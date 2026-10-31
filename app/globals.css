@@ -204,55 +204,6 @@ a {
   letter-spacing: var(--tracking-editorial);
 }
 
-.event-mask-heading {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  column-gap: 0.22em;
-  row-gap: 0.04em;
-}
-
-.event-mask-word {
-  --reveal-x: 50%;
-  --reveal-y: 50%;
-  color: var(--color-espresso);
-  background-repeat: no-repeat;
-  background-position: var(--reveal-x) var(--reveal-y);
-  background-size: cover;
-  transition: background-position 650ms var(--ease-premium);
-}
-
-@supports (-webkit-background-clip: text) or (background-clip: text) {
-  .event-mask-word {
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-}
-
-@media (hover: none) {
-  .event-mask-word {
-    animation: event-mask-drift 16s ease-in-out infinite alternate;
-  }
-
-  .event-mask-word:nth-child(2) { animation-delay: -4s; }
-  .event-mask-word:nth-child(3) { animation-delay: -8s; }
-  .event-mask-word:nth-child(4) { animation-delay: -12s; }
-}
-
-@keyframes event-mask-drift {
-  from { background-position: 34% 38%; }
-  to { background-position: 68% 62%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .event-mask-word {
-    animation: none;
-    transition: none;
-  }
-}
-
 .privacy-copy ul {
   display: grid;
   gap: 0.35rem;
