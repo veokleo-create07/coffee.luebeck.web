@@ -284,6 +284,12 @@ a {
   box-shadow: 0 -12px 28px -24px rgb(44 33 28 / 48%);
 }
 
+@media (max-width: 767px) {
+  .hero-transition-incoming {
+    display: contents;
+  }
+}
+
 .cinematic-hero {
   position: relative;
   isolation: isolate;
