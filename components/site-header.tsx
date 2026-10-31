@@ -15,7 +15,7 @@ export function SiteHeader({ locale, dictionary, languageHref, overlay = false }
   const [isClosing, setIsClosing] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const homeHref = locale === "de" ? "/" : "/en";
-  const links = [{ label: dictionary.navigation.menu, href: "#menu-preview" }, { label: dictionary.navigation.reviews, href: "#reviews" }, { label: dictionary.navigation.reservation, href: "#reservation-title" }];
+  const links = [{ label: dictionary.navigation.menu, href: "#menu-preview" }, { label: dictionary.navigation.reservation, href: "#reservation-title" }, { label: dictionary.navigation.reviews, href: "#reviews" }];
 
   const closeMenu = useCallback(() => {
     if (!isOpen || isClosing) return;
