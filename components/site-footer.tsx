@@ -28,6 +28,17 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   }
   const hours = [...dictionary.location.hours]
     .map((line) => (locale === "de" ? line.replace("geschlossen", "Geschlossen") : line));
+  const renderHours = (line: string) => {
+    const [days, time] = line.split(" · ");
+    if (!time) return line;
+    return (
+      <>
+        <span className="whitespace-nowrap">{days}</span>
+        <span aria-hidden="true">·</span>
+        <span className="whitespace-nowrap">{time}</span>
+      </>
+    );
+  };
   const navigation = [
     { label: locale === "de" ? "Startseite" : dictionary.footer.navHome, href: homeHref },
     { label: locale === "de" ? "Speisekarte" : dictionary.footer.navMenu, href: menuHref },
@@ -106,7 +117,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             <div className="min-w-0 justify-self-end text-right md:hidden">
               <ul className="space-y-1 text-xs font-medium leading-[1.55] text-[#F8F5F0] md:text-sm md:leading-[1.7]">
                 {hours.map((line) => (
-                  <li key={line}>{line}</li>
+                  <li key={line} className="flex flex-wrap justify-end gap-x-1">
+                    {renderHours(line)}
+                  </li>
                 ))}
               </ul>
             </div>
