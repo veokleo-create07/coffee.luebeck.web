@@ -277,14 +277,8 @@ a {
 
 .hero-transition-incoming {
   position: relative;
-  z-index: 10;
+  z-index: 0;
   isolation: isolate;
-}
-
-@media (max-width: 767px) {
-  .hero-transition-incoming {
-    display: contents;
-  }
 }
 
 .cinematic-hero {
