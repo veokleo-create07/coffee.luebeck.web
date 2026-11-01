@@ -242,14 +242,14 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
             )}
 
             {reservationStatus ? (
-              <section aria-live="polite" className="reservation-panel lg:pt-5">
-                <h1 className="editorial-heading max-w-[13ch] text-[clamp(2.25rem,5vw,3.65rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-espresso">
+              <section aria-live="polite" className="reservation-panel rounded-[1.25rem] bg-espresso p-6 text-ivory sm:p-8 lg:p-10">
+                <h1 className="editorial-heading max-w-[13ch] text-[clamp(2.25rem,5vw,3.65rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-ivory">
                   {isConfirmed ? copy.confirmationTitle : copy.pendingTitle}
                 </h1>
-                <p className="mt-4 max-w-[28rem] text-sm leading-[1.6] text-espresso-soft md:text-base">
+                <p className="mt-4 max-w-[28rem] text-sm leading-[1.6] text-ivory/80 md:text-base">
                   {isConfirmed ? copy.confirmationBody : copy.pendingBody}
                 </p>
-                <Link href={homeHref} className="mt-7 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-espresso px-7 text-sm font-semibold text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+                <Link href={homeHref} className="mt-7 inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full bg-ivory px-7 text-sm font-semibold text-espresso shadow-[0_12px_24px_-18px_rgba(10,8,6,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#fffdf8] hover:shadow-[0_16px_28px_-18px_rgba(10,8,6,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
                   {copy.startOver}
                   <ArrowRight size={15} strokeWidth={1.7} aria-hidden="true" />
                 </Link>
