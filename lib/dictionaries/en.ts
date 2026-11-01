@@ -176,6 +176,7 @@ export const en: Dictionary = {
       { question: "Can I reserve a table?", answer: "Yes, you can reserve your table directly online. For larger groups or special requests, please contact the café directly." },
       { question: "Do you accept walk-ins?", answer: "Of course. We’re always happy to welcome walk-ins, although a reservation can help you avoid waiting." },
       { question: "Do you offer vegan and vegetarian options?", answer: "Yes, our menu includes vegetarian and vegan options. Our team will be happy to help with any allergen questions." },
+      { question: "Are dogs welcome in the café?", answer: "Yes, well-behaved dogs are very welcome. We just ask that you help us keep the café comfortable for everyone." },
       { question: "Can I ask about a celebration or catering?", answer: "Absolutely. For birthdays, company celebrations, and catering, get in touch and we’ll find the right offering together." },
     ],
   },

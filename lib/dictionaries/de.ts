@@ -335,6 +335,7 @@ export const de: Dictionary = {
       { question: "Kann ich einen Tisch reservieren?", answer: "Ja, du kannst deinen Tisch direkt online reservieren. Für größere Gruppen oder besondere Wünsche ruf uns bitte direkt an." },
       { question: "Sind spontane Besuche möglich?", answer: "Natürlich. Wir freuen uns auch über spontane Besuche – eine Reservierung hilft dir aber, Wartezeiten zu vermeiden." },
       { question: "Bietet ihr vegane und vegetarische Optionen an?", answer: "Ja, auf unserer Speisekarte findest du vegetarische und vegane Optionen. Bei Fragen zu Allergenen hilft dir unser Team gern weiter." },
+      { question: "Sind Hunde im Café willkommen?", answer: "Ja, gut erzogene Hunde sind bei uns herzlich willkommen. Bitte achte darauf, dass sich alle Gäste wohlfühlen." },
       { question: "Kann ich eine Feier oder ein Catering anfragen?", answer: "Sehr gern. Für Geburtstage, Firmenfeiern und Catering sprich uns einfach direkt an, damit wir gemeinsam das passende Angebot finden." },
     ],
   },
