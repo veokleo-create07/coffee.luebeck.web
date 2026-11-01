@@ -20,12 +20,9 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const homeHref = locale === "de" ? "/" : "/en";
   const menuHref = locale === "de" ? "/menu" : "/en/menu";
   const reservationHref = locale === "de" ? "/reservation" : "/en/reservation";
+  const faqHref = locale === "de" ? "/faq" : "/en/faq";
   const legalNoticeHref = locale === "de" ? "/impressum" : "/en/legal-notice";
   const privacyHref = locale === "de" ? "/datenschutz" : "/en/privacy";
-  const addressLines = [...dictionary.location.addressLines];
-  if (locale === "de" && addressLines[1]) {
-    addressLines[1] = addressLines[1].replace(", Deutschland", "");
-  }
   const hours = [...dictionary.location.hours]
     .map((line) => (locale === "de" ? line.replace("geschlossen", "Geschlossen") : line));
   const renderHours = (line: string) => {
@@ -43,6 +40,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
     { label: locale === "de" ? "Startseite" : dictionary.footer.navHome, href: homeHref },
     { label: locale === "de" ? "Speisekarte" : dictionary.footer.navMenu, href: menuHref },
     { label: locale === "de" ? "Reservieren" : dictionary.footer.navReservations, href: reservationHref },
+    { label: dictionary.footer.navFaq, href: faqHref },
     { label: dictionary.footer.navContact, href: "#footer-contact" },
   ];
 
@@ -90,22 +88,8 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
         <div className="grid grid-cols-1 items-start gap-y-7 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12 md:gap-y-9">
           <section id="footer-contact" data-footer-reveal className="grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] items-start gap-x-5 md:grid-cols-1 md:gap-x-0">
             <div className="min-w-0">
-              <address className="not-italic text-[0.875rem] font-medium leading-[1.45] text-[#F8F5F0] md:text-[1.2rem] md:leading-[1.4]">
-                {addressLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </address>
-              <a
-                href={dictionary.location.directionsHref}
-                target="_blank"
-                rel="noreferrer"
-                className={`${footerLinkClass} mt-2 text-[#F8F5F0] no-underline underline-offset-4 hover:decoration-[#F8F5F0] md:underline md:decoration-[#F8F5F0]/40`}
-              >
-                {dictionary.location.directions}
-                <ArrowUpRight size={13} strokeWidth={1.7} aria-hidden="true" className="md:hidden" />
-              </a>
+              <Link href={faqHref} className={`${footerLinkClass} text-[#F8F5F0] no-underline underline-offset-4 hover:decoration-[#F8F5F0] md:text-[1.2rem] md:underline md:decoration-[#F8F5F0]/40`}>{dictionary.footer.navFaq}<ArrowUpRight size={15} strokeWidth={1.7} aria-hidden="true" /></Link>
+              <p className="mt-2 max-w-[18rem] text-sm leading-[1.5] text-[#F8F5F0]/75 md:text-base">{dictionary.footer.faqDescription}</p>
 
               <ul className="mt-3 hidden space-y-1 text-sm font-medium leading-[1.7] text-[#F8F5F0] md:block">
                 {hours.map((line) => (

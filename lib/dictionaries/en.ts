@@ -151,6 +151,7 @@ export const en: Dictionary = {
     navMenu: "Menu",
     navGallery: "Gallery",
     navReservations: "Reservations",
+    navFaq: "FAQ",
     navContact: "Contact",
     contactLabel: "Contact",
     hoursLabel: "Opening hours",
@@ -164,5 +165,20 @@ export const en: Dictionary = {
     tiktokHref: "https://www.tiktok.com/@altstadtliebe.luebeck",
     wordmark: "ALTSTADTLIEBE",
     copyright: "© Altstadtliebe",
+    faqDescription: "Answers about visiting, opening hours, and reservations.",
+  },
+  faq: {
+    eyebrow: "Questions & answers",
+    title: "Frequently asked.",
+    intro: "Everything you need to know about your visit to Altstadtliebe.",
+    cta: "Book a table",
+    items: [
+      { question: "Where can we find you?", answer: "You’ll find Altstadtliebe in the heart of Lübeck’s Old Town. Our address and directions are available through our location information." },
+      { question: "When are you open?", answer: "Our café is closed on Mondays. From Tuesday to Sunday, we’re open from 09:00 to 18:00." },
+      { question: "Can I reserve a table?", answer: "Yes, you can reserve your table directly online. For larger groups or special requests, please contact the café directly." },
+      { question: "Do you accept walk-ins?", answer: "Of course. We’re always happy to welcome walk-ins, although a reservation can help you avoid waiting." },
+      { question: "Do you offer vegan and vegetarian options?", answer: "Yes, our menu includes vegetarian and vegan options. Our team will be happy to help with any allergen questions." },
+      { question: "Can I ask about a celebration or catering?", answer: "Absolutely. For birthdays, company celebrations, and catering, get in touch and we’ll find the right offering together." },
+    ],
   },
 };

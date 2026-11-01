@@ -136,6 +136,7 @@ export type Dictionary = {
     navMenu: string;
     navGallery: string;
     navReservations: string;
+    navFaq: string;
     navContact: string;
     contactLabel: string;
     hoursLabel: string;
@@ -149,6 +150,14 @@ export type Dictionary = {
     tiktokHref: string;
     wordmark: string;
     copyright: string;
+    faqDescription: string;
+  };
+  faq: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    cta: string;
+    items: { question: string; answer: string }[];
   };
 };
 
@@ -303,6 +312,7 @@ export const de: Dictionary = {
     navMenu: "Speisekarte",
     navGallery: "Galerie",
     navReservations: "Reservierungen",
+    navFaq: "FAQ",
     navContact: "Kontakt",
     contactLabel: "Kontakt",
     hoursLabel: "Öffnungszeiten",
@@ -316,5 +326,20 @@ export const de: Dictionary = {
     tiktokHref: "https://www.tiktok.com/@altstadtliebe.luebeck",
     wordmark: "ALTSTADTLIEBE",
     copyright: "© Altstadtliebe",
+    faqDescription: "Antworten zu Besuch, Öffnungszeiten und Reservierungen.",
+  },
+  faq: {
+    eyebrow: "Fragen & Antworten",
+    title: "Häufig gefragt.",
+    intro: "Alles, was du über deinen Besuch bei Altstadtliebe wissen möchtest.",
+    cta: "Tisch reservieren",
+    items: [
+      { question: "Wo findet ihr uns?", answer: "Du findest Altstadtliebe mitten in Lübecks Altstadt. Die Adresse und den Weg zu uns findest du über unsere Standortinformationen." },
+      { question: "Wann habt ihr geöffnet?", answer: "Montags bleibt unser Café geschlossen. Dienstag bis Sonntag sind wir von 09:00 bis 18:00 Uhr für dich da." },
+      { question: "Kann ich einen Tisch reservieren?", answer: "Ja, du kannst deinen Tisch direkt online reservieren. Für größere Gruppen oder besondere Wünsche ruf uns bitte direkt an." },
+      { question: "Sind spontane Besuche möglich?", answer: "Natürlich. Wir freuen uns auch über spontane Besuche – eine Reservierung hilft dir aber, Wartezeiten zu vermeiden." },
+      { question: "Bietet ihr vegane und vegetarische Optionen an?", answer: "Ja, auf unserer Speisekarte findest du vegetarische und vegane Optionen. Bei Fragen zu Allergenen hilft dir unser Team gern weiter." },
+      { question: "Kann ich eine Feier oder ein Catering anfragen?", answer: "Sehr gern. Für Geburtstage, Firmenfeiern und Catering sprich uns einfach direkt an, damit wir gemeinsam das passende Angebot finden." },
+    ],
   },
 };
