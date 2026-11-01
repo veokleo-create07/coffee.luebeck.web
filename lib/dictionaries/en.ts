@@ -171,7 +171,7 @@ export const en: Dictionary = {
     intro: "Everything you need to know about your visit to Altstadtliebe.",
     cta: "Book a table",
     items: [
-      { question: "Where can we find you?", answer: "You’ll find Altstadtliebe in the heart of Lübeck’s Old Town. Our address and directions are available through our location information." },
+      { question: "Where can we find you?", answer: "You’ll find Altstadtliebe at Mühlenstraße 51, 23552 Lübeck, Germany." },
       { question: "When are you open?", answer: "Our café is closed on Mondays. From Tuesday to Sunday, we’re open from 09:00 to 18:00." },
       { question: "Can I reserve a table?", answer: "Yes, you can reserve your table directly online. For larger groups or special requests, please contact the café directly." },
       { question: "Do you accept walk-ins?", answer: "Of course. We’re always happy to welcome walk-ins, although a reservation can help you avoid waiting." },

@@ -330,7 +330,7 @@ export const de: Dictionary = {
     intro: "Alles, was du über deinen Besuch bei Altstadtliebe wissen möchtest.",
     cta: "Tisch reservieren",
     items: [
-      { question: "Wo findet ihr uns?", answer: "Du findest Altstadtliebe mitten in Lübecks Altstadt. Die Adresse und den Weg zu uns findest du über unsere Standortinformationen." },
+      { question: "Wo findet ihr uns?", answer: "Du findest Altstadtliebe in der Mühlenstraße 51, 23552 Lübeck, Deutschland." },
       { question: "Wann habt ihr geöffnet?", answer: "Montags bleibt unser Café geschlossen. Dienstag bis Sonntag sind wir von 09:00 bis 18:00 Uhr für dich da." },
       { question: "Kann ich einen Tisch reservieren?", answer: "Ja, du kannst deinen Tisch direkt online reservieren. Für größere Gruppen oder besondere Wünsche ruf uns bitte direkt an." },
       { question: "Sind spontane Besuche möglich?", answer: "Natürlich. Wir freuen uns auch über spontane Besuche – eine Reservierung hilft dir aber, Wartezeiten zu vermeiden." },
