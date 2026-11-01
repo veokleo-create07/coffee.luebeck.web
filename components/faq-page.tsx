@@ -13,7 +13,6 @@ export function FaqSection({ dictionary }: { dictionary: Dictionary }) {
     <section className="bg-ivory px-[var(--page-gutter)] py-24 text-espresso md:py-32" aria-labelledby="homepage-faq-title">
       <div className="mx-auto max-w-4xl">
         <header className="max-w-2xl">
-          <p className="eyebrow mb-6">{copy.eyebrow}</p>
           <h2 id="homepage-faq-title" className="editorial-heading text-[clamp(2.75rem,6vw,5rem)] font-medium leading-[0.9] tracking-[-0.055em]">{copy.title}</h2>
           <p className="mt-7 max-w-xl text-base leading-[1.55] text-espresso-soft md:text-lg">{copy.intro}</p>
         </header>
