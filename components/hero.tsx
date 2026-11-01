@@ -136,11 +136,18 @@ export function Hero({ locale, dictionary }: HeroProps) {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           requestSeek(mappedTime);
         },
-        onLeave: () => siteHeader?.removeAttribute("data-final-hero"),
+        onLeave: () => {
+          siteHeader?.removeAttribute("data-final-hero");
+          siteHeader?.setAttribute("data-hero-complete", "true");
+        },
         onEnterBack: (self) => {
+          siteHeader?.removeAttribute("data-hero-complete");
           if (self.progress >= 0.83) siteHeader?.setAttribute("data-final-hero", "true");
         },
-        onLeaveBack: () => siteHeader?.removeAttribute("data-final-hero"),
+        onLeaveBack: () => {
+          siteHeader?.removeAttribute("data-final-hero");
+          siteHeader?.removeAttribute("data-hero-complete");
+        },
         onRefresh: (self) => {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           requestSeek(mappedTime);
@@ -197,6 +204,7 @@ export function Hero({ locale, dictionary }: HeroProps) {
       cancelAnimationFrame(seekFrame);
       context.revert();
       siteHeader?.removeAttribute("data-final-hero");
+      siteHeader?.removeAttribute("data-hero-complete");
     };
   }, []);
 

@@ -66,6 +66,16 @@ a {
   padding-inline: var(--page-gutter);
 }
 
+.site-header {
+  transition: opacity 420ms var(--ease-premium), transform 420ms var(--ease-premium);
+}
+
+.site-header[data-hero-complete="true"] {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-1rem);
+}
+
 .nav-language-toggle {
   display: inline-flex;
   align-items: center;
