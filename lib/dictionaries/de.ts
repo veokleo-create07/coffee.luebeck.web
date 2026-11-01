@@ -310,7 +310,7 @@ export const de: Dictionary = {
     navMenu: "Speisekarte",
     navGallery: "Galerie",
     navReservations: "Reservierungen",
-    navFaq: "FAQ",
+    navFaq: "Fragen",
     contactLabel: "Kontakt",
     hoursLabel: "Öffnungszeiten",
     brandTagline: "breakfast & lunch",

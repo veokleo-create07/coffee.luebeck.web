@@ -151,7 +151,7 @@ export const en: Dictionary = {
     navMenu: "Menu",
     navGallery: "Gallery",
     navReservations: "Reservations",
-    navFaq: "FAQ",
+    navFaq: "Questions",
     contactLabel: "Contact",
     hoursLabel: "Opening hours",
     brandTagline: "breakfast & lunch",
