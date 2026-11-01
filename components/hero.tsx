@@ -136,6 +136,11 @@ export function Hero({ locale, dictionary }: HeroProps) {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           requestSeek(mappedTime);
         },
+        onLeave: () => siteHeader?.removeAttribute("data-final-hero"),
+        onEnterBack: (self) => {
+          if (self.progress >= 0.83) siteHeader?.setAttribute("data-final-hero", "true");
+        },
+        onLeaveBack: () => siteHeader?.removeAttribute("data-final-hero"),
         onRefresh: (self) => {
           const mappedTime = Math.min(self.progress / VIDEO_REVEAL_END, 1) * videoDuration;
           requestSeek(mappedTime);
