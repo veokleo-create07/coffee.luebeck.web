@@ -6,9 +6,10 @@ import { Hero } from "./hero";
 import { CoffeeShowcase } from "./coffee-showcase";
 import { ReviewsSection } from "./reviews-section";
 import { EventsCatering } from "./events-catering";
+import { FaqSection } from "./faq-page";
 
 type HomeShellProps = { locale: Locale; dictionary: Dictionary };
 
 export function HomeShell({ locale, dictionary }: HomeShellProps) {
-  return <div className="min-h-screen"><SiteHeader locale={locale} dictionary={dictionary} overlay /><main><Hero dictionary={dictionary} locale={locale} /><CoffeeShowcase locale={locale} dictionary={dictionary} /><ReviewsSection locale={locale} dictionary={dictionary} /><EventsCatering dictionary={dictionary} /></main><SiteFooter locale={locale} dictionary={dictionary} /></div>;
+  return <div className="min-h-screen"><SiteHeader locale={locale} dictionary={dictionary} overlay /><main><Hero dictionary={dictionary} locale={locale} /><CoffeeShowcase locale={locale} dictionary={dictionary} /><ReviewsSection locale={locale} dictionary={dictionary} /><EventsCatering dictionary={dictionary} /><FaqSection dictionary={dictionary} /></main><SiteFooter locale={locale} dictionary={dictionary} /></div>;
 }

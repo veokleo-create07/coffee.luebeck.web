@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Instagram, Music2, Phone } from "lucide-react";
+import { Instagram, Music2, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
@@ -23,25 +23,11 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const faqHref = locale === "de" ? "/faq" : "/en/faq";
   const legalNoticeHref = locale === "de" ? "/impressum" : "/en/legal-notice";
   const privacyHref = locale === "de" ? "/datenschutz" : "/en/privacy";
-  const hours = [...dictionary.location.hours]
-    .map((line) => (locale === "de" ? line.replace("geschlossen", "Geschlossen") : line));
-  const renderHours = (line: string) => {
-    const [days, time] = line.split(" · ");
-    if (!time) return line;
-    return (
-      <>
-        <span className="whitespace-nowrap">{days}</span>
-        <span aria-hidden="true">·</span>
-        <span className="whitespace-nowrap">{time}</span>
-      </>
-    );
-  };
   const navigation = [
     { label: locale === "de" ? "Startseite" : dictionary.footer.navHome, href: homeHref },
     { label: locale === "de" ? "Speisekarte" : dictionary.footer.navMenu, href: menuHref },
     { label: locale === "de" ? "Reservieren" : dictionary.footer.navReservations, href: reservationHref },
     { label: dictionary.footer.navFaq, href: faqHref },
-    { label: dictionary.footer.navContact, href: "#footer-contact" },
   ];
 
   useLayoutEffect(() => {
@@ -85,30 +71,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       aria-label="Footer"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 items-start gap-y-7 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-12 md:gap-y-9">
-          <section id="footer-contact" data-footer-reveal className="grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] items-start gap-x-5 md:grid-cols-1 md:gap-x-0">
-            <div className="min-w-0">
-              <Link href={faqHref} className={`${footerLinkClass} text-[#F8F5F0] no-underline underline-offset-4 hover:decoration-[#F8F5F0] md:text-[1.2rem] md:underline md:decoration-[#F8F5F0]/40`}>{dictionary.footer.navFaq}<ArrowUpRight size={15} strokeWidth={1.7} aria-hidden="true" /></Link>
-              <p className="mt-2 max-w-[18rem] text-sm leading-[1.5] text-[#F8F5F0]/75 md:text-base">{dictionary.footer.faqDescription}</p>
-
-              <ul className="mt-3 hidden space-y-1 text-sm font-medium leading-[1.7] text-[#F8F5F0] md:block">
-                {hours.map((line) => (
-                  <li key={line}>{line}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="min-w-0 justify-self-end text-right md:hidden">
-              <ul className="space-y-1 text-xs font-medium leading-[1.55] text-[#F8F5F0] md:text-sm md:leading-[1.7]">
-                {hours.map((line) => (
-                  <li key={line} className="flex flex-wrap justify-end gap-x-1">
-                    {renderHours(line)}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
+        <div className="grid grid-cols-1 items-start gap-y-7 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-center md:gap-x-12 md:gap-y-9">
           <nav
             data-footer-reveal
             aria-label="Footer navigation"
@@ -121,7 +84,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             ))}
           </nav>
 
-          <div data-footer-reveal className="order-3 flex justify-center md:order-2">
+          <div data-footer-reveal className="order-2 flex justify-center md:order-1">
             <div className="flex gap-5 sm:gap-7" aria-label={dictionary.footer.contactActionsLabel}>
               <div className="flex flex-col items-center gap-2">
                 <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}>

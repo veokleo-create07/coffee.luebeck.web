@@ -137,7 +137,6 @@ export type Dictionary = {
     navGallery: string;
     navReservations: string;
     navFaq: string;
-    navContact: string;
     contactLabel: string;
     hoursLabel: string;
     brandTagline: string;
@@ -150,7 +149,6 @@ export type Dictionary = {
     tiktokHref: string;
     wordmark: string;
     copyright: string;
-    faqDescription: string;
   };
   faq: {
     eyebrow: string;
@@ -313,7 +311,6 @@ export const de: Dictionary = {
     navGallery: "Galerie",
     navReservations: "Reservierungen",
     navFaq: "FAQ",
-    navContact: "Kontakt",
     contactLabel: "Kontakt",
     hoursLabel: "Öffnungszeiten",
     brandTagline: "breakfast & lunch",
@@ -326,7 +323,6 @@ export const de: Dictionary = {
     tiktokHref: "https://www.tiktok.com/@altstadtliebe.luebeck",
     wordmark: "ALTSTADTLIEBE",
     copyright: "© Altstadtliebe",
-    faqDescription: "Antworten zu Besuch, Öffnungszeiten und Reservierungen.",
   },
   faq: {
     eyebrow: "Fragen & Antworten",
