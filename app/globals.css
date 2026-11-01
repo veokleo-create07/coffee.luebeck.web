@@ -141,16 +141,9 @@ a {
   animation-delay: 140ms;
 }
 
-.navigation-overlay .nav-language-toggle {
-  opacity: 0;
-  transform: translateY(0.75rem);
-  animation: navigation-link-in 480ms var(--ease-premium) 210ms both;
-}
-
 .navigation-overlay.is-closing,
 .navigation-overlay.is-closing > div,
-.navigation-overlay.is-closing a,
-.navigation-overlay.is-closing .nav-language-toggle {
+.navigation-overlay.is-closing a {
   animation-direction: reverse;
   animation-duration: 360ms;
   animation-delay: 0ms;
@@ -174,8 +167,7 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .navigation-overlay,
   .navigation-overlay > div,
-  .navigation-overlay a,
-  .navigation-overlay .nav-language-toggle {
+  .navigation-overlay a {
     animation: none;
     opacity: 1;
     transform: none;
