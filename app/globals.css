@@ -72,7 +72,7 @@ a {
   gap: 0.45rem;
   color: var(--color-espresso);
   white-space: nowrap;
-  transition: color var(--motion-medium) var(--ease-premium);
+  transition: color 500ms var(--ease-premium);
 }
 
 .language-option {
@@ -92,11 +92,12 @@ a {
 .language-separator {
   color: rgb(44 33 28 / 38%);
   font-size: 0.72rem;
+  transition: color 500ms var(--ease-premium);
 }
 
 .language-option-link {
   color: var(--color-espresso-soft);
-  transition: color var(--motion-medium) var(--ease-premium), opacity var(--motion-medium) var(--ease-premium);
+  transition: color 500ms var(--ease-premium), opacity 500ms var(--ease-premium);
 }
 
 .language-option-link:hover {
