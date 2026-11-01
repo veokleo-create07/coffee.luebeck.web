@@ -143,6 +143,11 @@ a {
   animation: navigation-link-in 560ms var(--ease-premium) both;
 }
 
+.faq-nav-q {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: -0.04em;
+}
+
 .navigation-overlay a:nth-child(2) {
   animation-delay: 80ms;
 }
