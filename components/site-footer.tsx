@@ -59,8 +59,8 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
       aria-label="Footer"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="flex min-h-[28rem] flex-col">
-          <div data-footer-reveal className="text-center">
+        <div className="flex min-h-[20rem] flex-col sm:min-h-[28rem]">
+          <div data-footer-reveal className="pt-8 text-center sm:pt-0">
             <Link
               href={homeHref}
               className="group inline-block rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass"
@@ -76,7 +76,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
             </Link>
           </div>
 
-          <div data-footer-reveal className="mt-auto flex justify-center pb-14 sm:pb-20">
+          <div data-footer-reveal className="mt-auto flex justify-center pb-10 sm:pb-20">
             <div className="flex gap-6 sm:gap-10" aria-label={dictionary.footer.contactActionsLabel}>
               <div className="flex flex-col items-center gap-2">
                 <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}>
