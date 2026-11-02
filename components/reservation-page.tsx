@@ -82,8 +82,17 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const closeModalRef = useRef<HTMLButtonElement>(null);
   const modalOpenerRef = useRef<HTMLButtonElement | null>(null);
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const availableTimes = useMemo(() => availability?.times ?? [], [availability]);
+  const isClosedDay = Boolean(form.date && weekday(form.date) === BOOKING_CONFIG.closedWeekday);
+
+  function openDatePicker() {
+    const input = dateInputRef.current as (HTMLInputElement & { showPicker?: () => void }) | null;
+    if (!input) return;
+    if (typeof input.showPicker === "function") input.showPicker();
+    else input.click();
+  }
 
   useEffect(() => {
     if (!fullyBookedTime) return;
@@ -108,7 +117,11 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   }, []);
 
   useEffect(() => {
-    if (!form.date || !minDate) return;
+    if (!form.date || !minDate || isClosedDay) {
+      setAvailability(null);
+      setAvailabilityLoading(false);
+      return;
+    }
     let active = true;
     const controller = new AbortController();
     setAvailabilityLoading(true);
@@ -134,7 +147,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
       active = false;
       controller.abort();
     };
-  }, [form.date, form.guests, minDate]);
+  }, [form.date, form.guests, minDate, isClosedDay]);
 
   function updateDetails(field: keyof Details, value: string) {
     setForm((current) => ({ ...current, details: { ...current.details, [field]: value } }));
@@ -267,7 +280,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                             <label htmlFor="visit-date" className="text-[0.68rem] font-medium leading-tight text-espresso-soft">{copy.dateLabel}</label>
                             <span aria-hidden="true" className="text-[0.94rem] font-medium leading-tight text-espresso">{displayFieldDate(form.date, copy.dateFormatLocale)}</span>
                           </div>
-                          <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className="absolute inset-0 z-20 h-full w-full cursor-pointer opacity-0" aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+                          <input ref={dateInputRef} id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0" aria-hidden="true" tabIndex={-1} />
+                          <button type="button" onClick={openDatePicker} aria-label={`${copy.dateLabel}: ${displayFieldDate(form.date, copy.dateFormatLocale)}`} className="absolute inset-0 z-20 rounded-[1rem] outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory" />
                         </div>
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
@@ -288,6 +302,9 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     </div>
 
                     <div className="mt-7 md:mt-8">
+                      {isClosedDay ? (
+                        <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
+                      ) : <>
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
                         <h3 className="editorial-heading text-[1.3rem] font-medium leading-tight tracking-[-0.035em] text-espresso">{copy.timeLabel}</h3>
                         <div className="flex items-start gap-2 text-xs leading-5 text-espresso-soft sm:max-w-[62%] sm:justify-end">
@@ -309,6 +326,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         {!availabilityLoading && availabilityError && <p className="mt-3 text-sm text-[#8b3f32]" role="alert">{copy.availabilityError}</p>}
                       </>}
                       {errors.time && <p className={errorClass} role="alert">{errors.time}</p>}
+                      </>}
                     </div>
 
                     <div className="mt-7 flex justify-end">
