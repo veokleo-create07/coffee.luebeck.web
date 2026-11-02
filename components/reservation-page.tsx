@@ -242,12 +242,11 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const errorClass = "mt-2 text-xs text-[#8b3f32]";
   const buttonClass = "site-button site-button-primary";
   const isConfirmed = reservationStatus === "confirmed";
-  const needsMobileBottomSpace = Boolean(reservationStatus) || (step === 1 && (!isCompactFlow || visitStep === 1));
 
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
       <SiteHeader locale={locale} dictionary={dictionary} />
-      <main className={`page-gutter py-8 md:py-12 lg:py-16 ${needsMobileBottomSpace ? "max-lg:pb-32" : ""}`}>
+      <main className="page-gutter py-8 md:py-12 lg:py-16">
         <div className="mx-auto grid max-w-7xl gap-7 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
           <aside className="hidden lg:sticky lg:top-8 lg:block" aria-label={dictionary.reservation.imageAlt}>
             <div className="relative aspect-[0.78] w-full overflow-hidden rounded-[2rem] bg-espresso/10">
