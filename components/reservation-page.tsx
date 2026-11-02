@@ -246,8 +246,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
       <SiteHeader locale={locale} dictionary={dictionary} />
-      <main className="page-gutter py-8 md:py-12 lg:py-16">
-        <div className="mx-auto grid max-w-7xl gap-7 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
+      <main className={`page-gutter py-8 md:py-12 lg:py-16 ${reservationStatus ? "flex min-h-[calc(100svh-7rem)] items-center" : ""}`}>
+        <div className="mx-auto grid w-full max-w-7xl gap-7 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
           <aside className="hidden lg:sticky lg:top-8 lg:block" aria-label={dictionary.reservation.imageAlt}>
             <div className="relative aspect-[0.78] w-full overflow-hidden rounded-[2rem] bg-espresso/10">
               <Image src="/booking-cups.jpeg" alt={dictionary.reservation.imageAlt} fill sizes="45vw" className="object-cover object-center" priority />
