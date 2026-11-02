@@ -260,7 +260,7 @@ export const de: Dictionary = {
       availabilityError: "Die Verfügbarkeit konnte gerade nicht geladen werden. Bitte versuche es erneut.",
       loadingAvailability: "Verfügbarkeit wird geladen …",
       closedDayError: "Montags ist das Café geschlossen.",
-      closedDayMessage: "Entschuldigung, montags haben wir geschlossen. Für diesen Tag sind keine Reservierungszeiten verfügbar.",
+      closedDayMessage: "Entschuldigung, montags haben wir geschlossen. Bitte wähle einen anderen Tag für deinen Besuch.",
       dateRangeError: "Bitte wähle ein Datum innerhalb der nächsten sechs Monate.",
       moreThanSix: "Mehr als 6 Personen?",
       moreThanSixMessage: "Für größere Gruppen ruf uns bitte direkt an.",
