@@ -10,6 +10,7 @@ const bricology = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://altstadtliebe.vercel.app"),
   title: {
     default: "Altstadtliebe — Café in Lübeck",
     template: "%s — Altstadtliebe",
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
     siteName: "Altstadtliebe",
     title: "Altstadtliebe — Café in Lübeck",
     description: "Ein Café für guten Kaffee und die kleinen Pausen, die bleiben.",
+    url: "/",
   },
 };
 

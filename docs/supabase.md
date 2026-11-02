@@ -1,6 +1,6 @@
 # Supabase database foundation
 
-This repository contains the reservation database foundation only. The existing reservation page still uses its frontend demo state; it does not read from or write to Supabase.
+The reservation page reads availability and submits reservations through the server-only API routes. The deployable database schema, including the atomic booking RPC and capacity guard, lives in `supabase/migrations/`.
 
 ## Connect an existing Supabase project
 
@@ -21,7 +21,7 @@ This repository contains the reservation database foundation only. The existing 
    supabase link --project-ref <project-ref>
    ```
 
-4. Apply the version-controlled migration:
+4. Apply all version-controlled migrations:
 
    ```bash
    supabase db push
@@ -31,13 +31,13 @@ This repository contains the reservation database foundation only. The existing 
 
 ## Schema and security
 
-The migration creates the reservation, opening-hours, and centralized booking-settings tables. It seeds only the verified weekly hours and booking rules; it does not create physical table-management data or fictional reservations.
+The migrations create the reservation, opening-hours, and centralized booking-settings tables, plus the atomic reservation RPC. They seed only the verified weekly hours and booking rules; they do not create physical table-management data or fictional reservations.
 
 Row Level Security is enabled on every table, and direct `anon` and `authenticated` table privileges are revoked. The server utility uses only `SUPABASE_SERVICE_ROLE_KEY`, which bypasses RLS and must remain on the server. No API route or booking submission is connected yet.
 
 ## Types and server utilities
 
-`lib/supabase/database.types.ts` contains the checked-in TypeScript model for the migration. If the schema changes after connecting a project, regenerate types with the Supabase CLI and review the diff before committing:
+`lib/supabase/database.types.ts` contains the checked-in TypeScript model for the migrations. If the schema changes after connecting a project, regenerate types with the Supabase CLI and review the diff before committing:
 
 ```bash
 supabase gen types typescript --linked > lib/supabase/database.types.ts
