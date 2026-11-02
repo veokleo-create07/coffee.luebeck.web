@@ -314,7 +314,13 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
                     {isCompactFlow && visitStep === 2 && <div className="mb-6 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso-soft lg:hidden"><span>{displayFieldDate(form.date, copy.dateFormatLocale)} · {form.guests} {copy.guestsSuffix}</span><button type="button" onClick={() => setVisitStep(1)} className="font-medium text-espresso underline underline-offset-4">{copy.back}</button></div>}
 
-                    {isCompactFlow && visitStep === 1 && <div className="mt-7 lg:hidden"><button type="submit" disabled={availabilityLoading || isClosedDay} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.chooseTime}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
+                    {isCompactFlow && visitStep === 1 && <div className="mt-7 lg:hidden">
+                      {isClosedDay ? (
+                        <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
+                      ) : (
+                        <button type="submit" disabled={availabilityLoading} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.chooseTime}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
+                      )}
+                    </div>}
 
                     <div className={`${isCompactFlow && visitStep === 1 ? "hidden " : ""}mt-7 md:mt-8 lg:block`}>
                       {isClosedDay ? (
