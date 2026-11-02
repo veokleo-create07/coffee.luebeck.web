@@ -100,6 +100,7 @@ export type Dictionary = {
       timeError: string;
       back: string;
       continue: string;
+      chooseTime: string;
       confirm: string;
       confirmationTitle: string;
       confirmationBody: string;
@@ -275,6 +276,7 @@ export const de: Dictionary = {
       timeError: "Bitte wähle eine Uhrzeit.",
       back: "Zurück",
       continue: "Weiter",
+      chooseTime: "Uhrzeit wählen",
       confirm: "Reservierung bestätigen",
       confirmationTitle: "Deine Reservierung ist bestätigt.",
       confirmationBody: "Wir freuen uns auf deinen Besuch.",

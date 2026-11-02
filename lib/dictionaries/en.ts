@@ -115,6 +115,7 @@ export const en: Dictionary = {
       timeError: "Please choose a time.",
       back: "Back",
       continue: "Continue",
+      chooseTime: "Choose a time",
       confirm: "Confirm Reservation",
       confirmationTitle: "Your reservation is confirmed.",
       confirmationBody: "We look forward to seeing you.",

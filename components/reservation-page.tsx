@@ -12,6 +12,7 @@ import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
+type VisitStep = 1 | 2;
 type ReservationStatus = "pending" | "confirmed";
 type Details = { fullName: string; email: string; requests: string };
 type FormState = { date: string; guests: number; time: string; details: Details };
@@ -69,6 +70,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const copy = dictionary.reservation.booking;
   const homeHref = locale === "de" ? "/" : "/en";
   const [step, setStep] = useState<Step>(1);
+  const [visitStep, setVisitStep] = useState<VisitStep>(1);
+  const [isCompactFlow, setIsCompactFlow] = useState(false);
   const [reservationStatus, setReservationStatus] = useState<ReservationStatus | null>(null);
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
@@ -85,6 +88,14 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const [submitting, setSubmitting] = useState(false);
   const availableTimes = useMemo(() => availability?.times ?? [], [availability]);
   const isClosedDay = Boolean(form.date && weekday(form.date) === BOOKING_CONFIG.closedWeekday);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+    const updateLayout = () => setIsCompactFlow(mediaQuery.matches);
+    updateLayout();
+    mediaQuery.addEventListener("change", updateLayout);
+    return () => mediaQuery.removeEventListener("change", updateLayout);
+  }, []);
 
   useEffect(() => {
     if (!fullyBookedTime) return;
@@ -154,6 +165,13 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     return Object.keys(nextErrors).length === 0;
   }
 
+  function validateDateAndGuests() {
+    const nextErrors: Record<string, string> = {};
+    if (!form.date || (minDate && form.date < minDate) || (maxDate && form.date > maxDate)) nextErrors.date = copy.dateRangeError;
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  }
+
   function validateDetails() {
     const nextErrors: Record<string, string> = {};
     const { fullName, email } = form.details;
@@ -166,10 +184,19 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
   async function submitStep(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (step === 1 && validateVisit()) {
-      setErrors({});
-      setFullyBookedTime("");
-      setStep(2);
+    if (step === 1) {
+      if (isCompactFlow && visitStep === 1) {
+        if (validateDateAndGuests()) {
+          setErrors({});
+          setVisitStep(2);
+        }
+        return;
+      }
+      if (validateVisit()) {
+        setErrors({});
+        setFullyBookedTime("");
+        setStep(2);
+      }
     }
     if (step === 2 && validateDetails()) {
       setSubmitting(true);
@@ -263,7 +290,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
-                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
+                    <div className={`${isCompactFlow && visitStep === 2 ? "hidden" : "grid"} grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4`}>
                       <div className="min-w-0">
                         <div className="relative flex min-h-[4.5rem] w-full min-w-0 max-w-full items-center rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] px-3 transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus-within:border-espresso/40 focus-within:ring-2 focus-within:ring-espresso/8">
                           <CalendarDays size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
@@ -271,7 +298,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                             <label htmlFor="visit-date" className="text-[0.68rem] font-medium leading-tight text-espresso-soft">{copy.dateLabel}</label>
                             <span aria-hidden="true" className="text-[0.94rem] font-medium leading-tight text-espresso">{displayFieldDate(form.date, copy.dateFormatLocale)}</span>
                           </div>
-                          <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; const nextIsClosed = weekday(nextDate) === BOOKING_CONFIG.closedWeekday; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setShowLargePartyInfo(false); setErrors((current) => ({ ...current, date: "", time: "" })); if (nextIsClosed) setFullyBookedTime(""); }} className="absolute inset-0 z-20 h-full w-full cursor-pointer rounded-[1rem] opacity-[0.01]" aria-label={`${copy.dateLabel}: ${displayFieldDate(form.date, copy.dateFormatLocale)}`} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+                          <input id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; const nextIsClosed = weekday(nextDate) === BOOKING_CONFIG.closedWeekday; setAvailability(null); setVisitStep(1); setForm((current) => ({ ...current, date: nextDate, time: "" })); setShowLargePartyInfo(false); setErrors((current) => ({ ...current, date: "", time: "" })); if (nextIsClosed) setFullyBookedTime(""); }} className="absolute inset-0 z-20 h-full w-full cursor-pointer rounded-[1rem] opacity-[0.01]" aria-label={`${copy.dateLabel}: ${displayFieldDate(form.date, copy.dateFormatLocale)}`} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
                         </div>
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
@@ -279,7 +306,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         <div className="relative">
                           <UserRound size={21} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
                           <label htmlFor="guest-count" className="pointer-events-none absolute left-12 top-2.5 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.guestsLabel}</label>
-                          <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className="min-h-[4.5rem] w-full appearance-none rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-10 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8">
+                          <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setVisitStep(1); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className="min-h-[4.5rem] w-full appearance-none rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-10 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8">
                             {Array.from({ length: BOOKING_CONFIG.maxGuests }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1} {copy.guestsSuffix}</option>)}
                           </select>
                           <ChevronDown size={18} strokeWidth={1.6} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-espresso" aria-hidden="true" />
@@ -291,7 +318,11 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       </div>}
                     </div>
 
-                    <div className="mt-7 md:mt-8">
+                    {isCompactFlow && visitStep === 2 && <div className="mb-6 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso-soft lg:hidden"><span>{displayFieldDate(form.date, copy.dateFormatLocale)} · {form.guests} {copy.guestsSuffix}</span><button type="button" onClick={() => setVisitStep(1)} className="font-medium text-espresso underline underline-offset-4">{copy.back}</button></div>}
+
+                    {isCompactFlow && visitStep === 1 && <div className="mt-7 lg:hidden"><button type="submit" disabled={availabilityLoading || isClosedDay} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.chooseTime}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
+
+                    <div className={`${isCompactFlow && visitStep === 1 ? "hidden " : ""}mt-7 md:mt-8 lg:block`}>
                       {isClosedDay ? (
                         <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
                       ) : <>
@@ -319,9 +350,10 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       </>}
                     </div>
 
-                    <div className="mt-7 flex justify-end">
+                    <div className="mt-7 hidden justify-end lg:flex">
                       <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-56 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
                     </div>
+                    {isCompactFlow && visitStep === 2 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(1)} className="site-button site-button-secondary flex-1">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary flex-1 disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
@@ -359,7 +391,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
                     <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <button type="button" onClick={() => { setErrors({}); setStep(1); }} className="site-button site-button-secondary gap-2"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
+                      <button type="button" onClick={() => { setErrors({}); setVisitStep(2); setStep(1); }} className="site-button site-button-secondary gap-2"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
                       <button type="submit" disabled={submitting} className={`${buttonClass} w-full sm:w-auto disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
                     </div>
                   </section>
