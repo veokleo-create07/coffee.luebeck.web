@@ -157,7 +157,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   function validateVisit() {
     const nextErrors: Record<string, string> = {};
     if (!form.date || (minDate && form.date < minDate) || (maxDate && form.date > maxDate)) nextErrors.date = copy.dateRangeError;
-    else if (weekday(form.date) === BOOKING_CONFIG.closedWeekday) nextErrors.date = copy.closedDayError;
     if (!form.time || !availableTimes.includes(form.time)) nextErrors.time = copy.timeError;
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
@@ -280,7 +279,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                             <label htmlFor="visit-date" className="text-[0.68rem] font-medium leading-tight text-espresso-soft">{copy.dateLabel}</label>
                             <span aria-hidden="true" className="text-[0.94rem] font-medium leading-tight text-espresso">{displayFieldDate(form.date, copy.dateFormatLocale)}</span>
                           </div>
-                          <input ref={dateInputRef} id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setErrors((current) => ({ ...current, date: weekday(nextDate) === BOOKING_CONFIG.closedWeekday ? copy.closedDayError : "", time: "" })); }} className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0" aria-hidden="true" tabIndex={-1} />
+                          <input ref={dateInputRef} id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; const nextIsClosed = weekday(nextDate) === BOOKING_CONFIG.closedWeekday; setAvailability(null); setForm((current) => ({ ...current, date: nextDate, time: "" })); setShowLargePartyInfo(false); setErrors((current) => ({ ...current, date: "", time: "" })); if (nextIsClosed) setFullyBookedTime(""); }} className="pointer-events-none absolute inset-0 z-10 h-full w-full opacity-0" aria-hidden="true" tabIndex={-1} />
                           <button type="button" onClick={openDatePicker} aria-label={`${copy.dateLabel}: ${displayFieldDate(form.date, copy.dateFormatLocale)}`} className="absolute inset-0 z-20 rounded-[1rem] outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory" />
                         </div>
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
@@ -295,10 +294,10 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                           <ChevronDown size={18} strokeWidth={1.6} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-espresso" aria-hidden="true" />
                         </div>
                       </div>
-                      <div className="mt-1 sm:col-span-2">
+                      {!isClosedDay && <div className="mt-1 sm:col-span-2">
                         <button type="button" onClick={() => setShowLargePartyInfo((current) => !current)} className="text-sm text-espresso underline decoration-espresso/30 underline-offset-4 transition-colors hover:decoration-espresso">{copy.moreThanSix}</button>
                         {showLargePartyInfo && <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-espresso-soft"><span>{copy.moreThanSixMessage}</span><a href={dictionary.location.phoneHref} className="site-button site-button-secondary min-h-11 gap-2 px-4" aria-label={`${copy.callCafe}: ${dictionary.location.phoneLabel}`}><Phone size={15} strokeWidth={1.5} aria-hidden="true" />{copy.callCafe}</a></div>}
-                      </div>
+                      </div>}
                     </div>
 
                     <div className="mt-7 md:mt-8">
