@@ -95,6 +95,13 @@ a {
   line-height: 1;
 }
 
+.language-separator {
+  color: var(--color-espresso-soft);
+  font-size: 0.72rem;
+  line-height: 1;
+  opacity: 0.7;
+}
+
 .language-option-active {
   font-weight: 700;
 }
@@ -121,6 +128,10 @@ a {
 }
 
 .site-header[data-menu-open="true"] .language-option-link {
+  color: rgb(245 240 232 / 58%);
+}
+
+.site-header[data-menu-open="true"] .language-separator {
   color: rgb(245 240 232 / 58%);
 }
 
