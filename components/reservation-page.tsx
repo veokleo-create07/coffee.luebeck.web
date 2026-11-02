@@ -325,7 +325,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       </div>}
                     </div>
 
-                    {isCompactFlow && visitStep === 2 && <div className="mb-6 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso-soft lg:hidden"><span>{displayFieldDate(form.date, copy.dateFormatLocale)} · {form.guests} {copy.guestsSuffix}</span><button type="button" onClick={() => setVisitStep(1)} className="font-medium text-espresso underline underline-offset-4">{copy.back}</button></div>}
+                    {visitStep === 2 && <div className="mb-6 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso-soft lg:hidden"><span>{displayFieldDate(form.date, copy.dateFormatLocale)} · {form.guests} {copy.guestsSuffix}</span><button type="button" onClick={() => setVisitStep(1)} className="font-medium text-espresso underline underline-offset-4">{copy.back}</button></div>}
 
                     {isCompactFlow && visitStep === 1 && <div className="mt-7 lg:hidden">
                       {isClosedDay ? (
@@ -366,7 +366,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     <div className="mt-7 hidden justify-end lg:flex">
                       <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-56 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
                     </div>
-                    {isCompactFlow && visitStep === 2 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(1)} className="site-button site-button-secondary flex-1">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary flex-1 disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
+                    {visitStep === 2 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(1)} className="site-button site-button-secondary flex-1">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary flex-1 disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
