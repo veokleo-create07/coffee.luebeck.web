@@ -1,0 +1,1013 @@
+{
+  "baseURL": "http://127.0.0.1:3010",
+  "viewports": [
+    320,
+    375,
+    390,
+    430,
+    768,
+    1024,
+    1440,
+    1920
+  ],
+  "routes": [
+    "/",
+    "/en",
+    "/faq",
+    "/en/faq",
+    "/menu",
+    "/en/menu",
+    "/reservation",
+    "/en/reservation",
+    "/impressum",
+    "/en/legal-notice",
+    "/datenschutz",
+    "/en/privacy"
+  ],
+  "results": [
+    {
+      "route": "/",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 320,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 375,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 390,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 430,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 768,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 1024,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 1440,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": true,
+      "consoleErrors": []
+    },
+    {
+      "route": "/faq",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/faq",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "FAQ — Altstadtliebe — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/menu",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/menu",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/reservation",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/reservation",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Altstadtliebe — Café in Lübeck",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/impressum",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Impressum — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/legal-notice",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Legal Notice — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/datenschutz",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Datenschutzerklärung — Altstadtliebe",
+      "lang": "de",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    },
+    {
+      "route": "/en/privacy",
+      "width": 1920,
+      "status": 200,
+      "horizontalOverflow": false,
+      "title": "Privacy Policy — Altstadtliebe",
+      "lang": "en",
+      "heroVideoPaused": null,
+      "consoleErrors": []
+    }
+  ],
+  "interactions": {
+    "menuLinks": [
+      {
+        "text": "Menu",
+        "href": "/en/menu"
+      },
+      {
+        "text": "Reserve",
+        "href": "/en/reservation"
+      },
+      {
+        "text": "Reviews",
+        "href": "/en#reviews"
+      },
+      {
+        "text": "FAQ",
+        "href": "/en/faq"
+      }
+    ],
+    "faqExpanded": "true",
+    "reservationStep1": 1,
+    "mondayMessage": "We're sorry, we're closed on Mondays. Please select another day for your visit.",
+    "consoleErrors": []
+  }
+}

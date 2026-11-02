@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 
@@ -29,9 +30,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const locale = (await headers()).get("x-altstadtliebe-locale") === "en" ? "en" : "de";
   return (
-    <html lang="de" className={bricology.variable}>
+    <html lang={locale} className={bricology.variable}>
       <body>{children}</body>
     </html>
   );

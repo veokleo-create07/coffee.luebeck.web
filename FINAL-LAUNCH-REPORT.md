@@ -3,7 +3,7 @@
 Date: 2026-11-02
 Verdict: **NOT READY for an unqualified production launch**
 
-The application builds cleanly and the source audit found no broken imports or debug statements in the client code. However, browser/device coverage, live Supabase concurrency tests, and Resend delivery tests could not be completed in this environment. Those are release gates for the reservation flow.
+The application passes the available static checks and the automated browser matrix. The reservation UI and Monday-closure behavior were exercised locally without a database. A disposable Supabase staging project is not configured in this checkout, so database-backed reservation, concurrency, cancellation, and capacity tests remain release blockers. Resend was intentionally excluded from this audit as requested.
 
 ## Scope and confirmed findings
 
@@ -18,14 +18,16 @@ The application builds cleanly and the source audit found no broken imports or d
 - Removed the obsolete manual table-management SQL file that could overwrite the atomic booking logic.
 - Removed four confirmed unreferenced `reveal-*` image assets.
 - Updated Supabase documentation and README to match the actual API-backed reservation implementation.
+- Added request-aware locale handling so explicit `/en/*` pages render `lang="en"` while German pages render `lang="de"`.
+- Added a repeatable Playwright audit script and captured responsive screenshots under `test-results/launch-audit/`.
 
 ### Confirmed remaining issues / release gates
 
 - No isolated Supabase staging project or test credentials are available in the checkout. No fake reservations, cleanup, cancellation, overbooking, table-capacity, or concurrent-booking tests were run against any database.
-- No Resend integration is present in the repository. Reservation email delivery was not testable and must be implemented or verified through the production integration before launch.
-- There is no Playwright dependency or browser test suite in the repository. The sandbox also blocks starting a local Next server with `EPERM`, so responsive screenshots and real interaction tests were not captured.
-- `npm audit` could not reach the npm registry because network/DNS access was unavailable; dependency vulnerability status remains unverified.
-- Real iPhone Safari, Android, iPad Safari, trackpad, and touch testing remains outstanding. The matcha videos and scroll synchronization were not changed in this audit.
+- Resend integration and email delivery were intentionally not implemented or tested in this scope.
+- Physical iPhone Safari, Android, iPad Safari, trackpad, and touch testing remain outstanding. The automated browser run used headless Chromium.
+- `npm audit --omit=dev --audit-level=high` reports 2 production dependency vulnerabilities: one high and one critical, through the installed Next/PostCSS dependency chain. No automatic dependency upgrade was applied because it could change the approved site and requires review.
+- The matcha videos and scroll synchronization were not changed in this audit.
 
 ## Checks actually run
 
@@ -35,15 +37,41 @@ The application builds cleanly and the source audit found no broken imports or d
 | `npx tsc --noEmit` | Passed |
 | `npm run build` | Passed; 19 routes generated, including `/robots.txt` and `/sitemap.xml` |
 | `git diff --check` | Passed |
-| `npm audit --omit=dev --audit-level=high` | Not completed; registry DNS unavailable |
-| Playwright/browser tests | Not run; Playwright is not installed |
-| Local responsive browser test | Blocked; server listen returned `EPERM` |
+| `npm audit --omit=dev --audit-level=high` | Failed security gate: 1 high and 1 critical vulnerability reported |
+| Playwright route/viewport matrix | Passed: 96 route/viewport checks across 12 public routes and 8 widths; no HTTP failures, horizontal overflow, unexpected autoplay, or browser console errors |
+| Playwright interaction checks | Passed: menu links, FAQ expansion, English reservation entry, Monday closure message, and no browser console errors |
+| Local responsive browser screenshots | Passed: generated under `test-results/launch-audit/` at 390, 768, and 1440px for homepage, FAQ, and reservation states |
 | Supabase end-to-end tests | Not run; no isolated staging credentials |
-| Resend email delivery | Not run; no Resend implementation/configuration present |
+| Resend email delivery | Not tested by instruction; intentionally postponed |
 
 ## Requested viewport coverage
 
-The following viewports were not visually exercised in a browser during this audit: 320, 375, 390, 430, 768, 1024, 1440, and 1920 CSS pixels. No screenshot locations can be reported because browser capture was unavailable.
+The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768, 1024, 1440, and 1920. It covered the German and English public routes listed in the script, with no reported HTTP failure, horizontal overflow, or browser console error. Full-page screenshots were captured for the main homepage, FAQ, and reservation routes at 390, 768, and 1440px. The root `/` route redirects to English in this browser because the existing locale-selection behavior detects an English browser language; explicit German routes were verified separately.
+
+### Reservation test status
+
+| Scenario | Result | Evidence / limitation |
+|---|---|---|
+| Reservation UI opens at mobile and desktop widths | PASS | Playwright found the date field and exercised the reservation route at 390, 768, and 1440px |
+| Monday closure message | PASS (UI-only) | English message verified after selecting `2026-11-02`; no availability request is made for the closed day |
+| German Monday closure copy | NOT TESTED in browser | The localized copy exists in the dictionary; no separate browser assertion was added in this run |
+| Date/time/guest selection against real availability | NOT TESTED | No isolated Supabase staging credentials are configured |
+| Past dates/times, 09:00–17:00 window, 30-minute intervals, 90-minute duration | NOT TESTED end-to-end | Requires staging data and server timezone validation |
+| Six-guest limit and larger-party fallback | NOT TESTED end-to-end | Requires API/database execution |
+| Fully booked capacity and table availability | NOT TESTED | Requires disposable staging records |
+| Concurrent last-capacity bookings / overbooking | NOT TESTED | Requires two isolated concurrent API requests against staging |
+| Reservation status, cancellation, cleanup | NOT TESTED | Requires staging access and cancellation test fixtures |
+| Successful booking screenshot | NOT CAPTURED | Production/staging credentials are absent; no fake booking was created |
+| Fully booked/unavailable screenshot | NOT CAPTURED | No staging availability data was used |
+| Resend confirmation/cancellation email | NOT TESTED by instruction | Email automation is intentionally postponed |
+
+### Browser audit artifacts
+
+- Script: `scripts/launch-audit.mjs`
+- Results: `test-results/launch-audit/results.json`
+- Screenshots: `test-results/launch-audit/*.png`
+- Local command: `node scripts/launch-audit.mjs`
+- Browser setup used for this run: temporary `@playwright/test` install plus Chromium; the dependency was not added to `package.json`.
 
 ## Files changed
 
@@ -55,6 +83,9 @@ The following viewports were not visually exercised in a browser during this aud
 - `app/robots.ts`
 - `app/sitemap.ts`
 - `components/home-shell.tsx`
+- `middleware.ts`
+- `scripts/launch-audit.mjs`
+- `test-results/launch-audit/` (browser results and screenshots)
 - `docs/supabase.md`
 - `supabase/migrations/20261102000000_reservation_atomic_booking.sql`
 - Deleted obsolete `supabase/manual/remove-table-management.sql`
@@ -67,8 +98,9 @@ The following viewports were not visually exercised in a browser during this aud
 3. Add and verify the intended Resend confirmation/cancellation workflow without sending to real customers.
 4. Install/configure Playwright and capture all requested desktop, tablet, and mobile screenshots.
 5. Test the hero and reservation picker on physical iPhone Safari and iPad Safari.
-6. Re-run `npm audit` with registry access and review the production environment variables and deployment headers.
+6. Review and patch the reported Next/PostCSS production vulnerabilities, then rerun `npm audit` and the build.
+7. Review the production environment variables and deployment headers.
 
 ## Git
 
-Commit and push status: pending until the remaining checks in this report are addressed or explicitly accepted as release limitations.
+Commit and push status: local changes are not pushed. Production push is intentionally withheld pending review and the remaining reservation/security release gates.
