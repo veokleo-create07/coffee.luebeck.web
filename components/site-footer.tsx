@@ -1,6 +1,6 @@
 "use client";
 
-import { Instagram, Music2, Phone } from "lucide-react";
+import { Instagram, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
@@ -11,6 +11,14 @@ type SiteFooterProps = { locale: Locale; dictionary: Dictionary };
 
 const socialButtonClass =
   "inline-flex h-14 w-14 items-center justify-center bg-transparent text-[#F8F5F0] transition-[opacity,transform] duration-200 hover:scale-105 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass sm:h-16 sm:w-16";
+
+function TikTokIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" aria-hidden="true">
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.68 3.18-6.03 3.19-1.46.08-2.92-.32-4.18-1.03-2.08-1.18-3.45-3.49-3.51-5.86-.05-.61-.04-1.22-.01-1.82.3-2.69 2.42-5.13 5.05-5.89 1.32-.38 2.77-.25 3.99.37.01 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.27 1.79-.14.35-.1.72-.09 1.08.15 1.62 1.54 2.94 3.16 3.06 1.08.11 2.17-.31 2.88-1.14.74-.85 1.1-1.92 1.1-3.04.05-5.43.03-10.86.04-16.29z" />
+    </svg>
+  );
+}
 
 export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
   const footerRef = useRef<HTMLElement>(null);
@@ -90,7 +98,7 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
               </div>
               <div className="flex flex-col items-center gap-2">
                 <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass}>
-                  <Music2 size={30} strokeWidth={2.25} aria-hidden="true" />
+                  <TikTokIcon />
                 </a>
               </div>
             </div>
