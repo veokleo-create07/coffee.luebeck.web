@@ -258,14 +258,9 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
           <section className="min-w-0">
             {reservationStatus ? (
-              <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-[1.15rem] bg-espresso/10 lg:hidden">
-                <Image src="/booking-cups.jpeg" alt="" fill sizes="calc(100vw - 2.5rem)" className="object-cover object-[62%_center]" />
-              </div>
+              null
             ) : (
               <>
-                <div className="relative mb-7 aspect-[1.55] overflow-hidden rounded-[1.25rem] bg-espresso/10 lg:hidden">
-                  <Image src="/booking-cups.jpeg" alt={dictionary.reservation.imageAlt} fill sizes="(max-width: 1023px) 100vw, 1px" className="object-cover object-[62%_center]" priority />
-                </div>
                 <header>
                   <h1 className="editorial-heading text-[clamp(2.25rem,5.1vw,3.65rem)] font-medium leading-[1.02] tracking-[-0.045em] text-espresso">{copy.title}</h1>
                 </header>
