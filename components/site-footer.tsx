@@ -82,19 +82,16 @@ export function SiteFooter({ locale, dictionary }: SiteFooterProps) {
                 <a href={dictionary.location.phoneHref} aria-label={dictionary.footer.callLabel} className={socialButtonClass}>
                   <Phone size={30} strokeWidth={2.25} aria-hidden="true" />
                 </a>
-                <span className="text-xs font-medium text-[#F8F5F0]">{locale === "de" ? "Kontakt" : "Contact Us"}</span>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <a href={dictionary.footer.instagramHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.instagramLabel} className={socialButtonClass}>
                   <Instagram size={30} strokeWidth={2.25} aria-hidden="true" />
                 </a>
-                <span className="text-xs font-medium text-[#F8F5F0]">Instagram</span>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <a href={dictionary.footer.tiktokHref} target="_blank" rel="noreferrer" aria-label={dictionary.footer.tiktokLabel} className={socialButtonClass}>
                   <Music2 size={30} strokeWidth={2.25} aria-hidden="true" />
                 </a>
-                <span className="text-xs font-medium text-[#F8F5F0]">TikTok</span>
               </div>
             </div>
           </div>
