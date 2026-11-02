@@ -7,7 +7,6 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
 import { BOOKING_CONFIG } from "@/lib/booking-config";
-import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
@@ -409,7 +408,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
           {availability?.alternativeTimes.length ? <div className="mt-2.5 flex flex-wrap gap-2">{availability.alternativeTimes.slice(0, 3).map((time) => <button key={time} type="button" onClick={() => { setForm((current) => ({ ...current, time })); setErrors((current) => ({ ...current, time: "" })); setFullyBookedTime(""); }} className="min-h-10 min-w-[4.5rem] rounded-lg border border-espresso/15 bg-[#eee9e1]/70 px-4 text-sm font-medium tabular-nums text-espresso outline-none transition-colors hover:border-espresso/35 hover:bg-[#eee9e1] focus-visible:ring-2 focus-visible:ring-brass">{time}</button>)}</div> : null}
         </div>
       </div>}
-      <SiteFooter locale={locale} dictionary={dictionary} />
     </div>
   );
 }
