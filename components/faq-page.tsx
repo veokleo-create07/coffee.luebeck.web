@@ -1,10 +1,54 @@
+"use client";
+
 import Link from "next/link";
+import { useId, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
 type FaqPageProps = { locale: Locale; dictionary: Dictionary };
+
+type FaqItem = { question: string; answer: string };
+
+function FaqList({ items, page = false }: { items: FaqItem[]; page?: boolean }) {
+  return (
+    <div className="border-t border-espresso/15">
+      {items.map((item) => <FaqRow key={item.question} item={item} page={page} />)}
+    </div>
+  );
+}
+
+function FaqRow({ item, page }: { item: FaqItem; page: boolean }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const id = useId().replace(/:/g, "");
+  const answerId = `faq-answer-${id}`;
+
+  return (
+    <div className="border-b border-espresso/15">
+      <button
+        type="button"
+        className={`group flex w-full cursor-pointer items-center justify-between gap-6 text-left font-medium text-espresso ${page ? "py-6 text-lg md:py-8 md:text-2xl" : "py-5 text-lg md:py-6 md:text-xl"}`}
+        aria-expanded={isOpen}
+        aria-controls={answerId}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span>{item.question}</span>
+        <span aria-hidden="true" className={`shrink-0 text-2xl font-normal transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? "rotate-45" : "rotate-0"}`}>+</span>
+      </button>
+      <div
+        id={answerId}
+        role="region"
+        aria-hidden={!isOpen}
+        className={`grid overflow-hidden transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+      >
+        <div className={`min-h-0 overflow-hidden pr-10 transition-[opacity,transform,padding] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? "translate-y-0 pb-7 opacity-100 md:pb-9" : "translate-y-2 pb-0 opacity-0"}`}>
+          <p className={`max-w-2xl text-sm leading-[1.65] text-espresso-soft ${page ? "md:text-base" : "md:text-base"}`}>{item.answer}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function FaqSection({ dictionary }: { dictionary: Dictionary }) {
   const copy = dictionary.faq;
@@ -16,17 +60,7 @@ export function FaqSection({ dictionary }: { dictionary: Dictionary }) {
           <h2 id="homepage-faq-title" className="editorial-heading text-[clamp(2.75rem,6vw,5rem)] font-medium leading-[0.9] tracking-[-0.055em]">{copy.title}</h2>
           <p className="mt-7 max-w-xl text-base leading-[1.55] text-espresso-soft md:text-lg">{copy.intro}</p>
         </header>
-        <div className="mt-12 border-t border-espresso/15 md:mt-16">
-          {copy.items.map((item) => (
-            <details key={item.question} className="group border-b border-espresso/15">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-lg font-medium marker:hidden md:py-6 md:text-xl [&::-webkit-details-marker]:hidden">
-                <span>{item.question}</span>
-                <span aria-hidden="true" className="shrink-0 text-2xl font-normal transition-transform duration-300 group-open:rotate-45">+</span>
-              </summary>
-              <p className="max-w-2xl pb-6 pr-10 text-sm leading-[1.65] text-espresso-soft md:text-base">{item.answer}</p>
-            </details>
-          ))}
-        </div>
+        <div className="mt-12 md:mt-16"><FaqList items={copy.items} /></div>
       </div>
     </section>
   );
@@ -47,17 +81,7 @@ export function FaqPage({ locale, dictionary }: FaqPageProps) {
             <h1 className="editorial-heading text-[clamp(3rem,8vw,7rem)] font-medium leading-[0.9] tracking-[-0.055em] text-espresso">{copy.title}</h1>
             <p className="mt-8 max-w-xl text-base leading-[1.55] text-espresso-soft md:text-lg">{copy.intro}</p>
           </header>
-          <section aria-label={copy.title} className="mt-16 border-t border-espresso/15 md:mt-24">
-            {copy.items.map((item) => (
-              <details key={item.question} className="group border-b border-espresso/15">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left text-lg font-medium text-espresso marker:hidden md:py-8 md:text-2xl [&::-webkit-details-marker]:hidden">
-                  <span>{item.question}</span>
-                  <span aria-hidden="true" className="shrink-0 text-2xl font-normal transition-transform duration-300 group-open:rotate-45">+</span>
-                </summary>
-                <p className="max-w-2xl pb-7 pr-10 text-sm leading-[1.65] text-espresso-soft md:pb-9 md:text-base">{item.answer}</p>
-              </details>
-            ))}
-          </section>
+          <section aria-label={copy.title} className="mt-16 md:mt-24"><FaqList items={copy.items} page /></section>
           <div className="mt-12 flex flex-wrap items-center gap-4 md:mt-16">
             <Link href={reservationHref} className="site-button site-button-primary">{copy.cta}</Link>
             <Link href={homeHref} className="site-button site-button-secondary">{dictionary.navigation.home}</Link>
