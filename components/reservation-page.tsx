@@ -11,7 +11,7 @@ import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
-type VisitStep = 1 | 2;
+type VisitStep = 1 | 2 | 3;
 type ReservationStatus = "pending" | "confirmed";
 type Details = { fullName: string; email: string; requests: string };
 type FormState = { date: string; guests: number; time: string; details: Details };
@@ -203,6 +203,11 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
         }
         return;
       }
+      if (isCompactFlow && visitStep === 2) {
+        setErrors({});
+        setVisitStep(3);
+        return;
+      }
       if (validateVisit()) {
         setErrors({});
         setFullyBookedTime("");
@@ -296,8 +301,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
-                    <div className={`${isCompactFlow && visitStep === 2 ? "hidden" : "grid"} grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4`}>
-                      <div className="min-w-0">
+                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
+                      <div className={`min-w-0 ${isCompactFlow && visitStep !== 1 ? "hidden lg:block" : ""}`}>
                         <div className="relative flex min-h-[4.5rem] w-full min-w-0 max-w-full items-center rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] px-3 transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus-within:border-espresso/40 focus-within:ring-2 focus-within:ring-espresso/8">
                           <CalendarDays size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
                           <div className="pointer-events-none absolute left-12 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-0.5">
@@ -309,33 +314,33 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         </div>
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
-                      <div className="min-w-0">
+                      <div className={`min-w-0 ${isCompactFlow && visitStep !== 2 ? "hidden lg:block" : ""}`}>
                         <div className="relative">
                           <UserRound size={21} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
                           <label htmlFor="guest-count" className="pointer-events-none absolute left-12 top-2.5 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.guestsLabel}</label>
-                          <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); setVisitStep(1); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className="min-h-[4.5rem] w-full appearance-none rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-10 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8">
+                          <select id="guest-count" value={form.guests} onChange={(event) => { setAvailability(null); if (!isCompactFlow) setVisitStep(1); setForm((current) => ({ ...current, guests: Number(event.target.value), time: "" })); }} className="min-h-[4.5rem] w-full appearance-none rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] pb-1 pl-12 pr-10 pt-5 text-[0.94rem] font-medium text-espresso outline-none transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8">
                             {Array.from({ length: BOOKING_CONFIG.maxGuests }, (_, index) => <option key={index + 1} value={index + 1}>{index + 1} {copy.guestsSuffix}</option>)}
                           </select>
                           <ChevronDown size={18} strokeWidth={1.6} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-espresso" aria-hidden="true" />
                         </div>
                       </div>
-                      {!isClosedDay && <div className="mt-1 sm:col-span-2">
+                      {!isClosedDay && (!isCompactFlow || visitStep === 2) && <div className="mt-1 sm:col-span-2">
                         <button type="button" onClick={() => setShowLargePartyInfo((current) => !current)} className="text-sm text-espresso underline decoration-espresso/30 underline-offset-4 transition-colors hover:decoration-espresso">{copy.moreThanSix}</button>
                         {showLargePartyInfo && <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-espresso-soft"><span>{copy.moreThanSixMessage}</span><a href={dictionary.location.phoneHref} className="site-button site-button-secondary min-h-11 gap-2 px-4" aria-label={`${copy.callCafe}: ${dictionary.location.phoneLabel}`}><Phone size={15} strokeWidth={1.5} aria-hidden="true" />{copy.callCafe}</a></div>}
                       </div>}
                     </div>
 
-                    {visitStep === 2 && <div className="mb-6 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso-soft lg:hidden"><span>{displayFieldDate(form.date, copy.dateFormatLocale)} · {form.guests} {copy.guestsSuffix}</span><button type="button" onClick={() => setVisitStep(1)} className="font-medium text-espresso underline underline-offset-4">{copy.back}</button></div>}
+                    {visitStep > 1 && <div className="mb-6 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso-soft lg:hidden"><span>{displayFieldDate(form.date, copy.dateFormatLocale)} · {form.guests} {copy.guestsSuffix}</span><button type="button" onClick={() => setVisitStep(visitStep === 3 ? 2 : 1)} className="font-medium text-espresso underline underline-offset-4">{copy.back}</button></div>}
 
-                    {isCompactFlow && visitStep === 1 && <div className="mt-7 lg:hidden">
+                    {isCompactFlow && visitStep < 3 && <div className="mt-7 lg:hidden">
                       {isClosedDay ? (
                         <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
                       ) : (
-                        <button type="submit" disabled={availabilityLoading} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.chooseTime}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
+                        <button type="submit" disabled={availabilityLoading} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{visitStep === 1 ? copy.continue : copy.chooseTime}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
                       )}
                     </div>}
 
-                    <div className={`${isCompactFlow && visitStep === 1 ? "hidden " : ""}mt-7 md:mt-8 lg:block`}>
+                    <div className={`${isCompactFlow && visitStep !== 3 ? "hidden " : ""}mt-7 md:mt-8 lg:block`}>
                       {isClosedDay ? (
                         <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
                       ) : <>
@@ -366,7 +371,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     <div className="mt-7 hidden justify-end lg:flex">
                       <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-56 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
                     </div>
-                    {visitStep === 2 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(1)} className="site-button site-button-secondary flex-1">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary flex-1 disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
+                    {visitStep === 3 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(2)} className="site-button site-button-secondary flex-1">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary flex-1 disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
