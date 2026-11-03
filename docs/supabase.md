@@ -55,7 +55,7 @@ Required server-only Vercel variables:
 
 ```dotenv
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=Altstadtliebe <reservierungen@altstadtliebe.de>
+RESEND_FROM_EMAIL=Altstadtliebe <reservierungen@altstadtliebe.com>
 ```
 
 The Resend sending domain must be verified before delivery. Keep all server-only values out of client code, `NEXT_PUBLIC_*` variables, screenshots, and Git. Confirmation sending is fail-safe: a Resend failure is logged without breaking the reservation.
