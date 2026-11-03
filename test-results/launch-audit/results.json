@@ -93,7 +93,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -103,7 +105,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -213,7 +217,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -223,7 +229,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -333,7 +341,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -343,7 +353,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -453,7 +465,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -463,7 +477,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -573,7 +589,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -583,7 +601,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -693,7 +713,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -703,7 +725,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -813,7 +837,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -823,7 +849,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -933,7 +961,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "de",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/en/reservation",
@@ -943,7 +973,9 @@
       "title": "Altstadtliebe — Café in Lübeck",
       "lang": "en",
       "heroVideoPaused": null,
-      "consoleErrors": []
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+      ]
     },
     {
       "route": "/impressum",
@@ -1008,6 +1040,8 @@
     "faqExpanded": "true",
     "reservationStep1": 1,
     "mondayMessage": "We're sorry, we're closed on Mondays. Please select another day for your visit.",
-    "consoleErrors": []
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+    ]
   }
 }

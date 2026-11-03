@@ -2,6 +2,8 @@
 
 The reservation page reads availability and submits reservations through the server-only API routes. The deployable database schema, including the atomic booking RPC and capacity guard, lives in `supabase/migrations/`.
 
+For a disposable database and the exact staging environment variables required for end-to-end reservation testing, see [`docs/supabase-staging.md`](./supabase-staging.md). Never run reservation tests against production.
+
 ## Connect an existing Supabase project
 
 1. Create or open the existing Supabase project.
@@ -43,4 +45,4 @@ Row Level Security is enabled on every table, and direct `anon` and `authenticat
 supabase gen types typescript --linked > lib/supabase/database.types.ts
 ```
 
-`lib/supabase/server.ts` exposes the server-only admin client. `lib/supabase/booking-settings.ts` provides server-only reads for booking settings and opening schedules for a future availability implementation.
+`lib/supabase/server.ts` exposes the server-only admin client. `lib/supabase/booking-settings.ts` provides server-only reads for booking settings and opening schedules. The live availability and reservation API routes use the same server-only client and the atomic booking RPC.

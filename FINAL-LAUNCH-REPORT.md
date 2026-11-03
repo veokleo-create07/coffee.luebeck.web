@@ -20,13 +20,15 @@ The application passes the available static checks and the automated browser mat
 - Updated Supabase documentation and README to match the actual API-backed reservation implementation.
 - Added request-aware locale handling so explicit `/en/*` pages render `lang="en"` while German pages render `lang="de"`.
 - Added a repeatable Playwright audit script and captured responsive screenshots under `test-results/launch-audit/`.
+- Updated Next.js to patched `15.5.28` and pinned the vulnerable transitive PostCSS dependency to patched `8.5.29` using a package override.
+- Added a reproducible disposable Supabase staging setup guide with isolated environment variables and cleanup instructions.
 
 ### Confirmed remaining issues / release gates
 
 - No isolated Supabase staging project or test credentials are available in the checkout. No fake reservations, cleanup, cancellation, overbooking, table-capacity, or concurrent-booking tests were run against any database.
 - Resend integration and email delivery were intentionally not implemented or tested in this scope.
 - Physical iPhone Safari, Android, iPad Safari, trackpad, and touch testing remain outstanding. The automated browser run used headless Chromium.
-- `npm audit --omit=dev --audit-level=high` reports 2 production dependency vulnerabilities: one high and one critical, through the installed Next/PostCSS dependency chain. No automatic dependency upgrade was applied because it could change the approved site and requires review.
+- The production dependency audit is now clean at high severity after the targeted Next.js/PostCSS update. Fourteen moderate development/transitive advisories remain in the full audit output and require separate dependency review.
 - The matcha videos and scroll synchronization were not changed in this audit.
 
 ## Checks actually run
@@ -37,22 +39,24 @@ The application passes the available static checks and the automated browser mat
 | `npx tsc --noEmit` | Passed |
 | `npm run build` | Passed; 19 routes generated, including `/robots.txt` and `/sitemap.xml` |
 | `git diff --check` | Passed |
-| `npm audit --omit=dev --audit-level=high` | Failed security gate: 1 high and 1 critical vulnerability reported |
-| Playwright route/viewport matrix | Passed: 96 route/viewport checks across 12 public routes and 8 widths; no HTTP failures, horizontal overflow, unexpected autoplay, or browser console errors |
-| Playwright interaction checks | Passed: menu links, FAQ expansion, English reservation entry, Monday closure message, and no browser console errors |
-| Local responsive browser screenshots | Passed: generated under `test-results/launch-audit/` at 390, 768, and 1440px for homepage, FAQ, and reservation states |
+| `npm audit --omit=dev --audit-level=high` | Passed: 0 high/critical vulnerabilities after Next.js 15.5.28 and PostCSS 8.5.29 override |
+| Playwright route/viewport matrix | PARTIAL: 96 page responses were HTTP 200 with no horizontal overflow; reservation pages emitted availability `500` responses because staging Supabase credentials are absent |
+| Playwright interaction checks | PARTIAL: menu links, FAQ expansion, English reservation entry, and Monday closure UI passed; console errors were caused by the same missing Supabase availability configuration |
+| Local responsive browser screenshots | Captured under `test-results/launch-audit/` at 390, 768, and 1440px for homepage, FAQ, and reservation states; reservation screenshots are UI-only without live availability |
 | Supabase end-to-end tests | Not run; no isolated staging credentials |
 | Resend email delivery | Not tested by instruction; intentionally postponed |
 
+The full `npm audit` still reports 14 moderate advisories in development/transitive dependencies. They were not force-upgraded because doing so would introduce unrelated dependency changes.
+
 ## Requested viewport coverage
 
-The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768, 1024, 1440, and 1920. It covered the German and English public routes listed in the script, with no reported HTTP failure, horizontal overflow, or browser console error. Full-page screenshots were captured for the main homepage, FAQ, and reservation routes at 390, 768, and 1440px. The root `/` route redirects to English in this browser because the existing locale-selection behavior detects an English browser language; explicit German routes were verified separately.
+The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768, 1024, 1440, and 1920. All page navigations returned HTTP 200 and no horizontal overflow was reported. Reservation pages made availability requests and received HTTP 500 because this checkout has no Supabase staging environment variables; this is recorded as a test limitation, not a passed reservation integration. Full-page screenshots were captured for the main homepage, FAQ, and reservation routes at 390, 768, and 1440px. The root `/` route redirects to English in this browser because the existing locale-selection behavior detects an English browser language; explicit German routes were verified separately.
 
 ### Reservation test status
 
 | Scenario | Result | Evidence / limitation |
 |---|---|---|
-| Reservation UI opens at mobile and desktop widths | PASS | Playwright found the date field and exercised the reservation route at 390, 768, and 1440px |
+| Reservation UI opens at mobile and desktop widths | PASS (UI-only) | Playwright found the date field and exercised the reservation route at 390, 768, and 1440px |
 | Monday closure message | PASS (UI-only) | English message verified after selecting `2026-11-02`; no availability request is made for the closed day |
 | German Monday closure copy | NOT TESTED in browser | The localized copy exists in the dictionary; no separate browser assertion was added in this run |
 | Date/time/guest selection against real availability | NOT TESTED | No isolated Supabase staging credentials are configured |
@@ -86,6 +90,7 @@ The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768
 - `middleware.ts`
 - `scripts/launch-audit.mjs`
 - `test-results/launch-audit/` (browser results and screenshots)
+- `docs/supabase-staging.md`
 - `docs/supabase.md`
 - `supabase/migrations/20261102000000_reservation_atomic_booking.sql`
 - Deleted obsolete `supabase/manual/remove-table-management.sql`
@@ -98,7 +103,7 @@ The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768
 3. Add and verify the intended Resend confirmation/cancellation workflow without sending to real customers.
 4. Install/configure Playwright and capture all requested desktop, tablet, and mobile screenshots.
 5. Test the hero and reservation picker on physical iPhone Safari and iPad Safari.
-6. Review and patch the reported Next/PostCSS production vulnerabilities, then rerun `npm audit` and the build.
+6. Review the remaining moderate development/transitive advisories when making the next dependency maintenance pass.
 7. Review the production environment variables and deployment headers.
 
 ## Git
