@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
+import { processReservationEmailJobs } from "@/lib/email/process-reservation-emails";
 import { localDateTimeToUtc, validateReservationInput, type ReservationInput } from "@/lib/supabase/reservation-engine";
 
 export async function POST(request: Request) {
@@ -50,6 +51,11 @@ export async function POST(request: Request) {
       .eq("reservation_reference", reservation.reservation_reference)
       .maybeSingle();
     const status = storedReservation?.status === "confirmed" ? "confirmed" : "pending";
+    try {
+      await processReservationEmailJobs(5);
+    } catch (error) {
+      console.error("Reservation email processing skipped", error instanceof Error ? error.message : "Unknown error");
+    }
     return NextResponse.json({ reservationReference: reservation.reservation_reference, status });
   } catch (error) {
     console.error("Reservation creation failed", error);

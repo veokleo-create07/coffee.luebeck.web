@@ -8,13 +8,10 @@ const copy = {
   de: {
     confirmationSubject: "Deine Reservierung bei Altstadtliebe",
     cancellationSubject: "Deine Reservierung wurde storniert",
-    reminderSubject: "Deine Reservierung morgen bei Altstadtliebe",
     confirmationTitle: "Deine Reservierung ist bestätigt.",
     cancellationTitle: "Deine Reservierung wurde storniert.",
-    reminderTitle: "Wir freuen uns morgen auf dich.",
     confirmationBody: "Wir freuen uns auf deinen Besuch in der Altstadtliebe.",
     cancellationBody: "Deine Reservierung wurde storniert. Wenn du Fragen hast, melde dich gerne bei uns.",
-    reminderBody: "Nur noch einmal schlafen: Dein Tisch ist morgen für dich reserviert.",
     date: "Datum",
     time: "Uhrzeit",
     guests: "Gäste",
@@ -25,13 +22,10 @@ const copy = {
   en: {
     confirmationSubject: "Your Altstadtliebe reservation",
     cancellationSubject: "Your reservation has been cancelled",
-    reminderSubject: "Your Altstadtliebe reservation is tomorrow",
     confirmationTitle: "Your reservation is confirmed.",
     cancellationTitle: "Your reservation has been cancelled.",
-    reminderTitle: "We look forward to seeing you tomorrow.",
     confirmationBody: "We look forward to welcoming you at Altstadtliebe in the Old Town.",
     cancellationBody: "Your reservation has been cancelled. Please contact us if you have any questions.",
-    reminderBody: "Just a little reminder: your table is reserved for tomorrow.",
     date: "Date",
     time: "Time",
     guests: "Guests",
@@ -59,9 +53,9 @@ function formatTime(value: string) {
 function contentFor(job: EmailJob) {
   const language = job.language === "en" ? "en" : "de";
   const text = copy[language];
-  const title = job.kind === "cancellation" ? text.cancellationTitle : job.kind === "reminder" ? text.reminderTitle : text.confirmationTitle;
-  const body = job.kind === "cancellation" ? text.cancellationBody : job.kind === "reminder" ? text.reminderBody : text.confirmationBody;
-  const subject = job.kind === "cancellation" ? text.cancellationSubject : job.kind === "reminder" ? text.reminderSubject : text.confirmationSubject;
+  const title = job.kind === "cancellation" ? text.cancellationTitle : text.confirmationTitle;
+  const body = job.kind === "cancellation" ? text.cancellationBody : text.confirmationBody;
+  const subject = job.kind === "cancellation" ? text.cancellationSubject : text.confirmationSubject;
   const lines = [
     `${text.date}: ${formatDate(job.starts_at, language)}`,
     `${text.time}: ${formatTime(job.starts_at)}`,

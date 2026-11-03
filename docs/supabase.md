@@ -49,7 +49,7 @@ supabase gen types typescript --linked > lib/supabase/database.types.ts
 
 ## Email outbox and worker
 
-`20261103000000_reservation_email_outbox.sql` adds a private `reservation_email_jobs` outbox. Inserts create confirmation and 24-hour reminder jobs; dashboard status changes to `cancelled` create a cancellation job and cancel any unsent reminder. The protected `/api/email/process` route claims jobs with `FOR UPDATE SKIP LOCKED`, sends them through Resend with a stable `Idempotency-Key`, and records success or retry state. Vercel invokes it every 15 minutes through `vercel.json`.
+`20261103000000_reservation_email_outbox.sql` plus the follow-up simplification migration add a private `reservation_email_jobs` outbox for confirmations and cancellations only. Inserts create confirmation jobs, and dashboard status changes to `cancelled` create cancellation jobs. The protected `POST /api/email/process` route claims jobs with `FOR UPDATE SKIP LOCKED`, sends them through Resend with a stable `Idempotency-Key`, and records success or retry state. Successful bookings process the queue immediately; a trusted dashboard process or Supabase Database Webhook should call the same endpoint after a cancellation. There are no cron jobs or scheduled reminders.
 
 Required server-only Vercel variables:
 
@@ -57,7 +57,7 @@ Required server-only Vercel variables:
 RESEND_API_KEY=re_...
 RESEND_FROM_EMAIL=Altstadtliebe <reservations@your-verified-domain.example>
 RESEND_REPLY_TO=hello@your-verified-domain.example
-CRON_SECRET=<long-random-secret>
+EMAIL_PROCESS_SECRET=<long-random-secret>
 ```
 
-The Resend sending domain must be verified before delivery. Keep all four values out of client code, `NEXT_PUBLIC_*` variables, screenshots, and Git. The worker returns `503` without sending if Resend is not configured.
+The Resend sending domain must be verified before delivery. Keep all server-only values out of client code, `NEXT_PUBLIC_*` variables, screenshots, and Git. The worker returns `503` without sending if Resend is not configured. Configure the dashboard/Supabase webhook with `POST https://your-domain.example/api/email/process` and `Authorization: Bearer <EMAIL_PROCESS_SECRET>` after a reservation changes to `cancelled`. The route is intentionally on-demand rather than scheduled.

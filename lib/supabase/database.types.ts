@@ -54,8 +54,8 @@ export type Database = {
         Relationships: [];
       };
       reservation_email_jobs: {
-        Row: { id: string; reservation_id: string; kind: "confirmation" | "cancellation" | "reminder"; idempotency_key: string; scheduled_for: string; status: "pending" | "processing" | "sent" | "failed" | "cancelled"; attempt_count: number; next_attempt_at: string; locked_at: string | null; sent_at: string | null; provider_message_id: string | null; last_error: string | null; created_at: string; updated_at: string };
-        Insert: { id?: string; reservation_id: string; kind: "confirmation" | "cancellation" | "reminder"; idempotency_key: string; scheduled_for: string; status?: "pending" | "processing" | "sent" | "failed" | "cancelled"; attempt_count?: number; next_attempt_at?: string; locked_at?: string | null; sent_at?: string | null; provider_message_id?: string | null; last_error?: string | null; created_at?: string; updated_at?: string };
+        Row: { id: string; reservation_id: string; kind: "confirmation" | "cancellation"; idempotency_key: string; status: "pending" | "processing" | "sent" | "failed"; attempt_count: number; next_attempt_at: string; locked_at: string | null; sent_at: string | null; provider_message_id: string | null; last_error: string | null; created_at: string; updated_at: string };
+        Insert: { id?: string; reservation_id: string; kind: "confirmation" | "cancellation"; idempotency_key: string; status?: "pending" | "processing" | "sent" | "failed"; attempt_count?: number; next_attempt_at?: string; locked_at?: string | null; sent_at?: string | null; provider_message_id?: string | null; last_error?: string | null; created_at?: string; updated_at?: string };
         Update: Partial<Database["public"]["Tables"]["reservation_email_jobs"]["Insert"]>;
         Relationships: [{ foreignKeyName: "reservation_email_jobs_reservation_id_fkey"; columns: ["reservation_id"]; isOneToOne: false; referencedRelation: "reservations"; referencedColumns: ["id"] }];
       };
@@ -80,7 +80,7 @@ export type Database = {
       };
       claim_reservation_email_jobs: {
         Args: { p_limit?: number };
-        Returns: Array<{ job_id: string; reservation_id: string; kind: "confirmation" | "cancellation" | "reminder"; idempotency_key: string; attempt_count: number; customer_name: string; customer_email: string; guest_count: number; starts_at: string; ends_at: string; special_requests: string | null; status: "pending" | "confirmed" | "cancelled" | "completed"; language: "de" | "en" }>;
+        Returns: Array<{ job_id: string; reservation_id: string; kind: "confirmation" | "cancellation"; idempotency_key: string; attempt_count: number; customer_name: string; customer_email: string; guest_count: number; starts_at: string; ends_at: string; special_requests: string | null; status: "pending" | "confirmed" | "cancelled" | "completed"; language: "de" | "en" }>;
       };
       complete_reservation_email_job: {
         Args: { p_job_id: string; p_provider_message_id?: string | null };
