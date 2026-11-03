@@ -22,14 +22,16 @@ The application passes the available static checks and the automated browser mat
 - Added a repeatable Playwright audit script and captured responsive screenshots under `test-results/launch-audit/`.
 - Updated Next.js to patched `15.5.28` and pinned the vulnerable transitive PostCSS dependency to patched `8.5.29` using a package override.
 - Added a reproducible disposable Supabase staging setup guide with isolated environment variables and cleanup instructions.
+- Added a transactional reservation email outbox, Resend worker, bilingual branded templates, cancellation trigger, retry handling, and Vercel cron configuration. No live email was sent during this implementation pass.
 
 ### Confirmed remaining issues / release gates
 
 - No isolated Supabase staging project or test credentials are available in the checkout. No fake reservations, cleanup, cancellation, overbooking, table-capacity, or concurrent-booking tests were run against any database.
-- Resend integration and email delivery were intentionally not implemented or tested in this scope.
+- Resend delivery was not live-verified in this scope; implementation is present but intentionally has not sent email.
 - Physical iPhone Safari, Android, iPad Safari, trackpad, and touch testing remain outstanding. The automated browser run used headless Chromium.
 - The production dependency audit is now clean at high severity after the targeted Next.js/PostCSS update. Fourteen moderate development/transitive advisories remain in the full audit output and require separate dependency review.
 - The matcha videos and scroll synchronization were not changed in this audit.
+- Resend delivery is implemented but remains unverified until the Resend domain, API key, Supabase migration, and staging data are configured.
 
 ## Checks actually run
 
@@ -44,7 +46,8 @@ The application passes the available static checks and the automated browser mat
 | Playwright interaction checks | PARTIAL: menu links, FAQ expansion, English reservation entry, and Monday closure UI passed; console errors were caused by the same missing Supabase availability configuration |
 | Local responsive browser screenshots | Captured under `test-results/launch-audit/` at 390, 768, and 1440px for homepage, FAQ, and reservation states; reservation screenshots are UI-only without live availability |
 | Supabase end-to-end tests | Not run; no isolated staging credentials |
-| Resend email delivery | Not tested by instruction; intentionally postponed |
+| Resend email delivery | NOT TESTED live; requires verified Resend domain, API key, staging queue, and fake recipient |
+| Resend integration implementation | Implemented; local worker safety checks returned 401 without cron auth and 503 without provider configuration; no email was sent |
 
 The full `npm audit` still reports 14 moderate advisories in development/transitive dependencies. They were not force-upgraded because doing so would introduce unrelated dependency changes.
 
@@ -91,6 +94,10 @@ The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768
 - `scripts/launch-audit.mjs`
 - `test-results/launch-audit/` (browser results and screenshots)
 - `docs/supabase-staging.md`
+- `supabase/migrations/20261103000000_reservation_email_outbox.sql`
+- `app/api/email/process/route.ts`
+- `lib/email/reservation-email.ts`
+- `vercel.json`
 - `docs/supabase.md`
 - `supabase/migrations/20261102000000_reservation_atomic_booking.sql`
 - Deleted obsolete `supabase/manual/remove-table-management.sql`
@@ -105,6 +112,7 @@ The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768
 5. Test the hero and reservation picker on physical iPhone Safari and iPad Safari.
 6. Review the remaining moderate development/transitive advisories when making the next dependency maintenance pass.
 7. Review the production environment variables and deployment headers.
+8. Configure and verify Resend domain/API settings, apply the email-outbox migration in staging, and test confirmation, cancellation, and reminder delivery with fake recipients before enabling production sending.
 
 ## Git
 

@@ -1,6 +1,6 @@
 # Supabase database foundation
 
-The reservation page reads availability and submits reservations through the server-only API routes. The deployable database schema, including the atomic booking RPC and capacity guard, lives in `supabase/migrations/`.
+The reservation page reads availability and submits reservations through the server-only API routes. The deployable database schema, including the atomic booking RPC, capacity guard, and transactional email outbox, lives in `supabase/migrations/`.
 
 For a disposable database and the exact staging environment variables required for end-to-end reservation testing, see [`docs/supabase-staging.md`](./supabase-staging.md). Never run reservation tests against production.
 
@@ -46,3 +46,18 @@ supabase gen types typescript --linked > lib/supabase/database.types.ts
 ```
 
 `lib/supabase/server.ts` exposes the server-only admin client. `lib/supabase/booking-settings.ts` provides server-only reads for booking settings and opening schedules. The live availability and reservation API routes use the same server-only client and the atomic booking RPC.
+
+## Email outbox and worker
+
+`20261103000000_reservation_email_outbox.sql` adds a private `reservation_email_jobs` outbox. Inserts create confirmation and 24-hour reminder jobs; dashboard status changes to `cancelled` create a cancellation job and cancel any unsent reminder. The protected `/api/email/process` route claims jobs with `FOR UPDATE SKIP LOCKED`, sends them through Resend with a stable `Idempotency-Key`, and records success or retry state. Vercel invokes it every 15 minutes through `vercel.json`.
+
+Required server-only Vercel variables:
+
+```dotenv
+RESEND_API_KEY=re_...
+RESEND_FROM_EMAIL=Altstadtliebe <reservations@your-verified-domain.example>
+RESEND_REPLY_TO=hello@your-verified-domain.example
+CRON_SECRET=<long-random-secret>
+```
+
+The Resend sending domain must be verified before delivery. Keep all four values out of client code, `NEXT_PUBLIC_*` variables, screenshots, and Git. The worker returns `503` without sending if Resend is not configured.
