@@ -4,11 +4,11 @@ import { getDictionary } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Altstadtliebe — Café in Lübeck",
-  description: "Altstadtliebe — a café for good coffee and the small pauses worth keeping.",
+  description: "A little escape in the heart of Lübeck. Discover specialty coffee, matcha, delicious breakfast, and the cozy atmosphere of Altstadtliebe.",
   openGraph: {
     locale: "en_GB",
     title: "Altstadtliebe — Café in Lübeck",
-    description: "A café for good coffee and the small pauses worth keeping.",
+    description: "A little escape in the heart of Lübeck. Discover specialty coffee, matcha, delicious breakfast, and the cozy atmosphere of Altstadtliebe.",
   },
 };
 
