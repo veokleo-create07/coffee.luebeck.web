@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   description: "Altstadtliebe — ein Café für guten Kaffee und die kleinen Pausen, die bleiben.",
   applicationName: "Altstadtliebe",
   icons: {
-    icon: [{ url: "/altstadtliebe-logo.png", type: "image/png" }],
-    shortcut: ["/altstadtliebe-logo.png"],
+    icon: [{ url: "/altstadtliebe-favicon.png", type: "image/png", sizes: "128x128" }],
+    shortcut: ["/altstadtliebe-favicon.png"],
   },
   authors: [{ name: "Altstadtliebe" }],
   robots: { index: true, follow: true },
