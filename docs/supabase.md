@@ -55,7 +55,7 @@ Required server-only Vercel variables:
 
 ```dotenv
 RESEND_API_KEY=re_...
-RESEND_FROM_EMAIL=Altstadtliebe <reservations@your-verified-domain.example>
+RESEND_FROM_EMAIL=Altstadtliebe <reservierungen@altstadtliebe.de>
 RESEND_REPLY_TO=hello@your-verified-domain.example
 EMAIL_PROCESS_SECRET=<long-random-secret>
 ```
