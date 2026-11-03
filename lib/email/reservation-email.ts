@@ -11,10 +11,11 @@ export type ReservationEmailData = {
   endsAt: string;
   specialRequests: string | null;
   language: "de" | "en";
+  managementUrl?: string | null;
 };
 
-const address = "Mühlenstraße 51, 23552 Lübeck";
-const directionsUrl = "https://www.google.com/maps/search/?api=1&query=M%C3%BChlenstra%C3%9Fe%2051%2C%2023552%20L%C3%BCbeck";
+const phoneDisplay = "0451 61917800";
+const phoneHref = "tel:+4945161917800";
 
 const copy = {
   de: {
@@ -22,34 +23,42 @@ const copy = {
     cancellationSubject: "Deine Reservierung wurde storniert",
     confirmationTitle: "Deine Reservierung ist bestätigt.",
     cancellationTitle: "Deine Reservierung wurde storniert.",
-    confirmationBody: "Hallo {name}, wir freuen uns auf deinen Besuch bei Altstadtliebe.",
-    cancellationBody: "Hallo {name}, deine Reservierung bei Altstadtliebe wurde storniert.",
+    greeting: "Hallo {firstName},",
+    confirmationDescription: "Deine Reservierung bei Altstadtliebe ist bestätigt. Wir freuen uns auf deinen Besuch.",
+    cancellationDescription: "Deine Reservierung bei Altstadtliebe wurde storniert.",
     name: "Name",
-    date: "Datum",
-    time: "Uhrzeit",
+    dateAndTime: "Datum & Uhrzeit",
     guests: "Gäste",
-    address: "Adresse",
-    note: "Hinweis",
-    directions: "Route planen",
-    confirmationSignoff: "Bis bald bei Altstadtliebe.",
-    cancellationSignoff: "Wir hoffen, dich bald wieder bei uns begrüßen zu dürfen.",
+    duration: "Dauer",
+    email: "E-Mail",
+    at: "um",
+    durationValue: "{minutes} Minuten",
+    manage: "Reservierung verwalten",
+    confirmationClosing: "Bis bald bei Altstadtliebe.",
+    cancellationClosing: "Wir hoffen, dich bald wieder bei Altstadtliebe begrüßen zu dürfen.",
+    questions: "Wenn du Fragen hast, erreichst du uns unter",
+    team: "Dein Altstadtliebe-Team",
   },
   en: {
-    confirmationSubject: "Your Altstadtliebe reservation",
+    confirmationSubject: "Your reservation at Altstadtliebe",
     cancellationSubject: "Your Altstadtliebe reservation was cancelled",
     confirmationTitle: "Your reservation is confirmed.",
     cancellationTitle: "Your reservation was cancelled.",
-    confirmationBody: "Hello {name}, we look forward to seeing you at Altstadtliebe.",
-    cancellationBody: "Hello {name}, your reservation at Altstadtliebe was cancelled.",
+    greeting: "Hey {firstName},",
+    confirmationDescription: "Your reservation at Altstadtliebe is confirmed. We look forward to seeing you.",
+    cancellationDescription: "Your reservation at Altstadtliebe was cancelled.",
     name: "Name",
-    date: "Date",
-    time: "Time",
+    dateAndTime: "Date & Time",
     guests: "Guests",
-    address: "Address",
-    note: "Note",
-    directions: "Get directions",
-    confirmationSignoff: "See you soon at Altstadtliebe.",
-    cancellationSignoff: "We hope to welcome you again soon.",
+    duration: "Duration",
+    email: "Email",
+    at: "at",
+    durationValue: "{minutes} minutes",
+    manage: "Manage your reservation",
+    confirmationClosing: "See you soon at Altstadtliebe.",
+    cancellationClosing: "We hope to welcome you back to Altstadtliebe soon.",
+    questions: "If you have any questions, reach us at",
+    team: "Your team at Altstadtliebe",
   },
 } as const;
 
@@ -63,9 +72,16 @@ function escapeHtml(value: string) {
   })[character] ?? character);
 }
 
+function firstNameFromFullName(fullName: string) {
+  return fullName.trim().split(/\s+/u).find(Boolean) ?? fullName.trim();
+}
+
 function formatDate(value: string, language: ReservationEmailData["language"]) {
   return new Intl.DateTimeFormat(language === "de" ? "de-DE" : "en-GB", {
-    dateStyle: "full",
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
     timeZone: "Europe/Berlin",
   }).format(new Date(value));
 }
@@ -78,8 +94,31 @@ function formatTime(value: string) {
   }).format(new Date(value));
 }
 
-function detailRow(label: string, value: string, emphasis = false) {
-  return `<tr><td style="padding:0 0 14px;font-size:14px;line-height:1.45;color:#786960;vertical-align:top;width:30%;">${label}</td><td style="padding:0 0 14px;font-size:${emphasis ? "18" : "15"}px;line-height:1.45;font-weight:${emphasis ? "700" : "600"};color:#2c211c;vertical-align:top;">${value}</td></tr>`;
+function durationMinutes(startsAt: string, endsAt: string) {
+  const duration = Math.round((new Date(endsAt).getTime() - new Date(startsAt).getTime()) / 60_000);
+  return Number.isFinite(duration) && duration > 0 ? duration : 90;
+}
+
+function isSecureManagementUrl(value: string | null | undefined): value is string {
+  if (!value) return false;
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function detailRow(label: string, value: string, isLast = false) {
+  return `<tr>
+    <td style="padding:16px 0;vertical-align:top;${isLast ? "" : "border-bottom:1px solid #e5ded5;"}">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+          <td width="38%" style="padding:0 12px 0 0;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.4;font-weight:700;vertical-align:top;">${label}</td>
+          <td width="62%" style="padding:0;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.45;font-weight:400;vertical-align:top;overflow-wrap:anywhere;word-break:break-word;">${value}</td>
+        </tr>
+      </table>
+    </td>
+  </tr>`;
 }
 
 export function renderReservationEmail(reservation: ReservationEmailData, kind: ReservationEmailKind) {
@@ -87,99 +126,136 @@ export function renderReservationEmail(reservation: ReservationEmailData, kind: 
   const text = copy[language];
   const isCancellation = kind === "cancellation";
   const title = isCancellation ? text.cancellationTitle : text.confirmationTitle;
-  const body = (isCancellation ? text.cancellationBody : text.confirmationBody)
-    .replace("{name}", escapeHtml(reservation.customerName));
-  const date = formatDate(reservation.startsAt, language);
-  const time = formatTime(reservation.startsAt);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://altstadtliebe.com";
+  const description = isCancellation ? text.cancellationDescription : text.confirmationDescription;
+  const closing = isCancellation ? text.cancellationClosing : text.confirmationClosing;
+  const firstName = firstNameFromFullName(reservation.customerName);
+  const greetingText = text.greeting.replace("{firstName}", firstName);
+  const greeting = escapeHtml(greetingText);
+  const dateAndTime = `${formatDate(reservation.startsAt, language)} ${text.at} ${formatTime(reservation.startsAt)}`;
+  const minutes = durationMinutes(reservation.startsAt, reservation.endsAt);
+  const duration = text.durationValue.replace("{minutes}", String(minutes));
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://altstadtliebe.com").replace(/\/$/u, "");
   const logoUrl = `${siteUrl}/altstadtliebe-logo.png`;
-  const noteRow = reservation.specialRequests
-    ? detailRow(text.note, escapeHtml(reservation.specialRequests))
+  const heartUrl = `${siteUrl}/altstadtliebe-heart.png`;
+  const managementUrl = !isCancellation && isSecureManagementUrl(reservation.managementUrl)
+    ? reservation.managementUrl
+    : null;
+
+  const managementButton = managementUrl
+    ? `<tr>
+        <td style="padding:30px 0 0;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+              <td bgcolor="#321A10" style="border-radius:10px;text-align:center;">
+                <a href="${escapeHtml(managementUrl)}" style="display:block;padding:17px 24px;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.25;font-weight:700;text-decoration:none;">${text.manage}</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>`
     : "";
 
   const html = `<!doctype html>
 <html lang="${language}">
   <head>
-    <meta name="color-scheme" content="light">
-    <meta name="supported-color-schemes" content="light">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
+    <meta name="supported-color-schemes" content="light only">
     <title>${escapeHtml(title)}</title>
+    <style>
+      :root { color-scheme: light only; supported-color-schemes: light only; }
+      body, table, td, p, a { font-family: Arial, Helvetica, sans-serif; }
+      @media only screen and (max-width: 620px) {
+        .email-gutter { padding: 0 18px !important; }
+        .content-cell { padding-left: 24px !important; padding-right: 24px !important; }
+        .brand-cell { padding: 34px 24px 24px !important; }
+        .brand-logo { width: 220px !important; max-width: 100% !important; }
+        .headline { font-size: 34px !important; line-height: 1.08 !important; letter-spacing: -1.2px !important; }
+        .details-cell { padding: 4px 18px !important; }
+      }
+      @media only screen and (max-width: 360px) {
+        .email-gutter { padding: 0 12px !important; }
+        .content-cell { padding-left: 18px !important; padding-right: 18px !important; }
+        .headline { font-size: 31px !important; }
+        .details-cell { padding: 2px 14px !important; }
+      }
+    </style>
   </head>
-  <body style="margin:0;background:#f5f0e8;color:#2c211c;font-family:'Bricolage Grotesque',Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%;">
-    <div style="width:100%;padding:28px 12px 36px;background:#f5f0e8;box-sizing:border-box;">
-      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;margin:0 auto;background:#fffdf9;border-radius:4px;">
-        <tr>
-          <td style="padding:40px 28px 20px;text-align:center;">
-            <img src="${logoUrl}" width="210" alt="Altstadtliebe breakfast &amp; lunch" style="display:block;width:210px;max-width:100%;height:auto;margin:0 auto;border:0;">
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:18px 28px 30px;text-align:center;">
-            <h1 style="margin:0;color:#2c211c;font-size:36px;line-height:1.05;letter-spacing:-1.2px;font-weight:700;">${escapeHtml(title)}</h1>
-            <p style="margin:18px auto 0;max-width:420px;color:#66574f;font-size:16px;line-height:1.55;">${body}</p>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:0 28px 26px;">
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #e5ddd3;background:#f8f3eb;">
-              <tr>
-                <td style="padding:22px 20px 8px;">
-                  <div style="font-size:11px;line-height:1.3;letter-spacing:1.4px;text-transform:uppercase;color:#786960;">${text.date}</div>
-                  <div style="margin-top:6px;color:#2c211c;font-size:20px;line-height:1.3;font-weight:700;">${escapeHtml(date)}</div>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:0 20px 22px;">
-                  <div style="font-size:11px;line-height:1.3;letter-spacing:1.4px;text-transform:uppercase;color:#786960;">${text.time}</div>
-                  <div style="margin-top:6px;color:#2c211c;font-size:28px;line-height:1.2;font-weight:700;">${escapeHtml(time)}</div>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:0 28px 30px;">
-            <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-              ${detailRow(text.name, escapeHtml(reservation.customerName))}
-              ${detailRow(text.guests, String(reservation.guestCount))}
-              ${detailRow(text.address, escapeHtml(address))}
-              ${noteRow}
-            </table>
-            <table role="presentation" cellspacing="0" cellpadding="0" align="center" style="margin:10px auto 0;">
-              <tr>
-                <td style="background:#2c211c;border-radius:2px;text-align:center;">
-                  <a href="${directionsUrl}" style="display:inline-block;padding:14px 24px;color:#f5f0e8;text-decoration:none;font-size:14px;line-height:1.2;font-weight:700;">${text.directions}</a>
-                </td>
-              </tr>
-            </table>
-            <p style="margin:26px 0 0;text-align:center;color:#66574f;font-size:16px;line-height:1.5;">${isCancellation ? text.cancellationSignoff : text.confirmationSignoff}</p>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding:20px 28px 28px;background:#f5f0e8;text-align:center;color:#786960;font-size:12px;line-height:1.5;">
-            Altstadtliebe · ${escapeHtml(address)}
-          </td>
-        </tr>
-      </table>
-    </div>
+  <body bgcolor="#FFFFFF" style="margin:0;padding:0;background-color:#FFFFFF;color:#241814;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF" style="width:100%;background-color:#FFFFFF;">
+      <tr>
+        <td class="email-gutter" align="center" bgcolor="#FFFFFF" style="padding:0 24px;background-color:#FFFFFF;">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF" style="width:100%;max-width:600px;margin:0 auto;background-color:#FFFFFF;">
+            <tr>
+              <td class="brand-cell" align="center" bgcolor="#FFFFFF" style="padding:46px 32px 32px;background-color:#FFFFFF;">
+                <img class="brand-logo" src="${logoUrl}" width="270" alt="Altstadtliebe breakfast &amp; lunch" style="display:block;width:270px;max-width:100%;height:auto;margin:0 auto;border:0;outline:none;text-decoration:none;">
+              </td>
+            </tr>
+            <tr>
+              <td class="content-cell" bgcolor="#FFFFFF" style="padding:26px 32px 0;background-color:#FFFFFF;">
+                <h1 class="headline" style="margin:0;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:44px;line-height:1.06;letter-spacing:-1.8px;font-weight:700;">${escapeHtml(title)}</h1>
+                <p style="margin:34px 0 0;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.45;font-weight:700;">${greeting}</p>
+                <p style="margin:8px 0 0;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:1.55;font-weight:400;">${escapeHtml(description)}</p>
+              </td>
+            </tr>
+            <tr>
+              <td class="content-cell" bgcolor="#FFFFFF" style="padding:38px 32px 0;background-color:#FFFFFF;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#FAF7F2" style="width:100%;background-color:#FAF7F2;border-radius:16px;">
+                  <tr>
+                    <td class="details-cell" bgcolor="#FAF7F2" style="padding:5px 24px;background-color:#FAF7F2;border-radius:16px;">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        ${detailRow(text.name, escapeHtml(reservation.customerName))}
+                        ${detailRow(text.dateAndTime, escapeHtml(dateAndTime))}
+                        ${detailRow(text.guests, String(reservation.guestCount))}
+                        ${detailRow(text.duration, escapeHtml(duration))}
+                        ${detailRow(text.email, escapeHtml(reservation.customerEmail), true)}
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                  ${managementButton}
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td class="content-cell" bgcolor="#FFFFFF" style="padding:38px 32px 48px;background-color:#FFFFFF;">
+                <div style="height:1px;line-height:1px;background-color:#E8E1D8;font-size:1px;">&nbsp;</div>
+                <p style="margin:36px 0 0;text-align:center;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.4;font-weight:700;">${escapeHtml(closing)}</p>
+                <p style="margin:12px 0 0;text-align:center;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;font-weight:400;">${text.questions}</p>
+                <p style="margin:12px 0 0;text-align:center;color:#241814;font-family:Arial,Helvetica,sans-serif;font-size:19px;line-height:1.4;font-weight:700;">
+                  <a href="${phoneHref}" style="color:#241814;text-decoration:none;">${phoneDisplay}</a>
+                </p>
+                <p style="margin:28px 0 0;text-align:center;color:#241814;font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:1.4;font-style:italic;">${text.team}</p>
+                <img src="${heartUrl}" width="34" alt="Altstadtliebe" style="display:block;width:34px;height:34px;margin:24px auto 0;border:0;outline:none;text-decoration:none;">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>`;
 
   const plainText = [
     title,
     "",
-    body.replace(/&amp;/g, "&"),
+    greetingText,
+    description,
     "",
     `${text.name}: ${reservation.customerName}`,
-    `${text.date}: ${date}`,
-    `${text.time}: ${time}`,
+    `${text.dateAndTime}: ${dateAndTime}`,
     `${text.guests}: ${reservation.guestCount}`,
-    `${text.address}: ${address}`,
-    ...(reservation.specialRequests ? [`${text.note}: ${reservation.specialRequests}`] : []),
+    `${text.duration}: ${duration}`,
+    `${text.email}: ${reservation.customerEmail}`,
+    ...(managementUrl ? ["", `${text.manage}: ${managementUrl}`] : []),
     "",
-    `${text.directions}: ${directionsUrl}`,
+    closing,
+    text.questions,
+    phoneDisplay,
     "",
-    isCancellation ? text.cancellationSignoff : text.confirmationSignoff,
+    text.team,
   ].join("\n");
 
   return {

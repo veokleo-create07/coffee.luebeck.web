@@ -13,6 +13,7 @@ type ReservationConfirmation = {
   endsAt: string;
   specialRequests: string | null;
   language: "de" | "en";
+  managementUrl?: string | null;
 };
 
 export async function sendReservationConfirmationEmail(reservation: ReservationConfirmation) {
