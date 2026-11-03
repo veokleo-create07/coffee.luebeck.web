@@ -65,6 +65,25 @@ function displayFieldDate(date: string, locale: string) {
   return new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(year, month - 1, day, 12)));
 }
 
+function monthValue(date: string) {
+  return date.slice(0, 7);
+}
+
+function monthLabel(date: string, locale: string) {
+  const [year, month] = date.split("-").map(Number);
+  return new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(year, month - 1, 1, 12)));
+}
+
+function calendarDays(month: string) {
+  const [year, monthNumber] = month.split("-").map(Number);
+  const daysInMonth = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate();
+  const firstDayMondayIndex = (new Date(Date.UTC(year, monthNumber - 1, 1)).getUTCDay() + 6) % 7;
+  const days = Array.from({ length: daysInMonth }, (_, index) => {
+    return year + "-" + String(monthNumber).padStart(2, "0") + "-" + String(index + 1).padStart(2, "0");
+  });
+  return [...Array(firstDayMondayIndex).fill(null), ...days];
+}
+
 export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const copy = dictionary.reservation.booking;
   const homeHref = locale === "de" ? "/" : "/en";
@@ -74,6 +93,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const [reservationStatus, setReservationStatus] = useState<ReservationStatus | null>(null);
   const [minDate, setMinDate] = useState("");
   const [maxDate, setMaxDate] = useState("");
+  const [calendarMonth, setCalendarMonth] = useState("");
   const [showLargePartyInfo, setShowLargePartyInfo] = useState(false);
   const [form, setForm] = useState<FormState>({ date: "", guests: 2, time: "", details: initialDetails });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -127,8 +147,20 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     const today = dateInputValue(new Date());
     setMinDate(today);
     setMaxDate(addMonths(today, BOOKING_CONFIG.maxMonthsAhead));
+    setCalendarMonth(monthValue(today));
     setForm((current) => ({ ...current, date: current.date || today }));
   }, []);
+
+  function selectDate(nextDate: string) {
+    const nextIsClosed = weekday(nextDate) === BOOKING_CONFIG.closedWeekday;
+    setAvailability(null);
+    setVisitStep(1);
+    setCalendarMonth(monthValue(nextDate));
+    setForm((current) => ({ ...current, date: nextDate, time: "" }));
+    setShowLargePartyInfo(false);
+    setErrors((current) => ({ ...current, date: "", time: "" }));
+    if (nextIsClosed) setFullyBookedTime("");
+  }
 
   useEffect(() => {
     if (!form.date || !minDate || isClosedDay) {
@@ -301,6 +333,10 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 {step === 1 ? (
                   <section aria-labelledby="visit-details-title">
                     <h2 id="visit-details-title" className="sr-only">{copy.stepLabels[0]}</h2>
+                    <div className="mb-7 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso lg:hidden">
+                      <span>{form.date ? displayFieldDate(form.date, copy.dateFormatLocale) : "—"} · {form.guests} {copy.guestsSuffix}</span>
+                      {visitStep > 1 && <button type="button" onClick={() => setVisitStep(visitStep === 3 ? 2 : 1)} className="shrink-0 font-medium text-espresso underline underline-offset-4">{copy.back}</button>}
+                    </div>
                     <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
                       <div className={`min-w-0 ${isCompactFlow && visitStep !== 1 ? "hidden lg:block" : ""}`}>
                         <div className="relative flex min-h-[4.5rem] w-full min-w-0 max-w-full items-center rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] px-3 transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus-within:border-espresso/40 focus-within:ring-2 focus-within:ring-espresso/8">
@@ -309,11 +345,24 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                             <label htmlFor="visit-date" className="text-[0.68rem] font-medium leading-tight text-espresso-soft">{copy.dateLabel}</label>
                             <span aria-hidden="true" className="text-[0.94rem] font-medium leading-tight text-espresso">{displayFieldDate(form.date, copy.dateFormatLocale)}</span>
                           </div>
-                          <input ref={dateInputRef} id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => { const nextDate = event.target.value; const nextIsClosed = weekday(nextDate) === BOOKING_CONFIG.closedWeekday; setAvailability(null); setVisitStep(1); setForm((current) => ({ ...current, date: nextDate, time: "" })); setShowLargePartyInfo(false); setErrors((current) => ({ ...current, date: "", time: "" })); if (nextIsClosed) setFullyBookedTime(""); }} className="absolute inset-0 z-20 h-full w-full cursor-pointer rounded-[1rem] opacity-[0.01] lg:pointer-events-none lg:opacity-0" aria-label={`${copy.dateLabel}: ${displayFieldDate(form.date, copy.dateFormatLocale)}`} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+                          <input ref={dateInputRef} id="visit-date" type="date" min={minDate} max={maxDate} value={form.date} onChange={(event) => selectDate(event.target.value)} className="absolute inset-0 z-20 hidden h-full w-full cursor-pointer rounded-[1rem] opacity-0 lg:block lg:pointer-events-none" aria-label={`${copy.dateLabel}: ${displayFieldDate(form.date, copy.dateFormatLocale)}`} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
                           <button type="button" onClick={openDatePicker} aria-label={`${copy.dateLabel}: ${displayFieldDate(form.date, copy.dateFormatLocale)}`} className="absolute inset-0 z-30 hidden rounded-[1rem] outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory lg:block" />
                         </div>
                         {errors.date && <p id="date-error" className={errorClass} role="alert">{errors.date}</p>}
                       </div>
+                      {isCompactFlow && visitStep === 1 && calendarMonth && <div className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] p-4 lg:hidden sm:col-span-2">
+                        <div className="flex items-center justify-between gap-3">
+                          <button type="button" onClick={() => setCalendarMonth(addMonths(calendarMonth + "-01", -1).slice(0, 7))} disabled={calendarMonth <= monthValue(minDate)} aria-label={locale === "de" ? "Vorheriger Monat" : "Previous month"} className="flex h-10 w-10 items-center justify-center rounded-full text-espresso transition-colors hover:bg-espresso/5 disabled:cursor-not-allowed disabled:opacity-25"><ArrowLeft size={18} strokeWidth={1.6} aria-hidden="true" /></button>
+                          <h3 className="text-base font-semibold capitalize text-espresso">{monthLabel(calendarMonth + "-01", copy.dateFormatLocale)}</h3>
+                          <button type="button" onClick={() => setCalendarMonth(addMonths(calendarMonth + "-01", 1).slice(0, 7))} disabled={calendarMonth >= monthValue(maxDate)} aria-label={locale === "de" ? "Nächster Monat" : "Next month"} className="flex h-10 w-10 items-center justify-center rounded-full text-espresso transition-colors hover:bg-espresso/5 disabled:cursor-not-allowed disabled:opacity-25"><ArrowRight size={18} strokeWidth={1.6} aria-hidden="true" /></button>
+                        </div>
+                        <div className="mt-4 grid grid-cols-7 text-center text-[0.68rem] font-medium uppercase tracking-[0.05em] text-espresso-soft" aria-hidden="true">
+                          {(locale === "de" ? ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] : ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]).map((day) => <span key={day}>{day}</span>)}
+                        </div>
+                        <div className="mt-2 grid grid-cols-7 gap-1.5" role="grid" aria-label={monthLabel(calendarMonth + "-01", copy.dateFormatLocale)}>
+                          {calendarDays(calendarMonth).map((day, index) => day ? <button key={day} type="button" role="gridcell" aria-selected={form.date === day} onClick={() => selectDate(day)} disabled={day < minDate || day > maxDate} className={`flex aspect-square items-center justify-center rounded-full text-sm tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass ${form.date === day ? "bg-espresso font-semibold text-ivory" : weekday(day) === BOOKING_CONFIG.closedWeekday ? "text-espresso-soft/45" : "text-espresso hover:bg-espresso/8"} disabled:cursor-not-allowed disabled:text-espresso/15`}>{Number(day.slice(-2))}</button> : <span key={"empty-" + index} aria-hidden="true" />)}
+                        </div>
+                      </div>}
                       <div className={`min-w-0 ${isCompactFlow && visitStep !== 2 ? "hidden lg:block" : ""}`}>
                         <div className="relative">
                           <UserRound size={21} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
@@ -329,8 +378,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         {showLargePartyInfo && <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-espresso-soft"><span>{copy.moreThanSixMessage}</span><a href={dictionary.location.phoneHref} className="site-button site-button-secondary min-h-11 gap-2 px-4" aria-label={`${copy.callCafe}: ${dictionary.location.phoneLabel}`}><Phone size={15} strokeWidth={1.5} aria-hidden="true" />{copy.callCafe}</a></div>}
                       </div>}
                     </div>
-
-                    {visitStep > 1 && <div className="mb-6 flex items-center justify-between gap-4 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3 text-sm text-espresso-soft lg:hidden"><span>{displayFieldDate(form.date, copy.dateFormatLocale)} · {form.guests} {copy.guestsSuffix}</span><button type="button" onClick={() => setVisitStep(visitStep === 3 ? 2 : 1)} className="font-medium text-espresso underline underline-offset-4">{copy.back}</button></div>}
 
                     {isCompactFlow && visitStep < 3 && <div className="mt-7 lg:hidden">
                       {isClosedDay ? (
