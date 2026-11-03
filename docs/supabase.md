@@ -11,7 +11,7 @@ For a disposable database and the exact staging environment variables required f
 
    ```dotenv
    SUPABASE_URL=https://your-project-ref.supabase.co
-   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+   NEXT_SERVICE_ROLE_KEY=your-service-role-key
    ```
 
    The service-role key is server-only. Do not prefix it with `NEXT_PUBLIC_`, commit it, or use it in client components.
@@ -35,7 +35,7 @@ For a disposable database and the exact staging environment variables required f
 
 The migrations create the reservation, opening-hours, and centralized booking-settings tables, plus the atomic reservation RPC. They seed only the verified weekly hours and booking rules; they do not create physical table-management data or fictional reservations.
 
-Row Level Security is enabled on every table, and direct `anon` and `authenticated` table privileges are revoked. The server utility uses only `SUPABASE_SERVICE_ROLE_KEY`, which bypasses RLS and must remain on the server. No API route or booking submission is connected yet.
+Row Level Security is enabled on every table, and direct `anon` and `authenticated` table privileges are revoked. The server utility uses `NEXT_SERVICE_ROLE_KEY`, which bypasses RLS and must remain on the server.
 
 ## Types and server utilities
 

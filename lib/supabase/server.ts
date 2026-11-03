@@ -7,10 +7,10 @@ export function createSupabaseAdminClient(): SupabaseClient<Database> {
   // Accept the canonical server-only names and the legacy names that may
   // already exist in a deployed environment. Neither key is exposed to the browser.
   const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_SERVICE_ROLE_KEY;
+  const serviceRoleKey = process.env.NEXT_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!url || !serviceRoleKey) {
-    throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.");
+    throw new Error("Missing Supabase server environment variables.");
   }
 
   return createClient<Database>(url, serviceRoleKey, {

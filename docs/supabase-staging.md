@@ -42,7 +42,7 @@ Create `.env.staging.local` locally (never commit it) and use it only while runn
 ```dotenv
 NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3010
 SUPABASE_URL=https://<staging-project-ref>.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=<staging-service-role-key>
+NEXT_SERVICE_ROLE_KEY=<staging-service-role-key>
 ```
 
 The service-role key must remain server-only. Do not use a `NEXT_PUBLIC_` prefix for it and do not paste it into a browser test, screenshot, issue, or log.
