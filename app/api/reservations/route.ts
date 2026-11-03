@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
-import { processReservationEmailJobs } from "@/lib/email/process-reservation-emails";
+import { sendReservationConfirmationEmail } from "@/lib/email/send-reservation-confirmation";
 import { localDateTimeToUtc, validateReservationInput, type ReservationInput } from "@/lib/supabase/reservation-engine";
 
 export async function POST(request: Request) {
@@ -47,14 +47,25 @@ export async function POST(request: Request) {
     if (!reservation?.reservation_reference) return NextResponse.json({ error: "server" }, { status: 500 });
     const { data: storedReservation } = await client
       .from("reservations")
-      .select("status")
+      .select("id, customer_name, customer_email, guest_count, starts_at, ends_at, special_requests, language, status")
       .eq("reservation_reference", reservation.reservation_reference)
       .maybeSingle();
     const status = storedReservation?.status === "confirmed" ? "confirmed" : "pending";
-    try {
-      await processReservationEmailJobs(5);
-    } catch (error) {
-      console.error("Reservation email processing skipped", error instanceof Error ? error.message : "Unknown error");
+    if (storedReservation) {
+      try {
+        await sendReservationConfirmationEmail({
+          reservationId: storedReservation.id,
+          customerName: storedReservation.customer_name,
+          customerEmail: storedReservation.customer_email,
+          guestCount: storedReservation.guest_count,
+          startsAt: storedReservation.starts_at,
+          endsAt: storedReservation.ends_at,
+          specialRequests: storedReservation.special_requests,
+          language: storedReservation.language,
+        });
+      } catch (error) {
+        console.error("Reservation confirmation email skipped", error instanceof Error ? error.message : "Unknown error");
+      }
     }
     return NextResponse.json({ reservationReference: reservation.reservation_reference, status });
   } catch (error) {

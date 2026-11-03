@@ -22,16 +22,16 @@ The application passes the available static checks and the automated browser mat
 - Added a repeatable Playwright audit script and captured responsive screenshots under `test-results/launch-audit/`.
 - Updated Next.js to patched `15.5.28` and pinned the vulnerable transitive PostCSS dependency to patched `8.5.29` using a package override.
 - Added a reproducible disposable Supabase staging setup guide with isolated environment variables and cleanup instructions.
-- Added a transactional reservation email outbox, Resend worker, bilingual branded templates, cancellation trigger, retry handling, and immediate confirmation processing. The implementation now has no cron jobs or scheduled reminders. No live email was sent during this implementation pass.
+- Added a direct, bilingual Resend confirmation email after successful reservations. No cancellation worker, queue, webhook, cron job, or scheduled reminder is used. No live email was sent during this implementation pass.
 
 ### Confirmed remaining issues / release gates
 
 - No isolated Supabase staging project or test credentials are available in the checkout. No fake reservations, cleanup, cancellation, overbooking, table-capacity, or concurrent-booking tests were run against any database.
-- Resend delivery was not live-verified in this scope; implementation is present but intentionally has not sent email.
+- Resend confirmation delivery was not live-verified in this scope; implementation is present but intentionally has not sent email.
 - Physical iPhone Safari, Android, iPad Safari, trackpad, and touch testing remain outstanding. The automated browser run used headless Chromium.
 - The production dependency audit is now clean at high severity after the targeted Next.js/PostCSS update. Fourteen moderate development/transitive advisories remain in the full audit output and require separate dependency review.
 - The matcha videos and scroll synchronization were not changed in this audit.
-- Resend delivery is implemented but remains unverified until the Resend domain, API key, Supabase migration, and staging data are configured. Dashboard cancellation delivery requires the dashboard/Supabase webhook to call the protected on-demand worker endpoint because no dashboard application is present in this repository.
+- Resend confirmation delivery remains unverified until the Resend domain, API key, and production configuration are confirmed.
 
 ## Checks actually run
 
@@ -47,7 +47,7 @@ The application passes the available static checks and the automated browser mat
 | Local responsive browser screenshots | Captured under `test-results/launch-audit/` at 390, 768, and 1440px for homepage, FAQ, and reservation states; reservation screenshots are UI-only without live availability |
 | Supabase end-to-end tests | Not run; no isolated staging credentials |
 | Resend email delivery | NOT TESTED live; requires verified Resend domain, API key, staging queue, and fake recipient |
-| Resend integration implementation | Implemented; local worker safety checks returned 401 without email-worker auth and 503 without provider configuration; no email was sent |
+| Resend confirmation implementation | Implemented directly in the reservation API; no live email was sent |
 
 The full `npm audit` still reports 14 moderate advisories in development/transitive dependencies. They were not force-upgraded because doing so would introduce unrelated dependency changes.
 
@@ -70,7 +70,7 @@ The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768
 | Reservation status, cancellation, cleanup | NOT TESTED | Requires staging access and cancellation test fixtures |
 | Successful booking screenshot | NOT CAPTURED | Production/staging credentials are absent; no fake booking was created |
 | Fully booked/unavailable screenshot | NOT CAPTURED | No staging availability data was used |
-| Resend confirmation/cancellation email | NOT TESTED live | Requires a verified Resend domain, staging queue, and fake recipient |
+| Resend confirmation email | NOT TESTED live | Requires a verified Resend domain and fake recipient |
 
 ### Browser audit artifacts
 
@@ -94,10 +94,8 @@ The automated matrix exercised all requested CSS widths: 320, 375, 390, 430, 768
 - `scripts/launch-audit.mjs`
 - `test-results/launch-audit/` (browser results and screenshots)
 - `docs/supabase-staging.md`
-- `supabase/migrations/20261103000000_reservation_email_outbox.sql`
-- `supabase/migrations/20261104000000_simplify_reservation_email_outbox.sql`
-- `app/api/email/process/route.ts`
-- `lib/email/process-reservation-emails.ts`
+- `supabase/migrations/20261105000000_remove_reservation_email_queue.sql`
+- `lib/email/send-reservation-confirmation.ts`
 - `lib/email/reservation-email.ts`
 - `docs/supabase.md`
 - `supabase/migrations/20261102000000_reservation_atomic_booking.sql`
