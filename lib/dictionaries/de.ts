@@ -340,7 +340,7 @@ export const de: Dictionary = {
       { question: "Kann ich auch spontan vorbeikommen?", answer: "Natürlich! Ihr könnt jederzeit auch ohne Reservierung vorbeikommen. Besonders zu den Stoßzeiten empfehlen wir euch aber, vorher einen Tisch zu reservieren." },
       { question: "Gibt es bei euch vegane und vegetarische Optionen?", answer: "Ja! Auf unserer Speisekarte findet ihr auch vegetarische und vegane Optionen. Bei Allergien oder besonderen Ernährungswünschen sprecht einfach unser Team an. Wir helfen euch gerne weiter." },
       { question: "Sind Hunde bei euch erlaubt?", answer: "Ja, Hunde sind bei uns herzlich willkommen! Wir bitten euch nur, eure Vierbeiner in eurer Nähe zu behalten, damit sich alle Gäste wohlfühlen." },
-      { question: "Bietet ihr private Feiern und Catering an?", answer: "Ja! Ob Geburtstag, Hochzeit, Firmenfeier oder ein anderer besonderer Anlass – wir bieten private Feiern und individuelles Catering an. Kontaktiert uns einfach, und gemeinsam finden wir das passende Angebot für euch." },
+      { question: "Bietet ihr private Feiern und Catering an?", answer: "Ja! Ob Geburtstag, Hochzeit, Firmenfeier oder ein anderer besonderer Anlass – wir bieten private Feiern und individuelles Catering an. Kontaktiert uns einfach und gemeinsam finden wir das passende Angebot für euch." },
     ],
   },
 };
