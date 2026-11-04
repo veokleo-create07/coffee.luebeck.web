@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, Clock3, Mail, MessageSquare, Phone, UserRound, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ChevronDown, Clock3, Mail, MessageSquare, Phone, UserRound, X } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
@@ -325,7 +325,6 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 </p>
                 <Link href={homeHref} className="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-espresso px-5 text-xs font-semibold !text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
                   {copy.startOver}
-                  <ArrowRight size={15} strokeWidth={1.7} aria-hidden="true" />
                 </Link>
               </section>
             ) : (
@@ -338,7 +337,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       {visitStep > 1 && <button type="button" onClick={() => setVisitStep(visitStep === 3 ? 2 : 1)} className="shrink-0 font-medium text-espresso underline underline-offset-4">{copy.back}</button>}
                     </div>
                     <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-4">
-                      <div className={`min-w-0 ${isCompactFlow && visitStep !== 1 ? "hidden lg:block" : ""}`}>
+                      <div className={`min-w-0 ${isCompactFlow ? "hidden lg:block" : ""}`}>
                         <div className="relative flex min-h-[4.5rem] w-full min-w-0 max-w-full items-center rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] px-3 transition-[border-color,background-color,box-shadow] hover:border-espresso/25 focus-within:border-espresso/40 focus-within:ring-2 focus-within:ring-espresso/8">
                           <CalendarDays size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-espresso" aria-hidden="true" />
                           <div className="pointer-events-none absolute left-12 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-0.5">
@@ -383,7 +382,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                       {isClosedDay ? (
                         <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
                       ) : (
-                        <button type="submit" disabled={availabilityLoading} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{visitStep === 1 ? copy.continue : copy.chooseTime}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
+                        <button type="submit" disabled={availabilityLoading} className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-[0.82rem] font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{visitStep === 1 ? copy.continue : copy.chooseTime}</span></button>
                       )}
                     </div>}
 
@@ -416,15 +415,15 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     </div>
 
                     <div className="mt-7 hidden justify-end lg:flex">
-                      <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-espresso px-9 text-sm font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-56 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button>
+                      <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-[0.82rem] font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-56 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span></button>
                     </div>
-                    {visitStep === 3 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(2)} className="site-button site-button-secondary flex-1">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary flex-1 disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span><ArrowRight size={15} strokeWidth={1.5} className="ml-2.5" aria-hidden="true" /></button></div>}
+                    {visitStep === 3 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(2)} className="site-button site-button-secondary min-h-11 flex-1 px-5 text-sm">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary min-h-11 flex-1 px-5 text-sm disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span></button></div>}
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
                     <h2 id="contact-details-title" className="sr-only">{copy.stepLabels[1]}</h2>
-                    <dl className="mb-6 grid grid-cols-3 gap-3 text-sm">
-                      <div><dt className="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1.5 text-[0.94rem] font-semibold text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd></div>
+                    <dl className="mb-6 grid grid-cols-[1.4fr_0.8fr_0.8fr] gap-3 text-sm">
+                      <div className="min-w-0"><dt className="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-espresso-soft">{copy.summaryDate}</dt><dd className="mt-1.5 whitespace-nowrap text-[0.9rem] font-semibold text-espresso">{displayDate(form.date, copy.dateFormatLocale)}</dd></div>
                       <div><dt className="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-espresso-soft">{copy.summaryTime}</dt><dd className="mt-1.5 text-[0.94rem] font-semibold text-espresso">{form.time}</dd></div>
                       <div><dt className="text-[0.68rem] font-semibold uppercase tracking-[0.07em] text-espresso-soft">{copy.summaryGuests}</dt><dd className="mt-1.5 text-[0.94rem] font-semibold text-espresso">{form.guests} {copy.guestsSuffix}</dd></div>
                       <div className="col-span-3 flex items-start gap-2 text-xs leading-5 text-espresso-soft"><Clock3 size={14} strokeWidth={1.5} className="mt-0.5 shrink-0 text-olive" aria-hidden="true" /><dt className="shrink-0 font-semibold text-espresso-soft">{copy.summaryDuration}:</dt><dd className="font-medium text-espresso-soft">{copy.durationNotice}</dd></div>
@@ -456,8 +455,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
                     <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <button type="button" onClick={() => { setErrors({}); setVisitStep(2); setStep(1); }} className="site-button site-button-secondary gap-2"><ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />{copy.back}</button>
-                      <button type="submit" disabled={submitting} className={`${buttonClass} w-full sm:w-auto disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span><Check size={16} strokeWidth={1.5} className="ml-3" aria-hidden="true" /></button>
+                      <button type="button" onClick={() => { setErrors({}); setVisitStep(2); setStep(1); }} className="site-button site-button-secondary min-h-11 gap-2 px-5 text-sm">{copy.back}</button>
+                      <button type="submit" disabled={submitting} className={`${buttonClass} min-h-11 w-full max-w-[18rem] self-center px-6 text-sm sm:w-auto disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span></button>
                     </div>
                   </section>
                 )}
