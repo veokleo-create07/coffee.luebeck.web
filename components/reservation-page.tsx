@@ -323,7 +323,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                 <p className="mt-4 max-w-[28rem] text-sm leading-[1.6] text-espresso-soft md:text-base">
                   {isConfirmed ? copy.confirmationBody : copy.pendingBody}
                 </p>
-                <Link href={homeHref} className="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-espresso px-5 text-xs font-semibold !text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
+                <Link href={homeHref} className="mt-7 inline-flex min-h-11 w-full max-w-[18rem] self-center items-center justify-center rounded-full bg-espresso px-6 text-[0.82rem] font-medium !text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.75)] transition-[background-color,box-shadow,transform] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.8)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass">
                   {copy.startOver}
                 </Link>
               </section>
@@ -417,7 +417,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     <div className="mt-7 hidden justify-end lg:flex">
                       <button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-[0.82rem] font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] hover:shadow-[0_16px_28px_-18px_rgba(44,33,28,0.85)] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory active:translate-y-0 sm:w-auto sm:min-w-56 disabled:cursor-not-allowed disabled:opacity-35 disabled:shadow-none disabled:hover:translate-y-0"><span>{copy.continue}</span></button>
                     </div>
-                    {visitStep === 3 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(2)} className="site-button site-button-secondary min-h-11 flex-1 px-5 text-sm">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary min-h-11 flex-1 px-5 text-sm disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span></button></div>}
+                    {visitStep === 3 && <div className="mt-7 flex gap-3 lg:hidden"><button type="button" onClick={() => setVisitStep(2)} className="site-button site-button-secondary min-h-11 flex-1 px-6 text-[0.82rem]">{copy.back}</button><button type="submit" disabled={availabilityLoading || !form.time || !availableTimes.includes(form.time)} className="site-button site-button-primary min-h-11 flex-1 px-6 text-[0.82rem] disabled:cursor-not-allowed disabled:opacity-35"><span>{copy.continue}</span></button></div>}
                   </section>
                 ) : (
                   <section aria-labelledby="contact-details-title">
@@ -455,8 +455,8 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
                     <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <button type="button" onClick={() => { setErrors({}); setVisitStep(2); setStep(1); }} className="site-button site-button-secondary min-h-11 gap-2 px-5 text-sm">{copy.back}</button>
-                      <button type="submit" disabled={submitting} className={`${buttonClass} min-h-11 w-full max-w-[18rem] self-center px-6 text-sm sm:w-auto disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span></button>
+                      <button type="button" onClick={() => { setErrors({}); setVisitStep(2); setStep(1); }} className="site-button site-button-secondary min-h-11 w-full max-w-[18rem] self-center px-6 text-[0.82rem]">{copy.back}</button>
+                      <button type="submit" disabled={submitting} className={`${buttonClass} min-h-11 w-full max-w-[18rem] self-center px-6 text-[0.82rem] disabled:cursor-wait disabled:opacity-60`}><span>{submitting ? copy.loadingAvailability : copy.confirm}</span></button>
                     </div>
                   </section>
                 )}
