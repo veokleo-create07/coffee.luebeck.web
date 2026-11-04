@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useId, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
+import { absoluteUrl, BUSINESS_ID, SEO_ROUTES } from "@/lib/seo";
+import { JsonLd } from "./json-ld";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
@@ -68,12 +70,40 @@ export function FaqSection({ dictionary }: { dictionary: Dictionary }) {
 
 export function FaqPage({ locale, dictionary }: FaqPageProps) {
   const copy = dictionary.faq;
-  const homeHref = locale === "de" ? "/" : "/en";
-  const reservationHref = locale === "de" ? "/reservation" : "/en/reservation";
+  const homeHref = SEO_ROUTES.home[locale];
+  const reservationHref = SEO_ROUTES.reservation[locale];
+  const route = SEO_ROUTES.faq[locale];
+  const languageHref = SEO_ROUTES.faq[locale === "de" ? "en" : "de"];
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        "@id": `${absoluteUrl(route)}#faq`,
+        url: absoluteUrl(route),
+        inLanguage: locale === "de" ? "de-DE" : "en-GB",
+        about: { "@id": BUSINESS_ID },
+        mainEntity: copy.items.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${absoluteUrl(route)}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: dictionary.navigation.home, item: absoluteUrl(homeHref) },
+          { "@type": "ListItem", position: 2, name: copy.title, item: absoluteUrl(route) },
+        ],
+      },
+    ],
+  };
 
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
-      <SiteHeader locale={locale} dictionary={dictionary} />
+      <JsonLd data={structuredData} />
+      <SiteHeader locale={locale} dictionary={dictionary} languageHref={languageHref} />
       <main className="page-gutter py-20 md:py-28 lg:py-36">
         <div className="mx-auto max-w-4xl">
           <header className="max-w-2xl">

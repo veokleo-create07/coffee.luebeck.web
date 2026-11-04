@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, CalendarDays, ChevronDown, Clock3, Mail, Message
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
+import { SEO_ROUTES } from "@/lib/seo";
 import { BOOKING_CONFIG } from "@/lib/booking-config";
 import { SiteHeader } from "./site-header";
 
@@ -294,7 +295,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
   return (
     <div className="min-h-screen overflow-hidden bg-ivory">
-      <SiteHeader locale={locale} dictionary={dictionary} />
+      <SiteHeader locale={locale} dictionary={dictionary} languageHref={SEO_ROUTES.reservation[locale === "de" ? "en" : "de"]} />
       <main className={`page-gutter py-8 md:py-12 lg:py-16 ${reservationStatus ? "flex min-h-[calc(100svh-7rem)] items-center" : ""}`}>
         <div className="mx-auto grid w-full max-w-7xl gap-7 lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
           <aside className="hidden lg:sticky lg:top-8 lg:block" aria-label={dictionary.reservation.imageAlt}>

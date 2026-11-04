@@ -1,4 +1,5 @@
 import "server-only";
+import { SITE_URL } from "@/lib/seo";
 
 export type ReservationEmailKind = "confirmation" | "cancellation";
 
@@ -134,9 +135,8 @@ export function renderReservationEmail(reservation: ReservationEmailData, kind: 
   const dateAndTime = `${formatDate(reservation.startsAt, language)} ${text.at} ${formatTime(reservation.startsAt)}`;
   const minutes = durationMinutes(reservation.startsAt, reservation.endsAt);
   const duration = text.durationValue.replace("{minutes}", String(minutes));
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://altstadtliebe.com").replace(/\/$/u, "");
-  const logoUrl = `${siteUrl}/altstadtliebe-logo.png`;
-  const heartUrl = `${siteUrl}/altstadtliebe-heart.png`;
+  const logoUrl = `${SITE_URL}/altstadtliebe-logo.png`;
+  const heartUrl = `${SITE_URL}/altstadtliebe-heart.png`;
   const managementUrl = !isCancellation && isSecureManagementUrl(reservation.managementUrl)
     ? reservation.managementUrl
     : null;

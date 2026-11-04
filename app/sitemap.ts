@@ -1,9 +1,17 @@
 import type { MetadataRoute } from "next";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://altstadtliebe.vercel.app";
+import { absoluteUrl, SEO_ROUTES, type SeoRoute } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-  const routes = ["", "/en", "/faq", "/en/faq", "/menu", "/en/menu", "/reservation", "/en/reservation", "/impressum", "/en/legal-notice", "/datenschutz", "/en/privacy"];
-  return routes.map((route) => ({ url: `${siteUrl}${route}`, lastModified: now, changeFrequency: "monthly", priority: route === "" || route === "/en" ? 1 : 0.7 }));
+  const routes: SeoRoute[] = ["home", "menu", "matcha", "cafe", "faq", "reservation"];
+
+  return routes.flatMap((route) => {
+    const paths = SEO_ROUTES[route];
+    const languages = { de: absoluteUrl(paths.de), en: absoluteUrl(paths.en) };
+    return (["de", "en"] as const).map((locale) => ({
+      url: absoluteUrl(paths[locale]),
+      changeFrequency: route === "home" ? "weekly" as const : "monthly" as const,
+      priority: route === "home" ? 1 : route === "matcha" || route === "cafe" || route === "menu" ? 0.9 : 0.7,
+      alternates: { languages },
+    }));
+  });
 }

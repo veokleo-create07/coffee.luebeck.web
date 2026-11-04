@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Bricolage_Grotesque } from "next/font/google";
+import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 const bricology = Bricolage_Grotesque({
@@ -11,7 +12,7 @@ const bricology = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://altstadtliebe.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Altstadtliebe — Café in Lübeck",
     template: "%s — Altstadtliebe",
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Altstadtliebe",
     title: "Altstadtliebe — Café in Lübeck",
     description: "Ein Café für guten Kaffee und die kleinen Pausen, die bleiben.",
-    url: "/",
+    url: SITE_URL,
   },
 };
 
