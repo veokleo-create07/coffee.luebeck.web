@@ -13,6 +13,7 @@ export type Database = {
           starts_at: string;
           ends_at: string;
           special_requests: string | null;
+          management_token_hash: string | null;
           status: "pending" | "confirmed" | "cancelled" | "completed";
           language: "de" | "en";
           created_at: string;
@@ -27,6 +28,7 @@ export type Database = {
           starts_at: string;
           ends_at: string;
           special_requests?: string | null;
+          management_token_hash?: string | null;
           status?: "pending" | "confirmed" | "cancelled" | "completed";
           language?: "de" | "en";
           created_at?: string;
