@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendReservationCancellationEmail } from "@/lib/email/send-reservation-confirmation";
-import { hashReservationManagementToken, isReservationManagementToken } from "@/lib/reservations/management-token";
+import { reservationIdFromManagementToken } from "@/lib/reservations/management-token";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -12,11 +12,13 @@ function canCancel(status: string, startsAt: string) {
 }
 
 async function findReservation(token: string) {
+  const reservationId = reservationIdFromManagementToken(token);
+  if (!reservationId) return { client: createSupabaseAdminClient(), reservation: null };
   const client = createSupabaseAdminClient();
   const { data, error } = await client
     .from("reservations")
     .select(publicReservationFields)
-    .eq("management_token_hash", hashReservationManagementToken(token))
+    .eq("id", reservationId)
     .maybeSingle();
 
   if (error) throw error;
@@ -38,7 +40,7 @@ function publicReservation(reservation: NonNullable<Awaited<ReturnType<typeof fi
 
 export async function GET(request: Request) {
   const token = new URL(request.url).searchParams.get("token");
-  if (!isReservationManagementToken(token)) {
+  if (!token || !reservationIdFromManagementToken(token)) {
     return NextResponse.json({ error: "invalid_link" }, { status: 400, headers: { "Cache-Control": "no-store" } });
   }
 
@@ -65,12 +67,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   }
 
-  if (body.action !== "cancel" || !isReservationManagementToken(body.token)) {
+  const token = typeof body.token === "string" ? body.token : "";
+  if (body.action !== "cancel" || !reservationIdFromManagementToken(token)) {
     return NextResponse.json({ error: "invalid_request" }, { status: 400 });
   }
 
   try {
-    const { client, reservation } = await findReservation(body.token);
+    const { client, reservation } = await findReservation(token);
     if (!reservation) return NextResponse.json({ error: "not_found" }, { status: 404 });
 
     if (reservation.status === "cancelled") {

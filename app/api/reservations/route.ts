@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { sendReservationConfirmationEmail } from "@/lib/email/send-reservation-confirmation";
-import { createReservationManagementToken, hashReservationManagementToken, reservationManagementUrl } from "@/lib/reservations/management-token";
+import { createReservationManagementToken, reservationManagementUrl } from "@/lib/reservations/management-token";
 import { localDateTimeToUtc, validateReservationInput, type ReservationInput } from "@/lib/supabase/reservation-engine";
 
 export async function POST(request: Request) {
@@ -53,18 +53,8 @@ export async function POST(request: Request) {
       .maybeSingle();
     const status = storedReservation?.status === "confirmed" ? "confirmed" : "pending";
     if (storedReservation) {
-      let managementUrl: string | null = null;
-      const managementToken = createReservationManagementToken();
-      const { error: managementTokenError } = await client
-        .from("reservations")
-        .update({ management_token_hash: hashReservationManagementToken(managementToken) })
-        .eq("id", storedReservation.id);
-
-      if (managementTokenError) {
-        console.error("Reservation management link unavailable", managementTokenError.message);
-      } else {
-        managementUrl = reservationManagementUrl(managementToken, storedReservation.language);
-      }
+      const managementToken = createReservationManagementToken(storedReservation.id);
+      const managementUrl = reservationManagementUrl(managementToken, storedReservation.language);
 
       try {
         await sendReservationConfirmationEmail({
