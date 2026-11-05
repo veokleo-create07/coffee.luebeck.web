@@ -99,6 +99,7 @@ export function ManageReservationPage({ locale, dictionary, token }: { locale: L
   const [state, setState] = useState<"loading" | "ready" | "invalid" | "error">("loading");
   const [confirming, setConfirming] = useState(false);
   const [cancelling, setCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState<string | null>(null);
   const homeHref = locale === "de" ? "/" : "/en";
   const otherPath = locale === "de" ? "/en/manage-reservation" : "/manage-reservation";
   const languageHref = `${otherPath}?token=${encodeURIComponent(token)}`;
@@ -129,18 +130,26 @@ export function ManageReservationPage({ locale, dictionary, token }: { locale: L
   async function cancelReservation() {
     if (cancelling) return;
     setCancelling(true);
+    setCancelError(null);
     try {
       const response = await fetch("/api/reservations/manage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, action: "cancel" }),
       });
-      const payload = await response.json() as { reservation?: ManagedReservation };
-      if (!response.ok || !payload.reservation) throw new Error("cancel_failed");
+      const payload = await response.json() as { reservation?: ManagedReservation; error?: string };
+      if (!response.ok || !payload.reservation) {
+        if (payload.error === "cannot_cancel") {
+          setReservation((current) => current ? { ...current, canCancel: false } : current);
+          setConfirming(false);
+          return;
+        }
+        throw new Error("cancel_failed");
+      }
       setReservation(payload.reservation);
       setConfirming(false);
     } catch {
-      setState("error");
+      setCancelError(copy.errorBody);
     } finally {
       setCancelling(false);
     }
@@ -206,6 +215,7 @@ export function ManageReservationPage({ locale, dictionary, token }: { locale: L
                   <button type="button" onClick={() => setConfirming(false)} disabled={cancelling} className="site-button bg-ivory text-espresso disabled:opacity-50">{copy.keep}</button>
                   <button type="button" onClick={cancelReservation} disabled={cancelling} className="site-button border border-ivory/35 text-ivory disabled:opacity-50">{cancelling ? copy.cancelling : copy.confirmCancel}</button>
                 </div>
+                {cancelError && <p className="mt-4 text-sm text-ivory/80" role="alert">{cancelError}</p>}
               </section>
             )}
 

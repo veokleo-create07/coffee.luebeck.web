@@ -55,11 +55,6 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const requestOrigin = request.headers.get("origin");
-  if (requestOrigin && requestOrigin !== new URL(request.url).origin) {
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
-
   let body: { token?: unknown; action?: unknown };
   try {
     body = await request.json();
