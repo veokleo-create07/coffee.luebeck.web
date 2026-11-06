@@ -84,7 +84,12 @@ export async function POST(request: Request) {
           });
         } catch (notificationError) {
           console.error("Staff booking notification failed", {
-            code: notificationError instanceof Error ? notificationError.name : "unknown",
+            code: notificationError instanceof Error && "code" in notificationError
+              ? String(notificationError.code)
+              : notificationError instanceof Error
+                ? notificationError.name
+                : "unknown",
+            message: notificationError instanceof Error ? notificationError.message : "Unknown notification error",
           });
         }
       });

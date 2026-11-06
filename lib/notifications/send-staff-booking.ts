@@ -16,6 +16,16 @@ type SubscriptionRow = {
   auth: string;
 };
 
+class StaffNotificationError extends Error {
+  code: string;
+
+  constructor(code: string, message: string) {
+    super(message);
+    this.name = "StaffNotificationError";
+    this.code = code;
+  }
+}
+
 function formatBooking(booking: BookingNotification) {
   const locale = booking.customerLanguage === "en" ? "en-GB" : "de-DE";
   const date = new Intl.DateTimeFormat(locale, {
@@ -44,15 +54,22 @@ export async function sendStaffBookingNotification(booking: BookingNotification)
   const publicKey = process.env.WEB_PUSH_VAPID_PUBLIC_KEY;
   const privateKey = process.env.WEB_PUSH_VAPID_PRIVATE_KEY;
   const subject = process.env.WEB_PUSH_SUBJECT;
-  if (!publicKey || !privateKey || !subject) return;
+  if (!publicKey || !privateKey || !subject) {
+    throw new StaffNotificationError("missing_configuration", "Web Push server variables are not configured");
+  }
 
-  webpush.setVapidDetails(subject, publicKey, privateKey);
+  try {
+    webpush.setVapidDetails(subject, publicKey.trim(), privateKey.trim());
+  } catch {
+    throw new StaffNotificationError("invalid_configuration", "Web Push VAPID credentials are invalid");
+  }
   const supabase = createSupabaseAdminClient();
   const { data, error } = await supabase
     .from("staff_push_subscriptions")
     .select("id,endpoint,p256dh,auth")
     .limit(1000);
-  if (error) throw error;
+  if (error) throw new StaffNotificationError("subscription_lookup_failed", "Could not load staff push subscriptions");
+  if (!data?.length) return { sent: 0 };
 
   const message = formatBooking(booking);
   const payload = JSON.stringify({
@@ -61,7 +78,7 @@ export async function sendStaffBookingNotification(booking: BookingNotification)
     tag: `altstadtliebe-reservation-${booking.reservationReference}`,
   });
 
-  await Promise.allSettled((data ?? []).map(async (subscription: SubscriptionRow) => {
+  const results = await Promise.allSettled(data.map(async (subscription: SubscriptionRow) => {
     try {
       await webpush.sendNotification({ endpoint: subscription.endpoint, keys: { p256dh: subscription.p256dh, auth: subscription.auth } }, payload);
     } catch (error) {
@@ -72,4 +89,11 @@ export async function sendStaffBookingNotification(booking: BookingNotification)
       throw error;
     }
   }));
+  const rejected = results.filter((result): result is PromiseRejectedResult => result.status === "rejected");
+  if (rejected.length === results.length) {
+    const first = rejected[0]?.reason;
+    const statusCode = typeof first === "object" && first !== null && "statusCode" in first ? Number(first.statusCode) : 0;
+    throw new StaffNotificationError(statusCode ? `delivery_${statusCode}` : "delivery_failed", "Push delivery failed for all staff devices");
+  }
+  return { sent: results.length - rejected.length, failed: rejected.length };
 }
