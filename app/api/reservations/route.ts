@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 import { sendReservationConfirmationEmail } from "@/lib/email/send-reservation-confirmation";
 import { createReservationManagementToken, reservationManagementUrl } from "@/lib/reservations/management-token";
+import { sendStaffBookingNotification } from "@/lib/notifications/send-staff-booking";
 import { localDateTimeToUtc, validateReservationInput, type ReservationInput } from "@/lib/supabase/reservation-engine";
 
 export async function POST(request: Request) {
@@ -71,6 +72,22 @@ export async function POST(request: Request) {
       } catch (error) {
         console.error("Reservation confirmation email skipped", error instanceof Error ? error.message : "Unknown error");
       }
+
+      after(async () => {
+        try {
+          await sendStaffBookingNotification({
+            reservationReference: reservation.reservation_reference,
+            customerName: storedReservation.customer_name,
+            customerLanguage: storedReservation.language === "en" ? "en" : "de",
+            startsAt: storedReservation.starts_at,
+            guestCount: storedReservation.guest_count,
+          });
+        } catch (notificationError) {
+          console.error("Staff booking notification failed", {
+            code: notificationError instanceof Error ? notificationError.name : "unknown",
+          });
+        }
+      });
     }
     return NextResponse.json({ reservationReference: reservation.reservation_reference, status });
   } catch (error) {
