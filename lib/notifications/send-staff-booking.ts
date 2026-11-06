@@ -68,7 +68,10 @@ export async function sendStaffBookingNotification(booking: BookingNotification)
     .from("staff_push_subscriptions")
     .select("id,endpoint,p256dh,auth")
     .limit(1000);
-  if (error) throw new StaffNotificationError("subscription_lookup_failed", "Could not load staff push subscriptions");
+  if (error) {
+    const databaseCode = typeof error.code === "string" && /^[A-Z0-9_]+$/.test(error.code) ? error.code : "unknown";
+    throw new StaffNotificationError(`subscription_lookup_${databaseCode}`, "Could not load staff push subscriptions");
+  }
   if (!data?.length) return { sent: 0 };
 
   const message = formatBooking(booking);
