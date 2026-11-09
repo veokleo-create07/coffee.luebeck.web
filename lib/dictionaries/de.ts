@@ -86,6 +86,7 @@ export type Dictionary = {
       loadingAvailability: string;
       closedDayError: string;
       closedDayMessage: string;
+      holidayClosedMessage: string;
       dateRangeError: string;
       moreThanSix: string;
       moreThanSixMessage: string;
@@ -262,6 +263,7 @@ export const de: Dictionary = {
       loadingAvailability: "Verfügbarkeit wird geladen …",
       closedDayError: "Am Montag ist das Café geschlossen.",
       closedDayMessage: "Leider haben wir montags geschlossen. Bitte wähle einen anderen Tag für deinen Besuch aus.",
+      holidayClosedMessage: "Während unserer Winterpause bleibt das Café an diesem Tag geschlossen. Bitte wähle einen anderen Tag für deinen Besuch aus.",
       dateRangeError: "Bitte wähle ein Datum innerhalb der nächsten sechs Monate.",
       moreThanSix: "Mehr als 6 Personen?",
       moreThanSixMessage: "Für größere Gruppen ruf uns bitte direkt an.",

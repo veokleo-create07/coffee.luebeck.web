@@ -7,7 +7,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import type { Locale } from "@/lib/i18n";
 import { SEO_ROUTES } from "@/lib/seo";
-import { BOOKING_CONFIG } from "@/lib/booking-config";
+import { BOOKING_CONFIG, isHolidayClosureDate } from "@/lib/booking-config";
 import { SiteHeader } from "./site-header";
 
 type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
@@ -108,7 +108,9 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const dateInputRef = useRef<HTMLInputElement>(null);
   const [submitting, setSubmitting] = useState(false);
   const availableTimes = useMemo(() => availability?.times ?? [], [availability]);
-  const isClosedDay = Boolean(form.date && weekday(form.date) === BOOKING_CONFIG.closedWeekday);
+  const isHolidayClosure = Boolean(form.date && isHolidayClosureDate(form.date));
+  const isClosedDay = Boolean(form.date && (weekday(form.date) === BOOKING_CONFIG.closedWeekday || isHolidayClosure));
+  const closedDayMessage = isHolidayClosure ? copy.holidayClosedMessage : copy.closedDayMessage;
 
   function openDatePicker() {
     const input = dateInputRef.current as (HTMLInputElement & { showPicker?: () => void }) | null;
@@ -153,7 +155,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   }, []);
 
   function selectDate(nextDate: string) {
-    const nextIsClosed = weekday(nextDate) === BOOKING_CONFIG.closedWeekday;
+    const nextIsClosed = weekday(nextDate) === BOOKING_CONFIG.closedWeekday || isHolidayClosureDate(nextDate);
     setAvailability(null);
     setVisitStep(1);
     setCalendarMonth(monthValue(nextDate));
@@ -360,7 +362,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                           {(locale === "de" ? ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"] : ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]).map((day) => <span key={day}>{day}</span>)}
                         </div>
                         <div className="mt-2 grid grid-cols-7 gap-1.5" role="grid" aria-label={monthLabel(calendarMonth + "-01", copy.dateFormatLocale)}>
-                          {calendarDays(calendarMonth).map((day, index) => day ? <button key={day} type="button" role="gridcell" aria-selected={form.date === day} onClick={() => selectDate(day)} disabled={day < minDate || day > maxDate} className={`flex aspect-square items-center justify-center rounded-full text-sm tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass ${form.date === day ? "bg-espresso font-semibold text-ivory" : weekday(day) === BOOKING_CONFIG.closedWeekday ? "text-espresso-soft/45" : "text-espresso hover:bg-espresso/8"} disabled:cursor-not-allowed disabled:text-espresso/15`}>{Number(day.slice(-2))}</button> : <span key={"empty-" + index} aria-hidden="true" />)}
+                          {calendarDays(calendarMonth).map((day, index) => day ? <button key={day} type="button" role="gridcell" aria-selected={form.date === day} onClick={() => selectDate(day)} disabled={day < minDate || day > maxDate} className={`flex aspect-square items-center justify-center rounded-full text-sm tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass ${form.date === day ? "bg-espresso font-semibold text-ivory" : weekday(day) === BOOKING_CONFIG.closedWeekday || isHolidayClosureDate(day) ? "text-espresso-soft/45" : "text-espresso hover:bg-espresso/8"} disabled:cursor-not-allowed disabled:text-espresso/15`}>{Number(day.slice(-2))}</button> : <span key={"empty-" + index} aria-hidden="true" />)}
                         </div>
                       </div>}
                       <div className={`min-w-0 ${isCompactFlow && visitStep !== 2 ? "hidden lg:block" : ""}`}>
@@ -381,7 +383,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
                     {isCompactFlow && visitStep < 3 && <div className="mt-7 lg:hidden">
                       {isClosedDay ? (
-                        <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
+                        <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{closedDayMessage}</p>
                       ) : (
                         <button type="submit" disabled={availabilityLoading} className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-espresso px-6 text-[0.82rem] font-medium text-ivory shadow-[0_12px_24px_-18px_rgba(44,33,28,0.8)] outline-none transition-[background-color,box-shadow,transform,opacity] hover:-translate-y-px hover:bg-[#3a2922] focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory disabled:cursor-not-allowed disabled:opacity-35"><span>{visitStep === 1 ? copy.continue : copy.chooseTime}</span></button>
                       )}
@@ -389,7 +391,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
 
                     <div className={`${isCompactFlow && visitStep !== 3 ? "hidden " : ""}mt-7 md:mt-8 lg:block`}>
                       {isClosedDay ? (
-                        <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{copy.closedDayMessage}</p>
+                        <p className="rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-4 text-sm leading-6 text-espresso-soft" role="status">{closedDayMessage}</p>
                       ) : <>
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
                         <h3 className="editorial-heading text-[1.3rem] font-medium leading-tight tracking-[-0.035em] text-espresso">{copy.timeLabel}</h3>

@@ -1,5 +1,6 @@
 import "server-only";
 
+import { BOOKING_CONFIG, isHolidayClosureDate } from "@/lib/booking-config";
 import { createSupabaseAdminClient } from "./server";
 
 export type AvailabilityResult = {
@@ -94,6 +95,9 @@ async function loadContext(date: string, guests: number) {
 }
 
 export async function getAvailability(date: string, guests: number): Promise<AvailabilityResult> {
+  if (isHolidayClosureDate(date)) {
+    return { date, times: [], fullyBookedTimes: [], alternativeTimes: [], durationMinutes: BOOKING_CONFIG.durationMinutes, available: false, reason: "closed" };
+  }
   const context = await loadContext(date, guests);
   if ("unavailable" in context) return { date, times: [], fullyBookedTimes: [], alternativeTimes: [], durationMinutes: context.settings.reservation_duration_minutes, available: false, reason: context.unavailable };
 

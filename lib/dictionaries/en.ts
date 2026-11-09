@@ -101,6 +101,7 @@ export const en: Dictionary = {
       loadingAvailability: "Loading availability …",
       closedDayError: "The café is closed on Mondays.",
       closedDayMessage: "We're sorry, we're closed on Mondays. Please select another day for your visit.",
+      holidayClosedMessage: "The café is closed on this date for our winter break. Please select another day for your visit.",
       dateRangeError: "Please choose a date within the next six months.",
       moreThanSix: "More than 6 guests?",
       moreThanSixMessage: "For larger groups, please call the café directly.",

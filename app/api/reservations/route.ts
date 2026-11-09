@@ -4,6 +4,7 @@ import { sendReservationConfirmationEmail } from "@/lib/email/send-reservation-c
 import { createReservationManagementToken, reservationManagementUrl } from "@/lib/reservations/management-token";
 import { sendStaffBookingNotification } from "@/lib/notifications/send-staff-booking";
 import { localDateTimeToUtc, validateReservationInput, type ReservationInput } from "@/lib/supabase/reservation-engine";
+import { isHolidayClosureDate } from "@/lib/booking-config";
 
 export async function POST(request: Request) {
   let body: Partial<ReservationInput>;
@@ -24,6 +25,7 @@ export async function POST(request: Request) {
   };
   const validationError = validateReservationInput(input);
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
+  if (isHolidayClosureDate(input.date)) return NextResponse.json({ error: "unavailable" }, { status: 409 });
 
   try {
     const client = createSupabaseAdminClient();
