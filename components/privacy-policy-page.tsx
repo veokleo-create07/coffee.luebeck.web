@@ -78,8 +78,7 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <ul><li>Reservierungsbestätigungen</li><li>Informationen über Änderungen</li><li>Stornierungsbestätigungen</li><li>Sonstige unmittelbar mit Ihrer Reservierung zusammenhängende Mitteilungen</li></ul>
         <p>Die Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. b DSGVO zur Durchführung Ihrer Reservierung.</p>
         <p>Resend verarbeitet und speichert Daten in den USA. Für entsprechende internationale Datenübermittlungen werden nach Angaben des Anbieters geeignete Garantien, insbesondere EU-Standardvertragsklauseln, eingesetzt.</p>
-        <p>Wenn Sie im Reservierungsformular freiwillig einwilligen, senden wir Ihnen nach einem abgeschlossenen Besuch einmalig eine E-Mail mit der Bitte um eine ehrliche Google-Bewertung. Die Einwilligung ist freiwillig, für die Reservierung nicht erforderlich und kann jederzeit per E-Mail mit Wirkung für die Zukunft widerrufen werden. Ohne Einwilligung wird keine Bewertungsanfrage versendet.</p>
-        <p>Darüber hinaus verwenden wir Ihre E-Mail-Adresse im Rahmen dieses Systems nicht für Werbenachrichten oder Newsletter.</p>
+        <p>Wir verwenden Ihre E-Mail-Adresse im Rahmen dieses Systems nicht für den Versand von Werbenachrichten oder Newslettern.</p>
         <p>Weitere Informationen: <ExternalLink href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</ExternalLink></p>
       </PolicySection>
 
@@ -169,8 +168,7 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <ul><li>Reservation confirmations</li><li>Information about changes</li><li>Cancellation confirmations</li><li>Other messages directly related to your reservation</li></ul>
         <p>Processing is carried out under Article 6(1)(b) GDPR to fulfil your reservation.</p>
         <p>Resend processes and stores data in the USA. According to the provider, appropriate safeguards, in particular EU Standard Contractual Clauses, are used for relevant international data transfers.</p>
-        <p>If you voluntarily consent in the reservation form, we will send one email after a completed visit asking for an honest Google review. Consent is optional, is not required to make a reservation, and may be withdrawn at any time by email with effect for the future. No review request is sent without consent.</p>
-        <p>Beyond this, we do not use your email address through this system for advertising or newsletters.</p>
+        <p>We do not use your email address through this system to send advertising or newsletters.</p>
         <p>Further information: <ExternalLink href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</ExternalLink></p>
       </PolicySection>
 

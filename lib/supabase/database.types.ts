@@ -14,7 +14,6 @@ export type Database = {
           ends_at: string;
           special_requests: string | null;
           management_token_hash: string | null;
-          review_email_consent_at: string | null;
           status: "pending" | "confirmed" | "cancelled" | "completed";
           language: "de" | "en";
           created_at: string;
@@ -30,7 +29,6 @@ export type Database = {
           ends_at: string;
           special_requests?: string | null;
           management_token_hash?: string | null;
-          review_email_consent_at?: string | null;
           status?: "pending" | "confirmed" | "cancelled" | "completed";
           language?: "de" | "en";
           created_at?: string;
