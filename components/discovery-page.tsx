@@ -35,13 +35,26 @@ export function DiscoveryPage({ locale, dictionary, content, page }: DiscoveryPa
         description: content.intro,
         inLanguage: locale === "de" ? "de-DE" : "en-GB",
         about: { "@id": BUSINESS_ID },
+        isPartOf: { "@id": `${absoluteUrl("/")}#website` },
         breadcrumb: { "@id": `${absoluteUrl(route)}#breadcrumb` },
         primaryImageOfPage: { "@type": "ImageObject", url: absoluteUrl(content.image) },
+        dateModified: "2026-11-10",
       },
       {
         "@type": "BreadcrumbList",
         "@id": `${absoluteUrl(route)}#breadcrumb`,
         itemListElement: breadcrumbs.map((item, index) => ({ "@type": "ListItem", position: index + 1, name: item.name, item: item.url })),
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${absoluteUrl(route)}#faq`,
+        url: absoluteUrl(route),
+        inLanguage: locale === "de" ? "de-DE" : "en-GB",
+        mainEntity: content.questions.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
       },
     ],
   };

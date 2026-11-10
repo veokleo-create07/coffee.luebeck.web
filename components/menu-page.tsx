@@ -12,6 +12,8 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
   const copy = menuContent[locale];
   const route = SEO_ROUTES.menu[locale];
   const languageHref = SEO_ROUTES.menu[locale === "de" ? "en" : "de"];
+  const breadcrumbId = `${absoluteUrl(route)}#breadcrumb`;
+  const menuId = `${absoluteUrl(route)}#menu`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -23,17 +25,30 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
         description: copy.intro,
         inLanguage: locale === "de" ? "de-DE" : "en-GB",
         about: { "@id": BUSINESS_ID },
+        isPartOf: { "@id": `${absoluteUrl("/")}#website` },
+        breadcrumb: { "@id": breadcrumbId },
+        mainEntity: { "@id": menuId },
+        dateModified: "2026-11-10",
       },
       {
         "@type": "Menu",
-        "@id": `${absoluteUrl(route)}#menu`,
+        "@id": menuId,
         name: locale === "de" ? "Speisekarte von Altstadtliebe" : "Altstadtliebe menu",
         inLanguage: locale === "de" ? "de-DE" : "en-GB",
+        mainEntityOfPage: { "@id": `${absoluteUrl(route)}#webpage` },
         hasMenuSection: copy.categories.map((category) => ({
           "@type": "MenuSection",
           name: category.title,
           description: category.description,
         })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": breadcrumbId,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: dictionary.navigation.home, item: absoluteUrl(SEO_ROUTES.home[locale]) },
+          { "@type": "ListItem", position: 2, name: copy.title, item: absoluteUrl(route) },
+        ],
       },
     ],
   };
