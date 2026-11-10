@@ -7,7 +7,7 @@ import { localDateTimeToUtc, validateReservationInput, type ReservationInput } f
 import { isHolidayClosureDate } from "@/lib/booking-config";
 
 export async function POST(request: Request) {
-  let body: Partial<ReservationInput>;
+  let body: Partial<ReservationInput> & { reviewEmailConsent?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     specialRequests: body.specialRequests ? String(body.specialRequests) : null,
     language: body.language === "en" ? "en" : "de",
   };
+  const reviewEmailConsent = body.reviewEmailConsent === true;
   const validationError = validateReservationInput(input);
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
   if (isHolidayClosureDate(input.date)) return NextResponse.json({ error: "unavailable" }, { status: 409 });
@@ -56,6 +57,16 @@ export async function POST(request: Request) {
       .maybeSingle();
     const status = storedReservation?.status === "confirmed" ? "confirmed" : "pending";
     if (storedReservation) {
+      if (reviewEmailConsent) {
+        const { error: consentError } = await client
+          .from("reservations")
+          .update({ review_email_consent_at: new Date().toISOString() })
+          .eq("id", storedReservation.id);
+        if (consentError) {
+          console.error("Review email consent could not be stored", consentError.message);
+        }
+      }
+
       const managementToken = createReservationManagementToken(storedReservation.id);
       const managementUrl = reservationManagementUrl(managementToken, storedReservation.language);
 

@@ -14,11 +14,11 @@ type ReservationPageProps = { locale: Locale; dictionary: Dictionary };
 type Step = 1 | 2;
 type VisitStep = 1 | 2 | 3;
 type ReservationStatus = "pending" | "confirmed";
-type Details = { fullName: string; email: string; requests: string };
+type Details = { fullName: string; email: string; requests: string; reviewEmailConsent: boolean };
 type FormState = { date: string; guests: number; time: string; details: Details };
 type AvailabilityResponse = { date: string; times: string[]; fullyBookedTimes: string[]; alternativeTimes: string[]; durationMinutes: number; available: boolean; reason?: "closed" | "outside_window" | "fully_booked" };
 
-const initialDetails: Details = { fullName: "", email: "", requests: "" };
+const initialDetails: Details = { fullName: "", email: "", requests: "", reviewEmailConsent: false };
 
 function timeToMinutes(value: string) {
   const [hours, minutes] = value.split(":").map(Number);
@@ -198,7 +198,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     };
   }, [form.date, form.guests, minDate, isClosedDay]);
 
-  function updateDetails(field: keyof Details, value: string) {
+  function updateDetails(field: keyof Details, value: string | boolean) {
     setForm((current) => ({ ...current, details: { ...current.details, [field]: value } }));
     setErrors((current) => ({ ...current, [field]: "" }));
   }
@@ -263,6 +263,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
             date: form.date,
             time: form.time,
             specialRequests: form.details.requests,
+            reviewEmailConsent: form.details.reviewEmailConsent,
             language: locale,
           }),
         });
@@ -454,6 +455,12 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                           <label htmlFor="requests" className="pointer-events-none absolute left-12 top-3 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.requests} <span className="normal-case tracking-normal text-espresso-soft/60">({copy.optional})</span></label>
                           <textarea id="requests" rows={3} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className="min-h-28 w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] py-9 pl-12 pr-4 text-base font-medium leading-6 text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8 lg:text-[0.94rem]" />
                         </div>
+                      </div>
+                      <div className="min-w-0 sm:col-span-2">
+                        <label className="flex cursor-pointer items-start gap-3 rounded-[1rem] border border-espresso/10 bg-[#fbf9f5] px-4 py-3.5 text-sm leading-5 text-espresso-soft">
+                          <input type="checkbox" checked={form.details.reviewEmailConsent} onChange={(event) => updateDetails("reviewEmailConsent", event.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-espresso" />
+                          <span>{copy.reviewEmailConsent}</span>
+                        </label>
                       </div>
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}

@@ -110,6 +110,7 @@ export const en: Dictionary = {
       fullName: "Full name",
       email: "Email address",
       requests: "Special requests",
+      reviewEmailConsent: "I would like to receive one email after my visit asking for an honest review. (optional)",
       optional: "optional",
       requiredError: "Please complete this field.",
       emailError: "Please enter a valid email address.",
