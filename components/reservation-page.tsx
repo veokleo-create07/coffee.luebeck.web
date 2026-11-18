@@ -97,6 +97,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
   const [calendarMonth, setCalendarMonth] = useState("");
   const [showLargePartyInfo, setShowLargePartyInfo] = useState(false);
   const [form, setForm] = useState<FormState>({ date: "", guests: 2, time: "", details: initialDetails });
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
@@ -224,6 +225,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
     if (!fullName.trim()) nextErrors.fullName = copy.requiredError;
     if (!email.trim()) nextErrors.email = copy.requiredError;
     else if (!/^\S+@\S+\.\S+$/.test(email)) nextErrors.email = copy.emailError;
+    if (!privacyAccepted) nextErrors.privacy = copy.privacyError;
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   }
@@ -264,6 +266,7 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
             time: form.time,
             specialRequests: form.details.requests,
             language: locale,
+            privacyAccepted,
           }),
         });
         const payload = await response.json() as { reservationReference?: string; status?: ReservationStatus; error?: string; alternativeTimes?: string[] };
@@ -455,6 +458,36 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                           <textarea id="requests" rows={3} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className="min-h-28 w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] py-9 pl-12 pr-4 text-base font-medium leading-6 text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8 lg:text-[0.94rem]" />
                         </div>
                       </div>
+                    </div>
+                    <div className="mt-5">
+                      <label htmlFor="privacy-accepted" className="flex cursor-pointer items-start gap-3 text-sm leading-6 text-espresso-soft">
+                        <input
+                          id="privacy-accepted"
+                          type="checkbox"
+                          required
+                          checked={privacyAccepted}
+                          onChange={(event) => {
+                            setPrivacyAccepted(event.target.checked);
+                            setErrors((current) => ({ ...current, privacy: "" }));
+                          }}
+                          className="mt-1 h-4 w-4 shrink-0 cursor-pointer accent-[#2c211c]"
+                          aria-invalid={Boolean(errors.privacy)}
+                          aria-describedby={errors.privacy ? "privacy-error" : undefined}
+                        />
+                        <span>
+                          {copy.privacyPrefix}{" "}
+                          <Link
+                            href={locale === "de" ? "/datenschutz" : "/en/privacy"}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="font-medium text-espresso underline decoration-espresso/35 underline-offset-4 transition-colors hover:decoration-espresso"
+                          >
+                            {copy.privacyLink}
+                          </Link>
+                          {copy.privacySuffix.startsWith(".") ? copy.privacySuffix : ` ${copy.privacySuffix}`}
+                        </span>
+                      </label>
+                      {errors.privacy && <p id="privacy-error" className={errorClass} role="alert">{errors.privacy}</p>}
                     </div>
                     {errors.submit && <p className="mt-5 text-sm text-[#8b3f32]" role="alert">{errors.submit}</p>}
                     <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">

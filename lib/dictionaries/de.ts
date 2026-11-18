@@ -98,6 +98,10 @@ export type Dictionary = {
       optional: string;
       requiredError: string;
       emailError: string;
+      privacyPrefix: string;
+      privacyLink: string;
+      privacySuffix: string;
+      privacyError: string;
       timeError: string;
       back: string;
       continue: string;
@@ -275,6 +279,10 @@ export const de: Dictionary = {
       optional: "optional",
       requiredError: "Bitte fülle dieses Feld aus.",
       emailError: "Bitte gib eine gültige E-Mail-Adresse ein.",
+      privacyPrefix: "Ich habe die",
+      privacyLink: "Datenschutzerklärung",
+      privacySuffix: "gelesen.",
+      privacyError: "Bitte bestätige, dass du die Datenschutzerklärung gelesen hast.",
       timeError: "Bitte wähle eine Uhrzeit.",
       back: "Zurück",
       continue: "Weiter",

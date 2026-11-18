@@ -7,11 +7,15 @@ import { localDateTimeToUtc, validateReservationInput, type ReservationInput } f
 import { isHolidayClosureDate } from "@/lib/booking-config";
 
 export async function POST(request: Request) {
-  let body: Partial<ReservationInput>;
+  let body: Partial<ReservationInput> & { privacyAccepted?: unknown };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+  }
+
+  if (body.privacyAccepted !== true) {
+    return NextResponse.json({ error: "privacy_required" }, { status: 400 });
   }
 
   const input: ReservationInput = {
