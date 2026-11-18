@@ -43,10 +43,13 @@ Requests sent to `team@altstadtliebe.com` must be logged privately with the rece
 
 ## Provider checks
 
-- Supabase: retain the applicable DPA and SCC documentation; verify and record that the production project region is Frankfurt (`eu-central-1`).
-- Resend: retain the applicable DPA/SCC documentation and review subprocessor changes.
-- Vercel: verify that the active plan is covered by Vercel's DPA. Vercel's published DPA states that it applies to Pro and Enterprise customers; a Hobby-plan project requires plan/contract clarification before DPA coverage can be marked complete.
-- Review each provider's subprocessors and transfer terms when notified of changes.
+The business owner confirmed the following on 18 November 2026:
+
+- Supabase production is hosted in Frankfurt (`eu-central-1`), and the applicable Supabase service terms, DPA, and SCC provisions are accepted through the account.
+- Vercel is on the Pro plan. The applicable Vercel service terms and DPA coverage are accepted through the account.
+- Resend's applicable service terms, DPA, and international-transfer provisions are accepted through the account.
+
+The current provider terms are linked from the public privacy policy. Review each provider's subprocessor and transfer-term changes when notified.
 
 ## Open item
 
