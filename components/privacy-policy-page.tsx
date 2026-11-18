@@ -100,7 +100,7 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Sie haben im Rahmen der gesetzlichen Voraussetzungen insbesondere folgende Rechte:</p>
         <ul><li>Auskunft: Art. 15 DSGVO</li><li>Berichtigung: Art. 16 DSGVO</li><li>Löschung: Art. 17 DSGVO</li><li>Einschränkung der Verarbeitung: Art. 18 DSGVO</li><li>Datenübertragbarkeit: Art. 20 DSGVO</li><li>Widerspruch gegen bestimmte Verarbeitungen: Art. 21 DSGVO</li><li>Widerruf erteilter Einwilligungen: Art. 7 Abs. 3 DSGVO</li></ul>
         <p>Zur Ausübung Ihrer Rechte oder bei Fragen und Anliegen schreiben Sie uns bitte eine E-Mail an die in Abschnitt 1 genannten Kontaktdaten.</p>
-        <p>Sie haben außerdem das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren. Für uns zuständig ist das Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein (ULD), Holstenstraße 98, 24103 Kiel, E-Mail: <ExternalLink href="mailto:mail@datenschutzzentrum.de">mail@datenschutzzentrum.de</ExternalLink>.</p>
+        <p>Darüber hinaus besteht ein gesetzliches Beschwerderecht bei einer Datenschutzaufsichtsbehörde. Zuständig ist das Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein (ULD).</p>
       </PolicySection>
 
       <PolicySection number={10} title="Datensicherheit">
@@ -192,7 +192,7 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Subject to the statutory requirements, you have the following rights in particular:</p>
         <ul><li>Access: Article 15 GDPR</li><li>Rectification: Article 16 GDPR</li><li>Erasure: Article 17 GDPR</li><li>Restriction of processing: Article 18 GDPR</li><li>Data portability: Article 20 GDPR</li><li>Objection to certain processing: Article 21 GDPR</li><li>Withdrawal of consent: Article 7(3) GDPR</li></ul>
         <p>To exercise your rights or if you have any questions or issues, please send us an email using the contact details in Section 1.</p>
-        <p>You also have the right to lodge a complaint with a data-protection supervisory authority. The authority responsible for us is the Independent Centre for Privacy Protection Schleswig-Holstein (ULD), Holstenstraße 98, 24103 Kiel, Germany, email: <ExternalLink href="mailto:mail@datenschutzzentrum.de">mail@datenschutzzentrum.de</ExternalLink>.</p>
+        <p>You also have a statutory right to lodge a complaint with a data-protection supervisory authority. The competent authority is the Independent Centre for Privacy Protection Schleswig-Holstein (ULD).</p>
       </PolicySection>
 
       <PolicySection number={10} title="Data security">
