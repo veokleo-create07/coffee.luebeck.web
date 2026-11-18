@@ -110,6 +110,7 @@ export const en: Dictionary = {
       fullName: "Full name",
       email: "Email address",
       requests: "Special requests",
+      requestsWarning: "Please do not include medical or other sensitive personal information.",
       optional: "optional",
       requiredError: "Please complete this field.",
       emailError: "Please enter a valid email address.",

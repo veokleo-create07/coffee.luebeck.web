@@ -455,8 +455,9 @@ export function ReservationPage({ locale, dictionary }: ReservationPageProps) {
                         <div className="relative">
                           <MessageSquare size={20} strokeWidth={1.6} className="pointer-events-none absolute left-4 top-4 z-10 text-espresso" aria-hidden="true" />
                           <label htmlFor="requests" className="pointer-events-none absolute left-12 top-3 z-10 text-[0.68rem] font-medium text-espresso-soft">{copy.requests} <span className="normal-case tracking-normal text-espresso-soft/60">({copy.optional})</span></label>
-                          <textarea id="requests" rows={3} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className="min-h-28 w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] py-9 pl-12 pr-4 text-base font-medium leading-6 text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8 lg:text-[0.94rem]" />
+                          <textarea id="requests" rows={3} value={form.details.requests} onChange={(event) => updateDetails("requests", event.target.value)} className="min-h-28 w-full rounded-[1rem] border border-espresso/15 bg-[#fbf9f5] py-9 pl-12 pr-4 text-base font-medium leading-6 text-espresso outline-none transition-[border-color,background-color,box-shadow] placeholder:text-espresso-soft/55 hover:border-espresso/25 focus:border-espresso/40 focus:ring-2 focus:ring-espresso/8 lg:text-[0.94rem]" aria-describedby="requests-warning" />
                         </div>
+                        <p id="requests-warning" className="mt-2 text-xs leading-5 text-espresso-soft">{copy.requestsWarning}</p>
                       </div>
                     </div>
                     <div className="mt-5">

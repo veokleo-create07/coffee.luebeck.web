@@ -14,6 +14,7 @@ const legalCopy = {
     proprietorLabel: "Inhaber",
     contactHeading: "Kontakt",
     phoneLabel: "Telefon",
+    emailLabel: "E-Mail",
     vatHeading: "Umsatzsteuer-Identifikationsnummer",
     vatLabel: "Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz (UStG)",
     backLabel: "Zurück zur Startseite",
@@ -25,6 +26,7 @@ const legalCopy = {
     proprietorLabel: "Proprietor",
     contactHeading: "Contact",
     phoneLabel: "Phone",
+    emailLabel: "Email",
     vatHeading: "VAT Identification Number",
     vatLabel: "VAT identification number pursuant to Section 27a of the German VAT Act (UStG)",
     backLabel: "Back to homepage",
@@ -67,6 +69,12 @@ export function LegalNoticePage({ locale, dictionary }: LegalNoticePageProps) {
                 <span className="text-espresso">{copy.phoneLabel}:</span>{" "}
                 <a className="underline decoration-espresso/25 underline-offset-4 transition-colors hover:decoration-espresso" href={dictionary.location.phoneHref}>
                   {dictionary.location.phoneLabel}
+                </a>
+              </p>
+              <p className="mt-2 text-base leading-[1.55] text-espresso-soft md:text-lg">
+                <span className="text-espresso">{copy.emailLabel}:</span>{" "}
+                <a className="break-all underline decoration-espresso/25 underline-offset-4 transition-colors hover:decoration-espresso" href="mailto:team@altstadtliebe.com">
+                  team@altstadtliebe.com
                 </a>
               </p>
             </section>

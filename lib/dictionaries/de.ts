@@ -95,6 +95,7 @@ export type Dictionary = {
       fullName: string;
       email: string;
       requests: string;
+      requestsWarning: string;
       optional: string;
       requiredError: string;
       emailError: string;
@@ -276,6 +277,7 @@ export const de: Dictionary = {
       fullName: "Vollständiger Name",
       email: "E-Mail-Adresse",
       requests: "Besondere Wünsche",
+      requestsWarning: "Bitte gib hier keine medizinischen oder anderen sensiblen personenbezogenen Informationen an.",
       optional: "optional",
       requiredError: "Bitte fülle dieses Feld aus.",
       emailError: "Bitte gib eine gültige E-Mail-Adresse ein.",

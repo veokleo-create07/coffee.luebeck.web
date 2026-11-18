@@ -33,6 +33,7 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
           Deutschland
         </address>
         <p>Telefon: <a className="font-medium text-espresso underline decoration-espresso/25 underline-offset-4" href={dictionary.location.phoneHref}>{dictionary.location.phoneLabel}</a></p>
+        <p>E-Mail: <a className="font-medium text-espresso underline decoration-espresso/25 underline-offset-4" href="mailto:team@altstadtliebe.com">team@altstadtliebe.com</a></p>
       </PolicySection>
 
       <PolicySection number={2} title="Allgemeine Hinweise zum Datenschutz">
@@ -99,6 +100,7 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Sie haben im Rahmen der gesetzlichen Voraussetzungen insbesondere folgende Rechte:</p>
         <ul><li>Auskunft: Art. 15 DSGVO</li><li>Berichtigung: Art. 16 DSGVO</li><li>Löschung: Art. 17 DSGVO</li><li>Einschränkung der Verarbeitung: Art. 18 DSGVO</li><li>Datenübertragbarkeit: Art. 20 DSGVO</li><li>Widerspruch gegen bestimmte Verarbeitungen: Art. 21 DSGVO</li><li>Widerruf erteilter Einwilligungen: Art. 7 Abs. 3 DSGVO</li></ul>
         <p>Zur Ausübung Ihrer Rechte oder bei Fragen und Anliegen schreiben Sie uns bitte eine E-Mail an die in Abschnitt 1 genannten Kontaktdaten.</p>
+        <p>Sie haben außerdem das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren. Für uns zuständig ist das Unabhängige Landeszentrum für Datenschutz Schleswig-Holstein (ULD), Holstenstraße 98, 24103 Kiel, E-Mail: <ExternalLink href="mailto:mail@datenschutzzentrum.de">mail@datenschutzzentrum.de</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={10} title="Datensicherheit">
@@ -123,6 +125,7 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
           Germany
         </address>
         <p>Phone: <a className="font-medium text-espresso underline decoration-espresso/25 underline-offset-4" href={dictionary.location.phoneHref}>{dictionary.location.phoneLabel}</a></p>
+        <p>Email: <a className="font-medium text-espresso underline decoration-espresso/25 underline-offset-4" href="mailto:team@altstadtliebe.com">team@altstadtliebe.com</a></p>
       </PolicySection>
 
       <PolicySection number={2} title="General information on data protection">
@@ -189,6 +192,7 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Subject to the statutory requirements, you have the following rights in particular:</p>
         <ul><li>Access: Article 15 GDPR</li><li>Rectification: Article 16 GDPR</li><li>Erasure: Article 17 GDPR</li><li>Restriction of processing: Article 18 GDPR</li><li>Data portability: Article 20 GDPR</li><li>Objection to certain processing: Article 21 GDPR</li><li>Withdrawal of consent: Article 7(3) GDPR</li></ul>
         <p>To exercise your rights or if you have any questions or issues, please send us an email using the contact details in Section 1.</p>
+        <p>You also have the right to lodge a complaint with a data-protection supervisory authority. The authority responsible for us is the Independent Centre for Privacy Protection Schleswig-Holstein (ULD), Holstenstraße 98, 24103 Kiel, Germany, email: <ExternalLink href="mailto:mail@datenschutzzentrum.de">mail@datenschutzzentrum.de</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={10} title="Data security">
@@ -259,7 +263,7 @@ export function PrivacyPolicyPage({ locale, dictionary }: PrivacyPolicyPageProps
               {isGerman ? <>Datenschutz<wbr />erklärung</> : "Privacy Policy"}
             </h1>
             <p className="mt-6 text-sm font-medium text-espresso-soft md:mt-7 md:text-base">
-              {isGerman ? "Stand: 22. Oktober 2026" : "Last updated: 22 October 2026"}
+              {isGerman ? "Stand: 18. November 2026" : "Last updated: 18 November 2026"}
             </p>
           </header>
 
