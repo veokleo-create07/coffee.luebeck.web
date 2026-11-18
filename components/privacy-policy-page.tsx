@@ -49,8 +49,8 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <ul><li>IP-Adresse</li><li>Datum und Uhrzeit des Zugriffs</li><li>Aufgerufene Seiten und Dateien</li><li>Browsertyp und Betriebssystem</li><li>Technische Anfrage- und Verbindungsinformationen</li></ul>
         <p>Diese Daten werden zur Bereitstellung der Website, zur Gewährleistung der Sicherheit und zur Erkennung technischer Störungen verarbeitet.</p>
         <p>Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse besteht in einem sicheren und zuverlässigen Betrieb unserer Website.</p>
-        <p>Im Rahmen der Bereitstellung der Hosting-Dienste kann es zu einer Verarbeitung personenbezogener Daten außerhalb der Europäischen Union kommen. Dabei sind die jeweils anwendbaren Datenschutzgarantien zu berücksichtigen.</p>
-        <p>Weitere Informationen: <ExternalLink href="https://vercel.com/legal/privacy-policy">Vercel Privacy Policy</ExternalLink></p>
+        <p>Vercel kann Daten in den USA und durch Unterauftragsverarbeiter in weiteren Ländern verarbeiten. Nach Angaben des Anbieters werden internationale Übermittlungen – soweit erforderlich – insbesondere auf EU-Standardvertragsklauseln und weitere anwendbare Übermittlungsmechanismen gestützt.</p>
+        <p>Weitere Informationen: <ExternalLink href="https://vercel.com/legal/privacy-policy">Vercel Privacy Policy</ExternalLink> und <ExternalLink href="https://vercel.com/legal/dpa">Vercel Data Processing Addendum</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={4} title="Online-Tischreservierungen">
@@ -61,6 +61,7 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO zur Durchführung vorvertraglicher Maßnahmen beziehungsweise zur Abwicklung Ihrer Reservierung.</p>
         <p>Die für die Reservierung erforderlichen Angaben sind notwendig, um Ihre Buchung bearbeiten zu können. Freiwillige Mitteilungen sind nicht erforderlich.</p>
         <p>Bitte übermitteln Sie im Feld für besondere Wünsche möglichst keine sensiblen personenbezogenen Informationen, insbesondere keine Gesundheitsdaten.</p>
+        <p>Zur schnellen internen Bearbeitung neuer Reservierungen können Name, Reservierungszeitpunkt und Gästezahl als verschlüsselte Web-Push-Nachricht an autorisierte Geräte unseres Teams übermittelt werden. Die Zustellung erfolgt über den Push-Dienst des jeweiligen Browsers oder Geräteanbieters. Rechtsgrundlagen sind Art. 6 Abs. 1 lit. b DSGVO sowie unser berechtigtes Interesse an einer zuverlässigen internen Reservierungsorganisation gemäß Art. 6 Abs. 1 lit. f DSGVO.</p>
       </PolicySection>
 
       <PolicySection number={5} title="Datenbank und Speicherung durch Supabase">
@@ -68,8 +69,8 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Die Datenbank unserer Anwendung befindet sich in der Region Frankfurt am Main, Deutschland, innerhalb der Europäischen Union.</p>
         <p>In der Datenbank werden die für die Verwaltung Ihrer Reservierung erforderlichen Informationen gespeichert.</p>
         <p>Die Verarbeitung erfolgt zur Bearbeitung und Durchführung Ihrer Reservierung gemäß Art. 6 Abs. 1 lit. b DSGVO.</p>
-        <p>Die Speicherung der Datenbank in Frankfurt schließt eine Verarbeitung personenbezogener Daten in Drittländern durch den Anbieter oder eingesetzte Unterauftragsverarbeiter nicht grundsätzlich aus. Soweit entsprechende Übermittlungen stattfinden, sind die gesetzlichen Anforderungen der Art. 44 ff. DSGVO einzuhalten.</p>
-        <p>Weitere Informationen: <ExternalLink href="https://supabase.com/privacy">Supabase Privacy Policy</ExternalLink></p>
+        <p>Die Speicherung der Datenbank in Frankfurt schließt eine Verarbeitung personenbezogener Daten in Drittländern durch den Anbieter oder eingesetzte Unterauftragsverarbeiter nicht grundsätzlich aus. Nach Angaben von Supabase werden Übermittlungen in die USA und nach Singapur auf die EU-Standardvertragsklauseln gestützt.</p>
+        <p>Weitere Informationen: <ExternalLink href="https://supabase.com/privacy">Supabase Privacy Policy</ExternalLink> und <ExternalLink href="https://supabase.com/legal/customer-resources/data-processing-addendum">Supabase Data Processing Addendum</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={6} title="Reservierungsbestätigungen per E-Mail">
@@ -78,22 +79,23 @@ function GermanPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Wenn Sie eine Reservierung durchführen, verwenden wir Ihre E-Mail-Adresse und die erforderlichen Buchungsinformationen, um Ihnen beispielsweise folgende Nachrichten zu senden:</p>
         <ul><li>Reservierungsbestätigungen</li><li>Informationen über Änderungen</li><li>Stornierungsbestätigungen</li><li>Sonstige unmittelbar mit Ihrer Reservierung zusammenhängende Mitteilungen</li></ul>
         <p>Die Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. b DSGVO zur Durchführung Ihrer Reservierung.</p>
-        <p>Resend verarbeitet und speichert Daten in den USA. Für entsprechende internationale Datenübermittlungen werden nach Angaben des Anbieters geeignete Garantien, insbesondere EU-Standardvertragsklauseln, eingesetzt.</p>
+        <p>Resend verarbeitet und speichert Daten in den USA. Für entsprechende internationale Datenübermittlungen werden nach Angaben des Anbieters insbesondere EU-Standardvertragsklauseln sowie ergänzend das EU-US Data Privacy Framework eingesetzt.</p>
+        <p>Nach Angaben von Resend werden E-Mail-Inhalte und Versandprotokolle in den regulären Tarifen grundsätzlich 30 Tage und Sicherungskopien sieben Tage gespeichert.</p>
         <p>Wir verwenden Ihre E-Mail-Adresse im Rahmen dieses Systems nicht für den Versand von Werbenachrichten oder Newslettern.</p>
-        <p>Weitere Informationen: <ExternalLink href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</ExternalLink></p>
+        <p>Weitere Informationen: <ExternalLink href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</ExternalLink> und <ExternalLink href="https://resend.com/security/gdpr">Resend GDPR Information</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={7} title="Speicherdauer und Löschung">
         <p>Wir speichern personenbezogene Reservierungsdaten grundsätzlich nur so lange, wie dies für die jeweiligen Verarbeitungszwecke erforderlich ist.</p>
         <p>Gewöhnliche Reservierungsdatensätze werden grundsätzlich 30 Tage nach dem Reservierungsdatum gelöscht.</p>
         <p>Eine längere Speicherung kann erfolgen, soweit gesetzliche Aufbewahrungspflichten bestehen oder die Daten zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen erforderlich sind.</p>
-        <p>Für technische Protokolldaten, E-Mail-Versandprotokolle und Sicherungskopien können abweichende Speicherfristen der jeweiligen Dienstleister gelten.</p>
+        <p>Technische Serverprotokolle und Sicherungskopien werden entsprechend der eingesetzten Tarif- und Sicherheitskonfiguration der jeweiligen Dienstleister gespeichert und gelöscht, sobald sie für Betrieb, Sicherheit oder gesetzliche Nachweise nicht mehr erforderlich sind. Die oben genannten Angaben von Resend bleiben unberührt.</p>
       </PolicySection>
 
       <PolicySection number={8} title="Cookies und ähnliche Technologien">
-        <p>Unsere Website kann technisch notwendige Cookies oder vergleichbare Speichertechnologien verwenden, sofern diese für die Bereitstellung der Website und ihrer Funktionen erforderlich sind.</p>
-        <p>Soweit technisch nicht notwendige Technologien eingesetzt werden, die eine Einwilligung erfordern, werden diese erst nach Ihrer vorherigen Zustimmung verwendet.</p>
-        <p>Eine erteilte Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden.</p>
+        <p>Wenn Sie die Sprache der Website wechseln, speichern wir die gewählte Sprache unter dem Schlüssel „altstadtliebe-locale“ im lokalen Speicher Ihres Browsers. Gespeichert wird ausschließlich die Auswahl „de“ oder „en“. Dies verhindert unnötige automatische Sprachwechsel und stellt die von Ihnen gewünschte Sprachfunktion bereit.</p>
+        <p>Die Speicherung erfolgt nur nach Ihrer Sprachauswahl und bleibt bestehen, bis sie durch eine neue Auswahl überschrieben oder über die Browsereinstellungen gelöscht wird. Sie wird nicht zur Analyse, Werbung oder Nachverfolgung Ihres Verhaltens verwendet.</p>
+        <p>Wir setzen derzeit keine nicht notwendigen Analyse-, Werbe- oder Tracking-Technologien ein. Sollten solche Technologien künftig eingesetzt werden, werden sie – soweit gesetzlich erforderlich – erst nach Ihrer vorherigen Einwilligung aktiviert.</p>
       </PolicySection>
 
       <PolicySection number={9} title="Ihre Rechte">
@@ -141,8 +143,8 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <ul><li>IP address</li><li>Date and time of access</li><li>Pages and files requested</li><li>Browser type and operating system</li><li>Technical request and connection information</li></ul>
         <p>This data is processed to provide the website, maintain its security, and identify technical faults.</p>
         <p>Processing is based on Article 6(1)(f) GDPR. Our legitimate interest is the secure and reliable operation of our website.</p>
-        <p>Personal data may be processed outside the European Union as part of the hosting services. The applicable data-protection safeguards must be observed in such cases.</p>
-        <p>Further information: <ExternalLink href="https://vercel.com/legal/privacy-policy">Vercel Privacy Policy</ExternalLink></p>
+        <p>Vercel may process data in the United States and through subprocessors in other countries. According to the provider, international transfers are supported, where required, by the EU Standard Contractual Clauses and other applicable transfer mechanisms.</p>
+        <p>Further information: <ExternalLink href="https://vercel.com/legal/privacy-policy">Vercel Privacy Policy</ExternalLink> and <ExternalLink href="https://vercel.com/legal/dpa">Vercel Data Processing Addendum</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={4} title="Online table reservations">
@@ -153,6 +155,7 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Processing is based on Article 6(1)(b) GDPR for pre-contractual measures and the handling of your reservation.</p>
         <p>The required reservation details are necessary for us to process your booking. Optional messages are not required.</p>
         <p>Please avoid submitting sensitive personal information, particularly health data, in the special-requests field.</p>
+        <p>To allow prompt internal handling of new reservations, the customer name, reservation time, and number of guests may be sent as an encrypted Web Push notification to authorised staff devices. Delivery is handled through the push service used by the relevant browser or device provider. The legal bases are Article 6(1)(b) GDPR and our legitimate interest in reliable internal reservation administration under Article 6(1)(f) GDPR.</p>
       </PolicySection>
 
       <PolicySection number={5} title="Database and storage by Supabase">
@@ -160,8 +163,8 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>Our application database is located in the Frankfurt am Main region in Germany, within the European Union.</p>
         <p>The information required to manage your reservation is stored in this database.</p>
         <p>Processing is carried out to handle and fulfil your reservation in accordance with Article 6(1)(b) GDPR.</p>
-        <p>Database storage in Frankfurt does not entirely rule out the processing of personal data in third countries by the provider or its subprocessors. Where such transfers take place, the legal requirements of Articles 44 et seq. GDPR must be observed.</p>
-        <p>Further information: <ExternalLink href="https://supabase.com/privacy">Supabase Privacy Policy</ExternalLink></p>
+        <p>Database storage in Frankfurt does not entirely rule out the processing of personal data in third countries by the provider or its subprocessors. According to Supabase, transfers to the United States and Singapore are supported by the EU Standard Contractual Clauses.</p>
+        <p>Further information: <ExternalLink href="https://supabase.com/privacy">Supabase Privacy Policy</ExternalLink> and <ExternalLink href="https://supabase.com/legal/customer-resources/data-processing-addendum">Supabase Data Processing Addendum</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={6} title="Reservation confirmations by email">
@@ -170,22 +173,23 @@ function EnglishPolicy({ dictionary }: { dictionary: Dictionary }) {
         <p>When you make a reservation, we use your email address and the necessary booking information to send messages such as:</p>
         <ul><li>Reservation confirmations</li><li>Information about changes</li><li>Cancellation confirmations</li><li>Other messages directly related to your reservation</li></ul>
         <p>Processing is carried out under Article 6(1)(b) GDPR to fulfil your reservation.</p>
-        <p>Resend processes and stores data in the USA. According to the provider, appropriate safeguards, in particular EU Standard Contractual Clauses, are used for relevant international data transfers.</p>
+        <p>Resend processes and stores data in the USA. According to the provider, relevant international transfers rely in particular on the EU Standard Contractual Clauses and, additionally, the EU-US Data Privacy Framework.</p>
+        <p>According to Resend, email content and delivery logs are generally retained for 30 days on its standard plans, while backups are retained for seven days.</p>
         <p>We do not use your email address through this system to send advertising or newsletters.</p>
-        <p>Further information: <ExternalLink href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</ExternalLink></p>
+        <p>Further information: <ExternalLink href="https://resend.com/legal/privacy-policy">Resend Privacy Policy</ExternalLink> and <ExternalLink href="https://resend.com/security/gdpr">Resend GDPR information</ExternalLink>.</p>
       </PolicySection>
 
       <PolicySection number={7} title="Retention and deletion">
         <p>As a rule, we retain personal reservation data only for as long as necessary for the respective processing purposes.</p>
         <p>Standard reservation records are generally deleted 30 days after the reservation date.</p>
         <p>Data may be retained for longer where statutory retention obligations apply or where the data is required to establish, exercise, or defend legal claims.</p>
-        <p>Different retention periods may apply to technical logs, email-delivery logs, and backups maintained by the respective service providers.</p>
+        <p>Technical server logs and backups are retained in accordance with the relevant provider plan and security configuration and are deleted when they are no longer required for operation, security, or legal documentation. The Resend periods stated above remain unaffected.</p>
       </PolicySection>
 
       <PolicySection number={8} title="Cookies and similar technologies">
-        <p>Our website may use technically necessary cookies or comparable storage technologies where these are required to provide the website and its functions.</p>
-        <p>If non-essential technologies requiring consent are used, they will be activated only after your prior consent.</p>
-        <p>Consent may be withdrawn at any time with effect for the future.</p>
+        <p>When you switch the website language, we store the selected language under the key “altstadtliebe-locale” in your browser&apos;s local storage. Only the value “de” or “en” is stored. This prevents unnecessary automatic language switching and provides the language function you requested.</p>
+        <p>The value is stored only after your language selection and remains until it is replaced by another selection or deleted through your browser settings. It is not used for analytics, advertising, or behavioural tracking.</p>
+        <p>We currently use no non-essential analytics, advertising, or tracking technologies. If such technologies are introduced in the future, they will be activated only after prior consent where required by law.</p>
       </PolicySection>
 
       <PolicySection number={9} title="Your rights">

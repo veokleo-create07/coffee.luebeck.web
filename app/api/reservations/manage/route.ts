@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendReservationCancellationEmail } from "@/lib/email/send-reservation-confirmation";
-import { reservationIdFromManagementToken } from "@/lib/reservations/management-token";
+import { reservationIdFromManagementToken, reservationManagementTokenDetails } from "@/lib/reservations/management-token";
 import { createSupabaseAdminClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -12,16 +12,19 @@ function canCancel(status: string, startsAt: string) {
 }
 
 async function findReservation(token: string) {
-  const reservationId = reservationIdFromManagementToken(token);
-  if (!reservationId) return { client: createSupabaseAdminClient(), reservation: null };
+  const tokenDetails = reservationManagementTokenDetails(token);
+  if (!tokenDetails) return { client: createSupabaseAdminClient(), reservation: null };
   const client = createSupabaseAdminClient();
   const { data, error } = await client
     .from("reservations")
     .select(publicReservationFields)
-    .eq("id", reservationId)
+    .eq("id", tokenDetails.reservationId)
     .maybeSingle();
 
   if (error) throw error;
+  if (data && tokenDetails.legacy && Date.parse(data.starts_at) <= Date.now()) {
+    return { client, reservation: null };
+  }
   return { client, reservation: data };
 }
 

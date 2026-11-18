@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       .maybeSingle();
     const status = storedReservation?.status === "confirmed" ? "confirmed" : "pending";
     if (storedReservation) {
-      const managementToken = createReservationManagementToken(storedReservation.id);
+      const managementToken = createReservationManagementToken(storedReservation.id, storedReservation.starts_at);
       const managementUrl = reservationManagementUrl(managementToken, storedReservation.language);
 
       try {
