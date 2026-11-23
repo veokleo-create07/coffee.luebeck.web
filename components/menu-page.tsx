@@ -84,7 +84,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
 
           <div className="mt-16 space-y-5 md:mt-24 md:space-y-8">
             {copy.sections.map((section, sectionIndex) => (
-              <section key={section.title} className="overflow-hidden rounded-[1.5rem] bg-[#eee9e1] md:rounded-[2rem]" aria-labelledby={`menu-section-${sectionIndex}`}>
+              <section key={`${sectionIndex}-${section.title}`} className="overflow-hidden rounded-[1.5rem] bg-[#eee9e1] md:rounded-[2rem]" aria-labelledby={`menu-section-${sectionIndex}`}>
                 <header className="border-b border-espresso/10 px-6 py-8 sm:px-8 md:px-12 md:py-12">
                   <p className="eyebrow mb-4">{String(sectionIndex + 1).padStart(2, "0")}</p>
                   <h2 id={`menu-section-${sectionIndex}`} className="editorial-heading max-w-4xl text-[clamp(2.65rem,6vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-espresso">
