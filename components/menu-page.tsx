@@ -42,7 +42,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
           hasMenuItem: section.items.map((item) => ({
             "@type": "MenuItem",
             name: item.name,
-            description: item.description,
+            description: item.description || undefined,
             offers: {
               "@type": "Offer",
               price: item.priceValue,
@@ -100,7 +100,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                           <span className="w-6 shrink-0 text-xs font-semibold tabular-nums text-olive-deep" aria-hidden="true">{String(item.number ?? itemIndex + 1).padStart(2, "0")}</span>
                           <h3 className="text-xl font-semibold leading-tight tracking-[-0.025em] text-espresso md:text-2xl">{item.name}</h3>
                         </div>
-                        <p className="mt-3 max-w-3xl pl-9 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>
+                        {item.description && <p className="mt-3 max-w-3xl pl-9 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>}
                         {item.extras && <p className="mt-3 max-w-3xl pl-9 text-sm italic leading-[1.6] text-olive-deep">{item.extras}</p>}
                       </div>
                       <p className="pl-9 text-base font-semibold tabular-nums text-espresso md:pl-0 md:text-lg">{item.price}</p>
