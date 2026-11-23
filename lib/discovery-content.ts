@@ -15,6 +15,7 @@ export type DiscoveryPageContent = {
 export type MenuCategory = { title: string; description: string };
 
 export type MenuItem = {
+  number?: number;
   name: string;
   description: string;
   price: string;
@@ -25,6 +26,7 @@ export type MenuItem = {
 export type MenuSection = {
   title: string;
   items: MenuItem[];
+  extras?: string;
 };
 
 export type MenuContent = {
@@ -92,6 +94,65 @@ export const menuContent: Record<Locale, MenuContent> = {
           },
         ],
       },
+      {
+        title: "Bagels",
+        items: [
+          {
+            number: 1,
+            name: "Bagel Lachs",
+            description: "Frischkäse, Räucherlachs, Honig-Senf-Sauce, frischer Dill & Rucola",
+            price: "9,50 €",
+            priceValue: 9.5,
+          },
+          {
+            number: 2,
+            name: "Bagel Chicken",
+            description: "Crispy Chicken, Cheddar, Tomatenpesto & Salat",
+            price: "8,90 €",
+            priceValue: 8.9,
+          },
+          {
+            number: 3,
+            name: "Bagel Avocado",
+            description: "Rührei, cremige Avocado, vegane Aioli, Rucola & ein Hauch Limettensaft",
+            price: "9,50 €",
+            priceValue: 9.5,
+          },
+          {
+            number: 4,
+            name: "Bagel Classic",
+            description: "Frischkäse, Tomate",
+            price: "6,50 €",
+            priceValue: 6.5,
+          },
+        ],
+      },
+      {
+        title: "Bowls",
+        items: [
+          {
+            number: 5,
+            name: "Chicken Bowl",
+            description: "Couscous, Hähnchen, Feta, Cherrytomaten, Gurke, Rote Beete, Salat & hausgemachte Sauce",
+            price: "13,90 €",
+            priceValue: 13.9,
+          },
+          {
+            number: 6,
+            name: "Mediterrane Bowl",
+            description: "Couscous, Grillgemüse, Feta, Cherrytomaten, Gurke, Avocado, Salat & hausgemachte Sauce",
+            price: "12,90 €",
+            priceValue: 12.9,
+          },
+          {
+            number: 7,
+            name: "Lachs Bowl",
+            description: "Couscous, Räucherlachs, Cherrytomaten, Gurke, Avocado, Rucola & Honig-Senf-Dressing",
+            price: "14,90 €",
+            priceValue: 14.9,
+          },
+        ],
+      },
     ],
     reservationCta: "Tisch reservieren",
   },
@@ -144,6 +205,65 @@ export const menuContent: Record<Locale, MenuContent> = {
           {
             name: "Turkish Eggs",
             description: "Poached eggs served over creamy garlic yoghurt, topped with spiced paprika butter, and accompanied by two slices of crispy toasted sourdough bread.",
+            price: "€14.90",
+            priceValue: 14.9,
+          },
+        ],
+      },
+      {
+        title: "Bagels",
+        items: [
+          {
+            number: 1,
+            name: "Salmon Bagel",
+            description: "Cream cheese, smoked salmon, honey mustard sauce, fresh dill & rocket",
+            price: "€9.50",
+            priceValue: 9.5,
+          },
+          {
+            number: 2,
+            name: "Chicken Bagel",
+            description: "Crispy chicken, cheddar cheese, tomato pesto & lettuce",
+            price: "€8.90",
+            priceValue: 8.9,
+          },
+          {
+            number: 3,
+            name: "Avocado Bagel",
+            description: "Scrambled eggs, creamy avocado, vegan aioli, rocket & a hint of lime juice",
+            price: "€9.50",
+            priceValue: 9.5,
+          },
+          {
+            number: 4,
+            name: "Classic Bagel",
+            description: "Cream cheese & tomato",
+            price: "€6.50",
+            priceValue: 6.5,
+          },
+        ],
+      },
+      {
+        title: "Bowls",
+        items: [
+          {
+            number: 5,
+            name: "Chicken Bowl",
+            description: "Couscous, chicken, feta cheese, cherry tomatoes, cucumber, beetroot, mixed greens & homemade sauce",
+            price: "€13.90",
+            priceValue: 13.9,
+          },
+          {
+            number: 6,
+            name: "Mediterranean Bowl",
+            description: "Couscous, grilled vegetables, feta cheese, cherry tomatoes, cucumber, avocado, mixed greens & homemade sauce",
+            price: "€12.90",
+            priceValue: 12.9,
+          },
+          {
+            number: 7,
+            name: "Salmon Bowl",
+            description: "Couscous, smoked salmon, cherry tomatoes, cucumber, avocado, rocket & honey mustard dressing",
             price: "€14.90",
             priceValue: 14.9,
           },
