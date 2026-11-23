@@ -36,6 +36,13 @@ export type MenuContent = {
   note: string;
   categories: MenuCategory[];
   sections: MenuSection[];
+  occasion: {
+    title: string;
+    subtitle: string;
+    paragraphs: [string, string, string];
+    instagramLabel: string;
+    instagramHandle: string;
+  };
   reservationCta: string;
 };
 
@@ -235,7 +242,34 @@ export const menuContent: Record<Locale, MenuContent> = {
           { number: 6, name: "Bagel mit Grillgemüse", description: "Gegrillte Aubergine, Paprika und Zucchini, Rucola, vegane Aioli", price: "8,90 €", priceValue: 8.9 },
         ],
       },
+      {
+        title: "Heißgetränke",
+        items: [
+          { number: 1, name: "Espresso", price: "3,20 €", priceValue: 3.2 },
+          { number: 2, name: "Cortado", price: "4,30 €", priceValue: 4.3 },
+          { number: 3, name: "Americano", price: "3,80 €", priceValue: 3.8 },
+          { number: 4, name: "Flat White", price: "4,80 €", priceValue: 4.8 },
+          { number: 5, name: "Cappuccino", price: "4,20 €", priceValue: 4.2 },
+          { number: 6, name: "Latte Macchiato", price: "4,50 €", priceValue: 4.5 },
+          { number: 7, name: "Chai Latte", price: "4,90 €", priceValue: 4.9 },
+          { number: 8, name: "Matcha Latte", price: "5,30 €", priceValue: 5.3 },
+          { number: 9, name: "Heiße Schokolade", price: "4,50 €", priceValue: 4.5 },
+          { number: 10, name: "Tee", price: "4,20 €", priceValue: 4.2 },
+          { number: 11, name: "Frischer Tee", description: "Ingwer | Zitrone | Minze | Orange", price: "4,50 €", priceValue: 4.5 },
+        ],
+      },
     ],
+    occasion: {
+      title: "Mehr Altstadtliebe",
+      subtitle: "für Deinen besonderen Anlass",
+      paragraphs: [
+        "Ob Geburtstag, Hochzeit, Firmenfeier oder ein anderer besonderer Anlass – wir möchten Eure schönsten Momente noch ein bisschen besonderer machen.",
+        "Mit viel Liebe stellen wir Euch ein individuelles Catering mit Euren Altstadtliebe-Lieblingen zusammen – ganz nach Euren Wünschen.",
+        "Sprecht uns einfach an. Wir freuen uns darauf, Euren besonderen Tag gemeinsam mit Euch zu gestalten.",
+      ],
+      instagramLabel: "Folgt uns auf Instagram",
+      instagramHandle: "@altstadtliebe.luebeck",
+    },
     reservationCta: "Tisch reservieren",
   },
   en: {
@@ -433,7 +467,34 @@ export const menuContent: Record<Locale, MenuContent> = {
           { number: 6, name: "Grilled Vegetable Bagel", description: "Grilled aubergine, bell peppers, zucchini, rocket & vegan aioli", price: "€8.90", priceValue: 8.9 },
         ],
       },
+      {
+        title: "Hot Drinks",
+        items: [
+          { number: 1, name: "Espresso", price: "€3.20", priceValue: 3.2 },
+          { number: 2, name: "Cortado", price: "€4.30", priceValue: 4.3 },
+          { number: 3, name: "Americano", price: "€3.80", priceValue: 3.8 },
+          { number: 4, name: "Flat White", price: "€4.80", priceValue: 4.8 },
+          { number: 5, name: "Cappuccino", price: "€4.20", priceValue: 4.2 },
+          { number: 6, name: "Latte Macchiato", price: "€4.50", priceValue: 4.5 },
+          { number: 7, name: "Chai Latte", price: "€4.90", priceValue: 4.9 },
+          { number: 8, name: "Matcha Latte", price: "€5.30", priceValue: 5.3 },
+          { number: 9, name: "Hot Chocolate", price: "€4.50", priceValue: 4.5 },
+          { number: 10, name: "Tea", price: "€4.20", priceValue: 4.2 },
+          { number: 11, name: "Fresh Tea", description: "Ginger | Lemon | Mint | Orange", price: "€4.50", priceValue: 4.5 },
+        ],
+      },
     ],
+    occasion: {
+      title: "More Altstadtliebe",
+      subtitle: "For Your Special Occasion",
+      paragraphs: [
+        "Whether it's a birthday, wedding, corporate event, or another special occasion, we'd love to make your most memorable moments even more special.",
+        "With care and attention to detail, we'll create a personalized catering experience featuring your Altstadtliebe favorites, tailored to your wishes.",
+        "Simply get in touch. We look forward to helping you make your special day unforgettable.",
+      ],
+      instagramLabel: "Follow us on Instagram",
+      instagramHandle: "@altstadtliebe.luebeck",
+    },
     reservationCta: "Reserve a table",
   },
 };
