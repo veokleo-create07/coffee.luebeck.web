@@ -97,7 +97,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                     <li key={item.name} className="grid gap-3 border-b border-espresso/10 py-7 last:border-b-0 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-10 md:py-9">
                       <div className="min-w-0">
                         <div className="flex items-baseline gap-3">
-                          <span className="w-6 shrink-0 text-xs font-semibold tabular-nums text-olive-deep" aria-hidden="true">{String(itemIndex + 1).padStart(2, "0")}</span>
+                          <span className="w-6 shrink-0 text-xs font-semibold tabular-nums text-olive-deep" aria-hidden="true">{String(item.number ?? itemIndex + 1).padStart(2, "0")}</span>
                           <h3 className="text-xl font-semibold leading-tight tracking-[-0.025em] text-espresso md:text-2xl">{item.name}</h3>
                         </div>
                         <p className="mt-3 max-w-3xl pl-9 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>
@@ -107,6 +107,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                     </li>
                   ))}
                 </ol>
+                {section.extras && <p className="border-t border-espresso/10 px-6 py-6 text-sm italic leading-[1.6] text-olive-deep sm:px-8 md:px-12">{section.extras}</p>}
               </section>
             ))}
           </div>
