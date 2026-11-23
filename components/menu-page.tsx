@@ -8,10 +8,41 @@ import { JsonLd } from "./json-ld";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
+const MENU_IS_PUBLIC = false;
+
 export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const copy = menuContent[locale];
   const route = SEO_ROUTES.menu[locale];
   const languageHref = SEO_ROUTES.menu[locale === "de" ? "en" : "de"];
+
+  if (!MENU_IS_PUBLIC) {
+    return (
+      <div className="flex min-h-screen flex-col overflow-hidden bg-ivory">
+        <SiteHeader locale={locale} dictionary={dictionary} languageHref={languageHref} />
+        <main className="page-gutter flex flex-1 items-center py-20 md:py-28">
+          <div className="mx-auto w-full max-w-5xl text-center">
+            <p className="eyebrow mb-6">{locale === "de" ? "Speisekarte" : "Menu"}</p>
+            <h1 className="editorial-heading mx-auto max-w-4xl text-[clamp(3.75rem,10vw,9rem)] font-semibold leading-[0.84] tracking-[-0.065em] text-espresso">
+              {locale === "de" ? "Bald für dich da." : "Coming soon."}
+            </h1>
+            <p className="mx-auto mt-8 max-w-2xl text-base leading-[1.65] text-espresso-soft md:text-xl">
+              {locale === "de"
+                ? "Wir arbeiten gerade an unserer neuen Speisekarte. Schon bald findest du hier alle Frühstücksgerichte, Bagels, Bowls, Matcha-Variationen und Getränke."
+                : "We’re currently preparing our new menu. Soon you’ll find all our breakfast dishes, bagels, bowls, matcha variations, and drinks right here."}
+            </p>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-[1.6] text-espresso-soft md:text-base">
+              {locale === "de" ? "Bis dahin kannst du dir natürlich schon deinen Tisch sichern." : "In the meantime, you can already reserve your table."}
+            </p>
+            <Link href={SEO_ROUTES.reservation[locale]} className="site-button site-button-primary mt-9">
+              {copy.reservationCta}
+            </Link>
+          </div>
+        </main>
+        <SiteFooter locale={locale} dictionary={dictionary} />
+      </div>
+    );
+  }
+
   const breadcrumbId = `${absoluteUrl(route)}#breadcrumb`;
   const menuId = `${absoluteUrl(route)}#menu`;
   const jsonLd = {
