@@ -112,6 +112,24 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
             ))}
           </div>
 
+          <section className="mt-16 overflow-hidden rounded-[1.5rem] bg-[#eee9e1] px-6 py-10 sm:px-8 md:mt-24 md:rounded-[2rem] md:px-12 md:py-16 lg:grid lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+            <div>
+              <p className="eyebrow mb-5">{copy.occasion.subtitle}</p>
+              <h2 className="editorial-heading max-w-3xl text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-[0.88] tracking-[-0.06em] text-espresso">{copy.occasion.title}</h2>
+            </div>
+            <div className="mt-9 flex flex-col justify-end lg:mt-0">
+              <div className="space-y-4 text-base leading-[1.65] text-espresso-soft md:text-lg">
+                {copy.occasion.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              </div>
+              <div className="mt-8 border-t border-espresso/10 pt-6">
+                <p className="text-sm text-espresso-soft">{copy.occasion.instagramLabel}</p>
+                <a href="https://www.instagram.com/altstadtliebe.luebeck/" target="_blank" rel="noreferrer" className="mt-2 inline-block text-lg font-semibold text-espresso underline decoration-brass underline-offset-4 transition-colors hover:text-olive-deep">
+                  {copy.occasion.instagramHandle}
+                </a>
+              </div>
+            </div>
+          </section>
+
           <section className="mt-16 grid overflow-hidden rounded-[1.5rem] bg-espresso text-ivory md:mt-24 md:grid-cols-[0.85fr_1.15fr] md:rounded-[2rem]">
             <div className="relative min-h-72 md:min-h-[30rem]">
               <Image src="/menu-matcha.jpeg" alt={locale === "de" ? "Matcha von Altstadtliebe" : "Matcha from Altstadtliebe"} fill sizes="(max-width: 767px) 100vw, 42vw" className="object-cover" />
