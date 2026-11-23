@@ -28,7 +28,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
         isPartOf: { "@id": `${absoluteUrl("/")}#website` },
         breadcrumb: { "@id": breadcrumbId },
         mainEntity: { "@id": menuId },
-        dateModified: "2026-11-10",
+        dateModified: "2026-11-23",
       },
       {
         "@type": "Menu",
@@ -36,10 +36,19 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
         name: locale === "de" ? "Speisekarte von Altstadtliebe" : "Altstadtliebe menu",
         inLanguage: locale === "de" ? "de-DE" : "en-GB",
         mainEntityOfPage: { "@id": `${absoluteUrl(route)}#webpage` },
-        hasMenuSection: copy.categories.map((category) => ({
+        hasMenuSection: copy.sections.map((section) => ({
           "@type": "MenuSection",
-          name: category.title,
-          description: category.description,
+          name: section.title,
+          hasMenuItem: section.items.map((item) => ({
+            "@type": "MenuItem",
+            name: item.name,
+            description: item.description,
+            offers: {
+              "@type": "Offer",
+              price: item.priceValue,
+              priceCurrency: "EUR",
+            },
+          })),
         })),
       },
       {
@@ -67,21 +76,38 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
             <div>
               <p className="max-w-xl text-lg leading-[1.55] text-espresso-soft md:text-xl">{copy.intro}</p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <Link href={SEO_ROUTES.matcha[locale]} className="site-button site-button-secondary">{locale === "de" ? "Matcha in Lübeck" : "Matcha in Lübeck"}</Link>
-                <Link href={SEO_ROUTES.cafe[locale]} className="site-button site-button-secondary">{locale === "de" ? "Café in Lübeck" : "Café in Lübeck"}</Link>
+                <Link href={SEO_ROUTES.matcha[locale]} className="site-button site-button-secondary">Matcha in Lübeck</Link>
+                <Link href={SEO_ROUTES.cafe[locale]} className="site-button site-button-secondary">Café in Lübeck</Link>
               </div>
             </div>
           </header>
 
-          <div className="mt-16 grid gap-4 md:mt-24 md:grid-cols-2">
-            {copy.categories.map((category, index) => (
-              <article key={category.title} className="group relative min-h-64 overflow-hidden rounded-[1.5rem] bg-[#eee9e1] p-7 md:min-h-80 md:p-10">
-                <span className="text-xs font-semibold uppercase tracking-[0.12em] text-olive-deep">{String(index + 1).padStart(2, "0")}</span>
-                <div className="absolute inset-x-7 bottom-7 md:inset-x-10 md:bottom-10">
-                  <h2 className="text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-espresso">{category.title}</h2>
-                  <p className="mt-4 max-w-lg text-base leading-[1.55] text-espresso-soft">{category.description}</p>
-                </div>
-              </article>
+          <div className="mt-16 space-y-5 md:mt-24 md:space-y-8">
+            {copy.sections.map((section, sectionIndex) => (
+              <section key={section.title} className="overflow-hidden rounded-[1.5rem] bg-[#eee9e1] md:rounded-[2rem]" aria-labelledby={`menu-section-${sectionIndex}`}>
+                <header className="border-b border-espresso/10 px-6 py-8 sm:px-8 md:px-12 md:py-12">
+                  <p className="eyebrow mb-4">{String(sectionIndex + 1).padStart(2, "0")}</p>
+                  <h2 id={`menu-section-${sectionIndex}`} className="editorial-heading max-w-4xl text-[clamp(2.65rem,6vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-espresso">
+                    {section.title}
+                  </h2>
+                </header>
+
+                <ol className="px-6 sm:px-8 md:px-12">
+                  {section.items.map((item, itemIndex) => (
+                    <li key={item.name} className="grid gap-3 border-b border-espresso/10 py-7 last:border-b-0 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-10 md:py-9">
+                      <div className="min-w-0">
+                        <div className="flex items-baseline gap-3">
+                          <span className="w-6 shrink-0 text-xs font-semibold tabular-nums text-olive-deep" aria-hidden="true">{String(itemIndex + 1).padStart(2, "0")}</span>
+                          <h3 className="text-xl font-semibold leading-tight tracking-[-0.025em] text-espresso md:text-2xl">{item.name}</h3>
+                        </div>
+                        <p className="mt-3 max-w-3xl pl-9 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>
+                        {item.extras && <p className="mt-3 max-w-3xl pl-9 text-sm italic leading-[1.6] text-olive-deep">{item.extras}</p>}
+                      </div>
+                      <p className="pl-9 text-base font-semibold tabular-nums text-espresso md:pl-0 md:text-lg">{item.price}</p>
+                    </li>
+                  ))}
+                </ol>
+              </section>
             ))}
           </div>
 
