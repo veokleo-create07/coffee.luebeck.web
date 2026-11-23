@@ -17,7 +17,7 @@ export type MenuCategory = { title: string; description: string };
 export type MenuItem = {
   number?: number;
   name: string;
-  description: string;
+  description?: string;
   price: string;
   priceValue: number;
   extras?: string;
@@ -153,6 +153,50 @@ export const menuContent: Record<Locale, MenuContent> = {
           },
         ],
       },
+      {
+        title: "Süßes mit Liebe",
+        items: [
+          {
+            number: 1,
+            name: "Pancakes",
+            description: "Pancakes mit reinem Ahornsirup, Puderzucker & einer Auswahl an frischen Früchten",
+            price: "10,50 €",
+            priceValue: 10.5,
+          },
+          {
+            number: 2,
+            name: "Belgische Waffeln",
+            description: "Frisch gebackene Waffel mit Puderzucker & frischen Früchten",
+            price: "10,50 €",
+            priceValue: 10.5,
+          },
+          {
+            number: 3,
+            name: "Açaí Bowl",
+            description: "Açaí mit einer Auswahl an frischen Früchten, Granola, Kokosraspeln & Chiasamen",
+            price: "11,50 €",
+            priceValue: 11.5,
+          },
+          {
+            number: 4,
+            name: "Joghurt Bowl",
+            description: "Griechischer Joghurt mit Honig, frischen Früchten, Granola, Chiasamen & Kokosraspeln",
+            price: "9,50 €",
+            priceValue: 9.5,
+          },
+        ],
+        extras: "Extras: Pistaziencreme +3,50 € | Schoki +2,50 € | Erdnussmus +3,00 €",
+      },
+      {
+        title: "Iced-Matcha-Latte",
+        items: [
+          { number: 5, name: "Iced Matcha Latte", price: "5,80 €", priceValue: 5.8 },
+          { number: 6, name: "Strawberry Iced Matcha", price: "6,40 €", priceValue: 6.4 },
+          { number: 7, name: "Mango Iced Matcha", price: "6,40 €", priceValue: 6.4 },
+          { number: 8, name: "Cherry Vanilla Iced Matcha", price: "6,70 €", priceValue: 6.7 },
+        ],
+        extras: "Extras: Sirup +0,50 € | Hafermilch +0,40 € | Kokosmilch +0,50 €",
+      },
     ],
     reservationCta: "Tisch reservieren",
   },
@@ -268,6 +312,50 @@ export const menuContent: Record<Locale, MenuContent> = {
             priceValue: 14.9,
           },
         ],
+      },
+      {
+        title: "Sweet Treats Made with Love",
+        items: [
+          {
+            number: 1,
+            name: "Pancakes",
+            description: "Pancakes served with pure maple syrup, powdered sugar & a selection of fresh fruits",
+            price: "€10.50",
+            priceValue: 10.5,
+          },
+          {
+            number: 2,
+            name: "Belgian Waffles",
+            description: "Freshly baked waffle topped with powdered sugar & fresh fruits",
+            price: "€10.50",
+            priceValue: 10.5,
+          },
+          {
+            number: 3,
+            name: "Açaí Bowl",
+            description: "Açaí topped with a selection of fresh fruits, granola, shredded coconut & chia seeds",
+            price: "€11.50",
+            priceValue: 11.5,
+          },
+          {
+            number: 4,
+            name: "Yogurt Bowl",
+            description: "Greek yogurt with honey, fresh fruits, granola, chia seeds & shredded coconut",
+            price: "€9.50",
+            priceValue: 9.5,
+          },
+        ],
+        extras: "Extras: Pistachio cream +€3.50 | Chocolate +€2.50 | Peanut butter +€3.00",
+      },
+      {
+        title: "Iced Matcha Latte",
+        items: [
+          { number: 5, name: "Iced Matcha Latte", price: "€5.80", priceValue: 5.8 },
+          { number: 6, name: "Strawberry Iced Matcha", price: "€6.40", priceValue: 6.4 },
+          { number: 7, name: "Mango Iced Matcha", price: "€6.40", priceValue: 6.4 },
+          { number: 8, name: "Cherry Vanilla Iced Matcha", price: "€6.70", priceValue: 6.7 },
+        ],
+        extras: "Extras: Syrup +€0.50 | Oat milk +€0.40 | Coconut milk +€0.50",
       },
     ],
     reservationCta: "Reserve a table",
