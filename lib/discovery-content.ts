@@ -14,7 +14,30 @@ export type DiscoveryPageContent = {
 
 export type MenuCategory = { title: string; description: string };
 
-export const menuContent: Record<Locale, { eyebrow: string; title: string; intro: string; note: string; categories: MenuCategory[]; reservationCta: string }> = {
+export type MenuItem = {
+  name: string;
+  description: string;
+  price: string;
+  priceValue: number;
+  extras?: string;
+};
+
+export type MenuSection = {
+  title: string;
+  items: MenuItem[];
+};
+
+export type MenuContent = {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  note: string;
+  categories: MenuCategory[];
+  sections: MenuSection[];
+  reservationCta: string;
+};
+
+export const menuContent: Record<Locale, MenuContent> = {
   de: {
     eyebrow: "Unsere Auswahl",
     title: "Speisekarte.",
@@ -25,6 +48,50 @@ export const menuContent: Record<Locale, { eyebrow: string; title: string; intro
       { title: "Kaffee", description: "Guter Kaffee für den schnellen Stopp oder einen langen Moment am Tisch." },
       { title: "Frühstück", description: "Leckeres Frühstück für einen entspannten Start in den Tag." },
       { title: "Vegetarisch & vegan", description: "Vegetarische und vegane Optionen gehören zu unserer wechselnden Auswahl." },
+    ],
+    sections: [
+      {
+        title: "Ei-, Brot- & Liebe",
+        items: [
+          {
+            name: "Rührei auf Sauerteigbrot",
+            description: "Rührei aus frischen Bio-Freilandeiern, Sauerteigbrot, wahlweise mit Butter oder Tomatenpesto.",
+            price: "11,50 €",
+            priceValue: 11.5,
+          },
+          {
+            name: "Avocado auf Sauerteigbrot",
+            description: "Sauerteigbrot, hausgemachte Avocadocreme, Rote-Bete-Hummus, Rucola.",
+            price: "12,90 €",
+            priceValue: 12.9,
+            extras: "Extras: Rührei +5 € | Champignons +3,50 € | Feta +3 € | Avocado +3 € | Räucherlachs +5 €",
+          },
+          {
+            name: "Egg Benedict",
+            description: "Pochierte Eier auf Sauerteigbrot, hausgemachte Avocadocreme, Räucherlachs, Rucola & Sauce Hollandaise.",
+            price: "16,90 €",
+            priceValue: 16.9,
+          },
+          {
+            name: "Shakshuka",
+            description: "Zwei Bio-Freilandeier in aromatischer Tomaten-Paprika-Sauce mit Babyspinat & Feta, serviert mit zwei knusprig gerösteten Scheiben Sauerteigbrot.",
+            price: "13,90 €",
+            priceValue: 13.9,
+          },
+          {
+            name: "Orientalisches Frühstück",
+            description: "Rührei aus frischen Bio-Freilandeiern, Brot, Sucuk, Gurke, Tomate, Oliven, Hirtenkäse, Honig mit Frischkäse, Auberginencreme.",
+            price: "15,90 €",
+            priceValue: 15.9,
+          },
+          {
+            name: "Turkish Eggs",
+            description: "Pochierte Eier auf cremigem Knoblauchjoghurt mit würziger Paprikabutter & zwei knusprig gerösteten Scheiben Sauerteigbrot.",
+            price: "14,90 €",
+            priceValue: 14.9,
+          },
+        ],
+      },
     ],
     reservationCta: "Tisch reservieren",
   },
@@ -38,6 +105,50 @@ export const menuContent: Record<Locale, { eyebrow: string; title: string; intro
       { title: "Coffee", description: "Good coffee for a quick stop or a long moment at the table." },
       { title: "Breakfast", description: "Delicious breakfast for a relaxed start to the day." },
       { title: "Vegetarian & vegan", description: "Vegetarian and vegan options are part of our changing selection." },
+    ],
+    sections: [
+      {
+        title: "Eggs, Bread & Love",
+        items: [
+          {
+            name: "Scrambled Eggs on Sourdough",
+            description: "Scrambled organic free-range eggs served on sourdough bread, with a choice of butter or tomato pesto.",
+            price: "€11.50",
+            priceValue: 11.5,
+          },
+          {
+            name: "Avocado on Sourdough",
+            description: "Sourdough bread topped with homemade avocado cream, beetroot hummus, and rocket.",
+            price: "€12.90",
+            priceValue: 12.9,
+            extras: "Extras: Scrambled eggs +€5 | Mushrooms +€3.50 | Feta +€3 | Avocado +€3 | Smoked salmon +€5",
+          },
+          {
+            name: "Eggs Benedict",
+            description: "Poached eggs on sourdough bread with homemade avocado cream, smoked salmon, rocket, and hollandaise sauce.",
+            price: "€16.90",
+            priceValue: 16.9,
+          },
+          {
+            name: "Shakshuka",
+            description: "Two organic free-range eggs cooked in a fragrant tomato and pepper sauce with baby spinach and feta, served with two slices of crispy toasted sourdough bread.",
+            price: "€13.90",
+            priceValue: 13.9,
+          },
+          {
+            name: "Oriental Breakfast",
+            description: "Scrambled organic free-range eggs served with bread, Turkish sucuk sausage, cucumber, tomato, olives, white brined cheese, honey with cream cheese, and aubergine cream.",
+            price: "€15.90",
+            priceValue: 15.9,
+          },
+          {
+            name: "Turkish Eggs",
+            description: "Poached eggs served over creamy garlic yoghurt, topped with spiced paprika butter, and accompanied by two slices of crispy toasted sourdough bread.",
+            price: "€14.90",
+            priceValue: 14.9,
+          },
+        ],
+      },
     ],
     reservationCta: "Reserve a table",
   },
