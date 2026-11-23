@@ -218,6 +218,23 @@ export const menuContent: Record<Locale, MenuContent> = {
           { number: 11, name: "Pink Pitaya", description: "Drachenfrucht, Mango, Banane, Passionsfrucht, Apfel", price: "6,80 €", priceValue: 6.8 },
         ],
       },
+      {
+        title: "Brioche",
+        items: [
+          { number: 1, name: "Eggdrop Classic", description: "Brioche, Rührei, Cheddar, hausgemachte Sauce", price: "10,90 €", priceValue: 10.9 },
+          { number: 2, name: "Mushroomdrop", description: "Brioche, Rührei, Cheddar, Champignons, Parmesan, hausgemachte Sauce", price: "12,90 €", priceValue: 12.9 },
+          { number: 3, name: "Greendrop", description: "Brioche, Rührei, Cheddar, Avocado, Limettensaft, hausgemachte Sauce", price: "11,90 €", priceValue: 11.9 },
+          { number: 4, name: "Chickendrop", description: "Brioche, Crispy Chicken, Cheddar, Tomate, Rucola, hausgemachte Sauce", price: "13,90 €", priceValue: 13.9 },
+        ],
+        extras: "Extras: Sucuk +3,50 € | Räucherlachs +5,00 €",
+      },
+      {
+        title: "Bagels",
+        items: [
+          { number: 5, name: "Bagel Italia", description: "Tomate, Mozzarella, Rucola, Basilikumpesto, Balsamico", price: "7,90 €", priceValue: 7.9 },
+          { number: 6, name: "Bagel mit Grillgemüse", description: "Gegrillte Aubergine, Paprika und Zucchini, Rucola, vegane Aioli", price: "8,90 €", priceValue: 8.9 },
+        ],
+      },
     ],
     reservationCta: "Tisch reservieren",
   },
@@ -397,6 +414,23 @@ export const menuContent: Record<Locale, MenuContent> = {
           { number: 9, name: "Açaí Berry", description: "Strawberries, blueberries, mango and açaí", price: "€6.80", priceValue: 6.8 },
           { number: 10, name: "Summer Love", description: "Peach, passion fruit, mango and apple", price: "€6.70", priceValue: 6.7 },
           { number: 11, name: "Pink Pitaya", description: "Dragon fruit, mango, banana, passion fruit and apple", price: "€6.80", priceValue: 6.8 },
+        ],
+      },
+      {
+        title: "Brioche",
+        items: [
+          { number: 1, name: "Eggdrop Classic", description: "Brioche bread, scrambled eggs, cheddar cheese & homemade sauce", price: "€10.90", priceValue: 10.9 },
+          { number: 2, name: "Mushroomdrop", description: "Brioche bread, scrambled eggs, cheddar cheese, mushrooms, Parmesan & homemade sauce", price: "€12.90", priceValue: 12.9 },
+          { number: 3, name: "Greendrop", description: "Brioche bread, scrambled eggs, cheddar cheese, avocado, lime juice & homemade sauce", price: "€11.90", priceValue: 11.9 },
+          { number: 4, name: "Chickendrop", description: "Brioche bread, crispy chicken, cheddar cheese, tomato, rocket & homemade sauce", price: "€13.90", priceValue: 13.9 },
+        ],
+        extras: "Extras: Sucuk (Turkish sausage) +€3.50 | Smoked salmon +€5.00",
+      },
+      {
+        title: "Bagels",
+        items: [
+          { number: 5, name: "Italian Bagel", description: "Tomato, mozzarella, rocket, basil pesto & balsamic vinegar", price: "€7.90", priceValue: 7.9 },
+          { number: 6, name: "Grilled Vegetable Bagel", description: "Grilled aubergine, bell peppers, zucchini, rocket & vegan aioli", price: "€8.90", priceValue: 8.9 },
         ],
       },
     ],
