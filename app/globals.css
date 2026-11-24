@@ -129,14 +129,6 @@ a {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.menu-filter-nav {
-  scrollbar-width: none;
-}
-
-.menu-filter-nav::-webkit-scrollbar {
-  display: none;
-}
-
 .menu-section-panel {
   animation: menu-section-reveal 360ms var(--ease-premium) both;
 }

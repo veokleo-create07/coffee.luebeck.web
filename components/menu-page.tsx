@@ -87,7 +87,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
         <div className="mx-auto max-w-7xl">
           <header className="text-center">
             <h1 className="editorial-heading mx-auto max-w-[21ch] text-balance text-center text-[clamp(2rem,4.2vw,4rem)] font-medium leading-[0.98] tracking-[-0.05em] text-espresso">{copy.title}</h1>
-            <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="menu-filter-nav -mx-[var(--page-gutter)] mt-8 flex max-w-none snap-x snap-mandatory flex-nowrap justify-start gap-2 overflow-x-auto px-[var(--page-gutter)] pb-3 md:mx-auto md:mt-10 md:max-w-5xl md:flex-wrap md:justify-center md:overflow-visible md:px-0 md:pb-0 md:gap-2.5">
+            <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-8 flex max-w-5xl flex-wrap justify-center gap-2 md:mt-10 md:gap-2.5">
               {menuSections.map((section, sectionIndex) => (
                 <button
                   key={`${sectionIndex}-${section.title}`}
@@ -95,7 +95,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                   type="button"
                   aria-pressed={activeSection === sectionIndex}
                   data-selected={activeSection === sectionIndex}
-                  className="menu-filter-pill inline-flex h-10 shrink-0 snap-start items-center justify-center rounded-full px-4 text-[0.78rem] font-medium md:px-5 md:text-sm"
+                  className="menu-filter-pill inline-flex h-10 items-center justify-center rounded-full px-4 text-[0.78rem] font-medium md:px-5 md:text-sm"
                 >
                   <span className="relative z-10">{section.title}</span>
                 </button>
