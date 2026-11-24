@@ -76,7 +76,7 @@ export const menuContent: Record<Locale, MenuContent> = {
             extras: "Extras: Rührei +5 € | Champignons +3,50 € | Feta +3 € | Avocado +3 € | Räucherlachs +5 €",
           },
           {
-            name: "Egg Benedict",
+            name: "Eggs Benedict",
             description: "Pochierte Eier auf Sauerteigbrot, hausgemachte Avocadocreme, Räucherlachs, Rucola & Sauce Hollandaise.",
             price: "16,90 €",
             priceValue: 16.9,
