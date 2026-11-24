@@ -60,7 +60,7 @@ export const menuContent: Record<Locale, MenuContent> = {
     ],
     sections: [
       {
-        title: "Ei-, Brot- & Liebe",
+        title: "Ei, Brot & Liebe",
         items: [
           {
             name: "Rührei auf Sauerteigbrot",
@@ -195,7 +195,7 @@ export const menuContent: Record<Locale, MenuContent> = {
         extras: "Extras: Pistaziencreme +3,50 € | Schoki +2,50 € | Erdnussmus +3,00 €",
       },
       {
-        title: "Iced-Matcha-Latte",
+        title: "Iced Matcha Latte",
         items: [
           { number: 5, name: "Iced Matcha Latte", price: "5,80 €", priceValue: 5.8 },
           { number: 6, name: "Strawberry Iced Matcha", price: "6,40 €", priceValue: 6.4 },
@@ -213,7 +213,7 @@ export const menuContent: Record<Locale, MenuContent> = {
         ],
       },
       {
-        title: "Säfte",
+        title: "Säfte & Smoothies",
         items: [
           { number: 4, name: "Frischer Orangensaft", description: "Mit frisch gepressten Orangen", price: "5,50 €", priceValue: 5.5 },
           { number: 5, name: "Rotes Beet", description: "Apfel, Rote Beete, Ingwer, Zitrone", price: "6,20 €", priceValue: 6.2 },
@@ -438,7 +438,7 @@ export const menuContent: Record<Locale, MenuContent> = {
         ],
       },
       {
-        title: "Juices",
+        title: "Juices & Smoothies",
         items: [
           { number: 4, name: "Fresh Orange Juice", description: "Freshly squeezed oranges", price: "€5.50", priceValue: 5.5 },
           { number: 5, name: "Red Beet", description: "Apple, beetroot, ginger and lemon", price: "€6.20", priceValue: 6.2 },

@@ -16,6 +16,9 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
   const route = SEO_ROUTES.menu[locale];
   const languageHref = SEO_ROUTES.menu[locale === "de" ? "en" : "de"];
   const [activeSection, setActiveSection] = useState(0);
+  const sectionOrder = locale === "de"
+    ? ["Ei, Brot & Liebe", "Brioche", "Bagels", "Bowls", "Süßes mit Liebe", "Iced Matcha Latte", "Frische Limonade", "Säfte & Smoothies", "Heißgetränke"]
+    : ["Eggs, Bread & Love", "Brioche", "Bagels", "Bowls", "Sweet Treats Made with Love", "Iced Matcha Latte", "Fresh Lemonades", "Juices & Smoothies", "Hot Drinks"];
   const menuSections = copy.sections.reduce<MenuSection[]>((sections, section) => {
     const existingSection = sections.find((candidate) => candidate.title === section.title);
 
@@ -26,7 +29,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
 
     sections.push({ ...section, items: [...section.items] });
     return sections;
-  }, []);
+  }, []).sort((first, second) => sectionOrder.indexOf(first.title) - sectionOrder.indexOf(second.title));
   const selectedSection = menuSections[activeSection] ?? menuSections[0];
 
   const breadcrumbId = `${absoluteUrl(route)}#breadcrumb`;
@@ -53,7 +56,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
         name: locale === "de" ? "Speisekarte von Altstadtliebe" : "Altstadtliebe menu",
         inLanguage: locale === "de" ? "de-DE" : "en-GB",
         mainEntityOfPage: { "@id": `${absoluteUrl(route)}#webpage` },
-        hasMenuSection: copy.sections.map((section) => ({
+        hasMenuSection: menuSections.map((section) => ({
           "@type": "MenuSection",
           name: section.title,
           hasMenuItem: section.items.map((item) => ({
