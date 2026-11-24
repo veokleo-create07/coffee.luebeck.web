@@ -4,8 +4,7 @@ import { getDictionary } from "@/lib/i18n";
 import { localizedMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  ...localizedMetadata({ locale: "de", route: "menu", title: "Speisekarte kommt bald | Altstadtliebe", description: "Wir arbeiten gerade an der neuen Speisekarte von Altstadtliebe. Schon bald findest du hier unser vollständiges Angebot." }),
-  robots: { index: false, follow: true },
+  ...localizedMetadata({ locale: "de", route: "menu", title: "Speisekarte | Frühstück, Matcha & Kaffee | Altstadtliebe", description: "Entdecke die Speisekarte von Altstadtliebe in Lübeck: Frühstück, Bagels, Bowls, Matcha, Kaffee, hausgemachte Limonaden und mehr." }),
 };
 
 export default function MenuPage() {

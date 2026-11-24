@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 import { absoluteUrl, SEO_ROUTES, type SeoRoute } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes: SeoRoute[] = ["home", "matcha", "cafe", "faq", "reservation"];
+  const routes: SeoRoute[] = ["home", "menu", "matcha", "cafe", "faq", "reservation"];
   const lastModified: Partial<Record<SeoRoute, string>> = {
+    menu: "2026-11-24",
     matcha: "2026-11-10",
     cafe: "2026-11-10",
   };

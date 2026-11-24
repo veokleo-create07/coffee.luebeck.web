@@ -4,8 +4,7 @@ import { getDictionary } from "@/lib/i18n";
 import { localizedMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  ...localizedMetadata({ locale: "en", route: "menu", title: "Menu coming soon | Altstadtliebe", description: "We’re currently preparing Altstadtliebe’s new menu. Our complete selection will be available here soon." }),
-  robots: { index: false, follow: true },
+  ...localizedMetadata({ locale: "en", route: "menu", title: "Menu | Breakfast, Matcha & Coffee | Altstadtliebe", description: "Explore the Altstadtliebe menu in Lübeck: breakfast, bagels, bowls, matcha, coffee, homemade lemonades, and more." }),
 };
 
 export default function EnglishMenuPage() {
