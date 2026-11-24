@@ -103,13 +103,10 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                   setExpandedItem(null);
                 }}
                 aria-pressed={activeSection === sectionIndex}
-                className={`inline-flex min-h-10 w-full items-center justify-center rounded-full border px-2 py-2 text-center text-[0.67rem] font-medium leading-[1.15] transition-[background-color,border-color,color] duration-200 sm:min-h-9 sm:w-auto sm:px-4 sm:text-[0.75rem] md:px-[1.125rem] md:text-[0.82rem] ${
-                  activeSection === sectionIndex
-                    ? "border-espresso bg-espresso text-ivory"
-                    : "border-espresso/15 bg-transparent text-espresso-soft hover:border-espresso/30 hover:text-espresso"
-                }`}
+                data-selected={activeSection === sectionIndex}
+                className="menu-filter-pill inline-flex min-h-10 w-full items-center justify-center rounded-full px-2 py-2 text-center text-[0.67rem] font-medium leading-[1.15] sm:min-h-9 sm:w-auto sm:px-4 sm:text-[0.75rem] md:px-[1.125rem] md:text-[0.82rem]"
               >
-                {section.title}
+                <span className="relative z-10">{section.title}</span>
               </button>
             ))}
           </nav>
