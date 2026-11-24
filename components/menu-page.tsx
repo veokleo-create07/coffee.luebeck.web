@@ -86,19 +86,18 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
       <main className="page-gutter pb-24 pt-16 md:pb-32 md:pt-24 lg:pt-32">
         <div className="mx-auto max-w-7xl">
           <header className="text-center">
-            <h1 className="editorial-heading text-[clamp(4rem,9vw,9rem)] font-semibold leading-[0.82] tracking-[-0.065em] text-espresso">{copy.title}</h1>
-            <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center gap-2.5 md:mt-12 md:gap-3">
+            <h1 className="editorial-heading mx-auto max-w-[21ch] text-balance text-center text-[clamp(2rem,4.2vw,4rem)] font-medium leading-[0.98] tracking-[-0.05em] text-espresso">{copy.title}</h1>
+            <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-8 flex max-w-5xl flex-wrap justify-center gap-2 md:mt-10 md:gap-2.5">
               {menuSections.map((section, sectionIndex) => (
                 <button
                   key={`${sectionIndex}-${section.title}`}
                   onClick={() => setActiveSection(sectionIndex)}
                   type="button"
                   aria-pressed={activeSection === sectionIndex}
-                  style={{ fontFamily: "Inter, Arial, sans-serif" }}
-                  className={`inline-flex h-[54px] items-center justify-center rounded-[28px] border px-8 text-[16px] font-normal transition-colors duration-200 ${
+                  className={`inline-flex h-10 items-center justify-center rounded-full border px-4 text-[0.78rem] font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-200 md:px-5 md:text-sm ${
                     activeSection === sectionIndex
-                      ? "border-[#2C1810] bg-[#2C1810] text-[#F5F0E8]"
-                      : "border-[#2C1810]/15 bg-[#F5F0E8] text-[#2C1810] hover:border-[#2C1810]/35 hover:bg-[#eee7dc]"
+                      ? "border-espresso bg-espresso text-ivory shadow-[0_10px_22px_-16px_rgba(44,33,28,0.85)]"
+                      : "border-espresso/15 bg-[#fbf9f5] text-espresso shadow-[0_8px_20px_-18px_rgba(44,33,28,0.55)] hover:-translate-y-px hover:border-espresso/30 hover:bg-[#eee9e1]"
                   }`}
                 >
                   {section.title}
@@ -109,7 +108,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
 
           <section key={selectedSection.title} className="mt-16 md:mt-24" aria-labelledby="selected-menu-section">
             <header className="text-center">
-              <h2 id="selected-menu-section" className="editorial-heading text-[clamp(2.85rem,6vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-espresso">
+              <h2 id="selected-menu-section" className="editorial-heading mx-auto max-w-[21ch] text-balance text-[clamp(2rem,4.2vw,4rem)] font-medium leading-[0.98] tracking-[-0.05em] text-espresso">
                 {selectedSection.title}
               </h2>
             </header>
@@ -128,8 +127,8 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                     }`}
                   >
                     <div className={`flex flex-wrap items-baseline gap-x-4 gap-y-1 ${alignRight ? "justify-end" : "justify-start"}`}>
-                      <h3 className="text-xl font-semibold leading-tight tracking-[-0.025em] text-espresso md:text-2xl">{item.name}</h3>
-                      <p className="text-base font-semibold tabular-nums text-olive-deep md:text-lg">{item.price}</p>
+                      <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
+                      <p className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</p>
                     </div>
                     {item.description && <p className="mt-3 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>}
                     {item.extras && <p className="mt-3 text-sm italic leading-[1.6] text-olive-deep">{item.extras}</p>}
