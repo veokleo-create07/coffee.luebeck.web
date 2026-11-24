@@ -49,7 +49,7 @@ export type MenuContent = {
 export const menuContent: Record<Locale, MenuContent> = {
   de: {
     eyebrow: "Unsere Auswahl",
-    title: "Speisekarte.",
+    title: "Unsere Speisekarte",
     intro: "Frühstück, Matcha und guter Kaffee – für deine kleine Auszeit mitten in der Lübecker Altstadt.",
     note: "Unsere Auswahl kann saisonal wechseln. Bei Allergien oder besonderen Ernährungswünschen hilft dir unser Team gerne weiter.",
     categories: [
@@ -274,7 +274,7 @@ export const menuContent: Record<Locale, MenuContent> = {
   },
   en: {
     eyebrow: "Our selection",
-    title: "Menu.",
+    title: "Our Menu",
     intro: "Breakfast, matcha, and good coffee for a little escape in the heart of Lübeck's Old Town.",
     note: "Our selection may change seasonally. If you have allergies or dietary requirements, our team will be happy to help.",
     categories: [
