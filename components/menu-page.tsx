@@ -94,13 +94,10 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                   onClick={() => setActiveSection(sectionIndex)}
                   type="button"
                   aria-pressed={activeSection === sectionIndex}
-                  className={`inline-flex h-10 items-center justify-center rounded-full border px-4 text-[0.78rem] font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-200 md:px-5 md:text-sm ${
-                    activeSection === sectionIndex
-                      ? "border-espresso bg-espresso text-ivory shadow-[0_10px_22px_-16px_rgba(44,33,28,0.85)]"
-                      : "border-espresso/15 bg-[#fbf9f5] text-espresso shadow-[0_8px_20px_-18px_rgba(44,33,28,0.55)] hover:-translate-y-px hover:border-espresso/30 hover:bg-[#eee9e1]"
-                  }`}
+                  data-selected={activeSection === sectionIndex}
+                  className="menu-filter-pill inline-flex h-10 items-center justify-center rounded-full px-4 text-[0.78rem] font-medium md:px-5 md:text-sm"
                 >
-                  {section.title}
+                  <span className="relative z-10">{section.title}</span>
                 </button>
               ))}
             </nav>
