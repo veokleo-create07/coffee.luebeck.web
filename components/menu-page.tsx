@@ -113,14 +113,14 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
               </h2>
             </header>
 
-            <ul className="mx-auto mt-10 grid max-w-6xl items-start gap-x-16 gap-y-3 md:mt-20 md:grid-cols-2 md:gap-y-14">
+            <ul className="mx-auto mt-10 grid max-w-6xl items-start gap-x-16 gap-y-10 md:mt-20 md:grid-cols-2 md:gap-y-14">
               {selectedSection.items.map((item, itemIndex) => {
                 const alignRight = itemIndex % 2 === 1;
 
                 return (
                   <li
                     key={`${item.name}-${itemIndex}`}
-                    className={`menu-item-glass w-full max-w-xl rounded-[1.1rem] p-4 text-left md:w-[92%] md:rounded-none md:p-0 ${
+                    className={`w-full max-w-xl text-left md:w-[92%] ${
                       alignRight
                         ? "md:ml-auto md:text-right md:justify-self-end"
                         : "md:mr-auto md:text-left md:justify-self-start"
