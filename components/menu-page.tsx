@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
-import { menuContent } from "@/lib/discovery-content";
+import { menuContent, type MenuSection } from "@/lib/discovery-content";
 import type { Locale } from "@/lib/i18n";
 import { absoluteUrl, BUSINESS_ID, SEO_ROUTES } from "@/lib/seo";
 import { JsonLd } from "./json-ld";
@@ -19,6 +19,18 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
   const route = SEO_ROUTES.menu[locale];
   const languageHref = SEO_ROUTES.menu[locale === "de" ? "en" : "de"];
   const [activeSection, setActiveSection] = useState(0);
+  const menuSections = copy.sections.reduce<MenuSection[]>((sections, section) => {
+    const existingSection = sections.find((candidate) => candidate.title === section.title);
+
+    if (existingSection) {
+      existingSection.items.push(...section.items);
+      return sections;
+    }
+
+    sections.push({ ...section, items: [...section.items] });
+    return sections;
+  }, []);
+  const selectedSection = menuSections[activeSection] ?? menuSections[0];
 
   if (!MENU_IS_PUBLIC) {
     return (
@@ -107,12 +119,12 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
           <header className="text-center">
             <h1 className="editorial-heading text-[clamp(4rem,9vw,9rem)] font-semibold leading-[0.82] tracking-[-0.065em] text-espresso">{copy.title}</h1>
             <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center gap-2.5 md:mt-12 md:gap-3">
-              {copy.sections.map((section, sectionIndex) => (
-                <a
+              {menuSections.map((section, sectionIndex) => (
+                <button
                   key={`${sectionIndex}-${section.title}`}
-                  href={`#menu-section-${sectionIndex}`}
                   onClick={() => setActiveSection(sectionIndex)}
-                  aria-current={activeSection === sectionIndex ? "location" : undefined}
+                  type="button"
+                  aria-pressed={activeSection === sectionIndex}
                   className={`inline-flex min-h-11 items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors duration-200 md:px-6 md:text-base ${
                     activeSection === sectionIndex
                       ? "border-espresso bg-espresso text-ivory"
@@ -120,40 +132,43 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                   }`}
                 >
                   {section.title}
-                </a>
+                </button>
               ))}
             </nav>
           </header>
 
-          <div className="mt-16 space-y-5 md:mt-24 md:space-y-8">
-            {copy.sections.map((section, sectionIndex) => (
-              <section id={`menu-section-${sectionIndex}`} key={`${sectionIndex}-${section.title}`} className="scroll-mt-28 overflow-hidden rounded-[1.5rem] bg-[#eee9e1] md:rounded-[2rem]" aria-labelledby={`menu-section-heading-${sectionIndex}`}>
-                <header className="border-b border-espresso/10 px-6 py-8 sm:px-8 md:px-12 md:py-12">
-                  <p className="eyebrow mb-4">{String(sectionIndex + 1).padStart(2, "0")}</p>
-                  <h2 id={`menu-section-heading-${sectionIndex}`} className="editorial-heading max-w-4xl text-[clamp(2.65rem,6vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-espresso">
-                    {section.title}
-                  </h2>
-                </header>
+          <section key={selectedSection.title} className="mt-16 md:mt-24" aria-labelledby="selected-menu-section">
+            <header className="text-center">
+              <h2 id="selected-menu-section" className="editorial-heading text-[clamp(2.85rem,6vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-espresso">
+                {selectedSection.title}
+              </h2>
+            </header>
 
-                <ol className="px-6 sm:px-8 md:px-12">
-                  {section.items.map((item, itemIndex) => (
-                    <li key={item.name} className="grid gap-3 border-b border-espresso/10 py-7 last:border-b-0 md:grid-cols-[minmax(0,1fr)_auto] md:gap-x-10 md:py-9">
-                      <div className="min-w-0">
-                        <div className="flex items-baseline gap-3">
-                          <span className="w-6 shrink-0 text-xs font-semibold tabular-nums text-olive-deep" aria-hidden="true">{String(item.number ?? itemIndex + 1).padStart(2, "0")}</span>
-                          <h3 className="text-xl font-semibold leading-tight tracking-[-0.025em] text-espresso md:text-2xl">{item.name}</h3>
-                        </div>
-                        {item.description && <p className="mt-3 max-w-3xl pl-9 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>}
-                        {item.extras && <p className="mt-3 max-w-3xl pl-9 text-sm italic leading-[1.6] text-olive-deep">{item.extras}</p>}
-                      </div>
-                      <p className="pl-9 text-base font-semibold tabular-nums text-espresso md:pl-0 md:text-lg">{item.price}</p>
-                    </li>
-                  ))}
-                </ol>
-                {section.extras && <p className="border-t border-espresso/10 px-6 py-6 text-sm italic leading-[1.6] text-olive-deep sm:px-8 md:px-12">{section.extras}</p>}
-              </section>
-            ))}
-          </div>
+            <ul className="mx-auto mt-14 grid max-w-6xl gap-x-16 gap-y-12 md:mt-20 md:grid-cols-2 md:gap-y-16">
+              {selectedSection.items.map((item, itemIndex) => {
+                const alignRight = itemIndex % 2 === 1;
+
+                return (
+                  <li
+                    key={`${item.name}-${itemIndex}`}
+                    className={`w-[92%] max-w-xl ${
+                      alignRight
+                        ? "ml-auto text-right md:mt-14 md:justify-self-end"
+                        : "mr-auto text-left md:justify-self-start"
+                    }`}
+                  >
+                    <div className={`flex flex-wrap items-baseline gap-x-4 gap-y-1 ${alignRight ? "justify-end" : "justify-start"}`}>
+                      <h3 className="text-xl font-semibold leading-tight tracking-[-0.025em] text-espresso md:text-2xl">{item.name}</h3>
+                      <p className="text-base font-semibold tabular-nums text-olive-deep md:text-lg">{item.price}</p>
+                    </div>
+                    {item.description && <p className="mt-3 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>}
+                    {item.extras && <p className="mt-3 text-sm italic leading-[1.6] text-olive-deep">{item.extras}</p>}
+                  </li>
+                );
+              })}
+            </ul>
+            {selectedSection.extras && <p className="mx-auto mt-14 max-w-3xl text-center text-sm italic leading-[1.6] text-olive-deep">{selectedSection.extras}</p>}
+          </section>
 
           <section className="mt-16 overflow-hidden rounded-[1.5rem] bg-[#eee9e1] px-6 py-10 sm:px-8 md:mt-24 md:rounded-[2rem] md:px-12 md:py-16 lg:grid lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
             <div>
