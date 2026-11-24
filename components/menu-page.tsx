@@ -16,7 +16,6 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
   const route = SEO_ROUTES.menu[locale];
   const languageHref = SEO_ROUTES.menu[locale === "de" ? "en" : "de"];
   const [activeSection, setActiveSection] = useState(0);
-  const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const sectionOrder = locale === "de"
     ? ["Ei, Brot & Liebe", "Brioche", "Bagels", "Bowls", "Süßes mit Liebe", "Iced Matcha Latte", "Frische Limonade", "Säfte & Smoothies", "Heißgetränke"]
     : ["Eggs, Bread & Love", "Brioche", "Bagels", "Bowls", "Sweet Treats Made with Love", "Iced Matcha Latte", "Fresh Lemonades", "Juices & Smoothies", "Hot Drinks"];
@@ -98,10 +97,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
               <button
                 key={`${sectionIndex}-${section.title}`}
                 type="button"
-                onClick={() => {
-                  setActiveSection(sectionIndex);
-                  setExpandedItem(null);
-                }}
+                onClick={() => setActiveSection(sectionIndex)}
                 aria-pressed={activeSection === sectionIndex}
                 data-selected={activeSection === sectionIndex}
                 className="menu-filter-pill inline-flex min-h-10 w-full items-center justify-center rounded-full px-2 py-2 text-center text-[0.67rem] font-medium leading-[1.15] sm:min-h-9 sm:w-auto sm:px-4 sm:text-[0.75rem] md:px-[1.125rem] md:text-[0.82rem]"
@@ -119,45 +115,19 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
             </header>
 
             <ul className="mx-auto mt-10 grid max-w-5xl items-start gap-x-12 gap-y-9 md:grid-cols-2 md:gap-y-11">
-              {selectedSection.items.map((item, itemIndex) => {
-                const itemKey = `${selectedSection.title}-${itemIndex}`;
-                const hasDetails = Boolean(item.description || item.extras);
-                const isExpanded = expandedItem === itemKey;
-
-                return (
-                  <li
-                    key={`${item.name}-${itemIndex}`}
-                    className="w-full text-left"
-                  >
-                    {hasDetails ? (
-                      <button
-                        type="button"
-                        onClick={() => setExpandedItem(isExpanded ? null : itemKey)}
-                        aria-expanded={isExpanded}
-                        aria-controls={`menu-item-details-${activeSection}-${itemIndex}`}
-                        className="group flex w-full items-baseline justify-between gap-x-4 gap-y-1 text-left outline-none"
-                      >
-                        <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
-                        <span className="flex shrink-0 items-center gap-3">
-                          <span className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</span>
-                          <span aria-hidden="true" className={`inline-flex size-6 items-center justify-center text-xl font-light leading-none text-espresso transition-transform duration-300 ${isExpanded ? "rotate-45" : "rotate-0"}`}>+</span>
-                        </span>
-                      </button>
-                    ) : (
-                      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                        <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
-                        <p className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</p>
-                      </div>
-                    )}
-                    {isExpanded && (
-                      <div id={`menu-item-details-${activeSection}-${itemIndex}`} className="menu-item-details">
-                        {item.description && <p className="mt-2.5 text-[0.8rem] leading-[1.55] text-espresso-soft md:text-[0.88rem]">{item.description}</p>}
-                        {item.extras && <p className="mt-2.5 text-[0.75rem] italic leading-[1.55] text-olive-deep md:text-[0.82rem]">{item.extras}</p>}
-                      </div>
-                    )}
-                  </li>
-                );
-              })}
+              {selectedSection.items.map((item, itemIndex) => (
+                <li
+                  key={`${item.name}-${itemIndex}`}
+                  className="w-full text-left"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
+                    <p className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</p>
+                  </div>
+                  {item.description && <p className="mt-2.5 text-[0.8rem] leading-[1.55] text-espresso-soft md:text-[0.88rem]">{item.description}</p>}
+                  {item.extras && <p className="mt-2.5 text-[0.75rem] italic leading-[1.55] text-olive-deep md:text-[0.82rem]">{item.extras}</p>}
+                </li>
+              ))}
             </ul>
             {selectedSection.extras && <p className="mx-auto mt-14 max-w-3xl text-center text-[0.75rem] italic leading-[1.55] text-olive-deep md:text-[0.82rem]">{selectedSection.extras}</p>}
           </section>
