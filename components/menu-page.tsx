@@ -93,7 +93,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
             <h1 className="editorial-heading mx-auto max-w-[21ch] text-balance text-center text-[clamp(2rem,4vw,3.75rem)] font-medium leading-[0.98] tracking-[-0.05em] text-espresso">{copy.title}</h1>
           </header>
 
-          <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-8 flex max-w-5xl flex-wrap justify-center gap-2 md:mt-10 md:gap-2.5">
+          <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:justify-center md:mt-10 md:gap-2.5">
             {menuSections.map((section, sectionIndex) => (
               <button
                 key={`${sectionIndex}-${section.title}`}
@@ -103,7 +103,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                   setExpandedItem(null);
                 }}
                 aria-pressed={activeSection === sectionIndex}
-                className={`inline-flex min-h-9 items-center justify-center rounded-full border px-4 py-2 text-center text-[0.75rem] font-medium transition-[background-color,border-color,color] duration-200 md:px-[1.125rem] md:text-[0.82rem] ${
+                className={`inline-flex min-h-10 w-full items-center justify-center rounded-full border px-2 py-2 text-center text-[0.67rem] font-medium leading-[1.15] transition-[background-color,border-color,color] duration-200 sm:min-h-9 sm:w-auto sm:px-4 sm:text-[0.75rem] md:px-[1.125rem] md:text-[0.82rem] ${
                   activeSection === sectionIndex
                     ? "border-espresso bg-espresso text-ivory"
                     : "border-espresso/15 bg-transparent text-espresso-soft hover:border-espresso/30 hover:text-espresso"
