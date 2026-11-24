@@ -125,10 +125,11 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                   onClick={() => setActiveSection(sectionIndex)}
                   type="button"
                   aria-pressed={activeSection === sectionIndex}
-                  className={`inline-flex min-h-11 items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors duration-200 md:px-6 md:text-base ${
+                  style={{ fontFamily: "Inter, Arial, sans-serif" }}
+                  className={`inline-flex h-[54px] items-center justify-center rounded-[28px] border px-8 text-[16px] font-normal transition-colors duration-200 ${
                     activeSection === sectionIndex
-                      ? "border-espresso bg-espresso text-ivory"
-                      : "border-espresso/20 bg-transparent text-espresso hover:border-espresso hover:bg-espresso hover:text-ivory"
+                      ? "border-[#2C1810] bg-[#2C1810] text-[#F5F0E8]"
+                      : "border-[#2C1810]/15 bg-[#F5F0E8] text-[#2C1810] hover:border-[#2C1810]/35 hover:bg-[#eee7dc]"
                   }`}
                 >
                   {section.title}
