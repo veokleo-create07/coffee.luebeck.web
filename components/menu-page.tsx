@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import type { Dictionary } from "@/lib/dictionaries/de";
 import { menuContent } from "@/lib/discovery-content";
 import type { Locale } from "@/lib/i18n";
@@ -8,12 +11,14 @@ import { JsonLd } from "./json-ld";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
+
 const MENU_IS_PUBLIC = false;
 
 export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const copy = menuContent[locale];
   const route = SEO_ROUTES.menu[locale];
   const languageHref = SEO_ROUTES.menu[locale === "de" ? "en" : "de"];
+  const [activeSection, setActiveSection] = useState(0);
 
   if (!MENU_IS_PUBLIC) {
     return (
@@ -99,26 +104,33 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
       <SiteHeader locale={locale} dictionary={dictionary} languageHref={languageHref} />
       <main className="page-gutter pb-24 pt-16 md:pb-32 md:pt-24 lg:pt-32">
         <div className="mx-auto max-w-7xl">
-          <header className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <p className="eyebrow mb-6">{copy.eyebrow}</p>
-              <h1 className="editorial-heading text-[clamp(4rem,9vw,9rem)] font-semibold leading-[0.82] tracking-[-0.065em] text-espresso">{copy.title}</h1>
-            </div>
-            <div>
-              <p className="max-w-xl text-lg leading-[1.55] text-espresso-soft md:text-xl">{copy.intro}</p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Link href={SEO_ROUTES.matcha[locale]} className="site-button site-button-secondary">Matcha in Lübeck</Link>
-                <Link href={SEO_ROUTES.cafe[locale]} className="site-button site-button-secondary">Café in Lübeck</Link>
-              </div>
-            </div>
+          <header className="text-center">
+            <h1 className="editorial-heading text-[clamp(4rem,9vw,9rem)] font-semibold leading-[0.82] tracking-[-0.065em] text-espresso">{copy.title}</h1>
+            <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center gap-2.5 md:mt-12 md:gap-3">
+              {copy.sections.map((section, sectionIndex) => (
+                <a
+                  key={`${sectionIndex}-${section.title}`}
+                  href={`#menu-section-${sectionIndex}`}
+                  onClick={() => setActiveSection(sectionIndex)}
+                  aria-current={activeSection === sectionIndex ? "location" : undefined}
+                  className={`inline-flex min-h-11 items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors duration-200 md:px-6 md:text-base ${
+                    activeSection === sectionIndex
+                      ? "border-espresso bg-espresso text-ivory"
+                      : "border-espresso/20 bg-transparent text-espresso hover:border-espresso hover:bg-espresso hover:text-ivory"
+                  }`}
+                >
+                  {section.title}
+                </a>
+              ))}
+            </nav>
           </header>
 
           <div className="mt-16 space-y-5 md:mt-24 md:space-y-8">
             {copy.sections.map((section, sectionIndex) => (
-              <section key={`${sectionIndex}-${section.title}`} className="overflow-hidden rounded-[1.5rem] bg-[#eee9e1] md:rounded-[2rem]" aria-labelledby={`menu-section-${sectionIndex}`}>
+              <section id={`menu-section-${sectionIndex}`} key={`${sectionIndex}-${section.title}`} className="scroll-mt-28 overflow-hidden rounded-[1.5rem] bg-[#eee9e1] md:rounded-[2rem]" aria-labelledby={`menu-section-heading-${sectionIndex}`}>
                 <header className="border-b border-espresso/10 px-6 py-8 sm:px-8 md:px-12 md:py-12">
                   <p className="eyebrow mb-4">{String(sectionIndex + 1).padStart(2, "0")}</p>
-                  <h2 id={`menu-section-${sectionIndex}`} className="editorial-heading max-w-4xl text-[clamp(2.65rem,6vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-espresso">
+                  <h2 id={`menu-section-heading-${sectionIndex}`} className="editorial-heading max-w-4xl text-[clamp(2.65rem,6vw,5.75rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-espresso">
                     {section.title}
                   </h2>
                 </header>
