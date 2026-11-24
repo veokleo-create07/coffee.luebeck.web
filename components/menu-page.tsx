@@ -87,7 +87,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
         <div className="mx-auto max-w-7xl">
           <header className="text-center">
             <h1 className="editorial-heading mx-auto max-w-[21ch] text-balance text-center text-[clamp(2rem,4.2vw,4rem)] font-medium leading-[0.98] tracking-[-0.05em] text-espresso">{copy.title}</h1>
-            <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="mx-auto mt-8 flex max-w-5xl flex-wrap justify-center gap-2 md:mt-10 md:gap-2.5">
+            <nav aria-label={locale === "de" ? "Menübereiche" : "Menu sections"} className="menu-filter-nav -mx-[var(--page-gutter)] mt-8 flex max-w-none snap-x snap-mandatory flex-nowrap justify-start gap-2 overflow-x-auto px-[var(--page-gutter)] pb-3 md:mx-auto md:mt-10 md:max-w-5xl md:flex-wrap md:justify-center md:overflow-visible md:px-0 md:pb-0 md:gap-2.5">
               {menuSections.map((section, sectionIndex) => (
                 <button
                   key={`${sectionIndex}-${section.title}`}
@@ -95,7 +95,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                   type="button"
                   aria-pressed={activeSection === sectionIndex}
                   data-selected={activeSection === sectionIndex}
-                  className="menu-filter-pill inline-flex h-10 items-center justify-center rounded-full px-4 text-[0.78rem] font-medium md:px-5 md:text-sm"
+                  className="menu-filter-pill inline-flex h-10 shrink-0 snap-start items-center justify-center rounded-full px-4 text-[0.78rem] font-medium md:px-5 md:text-sm"
                 >
                   <span className="relative z-10">{section.title}</span>
                 </button>
@@ -103,27 +103,27 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
             </nav>
           </header>
 
-          <section key={selectedSection.title} className="mt-16 md:mt-24" aria-labelledby="selected-menu-section">
+          <section key={selectedSection.title} className="menu-section-panel mt-14 md:mt-24" aria-labelledby="selected-menu-section">
             <header className="text-center">
               <h2 id="selected-menu-section" className="editorial-heading mx-auto max-w-[21ch] text-balance text-[clamp(2rem,4.2vw,4rem)] font-medium leading-[0.98] tracking-[-0.05em] text-espresso">
                 {selectedSection.title}
               </h2>
             </header>
 
-            <ul className="mx-auto mt-14 grid max-w-6xl items-start gap-x-16 gap-y-12 md:mt-20 md:grid-cols-2 md:gap-y-14">
+            <ul className="mx-auto mt-10 grid max-w-6xl items-start gap-x-16 gap-y-3 md:mt-20 md:grid-cols-2 md:gap-y-14">
               {selectedSection.items.map((item, itemIndex) => {
                 const alignRight = itemIndex % 2 === 1;
 
                 return (
                   <li
                     key={`${item.name}-${itemIndex}`}
-                    className={`w-[92%] max-w-xl ${
+                    className={`w-full max-w-xl rounded-[1.1rem] border border-white/70 bg-[#fbf9f5]/70 p-4 text-left shadow-[0_14px_30px_-24px_rgba(44,33,28,0.65)] backdrop-blur-xl md:w-[92%] md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none ${
                       alignRight
-                        ? "ml-auto text-right md:justify-self-end"
-                        : "mr-auto text-left md:justify-self-start"
+                        ? "md:ml-auto md:text-right md:justify-self-end"
+                        : "md:mr-auto md:text-left md:justify-self-start"
                     }`}
                   >
-                    <div className={`flex flex-wrap items-baseline gap-x-4 gap-y-1 ${alignRight ? "justify-end" : "justify-start"}`}>
+                    <div className={`flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 ${alignRight ? "md:justify-end" : "md:justify-start"}`}>
                       <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
                       <p className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</p>
                     </div>
