@@ -117,7 +117,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                 return (
                   <li
                     key={`${item.name}-${itemIndex}`}
-                    className={`w-full max-w-xl rounded-[1.1rem] border border-white/70 bg-[#fbf9f5]/70 p-4 text-left shadow-[0_14px_30px_-24px_rgba(44,33,28,0.65)] backdrop-blur-xl md:w-[92%] md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none md:backdrop-blur-none ${
+                    className={`menu-item-glass w-full max-w-xl rounded-[1.1rem] p-4 text-left md:w-[92%] md:rounded-none md:p-0 ${
                       alignRight
                         ? "md:ml-auto md:text-right md:justify-self-end"
                         : "md:mr-auto md:text-left md:justify-self-start"
