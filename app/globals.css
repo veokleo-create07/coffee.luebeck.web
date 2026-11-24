@@ -56,15 +56,17 @@ a {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border: 1px solid rgba(44, 33, 28, 0.14);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(250, 247, 241, 0.64) 48%, rgba(231, 223, 211, 0.72) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background:
+    radial-gradient(circle at 22% 12%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 44%),
+    rgba(245, 240, 232, 0.38);
   color: var(--color-espresso);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.96),
-    inset 0 -1px 0 rgba(44, 33, 28, 0.08),
-    0 9px 20px -16px rgba(44, 33, 28, 0.75);
-  backdrop-filter: blur(18px) saturate(145%);
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    inset 0 -1px 0 rgba(44, 33, 28, 0.06),
+    0 8px 18px -15px rgba(44, 33, 28, 0.48);
+  backdrop-filter: blur(22px) saturate(135%);
+  -webkit-backdrop-filter: blur(22px) saturate(135%);
   transition:
     transform 220ms var(--ease-premium),
     border-color 220ms var(--ease-premium),
@@ -76,12 +78,12 @@ a {
 .menu-filter-pill::before {
   position: absolute;
   z-index: 0;
-  top: 2px;
-  right: 12%;
-  left: 12%;
-  height: 42%;
+  top: -45%;
+  left: -8%;
+  width: 70%;
+  height: 130%;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 68%);
   content: "";
   pointer-events: none;
 }
@@ -90,7 +92,7 @@ a {
   position: absolute;
   z-index: 0;
   inset: 1px;
-  border: 1px solid rgba(255, 255, 255, 0.46);
+  border: 1px solid rgba(44, 33, 28, 0.07);
   border-radius: inherit;
   content: "";
   pointer-events: none;
@@ -98,11 +100,11 @@ a {
 
 .menu-filter-pill:hover {
   transform: translateY(-1px) scale(1.01);
-  border-color: rgba(44, 33, 28, 0.25);
+  border-color: rgba(255, 255, 255, 0.78);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 1),
-    inset 0 -1px 0 rgba(44, 33, 28, 0.1),
-    0 13px 24px -16px rgba(44, 33, 28, 0.85);
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    inset 0 -1px 0 rgba(44, 33, 28, 0.07),
+    0 11px 22px -16px rgba(44, 33, 28, 0.58);
 }
 
 .menu-filter-pill:active {
@@ -110,21 +112,23 @@ a {
 }
 
 .menu-filter-pill[data-selected="true"] {
-  border-color: rgba(255, 255, 255, 0.16);
-  background: linear-gradient(145deg, rgba(74, 50, 40, 0.98) 0%, rgba(44, 33, 28, 0.98) 52%, rgba(28, 18, 14, 0.98) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 45%),
+    rgba(44, 33, 28, 0.94);
   color: var(--color-ivory);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.28),
-    0 12px 24px -15px rgba(44, 33, 28, 0.95);
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+    0 10px 22px -16px rgba(44, 33, 28, 0.78);
 }
 
 .menu-filter-pill[data-selected="true"]::before {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 68%);
 }
 
 .menu-filter-pill[data-selected="true"]::after {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .menu-section-panel {
