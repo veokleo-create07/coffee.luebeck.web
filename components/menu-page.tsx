@@ -130,13 +130,13 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                       <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
                       <p className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</p>
                     </div>
-                    {item.description && <p className="mt-3 text-[0.95rem] leading-[1.6] text-espresso-soft md:text-base">{item.description}</p>}
-                    {item.extras && <p className="mt-3 text-sm italic leading-[1.6] text-olive-deep">{item.extras}</p>}
+                    {item.description && <p className="mt-2.5 text-[0.8rem] leading-[1.55] text-espresso-soft md:text-[0.88rem]">{item.description}</p>}
+                    {item.extras && <p className="mt-2.5 text-[0.75rem] italic leading-[1.55] text-olive-deep md:text-[0.82rem]">{item.extras}</p>}
                   </li>
                 );
               })}
             </ul>
-            {selectedSection.extras && <p className="mx-auto mt-14 max-w-3xl text-center text-sm italic leading-[1.6] text-olive-deep">{selectedSection.extras}</p>}
+            {selectedSection.extras && <p className="mx-auto mt-14 max-w-3xl text-center text-[0.75rem] italic leading-[1.55] text-olive-deep md:text-[0.82rem]">{selectedSection.extras}</p>}
           </section>
 
           <section className="mt-16 grid overflow-hidden rounded-[1.5rem] bg-espresso text-ivory md:mt-24 md:grid-cols-[0.85fr_1.15fr] md:rounded-[2rem]">
