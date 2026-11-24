@@ -16,6 +16,7 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
   const route = SEO_ROUTES.menu[locale];
   const languageHref = SEO_ROUTES.menu[locale === "de" ? "en" : "de"];
   const [activeSection, setActiveSection] = useState(0);
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const sectionOrder = locale === "de"
     ? ["Ei, Brot & Liebe", "Brioche", "Bagels", "Bowls", "Süßes mit Liebe", "Iced Matcha Latte", "Frische Limonade", "Säfte & Smoothies", "Heißgetränke"]
     : ["Eggs, Bread & Love", "Brioche", "Bagels", "Bowls", "Sweet Treats Made with Love", "Iced Matcha Latte", "Fresh Lemonades", "Juices & Smoothies", "Hot Drinks"];
@@ -94,7 +95,10 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
               {menuSections.map((section, sectionIndex) => (
                 <button
                   key={`${sectionIndex}-${section.title}`}
-                  onClick={() => setActiveSection(sectionIndex)}
+                  onClick={() => {
+                    setActiveSection(sectionIndex);
+                    setExpandedItem(null);
+                  }}
                   type="button"
                   aria-pressed={activeSection === sectionIndex}
                   data-selected={activeSection === sectionIndex}
@@ -116,6 +120,9 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
             <ul className="mx-auto mt-10 grid max-w-6xl items-start gap-x-16 gap-y-10 md:mt-20 md:grid-cols-2 md:gap-y-14">
               {selectedSection.items.map((item, itemIndex) => {
                 const alignRight = itemIndex % 2 === 1;
+                const itemKey = `${selectedSection.title}-${itemIndex}`;
+                const hasDetails = Boolean(item.description || item.extras);
+                const isExpanded = expandedItem === itemKey;
 
                 return (
                   <li
@@ -126,12 +133,32 @@ export function MenuPage({ locale, dictionary }: { locale: Locale; dictionary: D
                         : "md:mr-auto md:text-left md:justify-self-start"
                     }`}
                   >
-                    <div className={`flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 ${alignRight ? "md:justify-end" : "md:justify-start"}`}>
-                      <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
-                      <p className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</p>
-                    </div>
-                    {item.description && <p className="mt-2.5 text-[0.8rem] leading-[1.55] text-espresso-soft md:text-[0.88rem]">{item.description}</p>}
-                    {item.extras && <p className="mt-2.5 text-[0.75rem] italic leading-[1.55] text-olive-deep md:text-[0.82rem]">{item.extras}</p>}
+                    {hasDetails ? (
+                      <button
+                        type="button"
+                        onClick={() => setExpandedItem(isExpanded ? null : itemKey)}
+                        aria-expanded={isExpanded}
+                        aria-controls={`menu-item-details-${activeSection}-${itemIndex}`}
+                        className={`group flex w-full items-baseline justify-between gap-x-4 gap-y-1 text-left outline-none ${alignRight ? "md:justify-end md:text-right" : "md:justify-start"}`}
+                      >
+                        <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
+                        <span className="flex shrink-0 items-center gap-3">
+                          <span className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</span>
+                          <span aria-hidden="true" className={`inline-flex size-6 items-center justify-center text-xl font-light leading-none text-espresso transition-transform duration-300 ${isExpanded ? "rotate-45" : "rotate-0"}`}>+</span>
+                        </span>
+                      </button>
+                    ) : (
+                      <div className={`flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 ${alignRight ? "md:justify-end" : "md:justify-start"}`}>
+                        <h3 className="text-lg font-medium leading-tight tracking-[-0.025em] text-espresso md:text-xl">{item.name}</h3>
+                        <p className="text-sm font-medium tabular-nums text-olive-deep md:text-base">{item.price}</p>
+                      </div>
+                    )}
+                    {isExpanded && (
+                      <div id={`menu-item-details-${activeSection}-${itemIndex}`} className="menu-item-details">
+                        {item.description && <p className="mt-2.5 text-[0.8rem] leading-[1.55] text-espresso-soft md:text-[0.88rem]">{item.description}</p>}
+                        {item.extras && <p className="mt-2.5 text-[0.75rem] italic leading-[1.55] text-olive-deep md:text-[0.82rem]">{item.extras}</p>}
+                      </div>
+                    )}
                   </li>
                 );
               })}

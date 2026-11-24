@@ -133,6 +133,10 @@ a {
   animation: menu-section-reveal 360ms var(--ease-premium) both;
 }
 
+.menu-item-details {
+  animation: menu-item-details-reveal 300ms var(--ease-premium) both;
+}
+
 @keyframes menu-section-reveal {
   from {
     opacity: 0;
@@ -145,8 +149,24 @@ a {
   }
 }
 
+@keyframes menu-item-details-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .menu-section-panel {
+    animation: none;
+  }
+
+  .menu-item-details {
     animation: none;
   }
 }
